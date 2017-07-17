@@ -7,7 +7,7 @@ pragma solidity ^0.4.11;
  * version 1.0.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
- * https://github.com/Hackdom/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
  *
  * The Basic Math Library is inspired by the Safe Math library written by
  * OpenZeppelin at https://github.com/OpenZeppelin/zeppelin-solidity/ .
