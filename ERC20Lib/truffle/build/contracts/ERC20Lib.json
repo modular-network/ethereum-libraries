@@ -1,0 +1,456 @@
+{
+  "contract_name": "ERC20Lib",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "ERC20Lib.TokenStorage storage"
+        },
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "ERC20Lib.TokenStorage storage"
+        },
+        {
+          "name": "_initial_supply",
+          "type": "uint256"
+        }
+      ],
+      "name": "init",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "ERC20Lib.TokenStorage storage"
+        },
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "ERC20Lib.TokenStorage storage"
+        },
+        {
+          "name": "_spender",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "ERC20Lib.TokenStorage storage"
+        },
+        {
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "name": "_spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "name": "remaining",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "ERC20Lib.TokenStorage storage"
+        },
+        {
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "msg",
+          "type": "string"
+        }
+      ],
+      "name": "ErrorMsg",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000c57fe5b5b6106618061001c6000396000f3006060604052361561005c5763ffffffff60e060020a6000350416632d0277b9811461005e57806343505a751461008c578063450087971461009c5780635bada338146100d057806388fd6510146100fe578063d1717fd41461012d575bfe5b610078600435600160a060020a0360243516604435610156565b604080519115158252519081900360200190f35b61009a600435602435610299565b005b610078600435600160a060020a03602435811690604435166064356102c0565b604080519115158252519081900360200190f35b610078600435600160a060020a0360243516604435610517565b604080519115158252519081900360200190f35b61011b600435600160a060020a0360243581169060443516610585565b60408051918252519081900360200190f35b61011b600435600160a060020a03602435166105b5565b60408051918252519081900360200190f35b600160a060020a0333166000908152602084905260408082205481518201839052815160e060020a63f4f3bdc102815260048101919091526024810184905281518392839273__BasicMathLib__________________________9263f4f3bdc192604480840193919291829003018186803b15156101d057fe5b6102c65a03f415156101de57fe5b50506040518051602090910151909350915050811561023c57604080516020808252601c908201526000805160206106168339815191528183015290516000805160206105d68339815191529181900360600190a160009250610290565b600160a060020a03338116600081815260208981526040808320869055938916808352918490208054890190558351888152935191936000805160206105f6833981519152929081900390910190a3600192505b50509392505050565b60028201819055600160a060020a03331660009081526020839052604090208190555b5050565b600160a060020a0380841660008181526001870160209081526040808320339095168352938152838220549282528790528281205483518401829052835160e060020a63f4f3bdc10281526004810191909152602481018590528351919384928392839273__BasicMathLib__________________________9263f4f3bdc1926044808201939291829003018186803b151561035857fe5b6102c65a03f4151561036657fe5b5050604051805160209091015190945092505082156103c457604080516020808252601c908201526000805160206106168339815191528183015290516000805160206105d68339815191529181900360600190a16000945061050b565b60408051600090820152805160e060020a63f4f3bdc10281526004810186905260248101889052815173__BasicMathLib__________________________9263f4f3bdc19260448082019391829003018186803b151561042057fe5b6102c65a03f4151561042e57fe5b50506040518051602090910151909450915050821561049e57604080516020808252601a908201527f5472616e73666572206578636565647320616c6c6f77616e63650000000000008183015290516000805160206105d68339815191529181900360600190a16000945061050b565b600160a060020a03808916600081815260208c8152604080832087905560018e01825280832033861684528252808320869055938b168083528d82529184902080548b01905583518a8152935191936000805160206105f6833981519152929081900390910190a3600194505b50505050949350505050565b600160a060020a033381166000818152600186016020908152604080832094871680845294825280832086905580518681529051929493927f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925929181900390910190a35060015b9392505050565b600160a060020a0380831660009081526001850160209081526040808320938516835292905220545b9392505050565b600160a060020a0381166000908152602083905260409020545b929150505600fda92d3eab1d27b971923f5a2ea4107b7a0513584e8f3adf52ea0557e10e8e9eddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef42616c616e636520746f6f206c6f7720666f72207472616e7366657200000000a165627a7a72305820f55f928669c41482997d185d10286256cbefcb04fc6c0fd4cf6b513ff66a8ba30029",
+  "networks": {
+    "1": {
+      "events": {
+        "0x4eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        },
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0xfda92d3eab1d27b971923f5a2ea4107b7a0513584e8f3adf52ea0557e10e8e9e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "msg",
+              "type": "string"
+            }
+          ],
+          "name": "ErrorMsg",
+          "type": "event"
+        }
+      },
+      "links": {
+        "BasicMathLib": "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"
+      },
+      "address": "0x71ecde7c4b184558e8dba60d9f323d7a87411946",
+      "updated_at": 1500279318845
+    },
+    "3": {
+      "events": {
+        "0x568facfe95283e895457f8b31181f573b4eb67cdbfe4f9e7b5873abbf2d76e9f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        },
+        "0x4eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        },
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0xfda92d3eab1d27b971923f5a2ea4107b7a0513584e8f3adf52ea0557e10e8e9e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "msg",
+              "type": "string"
+            }
+          ],
+          "name": "ErrorMsg",
+          "type": "event"
+        }
+      },
+      "links": {
+        "BasicMathLib": "0x59580eaaa928a54c58c27cd83b9fa6aa3cdfadfa"
+      },
+      "address": "0x5a07e954678b3ddebd8d0bf2e1543f80b7dd0002",
+      "updated_at": 1500274376566
+    },
+    "4": {
+      "events": {
+        "0x4eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        },
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0xfda92d3eab1d27b971923f5a2ea4107b7a0513584e8f3adf52ea0557e10e8e9e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "msg",
+              "type": "string"
+            }
+          ],
+          "name": "ErrorMsg",
+          "type": "event"
+        }
+      },
+      "links": {
+        "BasicMathLib": "0x11a69bb2979dbd80ec6f142760c1f7abcad5c9b4"
+      },
+      "address": "0x02bd14f4b72455bcb659534b25df6eb944402d8d",
+      "updated_at": 1500274221577
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1500279318845
+}

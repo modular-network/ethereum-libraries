@@ -171,7 +171,7 @@ var input = {
   "language": "Solidity",
   "sources":
   {
-    "ArrayUtilsLib.sol": {
+    "YourContract.sol": {
       "content": file
     },
     "ArrayUtilsLib.sol": {

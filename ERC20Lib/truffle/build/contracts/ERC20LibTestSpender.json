@@ -1,0 +1,41 @@
+{
+  "contract_name": "ERC20LibTestSpender",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "spend",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "testContract",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "constructor"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000c57fe5b60405160208061014583398101604052515b60008054600160a060020a031916600160a060020a0383161790555b505b60fb8061004a6000396000f300606060405263ffffffff60e060020a600035041663af7d6ca381146020575bfe5b3415602757fe5b603c600160a060020a03600435166024356050565b604080519115158252519081900360200190f35b60008054604080516020908101849052815160e060020a6323b872dd028152600160a060020a038781166004830152308116602483015260448201879052925192909316926323b872dd926064808301939282900301818787803b151560b257fe5b6102c65a03f1151560bf57fe5b5050604051519150505b929150505600a165627a7a72305820eb3789d282ccd78a54c3d3c4093ecc15a053abaec1bec868a43d59d98074fb950029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1500274097001
+}

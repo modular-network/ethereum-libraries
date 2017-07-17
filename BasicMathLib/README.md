@@ -1,44 +1,43 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [BasicMathLib](#basicmathlib)
-  - [Library Address](#library-address)
-  - [How to install](#how-to-install)
-    - [Truffle Installation](#truffle-installation)
-      - [Manual install:](#manual-install)
-      - [Testing the library in truffle](#testing-the-library-in-truffle)
-      - [EthPM install:](#ethpm-install)
-    - [solc Installation](#solc-installation)
-      - [With standard JSON input](#with-standard-json-input)
-      - [solc without standard JSON input](#solc-without-standard-json-input)
-      - [solc documentation](#solc-documentation)
-    - [solc-js Installation](#solc-js-installation)
-      - [Solc-js Installation via Linking](#solc-js-installation-via-linking)
-      - [Solc-js documentation](#solc-js-documentation)
-  - [Basic Usage](#basic-usage)
-    - [Usage Example](#usage-example)
-    - [Usage Note](#usage-note)
-  - [Functions](#functions)
-    - [times(numberOne, numberTwo) constant returns (number)](#timesnumberone-numbertwo-constant-returns-number)
-      - [Arguments](#arguments)
-      - [Returns](#returns)
-    - [dividedBy(numberOne, numberTwo) constant returns (number)](#dividedbynumberone-numbertwo-constant-returns-number)
-      - [Arguments](#arguments-1)
-      - [Returns](#returns-1)
-    - [plus(numberOne, numberTwo) constant returns (number)](#plusnumberone-numbertwo-constant-returns-number)
-      - [Arguments](#arguments-2)
-      - [Returns](#returns-2)
-    - [minus(numberOne, numberTwo) constant returns (number)](#minusnumberone-numbertwo-constant-returns-number)
-      - [Arguments](#arguments-3)
-      - [Returns](#returns-3)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 BasicMathLib
 =========================
 
 A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to protect math operations from overflow and invalid outputs.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Library Address](#library-address)
+- [How to install](#how-to-install)
+  - [Truffle Installation](#truffle-installation)
+    - [Manual install:](#manual-install)
+    - [Testing the library in truffle](#testing-the-library-in-truffle)
+    - [EthPM install:](#ethpm-install)
+  - [solc Installation](#solc-installation)
+    - [With standard JSON input](#with-standard-json-input)
+    - [solc without standard JSON input](#solc-without-standard-json-input)
+    - [solc documentation](#solc-documentation)
+  - [solc-js Installation](#solc-js-installation)
+    - [Solc-js Installation via Linking](#solc-js-installation-via-linking)
+    - [Solc-js documentation](#solc-js-documentation)
+- [Basic Usage](#basic-usage)
+  - [Usage Example](#usage-example)
+  - [Usage Note](#usage-note)
+- [Functions](#functions)
+  - [times(numberOne, numberTwo) constant returns (number)](#timesnumberone-numbertwo-constant-returns-number)
+    - [Arguments](#arguments)
+    - [Returns](#returns)
+  - [dividedBy(numberOne, numberTwo) constant returns (number)](#dividedbynumberone-numbertwo-constant-returns-number)
+    - [Arguments](#arguments-1)
+    - [Returns](#returns-1)
+  - [plus(numberOne, numberTwo) constant returns (number)](#plusnumberone-numbertwo-constant-returns-number)
+    - [Arguments](#arguments-2)
+    - [Returns](#returns-2)
+  - [minus(numberOne, numberTwo) constant returns (number)](#minusnumberone-numbertwo-constant-returns-number)
+    - [Arguments](#arguments-3)
+    - [Returns](#returns-3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address
 
@@ -173,7 +172,7 @@ var input = {
   "language": "Solidity",
   "sources":
   {
-    "BasicMathLib.sol": {
+    "YourContract.sol": {
       "content": file
     },
     "BasicMathLib.sol": {
@@ -266,6 +265,45 @@ Binding the library allows you to call the function in the format [firstParamete
 ### Usage Note
 
 All of the functions only accept uint256 types.
+
+WORD OF CAUTION! If the function overflows or underflows, ie you subtract below
+zero, the function will return 0 as the result. If you operate on a variable
+but wish to preserve the value, you need to use a temporary variable to hold
+that value until checks pass. Consider the following code:
+
+```
+pragma solidity ^0.4.11;
+
+import "./BasicMathLib.sol";
+
+contract YourContract {
+  using BasicMathLib for uint256;
+
+  uint256 a; //a is a state variable
+  ...
+  function badSubtract(uint256 b) returns (bool){
+    bool err;
+    (err, a) = a.minus(b);
+    if(err)
+      return false;
+    //You have changed your state variable to zero
+  }
+
+  function goodSubtract(uint256 b) returns (bool){
+    bool err;
+    uint256 temp;
+    (err, temp) = a.minus(b);
+    if(err)
+      return false;
+    //Checks then effects
+    a = temp;
+  }
+  ...
+}
+```
+While it may seem complicated rather than just asserting and throwing an error,
+being able to send an error message, when feasible, to your users is much better
+than sending them `invalid opcode` and leaving them guessing.
 
 ## Functions
 
