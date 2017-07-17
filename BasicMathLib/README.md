@@ -1,3 +1,40 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [BasicMathLib](#basicmathlib)
+  - [Library Address](#library-address)
+  - [How to install](#how-to-install)
+    - [Truffle Installation](#truffle-installation)
+      - [Manual install:](#manual-install)
+      - [Testing the library in truffle](#testing-the-library-in-truffle)
+      - [EthPM install:](#ethpm-install)
+    - [solc Installation](#solc-installation)
+      - [With standard JSON input](#with-standard-json-input)
+      - [solc without standard JSON input](#solc-without-standard-json-input)
+      - [solc documentation](#solc-documentation)
+    - [solc-js Installation](#solc-js-installation)
+      - [Solc-js Installation via Linking](#solc-js-installation-via-linking)
+      - [Solc-js documentation](#solc-js-documentation)
+  - [Basic Usage](#basic-usage)
+    - [Usage Example](#usage-example)
+    - [Usage Note](#usage-note)
+  - [Functions](#functions)
+    - [times(numberOne, numberTwo) constant returns (number)](#timesnumberone-numbertwo-constant-returns-number)
+      - [Arguments](#arguments)
+      - [Returns](#returns)
+    - [dividedBy(numberOne, numberTwo) constant returns (number)](#dividedbynumberone-numbertwo-constant-returns-number)
+      - [Arguments](#arguments-1)
+      - [Returns](#returns-1)
+    - [plus(numberOne, numberTwo) constant returns (number)](#plusnumberone-numbertwo-constant-returns-number)
+      - [Arguments](#arguments-2)
+      - [Returns](#returns-2)
+    - [minus(numberOne, numberTwo) constant returns (number)](#minusnumberone-numbertwo-constant-returns-number)
+      - [Arguments](#arguments-3)
+      - [Returns](#returns-3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 BasicMathLib
 =========================
 
