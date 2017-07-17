@@ -1,0 +1,15 @@
+{
+  "package_name": "basic-math-lib",
+  "version": "1.0.0",
+  "description": "Basic math functions",
+  "authors": [
+    "Hackdom <hackdom@majoolr.io>"
+  ],
+  "keywords": [
+    "ethereum",
+    "math"
+  ],
+  "dependencies": {
+  },
+  "license": "MIT"
+}
