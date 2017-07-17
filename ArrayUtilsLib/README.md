@@ -40,10 +40,10 @@ An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoo
 
 ## Library Address
 
-**ENS**: ArrayUtilsLib.majoolr.eth
-**Main Ethereum Network**: 0xf44ab905eba847774848c43735c8ec7d0530956f
-**Rinkeby Test Network**: 0xbe3eeaf48f204501db5de4be6181808680b58979
-**Ropsten Test Network**: 0x7BCfD8844D248db1ce5C4114b06Bf36762553962
+**ENS**: ArrayUtilsLib.majoolr.eth   
+**Main Ethereum Network**: 0xf44ab905eba847774848c43735c8ec7d0530956f   
+**Rinkeby Test Network**: 0xbe3eeaf48f204501db5de4be6181808680b58979   
+**Ropsten Test Network**: 0x7BCfD8844D248db1ce5C4114b06Bf36762553962   
 
 ## How to install
 
@@ -268,10 +268,10 @@ The following is the list of functions available to use in your smart contract.
    Returns the sum of the array elements
 
    #### Arguments
-   self *uint256[] storage variable*
+   *uint256[] storage variable* self   
 
    #### Returns
-   sum *uint256*
+   *uint256* sum    
 
    ### getMax(uint256[] storage self) constant returns(uint256 maxValue)
    *(ArrayUtilsLib.sol, line 47)*
@@ -279,10 +279,10 @@ The following is the list of functions available to use in your smart contract.
    Returns the maximum value in the given array.
 
    #### Arguments
-   self *uint256[] storage variable*
+   *uint256[] storage variable* self   
 
    #### Returns
-   maxValue *uint256*
+   *uint256* maxValue   
 
    ### indexOf(uint256[] storage self, uint256 value, bool isSorted) constant
        returns(bool found, uint256 index)
@@ -291,13 +291,13 @@ The following is the list of functions available to use in your smart contract.
    Returns true and the index of the given value if found or false and 0 otherwise
 
    #### Arguments
-   self *uint256[] storage variable*
-   value *uint256*
-   isSorted *bool*
+   *uint256[] storage variable* self   
+   *uint256* value   
+   *bool* isSorted    
 
    #### Returns
-   found *bool*
-   index *uint256*
+   *bool* found    
+   *uint256* index    
 
    ### heapSort(uint256[] storage self)
    *(ArrayUtilsLib.sol, line 118)*
@@ -305,4 +305,4 @@ The following is the list of functions available to use in your smart contract.
    Sorts the given array.
 
    #### Arguments
-   self *uint256[] storage variable*
+   *uint256[] storage variable* self   

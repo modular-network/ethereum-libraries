@@ -315,11 +315,11 @@ The following is the list of functions available to use in your smart contract.
    Multiply two numbers. Checks for overflow.
 
    #### Arguments
-   numberOne *uint256*
-   numberTwo *uint256*
+   *uint256* numberOne    
+   *uint256* numberTwo   
 
    #### Returns
-   number *uint256*
+   *uint256* number    
 
    ### dividedBy(numberOne, numberTwo) constant returns (number)
    *(BasicMathLib.sol, line 57)*
@@ -327,11 +327,11 @@ The following is the list of functions available to use in your smart contract.
    Divide two numbers. Checks for 0 divisor.
 
    #### Arguments
-   numberOne *uint256*
-   numberTwo *uint256*
+   *uint256* numberOne   
+   *uint256* numberTwo   
 
    #### Returns
-   number *uint256*
+   *uint256* number   
 
    ### plus(numberOne, numberTwo) constant returns (number)
    *(BasicMathLib.sol, line 75)*
@@ -339,11 +339,11 @@ The following is the list of functions available to use in your smart contract.
    Add two numbers. Checks for overflow.
 
    #### Arguments
-   numberOne *uint256*
-   numberTwo *uint256*
+   *uint256* numberOne   
+   *uint256* numberTwo    
 
    #### Returns
-   number *uint256*
+   *uint256* number   
 
    ### minus(numberOne, numberTwo) constant returns (number)
    *(BasicMathLib.sol, line 93)*
@@ -351,8 +351,8 @@ The following is the list of functions available to use in your smart contract.
    Subtract two numbers. Checks for underflow.
 
    #### Arguments
-   numberOne *uint256*
-   numberTwo *uint256*
+   *uint256* numberOne   
+   *uint256* numberTwo   
 
    #### Returns
-   number *uint256*
+   *uint256* number   

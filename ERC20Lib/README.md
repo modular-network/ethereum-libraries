@@ -62,7 +62,7 @@ Please [visit Truffle's installation guide](http://truffleframework.com/docs/get
 
 #### Manual install:
 
-This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development. The ERC20Lib uses the BasicMathLib as a lower level library so you must go through the install of that library first. If you do not have [BasicMathLib in your project please start there] (https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link") and then come back.
+This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development. The ERC20Lib uses the BasicMathLib as a lower level library so you must go through the install of that library first. If you do not have [BasicMathLib in your project please start there](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link") and then come back.
 
 1. [Install BasicMathLib](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link") .
 2. Place the ERC20Lib.sol file in your truffle `contracts/` directory.
@@ -302,8 +302,8 @@ The following is the list of functions available to use in your token contract.
    Initialize token with supply.
 
    #### Arguments
-   self *TokenStorage storage variable*
-   _initial_supply *uint256*
+   *TokenStorage storage variable* self   
+   *uint256* _initial_supply   
 
    ### transfer(TokenStorage storage self, address _to, uint256 _value) returns (bool success)
    *(ERC20Lib.sol, line 65)*
@@ -311,12 +311,12 @@ The following is the list of functions available to use in your token contract.
    Transfer tokens from msg.sender to another account.
 
    #### Arguments
-   self *TokenStorage storage variable*
-   _to *address*
-   _value *uint256*
+   *TokenStorage storage variable* self   
+   *address* _to   
+   *uint256* _value   
 
    #### Returns
-   success *bool*
+   *bool* success   
 
    ### transferFrom(TokenStorage storage self,
                          address _from,
@@ -328,13 +328,13 @@ The following is the list of functions available to use in your token contract.
    Authorized spender, msg.sender, transfers tokens from one account to another.
 
    #### Arguments
-   self *TokenStorage storage variable*
-   _from *address*
-   _to *address*
-   _value *uint256*
+   *TokenStorage storage variable* self   
+   *address* _from   
+   *address* _to   
+   *uint256* _value   
 
    #### Returns
-   success *bool*
+   *bool* success   
 
    ### balanceOf(TokenStorage storage self, address _owner) constant returns (uint256 balance)
    *(ERC20Lib.sol, line 120)*
@@ -342,11 +342,11 @@ The following is the list of functions available to use in your token contract.
    Retrieve the token balance of the given account.
 
    #### Arguments
-   self *TokenStorage storage variable*
-   _owner *address*
+   *TokenStorage storage variable* self   
+   *address* _owner   
 
    #### Returns
-   balance *uint256*
+   *uint256* balance    
 
    ### approve(TokenStorage storage self, address _spender, uint256 _value) returns (bool success)
    *(ERC20Lib.sol, line 129)*
@@ -354,9 +354,9 @@ The following is the list of functions available to use in your token contract.
    msg.sender approves a third party to spend up to _value in tokens.
 
    #### Arguments
-   self *TokenStorage storage variable*
-   _spender *address*
-   _value *uint256*
+   *TokenStorage storage variable* self    
+   *address* _spender   
+   *uint256* _value   
 
    #### Returns
    success *bool*
@@ -370,9 +370,9 @@ The following is the list of functions available to use in your token contract.
    Check the remaining allowance spender has from owner.
 
    #### Arguments
-   self *TokenStorage storage variable*
-   _owner *address*
-   _spender *address*
+   *TokenStorage storage variable* self   
+   *address* _owner   
+   *address* _spender   
 
    #### Returns
-   remaining *uint256*
+   *uint256* remaining   
