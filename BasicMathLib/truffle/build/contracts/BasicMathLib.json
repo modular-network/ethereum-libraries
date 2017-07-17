@@ -1,0 +1,183 @@
+{
+  "contract_name": "BasicMathLib",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "times",
+      "outputs": [
+        {
+          "name": "err",
+          "type": "bool"
+        },
+        {
+          "name": "res",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "plus",
+      "outputs": [
+        {
+          "name": "err",
+          "type": "bool"
+        },
+        {
+          "name": "res",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "dividedBy",
+      "outputs": [
+        {
+          "name": "err",
+          "type": "bool"
+        },
+        {
+          "name": "res",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "minus",
+      "outputs": [
+        {
+          "name": "err",
+          "type": "bool"
+        },
+        {
+          "name": "res",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "typeErr",
+          "type": "string"
+        }
+      ],
+      "name": "Err",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000c57fe5b5b6103318061001c6000396000f300606060405263ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416631d3b9edf811461005b57806366098d4f14610084578063e39bbf68146100ad578063f4f3bdc1146100d6575bfe5b6100696004356024356100ff565b60408051921515835260208301919091528051918290030190f35b610069600435602435610175565b60408051921515835260208301919091528051918290030190f35b6100696004356024356101ec565b60408051921515835260208301919091528051918290030190f35b610069600435602435610267565b60408051921515835260208301919091528051918290030190f35b6000828202821583820485141761011857506001905060005b811561016d576040805160208082526013908201527f74696d65732066756e63206f766572666c6f77000000000000000000000000008183015290516000805160206102e68339815191529181900360600190a15b5b9250929050565b600082820182810384148382111661018f57506001905060005b811561016d576040805160208082526012908201527f706c75732066756e63206f766572666c6f7700000000000000000000000000008183015290516000805160206102e68339815191529181900360600190a15b5b9250929050565b60006000821561020a57828404905080602060405101526040604051f35b6040805160208082526017908201527f747269656420746f20646976696465206279207a65726f0000000000000000008183015290516000805160206102e68339815191529181900360600190a1506001905060005b9250929050565b60008183038083018414848210828614171660011461028857506001905060005b811561016d576040805160208082526014908201527f6d696e75732066756e6320756e646572666c6f770000000000000000000000008183015290516000805160206102e68339815191529181900360600190a15b5b925092905056004eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7a165627a7a723058203a84768b0c85eb2b01c1939215e4a3c318d1c6b5c15324a23384c779ee6017f70029",
+  "networks": {
+    "1": {
+      "events": {
+        "0x4eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e",
+      "updated_at": 1500240859413
+    },
+    "3": {
+      "events": {
+        "0x568facfe95283e895457f8b31181f573b4eb67cdbfe4f9e7b5873abbf2d76e9f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x59580eaaa928a54c58c27cd83b9fa6aa3cdfadfa",
+      "updated_at": 1500244328490
+    },
+    "4": {
+      "events": {
+        "0x4eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x11a69bb2979dbd80ec6f142760c1f7abcad5c9b4",
+      "updated_at": 1500238371305
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1500244328490
+}
