@@ -1,43 +1,44 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [BasicMathLib](#basicmathlib)
+  - [Library Address](#library-address)
+  - [How to install](#how-to-install)
+    - [Truffle Installation](#truffle-installation)
+      - [Manual install:](#manual-install)
+      - [Testing the library in truffle](#testing-the-library-in-truffle)
+      - [EthPM install:](#ethpm-install)
+    - [solc Installation](#solc-installation)
+      - [With standard JSON input](#with-standard-json-input)
+      - [solc without standard JSON input](#solc-without-standard-json-input)
+      - [solc documentation](#solc-documentation)
+    - [solc-js Installation](#solc-js-installation)
+      - [Solc-js Installation via Linking](#solc-js-installation-via-linking)
+      - [Solc-js documentation](#solc-js-documentation)
+  - [Basic Usage](#basic-usage)
+    - [Usage Example](#usage-example)
+    - [Usage Note](#usage-note)
+  - [Functions](#functions)
+    - [times(numberOne, numberTwo) constant returns (number)](#timesnumberone-numbertwo-constant-returns-number)
+      - [Arguments](#arguments)
+      - [Returns](#returns)
+    - [dividedBy(numberOne, numberTwo) constant returns (number)](#dividedbynumberone-numbertwo-constant-returns-number)
+      - [Arguments](#arguments-1)
+      - [Returns](#returns-1)
+    - [plus(numberOne, numberTwo) constant returns (number)](#plusnumberone-numbertwo-constant-returns-number)
+      - [Arguments](#arguments-2)
+      - [Returns](#returns-2)
+    - [minus(numberOne, numberTwo) constant returns (number)](#minusnumberone-numbertwo-constant-returns-number)
+      - [Arguments](#arguments-3)
+      - [Returns](#returns-3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 BasicMathLib
 =========================
 
 A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to protect math operations from overflow and invalid outputs.
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Library Address](#library-address)
-- [How to install](#how-to-install)
-  - [Truffle Installation](#truffle-installation)
-    - [Manual install:](#manual-install)
-    - [Testing the library in truffle](#testing-the-library-in-truffle)
-    - [EthPM install:](#ethpm-install)
-  - [solc Installation](#solc-installation)
-    - [With standard JSON input](#with-standard-json-input)
-    - [solc without standard JSON input](#solc-without-standard-json-input)
-    - [solc documentation](#solc-documentation)
-  - [solc-js Installation](#solc-js-installation)
-    - [Solc-js Installation via Linking](#solc-js-installation-via-linking)
-    - [Solc-js documentation](#solc-js-documentation)
-- [Basic Usage](#basic-usage)
-  - [Usage Example](#usage-example)
-  - [Usage Note](#usage-note)
-- [Functions](#functions)
-  - [times(numberOne, numberTwo) constant returns (number)](#timesnumberone-numbertwo-constant-returns-number)
-    - [Arguments](#arguments)
-    - [Returns](#returns)
-  - [dividedBy(numberOne, numberTwo) constant returns (number)](#dividedbynumberone-numbertwo-constant-returns-number)
-    - [Arguments](#arguments-1)
-    - [Returns](#returns-1)
-  - [plus(numberOne, numberTwo) constant returns (number)](#plusnumberone-numbertwo-constant-returns-number)
-    - [Arguments](#arguments-2)
-    - [Returns](#returns-2)
-  - [minus(numberOne, numberTwo) constant returns (number)](#minusnumberone-numbertwo-constant-returns-number)
-    - [Arguments](#arguments-3)
-    - [Returns](#returns-3)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address
 
@@ -123,7 +124,7 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x1234567"
+        "BasicMathLib": "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"
       }
     }
   }
@@ -135,11 +136,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "BasicMathLib:0x12345678"`
+`--libraries "BasicMathLib:0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"`
 
 Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:
 
-`"BasicMathLib:0x1234567"`
+`"BasicMathLib:0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"`
 
 then add the following flag to your command:
 
@@ -147,7 +148,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "BasicMathLib:0x12345678"`
+`--libraries "BasicMathLib:0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"`
 
 #### solc documentation
 
@@ -184,7 +185,7 @@ var input = {
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x123456..."
+        "BasicMathLib": "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"
       }
     }
     ...
@@ -201,7 +202,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'BasicMathLib': '0x123456' });
+ bytecode = solc.linkBytecode(bytecode, { 'BasicMathLib': '0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e' });
  ```
 
 #### Solc-js documentation
@@ -241,8 +242,6 @@ In order to use the BasicMathLib library, import it into your contract and then 
 pragma solidity ^0.4.11;
 
 import "./BasicMathLib.sol";
-//or if you used EthPM import it as follows
-import "basic-math-lib/BasicMathLib.sol"
 
 contract YourContract {
   using BasicMathLib for uint256;
