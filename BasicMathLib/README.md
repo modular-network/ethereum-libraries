@@ -8,6 +8,7 @@ A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Gi
 
 
 - [Library Address](#library-address)
+- [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
   - [Truffle Installation](#truffle-installation)
     - [Manual install:](#manual-install)
@@ -44,7 +45,21 @@ A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Gi
 **ENS**: BasicMathLib.majoolr.eth   
 **Main Ethereum Network**: 0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e   
 **Rinkeby Test Network**: 0x11a69bb2979dbd80ec6f142760c1f7abcad5c9b4   
-**Ropsten Test Network**: 0x59580eaaa928a54c58c27cd83b9fa6aa3cdfadfa   
+**Ropsten Test Network**: 0x59580eaaa928a54c58c27cd83b9fa6aa3cdfadfa
+
+## License and Warranty
+
+Be advised that while we strive to provide professional grade, tested code we cannot
+guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE "MIT License")
+and as such we will not be held liable for lost funds, etc. Please use your best
+judgment and note the following:   
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  
 
 ## How to install
 

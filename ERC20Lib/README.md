@@ -8,6 +8,7 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 
 - [Library Address](#library-address)
+- [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
   - [Truffle Installation](#truffle-installation)
     - [Manual install:](#manual-install)
@@ -49,6 +50,20 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 **Main Ethereum Network**: 0x71ecde7c4b184558e8dba60d9f323d7a87411946  
 **Rinkeby Test Network**: 0x02bd14f4b72455bcb659534b25df6eb944402d8d   
 **Ropsten Test Network**: 0x5a07e954678b3ddebd8d0bf2e1543f80b7dd0002
+
+## License and Warranty
+
+Be advised that while we strive to provide professional grade, tested code we cannot
+guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE "MIT License")
+and as such we will not be held liable for lost funds, etc. Please use your best
+judgment and note the following:   
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## How to install
 
