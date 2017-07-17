@@ -8,7 +8,7 @@ A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Gi
 **ENS**: BasicMathLib.majoolr.eth
 **Main Ethereum Network**: 0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e
 **Rinkeby Test Network**: 0x11a69bb2979dbd80ec6f142760c1f7abcad5c9b4
-**Ropsten Test Network**: 0x59580eaaa928a54c58c27cd83b9fa6aa3cdfadfa
+**Ropsten Test Network**: 0x568facfe95283e895457f8b31181f573b4eb67cdbfe4f9e7b5873abbf2d76e9f
 
 ## How to install
 
@@ -20,9 +20,36 @@ First install truffle via npm using `npm install -g truffle` .
 
 Please [visit Truffle's installation guide](http://truffleframework.com/docs/getting_started/installation "Truffle installation guide") for further information and requirements.
 
-#### Manual install:
+#### EthPM install:
 
 This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development.
+
+Run the following command:
+
+`$ truffle install BasicMathLib`
+
+This command will put the library in a special `installed_contracts` directory.
+
+Amend the deployment .js file in your truffle `migrations/` directory as follows:
+
+```js
+var BasicMathLib = artifacts.require("basic-math-lib/BasicMathLib.sol");
+var OtherLibs = artifacts.require("./OtherLibs.sol");
+var YourOtherContract = artifacts.require("./YourOtherContract.sol");
+...
+
+module.exports = function(deployer) {
+  deployer.deploy(BasicMathLib, {overwrite: false});
+  deployer.link(BasicMathLib, YourOtherContract);
+  deployer.deploy(YourOtherContract);
+};
+```
+
+**Note**: The `.link()` function should be called *before* you `.deploy(YourOtherContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(BasicMathLib, {overwrite: false})`. This prevents deploying the library onto the main network at your cost or Rinkeby test network and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
+
+#### Manual install:
+
+This process also allows you to both link your contract to the current on-chain library as well as deploy it in your local environment for development.
 
 1. Place the BasicMathLib.sol file in your truffle `contracts/` directory.
 2. Place the BasicMathLib.json file in your truffle `build/contracts/` directory.
@@ -40,6 +67,9 @@ module.exports = function(deployer) {
   deployer.deploy(YourOtherContract);
 };
 ```
+**Note**: If you looked at the EthPM installation and then this manual installation you will notice the migrations file modification looks almost identical. The difference is you are calling the .sol file out of your directory here instead of the `installed_contracts` directory.
+
+I'll restate the note in the EthPM install in case you skipped it.
 
 **Note**: The `.link()` function should be called *before* you `.deploy(YourOtherContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(BasicMathLib, {overwrite: false})`. This prevents deploying the library onto the main network or Rinkeby test network at your cost and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
 
@@ -54,10 +84,6 @@ The following process will allow you to `truffle test` this library in your proj
 3. [Start a testrpc node](https://github.com/ethereumjs/testrpc "testrpc's Github")
 4. In your terminal go to your truffle project directory and run `truffle migrate`.
 5. After migration run `truffle test`.
-
-#### EthPM install:
-
-We were experiencing errors with EthPM deployment and will update this when those are resolved.
 
 ### solc Installation
 
