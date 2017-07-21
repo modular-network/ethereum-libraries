@@ -4,7 +4,7 @@ pragma solidity ^0.4.11;
  * @title ERC20Lib
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 1.0.1
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -53,6 +53,7 @@ library ERC20Lib {
   /// @param self Stored token from token contract
   /// @param _initial_supply The initial token supply
   function init(TokenStorage storage self, uint256 _initial_supply) {
+    require(self.totalSupply == 0);
     self.totalSupply = _initial_supply;
     self.balances[msg.sender] = _initial_supply;
   }

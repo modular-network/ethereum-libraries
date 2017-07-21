@@ -47,9 +47,9 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 ## Library Address
 
 **ENS**: ERC20Lib.majoolr.eth   
-**Main Ethereum Network**: 0x71ecde7c4b184558e8dba60d9f323d7a87411946  
-**Rinkeby Test Network**: 0x02bd14f4b72455bcb659534b25df6eb944402d8d   
-**Ropsten Test Network**: 0x5a07e954678b3ddebd8d0bf2e1543f80b7dd0002
+**Main Ethereum Network**: 0x7bc3a3d4d304127d04f6aec09dd546d254e02ce1  
+**Rinkeby Test Network**: 0x9b40715474cb7b384438821d69f8455c79c0f0dc   
+**Ropsten Test Network**: 0xc5f20410e1c6db8090c842d2ade8b42c214199dd
 
 ## License and Warranty
 
