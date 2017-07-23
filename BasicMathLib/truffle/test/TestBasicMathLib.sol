@@ -27,7 +27,7 @@ contract TestBasicMathLib{
       (bResult,result) = instance.getMinus(f,s);
       if(f > s){
         expected = f - s;
-        Assert.isFalse(true,"The err boolean variable should return false.");
+        Assert.isFalse(bResult,"The err boolean variable should return false.");
         Assert.equal(result,expected,"The minus function should subtract the inputs and return the result.");
       } else {
         Assert.isTrue(bResult,"The err boolean variable should return true if there is underflow.");
