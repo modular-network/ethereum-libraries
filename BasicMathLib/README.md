@@ -1,6 +1,8 @@
 BasicMathLib
 =========================
 
+[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)    
+
 A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to protect math operations from overflow and invalid outputs.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

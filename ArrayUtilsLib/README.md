@@ -1,6 +1,8 @@
 ArrayUtilsLib
 =========================
 
+[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)    
+
 An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") .
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -58,7 +60,7 @@ INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
 PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
 HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## How to install
 

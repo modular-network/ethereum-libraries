@@ -1,6 +1,8 @@
 Majoolr Libraries
 =========================
 
+[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)    
+
 Majoolr Libraries is a group of packages built for use on blockchains utilizing the Ethereum Virtual Machine (EVM). All libraries are deployed and linkable in your smart contracts on both Rinkeby, Ropsten, and Ethereum Mainnet. [We also have an ethereum-contracts repository that currently holds ICO contracts](https://github.com/Majoolr/ethereum-contracts "Github link").  
 
 Libraries and contracts are currently written in Solidity and Solidity Assembly. If you are not familiar with the workings of Ethereum, smart contracts, or Solidity [please educate yourself by clicking here before proceeding](https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html "Solidity link").

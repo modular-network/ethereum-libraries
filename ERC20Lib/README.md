@@ -1,6 +1,8 @@
 ERC20Lib
 =========================
 
+[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)    
+
 A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to abstract token creation. This library was inspired by [Aragon's blog post on library usage](https://blog.aragon.one/library-driven-development-in-solidity-2bebcaf88736 "Library blog post") .
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
