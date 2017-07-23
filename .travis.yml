@@ -5,7 +5,7 @@ node_js:
 
 env:
   - TEST_DIR=BasicMathLib/truffle
-  - TEST_DIR=ArrayUtils/truffle
+  - TEST_DIR=ArrayUtilsLib/truffle
   - TEST_DIR=ERC20Lib/truffle
 
 script:
