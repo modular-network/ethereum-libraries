@@ -3,7 +3,10 @@ sudo: false
 node_js:
   - '8'
 
+env:
+  - TEST_DIR=BasicMathLib/truffle
+
 script:
+  - 'cd $TEST_DIR && npm install'
   - 'testrpc'
-  - 'cd BasicMathLib/truffle'
   - 'truffle test'
