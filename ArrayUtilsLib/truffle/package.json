@@ -1,0 +1,9 @@
+{
+  "name": "ArrayUtilsLib",
+  "version": "1.0.0",
+  "description": "Array utilities library deployed on Ethereum mainnet",
+  "devDependencies": {
+    "truffle": "^3.4.5",
+    "ethereumjs-testrpc": "^4.0.0"
+  }
+}
