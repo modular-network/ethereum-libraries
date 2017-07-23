@@ -8,5 +8,5 @@ env:
 
 script:
   - 'cd $TEST_DIR && npm install'
-  - 'testrpc'
+  - 'testrpc > /dev/null &'
   - 'truffle test'
