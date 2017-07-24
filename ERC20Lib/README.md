@@ -266,18 +266,18 @@ pragma solidity ^0.4.11;
 
 import "./ERC20Lib.sol";
 
-contract ERC20LibTestContract {
+contract MyToken {
   using ERC20Lib for ERC20Lib.TokenStorage;
 
   ERC20Lib.TokenStorage token;
 
-  string public name = "MyToken";
+  string public name = "Money";
   string public symbol = "PLZ";
   uint public decimals = 18;
   //10,000,000 tokens with 18 decimal zeros
   uint public INITIAL_SUPPLY = 10000000000000000000000000;
 
-  function ERC20LibTestContract() {
+  function MyToken() {
     token.init(INITIAL_SUPPLY);
   }
 
