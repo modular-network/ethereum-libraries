@@ -1,6 +1,6 @@
 pragma solidity ^0.4.11;
 
-import "./BasicMathLib.sol";
+import "./StringUtilsLib.sol";
 
 contract BasicMathTestContract {
   using BasicMathLib for uint256;

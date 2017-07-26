@@ -1,5 +1,9 @@
-import 'dapple/test.sol';
-import 'strings.sol';
+pragma solidity ^0.4.11;
+
+import "truffle/Assert.sol";
+import "truffle/DeployedAddresses.sol";
+import "../contracts/ERC20LibTestContract.sol";
+import "../contracts/ERC20LibTestSpender.sol";
 
 contract StringsTest is Test {
 	using strings for *;
