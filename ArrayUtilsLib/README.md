@@ -3,6 +3,8 @@ ArrayUtilsLib
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)    
 
+This library is in the process of being updated. The getMax function should bot be used until the updates have been pushed. Big thanks to Josh Hannan for your help!
+
 An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") .
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -40,13 +42,6 @@ An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoo
     - [Arguments](#arguments-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-## Library Address
-
-**ENS**: ArrayUtilsLib.majoolr.eth   
-**Main Ethereum Network**: 0xf44ab905eba847774848c43735c8ec7d0530956f   
-**Rinkeby Test Network**: 0xbe3eeaf48f204501db5de4be6181808680b58979   
-**Ropsten Test Network**: 0x7BCfD8844D248db1ce5C4114b06Bf36762553962   
 
 ## License and Warranty
 
