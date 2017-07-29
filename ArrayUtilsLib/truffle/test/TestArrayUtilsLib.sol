@@ -24,10 +24,20 @@ contract TestArrayUtilsLib{
   }
 
   function testGetMaxFunction() {
-    expected = 0xfffff;
-    result = instance.getGetMax();
+    expected = 1058939;
+    result = instance.getGetMaxMiddle();
 
-    Assert.equal(result,expected,"The getMax function should return the max value in an array");
+    Assert.equal(result,expected,"The getMax function should return the max value in an array where the max is in the middle of the array");
+
+    expected = 1058939;
+    result = instance.getGetMaxFirst();
+
+    Assert.equal(result,expected,"The getMax function should return the max value in an array where the max is the first element of the array");
+
+    expected = 0xfffff;
+    result = instance.getGetMaxLast();
+
+    Assert.equal(result,expected,"The getMax function should return the max value in an array where the max is the first element of the array");
   }
 
   function testSortedIndexOfFunction(){

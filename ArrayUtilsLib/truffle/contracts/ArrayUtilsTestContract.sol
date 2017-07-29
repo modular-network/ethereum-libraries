@@ -16,11 +16,29 @@ contract ArrayUtilsTestContract {
     return array.sumElements();
   }
 
-  function getGetMax() returns (uint256){
+  function getGetMaxMiddle() returns (uint256){
     delete array;
     array.push(2);
     array.push(0);
     array.push(1058939);
+    array.push(0xfffff);
+    return array.getMax();
+  }
+
+  function getGetMaxLast() returns (uint256){
+    delete array;
+    array.push(2);
+    array.push(0);
+    array.push(105893);
+    array.push(0xfffff);
+    return array.getMax();
+  }
+
+  function getGetMaxFirst() returns (uint256){
+    delete array;
+    array.push(1058939);
+    array.push(0);
+    array.push(2);
     array.push(0xfffff);
     return array.getMax();
   }
