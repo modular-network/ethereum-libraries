@@ -64,17 +64,6 @@ library StringUtilsLib {
         }
     }
 
-    /// @dev Returns a slice containing the entire string.
-    /// @param self The string to make a slice from.
-    /// @return A newly allocated slice containing the entire string.
-    function toSlice(string self) internal returns (slice) {
-        uint ptr;
-        assembly {
-            ptr := add(self, 0x20)
-        }
-        return slice(bytes(self).length, ptr);
-    }
-
     /// @dev Returns the length of a null-terminated bytes32 string.
     /// @param self The value to find the length of.
     /// @return The length of the string, from 0 to 32.
@@ -131,13 +120,24 @@ library StringUtilsLib {
     /// @dev Copies a slice to a new string.
     /// @param self The slice to copy.
     /// @return A newly allocated string containing the slice's text.
-    function toString(slice self) internal returns (string) {
-        var ret = new string(self._len);
+    function toString(bytes storage self) constant returns (string) {
+      uint256 sptr;
+    /*  uint256 _len = self.length;
+      if(_len < 32){
+        assembly{ sptr := self_slot }
+      } else {
+        assembly {
+          let mptr := mload(0x40)
+          mstore(mptr, self_slot)
+          sptr :=  sha3(mptr,0x20)
+        }
+      }
+        var ret = new string(_len);
         uint retptr;
         assembly { retptr := add(ret, 32) }
 
-        memcpy(retptr, self._ptr, self._len);
-        return ret;
+        memcpy(retptr, sptr, _len);
+        return ret;*/
     }
 
     /// @dev Returns the length in runes of the slice. Note that this operation
@@ -569,7 +569,7 @@ library StringUtilsLib {
     /// and the entirety of `self` is returned.
     /// @param self The slice to split.
     /// @param needle The text to search for in `self`.
-    /// @return The part of `self` up to the first occurrence of `delim`.
+    /// @return The part of `self` up to the first occurrence of `delim`.memcpy
     function split(slice self, slice needle) internal returns (slice token) {
         split(self, needle, token);
     }

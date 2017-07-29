@@ -1,13 +1,22 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
-import "../contracts/ERC20LibTestContract.sol";
-import "../contracts/ERC20LibTestSpender.sol";
+import "../contracts/StringUtilsLib.sol";
+import "../contracts/StringUtilsTestContract.sol";
 
-contract StringsTest is Test {
-	using strings for *;
+contract TestStringUtilsLib {
+	StringUtilsTestContract instance;
 
+	function beforeAll(){
+    instance = StringUtilsTestContract(DeployedAddresses.StringUtilsTestContract());
+  }
+
+	function testToString() {
+		instance.getToString();
+		Assert.isFalse(true,"Test");
+	}
+/*
     function abs(int x) private returns (int) {
         if(x < 0)
             return -x;
@@ -208,4 +217,5 @@ contract StringsTest is Test {
         parts[0] = "zero".toSlice();
         assertEq(" ".toSlice().join(parts), "zero");
     }
+		*/
 }
