@@ -1,9 +1,8 @@
 ArrayUtilsLib
 =========================
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)    
-
-This library is in the process of being updated. The getMax function should not be used until the updates have been pushed. Big thanks to Josh Hannan for your help!
+[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
+[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
 
 An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") .
 
@@ -42,6 +41,13 @@ An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoo
     - [Arguments](#arguments-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Library Address
+
+**ENS**: ArrayUtilsLib.majoolr.eth   
+**Main Ethereum Network**: 0x90bacf482bd59c7f1a829b6b3923a4caa4dd7545   
+**Rinkeby Test Network**: 0xe39ef6c2f7b1d7de8156e32942d1b32c70beae68   
+**Ropsten Test Network**: 0x3e24231c4ec98c0d46642f8e14bb2122400c48d3    
 
 ## License and Warranty
 

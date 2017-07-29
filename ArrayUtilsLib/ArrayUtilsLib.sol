@@ -4,7 +4,7 @@ pragma solidity ^0.4.11;
  * @title Array Utilities Library
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 1.0.1
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -32,10 +32,10 @@ library ArrayUtilsLib {
   /// @param self Storage array containing uint256 type variables
   /// @return sum The sum of all elements, does not check for overflow
   function sumElements(uint256[] storage self) constant returns(uint256 sum){
-    assembly { mstore(0x60,self_slot) }
+    assembly { 
+      mstore(0x60,self_slot) 
 
-    for (uint256 i = 0; i < self.length; i++) {
-      assembly {
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         sum := add(sload(add(sha3(0x60,0x20),i)),sum)
       }
     }
@@ -45,14 +45,15 @@ library ArrayUtilsLib {
   /// @param self Storage array containing uint256 type variables
   /// @return maxValue The highest value in the array
   function getMax(uint256[] storage self) constant returns(uint256 maxValue) {
-    assembly { mstore(0x60,self_slot) }
+    assembly { 
+      mstore(0x60,self_slot) 
+      maxValue := sload(sha3(0x60,0x20))
 
-    for (uint256 i = 1; i < self.length; i++) {
-      assembly {
-        maxValue := sload(sha3(0x60,0x20))
-        jumpi(skip, lt(sload(add(sha3(0x60,0x20),i)), maxValue))
-        maxValue := sload(add(sha3(0x60,0x20),i))
-        skip:
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        switch lt(sload(add(sha3(0x60,0x20),i)), maxValue)
+        case 0 {
+          maxValue := sload(add(sha3(0x60,0x20),i))
+        }
       }
     }
   }
