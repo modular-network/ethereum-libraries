@@ -51,7 +51,7 @@
     {
       "constant": false,
       "inputs": [],
-      "name": "getGetMax",
+      "name": "getGetMaxMiddle",
       "outputs": [
         {
           "name": "",
@@ -77,12 +77,38 @@
     {
       "constant": false,
       "inputs": [],
+      "name": "getGetMaxFirst",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
       "name": "getNoIndexOf",
       "outputs": [
         {
           "name": "",
           "type": "bool"
         },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "getGetMaxLast",
+      "outputs": [
         {
           "name": "",
           "type": "uint256"
@@ -97,14 +123,20 @@
     "1": {
       "links": {},
       "events": {},
-      "updated_at": 1500255640216
+      "updated_at": 1501342137984
+    },
+    "3": {
+      "links": {},
+      "events": {},
+      "updated_at": 1501341402012
     },
     "4": {
       "links": {},
       "events": {},
-      "updated_at": 1500255096372
+      "updated_at": 1501340723383
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1501252753279
+
+  "updated_at": 1500255640216
 }

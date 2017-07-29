@@ -1,7 +1,8 @@
 ArrayUtilsLib
 =========================
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)    
+[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
+[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
 
 An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") .
 
@@ -44,9 +45,9 @@ An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoo
 ## Library Address
 
 **ENS**: ArrayUtilsLib.majoolr.eth   
-**Main Ethereum Network**: 0xf44ab905eba847774848c43735c8ec7d0530956f   
-**Rinkeby Test Network**: 0xbe3eeaf48f204501db5de4be6181808680b58979   
-**Ropsten Test Network**: 0x7BCfD8844D248db1ce5C4114b06Bf36762553962   
+**Main Ethereum Network**: 0x90bacf482bd59c7f1a829b6b3923a4caa4dd7545   
+**Rinkeby Test Network**: 0xe39ef6c2f7b1d7de8156e32942d1b32c70beae68   
+**Ropsten Test Network**: 0x3e24231c4ec98c0d46642f8e14bb2122400c48d3    
 
 ## License and Warranty
 
