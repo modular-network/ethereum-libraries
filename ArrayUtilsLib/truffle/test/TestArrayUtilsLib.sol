@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
@@ -40,17 +40,54 @@ contract TestArrayUtilsLib{
     Assert.equal(result,expected,"The getMax function should return the max value in an array where the max is the first element of the array");
   }
 
+  function testGetMinFunction() {
+    expected = 0;
+    result = instance.getGetMinMiddle();
+
+    Assert.equal(result,expected,"The getMin function should return the min value in an array where the min is in the middle of the array");
+  }
+
   function testSortedIndexOfFunction(){
     expected = 3;
-    (bResult, result) = instance.getSortedIndexOf();
+    (bResult, result) = instance.getSortedIndexOf(7);
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
-    Assert.equal(result,expected,"The indexOf function should return the index of the given value");
+    Assert.equal(result,expected,"The indexOf function should return the index 3 of the given value");
+
+    /*expected = 1;
+    (bResult, result) = instance.getSortedIndexOf(3);
+
+    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf function should return the index 1 of the given value");
+
+    /*expected = 5;
+    (bResult, result) = instance.getSortedIndexOf(1095);
+
+    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf function should return the index 5 of the given value");
+
+    expected = 0;
+    (bResult, result) = instance.getSortedIndexOf(1);
+
+    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf function should return the index 0 of the given value");*/
   }
 
   function testUnsortedIndexOfFunction() {
+    expected = 0;
+    (bResult, result) = instance.getUnsortedIndexOf(7);
+
+    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf function should return the index of the given value");
+
+    expected = 3;
+    (bResult, result) = instance.getUnsortedIndexOf(1);
+
+    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf function should return the index of the given value");
+
     expected = 5;
-    (bResult, result) = instance.getUnsortedIndexOf();
+    (bResult, result) = instance.getUnsortedIndexOf(1095);
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index of the given value");

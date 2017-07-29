@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
 import "./ArrayUtilsLib.sol";
 
@@ -43,7 +43,16 @@ contract ArrayUtilsTestContract {
     return array.getMax();
   }
 
-  function getSortedIndexOf() returns (bool,uint256){
+  function getGetMinMiddle() returns (uint256){
+    delete array;
+    array.push(1058939);
+    array.push(0);
+    array.push(2);
+    array.push(0xfffff);
+    return array.getMin();
+  }
+
+  function getSortedIndexOf(uint256 value) returns (bool,uint256){
     delete array;
     array.push(1);
     array.push(3);
@@ -51,10 +60,10 @@ contract ArrayUtilsTestContract {
     array.push(7);
     array.push(9);
     array.push(1095);
-    return array.indexOf(7,true);
+    return array.indexOf(value,true);
   }
 
-  function getUnsortedIndexOf() returns (bool,uint256) {
+  function getUnsortedIndexOf(uint256 value) returns (bool,uint256) {
     delete array;
     array.push(7);
     array.push(0xffff);
@@ -62,7 +71,7 @@ contract ArrayUtilsTestContract {
     array.push(1);
     array.push(9);
     array.push(1095);
-    return array.indexOf(1095,false);
+    return array.indexOf(value,false);
   }
 
   function getNoIndexOf() returns (bool,uint256) {
