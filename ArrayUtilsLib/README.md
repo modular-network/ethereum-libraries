@@ -3,6 +3,8 @@ ArrayUtilsLib
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)    
 
+This library is in the process of being updated. The getMax function should not be used until the updates have been pushed. Big thanks to Josh Hannan for your help!
+
 An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") .
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
