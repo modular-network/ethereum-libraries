@@ -123,7 +123,7 @@ The following process will allow you to `truffle test` this library in your proj
 **Note**: The tests are written using Truffle's testing mechanisms and they are gas hungry. When starting your testrpc node be sure to set the gas and starting ether options high to allow for consumption. For example:
 
    ```
-   $ testrpc --gasLimit 0xfffffffffff --account="0xfacec5711eb0a84bbd13b9782df26083fc68cf41b2210681e4d478687368fdc3,100000000000000000000000000"
+   $ testrpc --gasLimit 0xffffffffffff --account="0xfacec5711eb0a84bbd13b9782df26083fc68cf41b2210681e4d478687368fdc3,100000000000000000000000000"
    ```
 
    Additionally you need to set the caller's gas limit high enough as well. This is done in the truffle.js file and it should look like this:
