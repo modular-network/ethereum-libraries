@@ -199,4 +199,26 @@ library ArrayUtilsLib {
       }
     }
   }
+
+  /// @dev Returns the first n elements of an array
+  /// @param self Storage array containing uint256 type variables
+  /// @param n The number of elements to return
+  /// @return result the array of elements returned. 
+  /*function first(uint256[] storage self, uint256 n) constant returns (uint256[] result) {
+    
+    for (uint256 i = 0; ((i<n) && (i<self.length)); i++) {
+      result.push(self[i]);
+    }
+  }
+
+  /// @dev Returns the last n elements of an array
+  /// @param self Storage array containing uint256 type variables
+  /// @param n The number of elements to return
+  /// @return result the array of elements returned. 
+  function last(uint256[] storage self, uint256 n) constant returns (uint256[] result) {
+
+    for (uint256 i = self.length-n; ((i >= 0) && (i < self.length-1)); i++) {
+      result.push(self[i-(self.length-n)]);
+    }
+  }*/
 }
