@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
 /**
  * @title Array Utilities Library
@@ -58,6 +58,23 @@ library ArrayUtilsLib {
     }
   }
 
+  /// @dev Returns the minimum value in an array.
+  /// @param self Storage array containing uint256 type variables
+  /// @return minValue The highest value in the array
+  function getMin(uint256[] storage self) constant returns(uint256 minValue) {
+    assembly { 
+      mstore(0x60,self_slot) 
+      minValue := sload(sha3(0x60,0x20))
+
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        switch gt(sload(add(sha3(0x60,0x20),i)), minValue)
+        case 0 {
+          minValue := sload(add(sha3(0x60,0x20),i))
+        }
+      }
+    }
+  }  
+
   /// @dev Finds the index of a given value in an array
   /// @param self Storage array containing uint256 type variables
   /// @param value The value to search for
@@ -68,33 +85,40 @@ library ArrayUtilsLib {
            returns(bool found, uint256 index) {
     assembly{
       mstore(0x60,self_slot)
-      let low := 0
-      let high := sub(sload(self_slot),1)
-      let mid := 0
-      jumpi(unsorted, iszero(isSorted))
-      sorted:
-        jumpi(done, gt(low,high))
-        mid := div(add(low,high),2)
-        jumpi(setH, lt(value,sload(add(sha3(0x60,0x20),mid))))
-        jumpi(setL, gt(value,sload(add(sha3(0x60,0x20),mid))))
-        found := 1
-        index := mid
-        jump(done)
-        setH:
-          high := sub(mid,1)
-          jump(sorted)
-        setL:
-          low := add(mid,1)
-          jump(sorted)
-      unsorted:
-        jumpi(loop, iszero(eq(sload(add(sha3(0x60,0x20),low)), value)))
-        found := 1
-        index := low
-        jump(done)
-        loop:
-          low := add(low,1)
-          jumpi(unsorted, lt(low, sload(self_slot)))
-      done:
+      switch isSorted  
+      case 1 {
+        let high := sub(sload(self_slot),1)
+        let mid := 0
+        let low := 0
+        for { } iszero(gt(low, high)) { } {
+          mid := div(add(low,high),2)
+          
+          switch lt(sload(add(sha3(0x60,0x20),mid)),value)
+          case 1 {    
+            low := add(mid,1)
+          }  
+          case 0 {
+            switch eq(sload(add(sha3(0x60,0x20),mid)),value)
+            case 1 {
+              found := 1
+              index := mid
+            }
+            case 0 {
+              high := sub(mid,1)
+            }
+          }
+        }          
+      }
+      case 0 {
+        for { let low := 0 } lt(low, sload(self_slot)) { low := add(low, 1) } {
+          switch eq(sload(add(sha3(0x60,0x20),low)), value)
+          case 1 {
+            found := 1
+            index := low
+            low := sload(self_slot)
+          }
+        }
+      }
     }
   }
 
@@ -175,4 +199,26 @@ library ArrayUtilsLib {
       }
     }
   }
+
+  /// @dev Returns the first n elements of an array
+  /// @param self Storage array containing uint256 type variables
+  /// @param n The number of elements to return
+  /// @return result the array of elements returned. 
+  /*function first(uint256[] storage self, uint256 n) constant returns (uint256[] result) {
+    
+    for (uint256 i = 0; ((i<n) && (i<self.length)); i++) {
+      result.push(self[i]);
+    }
+  }
+
+  /// @dev Returns the last n elements of an array
+  /// @param self Storage array containing uint256 type variables
+  /// @param n The number of elements to return
+  /// @return result the array of elements returned. 
+  function last(uint256[] storage self, uint256 n) constant returns (uint256[] result) {
+
+    for (uint256 i = self.length-n; ((i >= 0) && (i < self.length-1)); i++) {
+      result.push(self[i-(self.length-n)]);
+    }
+  }*/
 }
