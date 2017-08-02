@@ -7,8 +7,9 @@ env:
   - TEST_DIR=BasicMathLib/truffle
   - TEST_DIR=ArrayUtilsLib/truffle
   - TEST_DIR=ERC20Lib/truffle
+  - TEST_DIR=StringUtilsLib/truffle
 
 script:
   - 'cd $TEST_DIR && npm install'
-  - 'testrpc > /dev/null &'
+  - 'testrpc --gasLimit 0xffffffffffff --account=''0xfacec5711eb0a84bbd13b9782df26083fc68cf41b2210681e4d478687368fdc3,100000000000000000000000000'' > /dev/null &'
   - 'truffle test'
