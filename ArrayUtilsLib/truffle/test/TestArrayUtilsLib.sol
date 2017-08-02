@@ -54,13 +54,13 @@ contract TestArrayUtilsLib{
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index 3 of the given value");
 
-    /*expected = 1;
+    expected = 1;
     (bResult, result) = instance.getSortedIndexOf(3);
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index 1 of the given value");
 
-    /*expected = 5;
+    expected = 6;
     (bResult, result) = instance.getSortedIndexOf(1095);
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
@@ -70,7 +70,7 @@ contract TestArrayUtilsLib{
     (bResult, result) = instance.getSortedIndexOf(1);
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
-    Assert.equal(result,expected,"The indexOf function should return the index 0 of the given value");*/
+    Assert.equal(result,expected,"The indexOf function should return the index 0 of the given value");
   }
 
   function testUnsortedIndexOfFunction() {
@@ -95,7 +95,13 @@ contract TestArrayUtilsLib{
 
   function testNoIndexOfFunction() {
     expected = 0;
-    (bResult, result) = instance.getNoIndexOf();
+    (bResult, result) = instance.getNoIndexOf(10,true);
+
+    Assert.isFalse(bResult,"The indexOf function should return false if array does not contain value");
+    Assert.equal(result,expected,"The indexOf function should return 0 if array does not contain value");
+
+    expected = 0;
+    (bResult, result) = instance.getNoIndexOf(39482,false);
 
     Assert.isFalse(bResult,"The indexOf function should return false if array does not contain value");
     Assert.equal(result,expected,"The indexOf function should return 0 if array does not contain value");

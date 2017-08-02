@@ -31,12 +31,211 @@ library ArrayUtilsLib {
   /// @dev Sum vector
   /// @param self Storage array containing uint256 type variables
   /// @return sum The sum of all elements, does not check for overflow
-  function sumElements(uint256[] storage self) constant returns(uint256 sum){
+  function sumElements(uint256[] storage self) constant returns(uint256 sum) {
     assembly { 
       mstore(0x60,self_slot) 
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         sum := add(sload(add(sha3(0x60,0x20),i)),sum)
+      }
+    }
+  }
+
+  function sumElements(uint128[] storage self) constant returns(uint128 sum) {
+    uint256 term;
+    assembly { 
+      mstore(0x60,self_slot) 
+
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        term := sload(add(sha3(0x60,0x20),div(i,2)))
+
+        switch mod(i,2)
+        case 1 {
+          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+          
+        }
+
+        term := and(0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff,term)
+        sum := add(term,sum)
+
+      }
+    }
+  }
+
+  function sumElements(uint64[] storage self) constant returns(uint64 sum) {
+    uint256 term;
+    assembly { 
+      mstore(0x60,self_slot) 
+
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        term := sload(add(sha3(0x60,0x20),div(i,4)))
+
+        switch mod(i,4)
+        case 1 {
+          for { let j := 0 } lt(j, 2) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+        case 2 {
+          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+        case 3 {
+          for { let j := 0 } lt(j, 6) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+
+        term := and(0x000000000000000000000000000000000000000000000000ffffffffffffffff,term)
+        sum := add(term,sum)
+
+      }
+    }
+  }
+
+  function sumElements(uint32[] storage self) constant returns(uint32 sum) {
+    uint256 term;
+    assembly { 
+      mstore(0x60,self_slot) 
+
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        term := sload(add(sha3(0x60,0x20),div(i,8)))
+
+        switch mod(i,8)
+        case 1 {
+          for { let j := 0 } lt(j, 1) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+        case 2 {
+          for { let j := 0 } lt(j, 2) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+        case 3 {
+          for { let j := 0 } lt(j, 3) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+        case 4 {
+          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+        case 5 {
+          for { let j := 0 } lt(j, 5) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+        case 6 {
+          for { let j := 0 } lt(j, 6) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+        case 7 {
+          for { let j := 0 } lt(j, 7) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+
+        term := and(0x00000000000000000000000000000000000000000000000000000000ffffffff,term)
+        sum := add(term,sum)
+
+      }
+    }
+  }
+
+  function sumElements(uint16[] storage self) constant returns(uint16 sum) {
+    uint256 term;
+    assembly { 
+      mstore(0x60,self_slot) 
+
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        term := sload(add(sha3(0x60,0x20),div(i,16)))
+
+        switch mod(i,16)
+        case 1 {
+          for { let j := 0 } lt(j, 1) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 2 {
+          for { let j := 0 } lt(j, 2) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 3 {
+          for { let j := 0 } lt(j, 3) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 4 {
+          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 5 {
+          for { let j := 0 } lt(j, 5) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 6 {
+          for { let j := 0 } lt(j, 6) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 7 {
+          for { let j := 0 } lt(j, 7) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 8 {
+          for { let j := 0 } lt(j, 8) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 9 {
+          for { let j := 0 } lt(j, 9) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 10 {
+          for { let j := 0 } lt(j, 10) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 11 {
+          for { let j := 0 } lt(j, 11) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 12 {
+          for { let j := 0 } lt(j, 12) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 13 {
+          for { let j := 0 } lt(j, 13) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 14 {
+          for { let j := 0 } lt(j, 14) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+        case 15 {
+          for { let j := 0 } lt(j, 15) { j := add(j, 1) } {
+            term := div(term,65536)
+          }
+        }
+
+        term := and(0x000000000000000000000000000000000000000000000000000000000000ffff,term)
+        sum := add(term,sum)
+
       }
     }
   }
@@ -50,9 +249,34 @@ library ArrayUtilsLib {
       maxValue := sload(sha3(0x60,0x20))
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
-        switch lt(sload(add(sha3(0x60,0x20),i)), maxValue)
-        case 0 {
+        switch gt(sload(add(sha3(0x60,0x20),i)), maxValue)
+        case 1 {
           maxValue := sload(add(sha3(0x60,0x20),i))
+        }
+      }
+    }
+  }
+
+  function getMax(uint128[] storage self) constant returns(uint128 maxValue) {
+    uint256 term;
+    assembly { 
+      mstore(0x60,self_slot) 
+      maxValue := 0
+
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        term := sload(add(sha3(0x60,0x20),div(i,2)))
+
+        switch mod(i,2)
+        case 1 {
+          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+
+        term := and(0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff,term)
+        switch lt(maxValue, term)
+        case 1 {
+          maxValue := term
         }
       }
     }
@@ -75,6 +299,34 @@ library ArrayUtilsLib {
     }
   }  
 
+  function getMin(uint128[] storage self) constant returns(uint128 minValue) {
+    uint256 term;
+    assembly { 
+      mstore(0x60,self_slot)
+
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        term := sload(add(sha3(0x60,0x20),div(i,2)))
+
+        switch mod(i,2)
+        case 1 {
+          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
+            term := div(term,4294967296)
+          }
+        }
+
+        term := and(0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff,term)
+        switch eq(i,0)
+        case 1 {
+          minValue := term
+        }
+        switch gt(minValue, term)
+        case 1 {
+          minValue := term
+        }
+      }
+    }
+  }
+
   /// @dev Finds the index of a given value in an array
   /// @param self Storage array containing uint256 type variables
   /// @param value The value to search for
@@ -94,18 +346,19 @@ library ArrayUtilsLib {
           mid := div(add(low,high),2)
           
           switch lt(sload(add(sha3(0x60,0x20),mid)),value)
-          case 1 {    
-            low := add(mid,1)
+          case 1 {  
+             low := add(mid,1)
           }  
           case 0 {
-            switch eq(sload(add(sha3(0x60,0x20),mid)),value)
+            switch gt(sload(add(sha3(0x60,0x20),mid)),value)
             case 1 {
-              found := 1
-              index := mid
-            }
-            case 0 {
               high := sub(mid,1)
             }
+            case 0 {
+              found := 1
+              index := mid
+              low := add(high,1) 
+            }                       
           }
         }          
       }
@@ -204,10 +457,10 @@ library ArrayUtilsLib {
   /// @param self Storage array containing uint256 type variables
   /// @param n The number of elements to return
   /// @return result the array of elements returned. 
-  /*function first(uint256[] storage self, uint256 n) constant returns (uint256[] result) {
+  /*function first(uint256[] storage self, uint256[] result, uint256 n) constant {
     
     for (uint256 i = 0; ((i<n) && (i<self.length)); i++) {
-      result.push(self[i]);
+      result[i] = self[i];
     }
   }
 
@@ -218,7 +471,7 @@ library ArrayUtilsLib {
   function last(uint256[] storage self, uint256 n) constant returns (uint256[] result) {
 
     for (uint256 i = self.length-n; ((i >= 0) && (i < self.length-1)); i++) {
-      result.push(self[i-(self.length-n)]);
+      result[i] = self[i-(self.length-n)];
     }
   }*/
 }
