@@ -126,7 +126,7 @@ contract ArrayUtilsTestContract {
     array8.push(6);
     array8.push(3);
 
-    //return array8.sumElements();
+    return array8.sumElements();
   }
 
   function getGetMaxMiddle128() returns (uint128){
@@ -140,6 +140,50 @@ contract ArrayUtilsTestContract {
     return array128.getMax();
   }
 
+  function getGetMaxMiddle64() returns (uint64){
+    delete array64;
+    array64.push(2);
+    array64.push(29588);
+    array64.push(0);
+    array64.push(0xff);
+
+
+    return array64.getMax();
+  }
+
+  function getGetMaxMiddle32() returns (uint32){
+    delete array32;
+    array32.push(2);
+    array32.push(29588);
+    array32.push(0);
+    array32.push(0xff);
+
+
+    return array32.getMax();
+  }
+
+  function getGetMaxMiddle16() returns (uint16){
+    delete array16;
+    array16.push(2);
+    array16.push(29588);
+    array16.push(0);
+    array16.push(0xff);
+
+
+    return array16.getMax();
+  }
+
+  function getGetMaxMiddle8() returns (uint8){
+    delete array8;
+    array8.push(2);
+    array8.push(29);
+    array8.push(152);
+    array8.push(0xf);
+
+
+    return array8.getMax();
+  }
+
   function getGetMinMiddle128() returns (uint128){
     delete array128;
     array128.push(1058939);
@@ -149,7 +193,43 @@ contract ArrayUtilsTestContract {
     return array128.getMin();
   }
 
-  /*function getSortedIndexOf128(uint128 value) returns (bool,uint256){
+  function getGetMinMiddle64() returns (uint64){
+    delete array64;
+    array64.push(1058939);
+    array64.push(73);
+    array64.push(17);
+    array64.push(0xfffff);
+    return array64.getMin();
+  }
+
+  function getGetMinMiddle32() returns (uint32){
+    delete array32;
+    array32.push(1058939);
+    array32.push(73);
+    array32.push(17);
+    array32.push(0xfffff);
+    return array32.getMin();
+  }
+
+  function getGetMinMiddle16() returns (uint16){
+    delete array16;
+    array16.push(10589);
+    array16.push(73);
+    array16.push(17);
+    array16.push(0xffff);
+    return array16.getMin();
+  }
+
+  function getGetMinMiddle8() returns (uint8){
+    delete array8;
+    array8.push(105);
+    array8.push(73);
+    array8.push(17);
+    array8.push(0xff);
+    return array8.getMin();
+  }
+
+  function getSortedIndexOf128(uint128 value) returns (bool,uint128){
     delete array128;
     array128.push(1);
     array128.push(3);
@@ -181,7 +261,7 @@ contract ArrayUtilsTestContract {
     array128.push(9);
     array128.push(1095);
     return array128.indexOf(value,isSorted);
-  }*/
+  }
 
   function getHeapSort() returns (uint256[10] memory r){
     delete array256;

@@ -54,6 +54,26 @@ contract TestArrayUtilsLib{
     result = instance.getGetMaxMiddle128();
 
     Assert.equal(result,expected,"The getMax128 function should return the max value in an array where the max is in the middle of the array");
+
+    expected = 29588;
+    result = instance.getGetMaxMiddle64();
+
+    Assert.equal(result,expected,"The getMax64 function should return the max value in an array where the max is in the middle of the array");
+
+    expected = 29588;
+    result = instance.getGetMaxMiddle32();
+
+    Assert.equal(result,expected,"The getMax32 function should return the max value in an array where the max is in the middle of the array");
+
+    expected = 29588;
+    result = instance.getGetMaxMiddle16();
+
+    Assert.equal(result,expected,"The getMax16 function should return the max value in an array where the max is in the middle of the array");
+
+    expected = 152;
+    result = instance.getGetMaxMiddle8();
+
+    Assert.equal(result,expected,"The getMax8 function should return the max value in an array where the max is in the middle of the array");
   }
 
   function testGetMinFunction() {
@@ -66,6 +86,22 @@ contract TestArrayUtilsLib{
     result = instance.getGetMinMiddle128();
 
     Assert.equal(result,expected,"The getMin128 function should return the min value in an array where the min is in the middle of the array");
+
+    result = instance.getGetMinMiddle64();
+
+    Assert.equal(result,expected,"The getMin64 function should return the min value in an array where the min is in the middle of the array");
+
+    result = instance.getGetMinMiddle32();
+
+    Assert.equal(result,expected,"The getMin32 function should return the min value in an array where the min is in the middle of the array");
+
+    result = instance.getGetMinMiddle16();
+
+    Assert.equal(result,expected,"The getMin16 function should return the min value in an array where the min is in the middle of the array");
+
+    result = instance.getGetMinMiddle8();
+
+    Assert.equal(result,expected,"The getMin8 function should return the min value in an array where the min is in the middle of the array");
   }
 
   function testSortedIndexOfFunction(){
@@ -92,6 +128,12 @@ contract TestArrayUtilsLib{
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index 0 of the given value");
+
+    expected = 4;
+    (bResult, result) = instance.getSortedIndexOf128(8);
+
+    Assert.isTrue(bResult,"The indexOf128 function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf128 function should return the index 4 of the given value");
   }
 
   function testUnsortedIndexOfFunction() {
@@ -112,6 +154,11 @@ contract TestArrayUtilsLib{
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index of the given value");
+
+    (bResult, result) = instance.getUnsortedIndexOf128(1095);
+
+    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf function should return the index of the given value");
   }
 
   function testNoIndexOfFunction() {
@@ -123,6 +170,11 @@ contract TestArrayUtilsLib{
 
     expected = 0;
     (bResult, result) = instance.getNoIndexOf256(39482,false);
+
+    Assert.isFalse(bResult,"The indexOf function should return false if array does not contain value");
+    Assert.equal(result,expected,"The indexOf function should return 0 if array does not contain value");
+
+    (bResult, result) = instance.getNoIndexOf128(39482,false);
 
     Assert.isFalse(bResult,"The indexOf function should return false if array does not contain value");
     Assert.equal(result,expected,"The indexOf function should return 0 if array does not contain value");
