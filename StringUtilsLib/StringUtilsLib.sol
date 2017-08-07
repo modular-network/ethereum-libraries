@@ -734,4 +734,32 @@ library StringUtilsLib {
 
         return ret;
     }
+
+    /*
+    *
+    *
+    *
+    *
+    */
+
+    /*function toLowercase(slice self) internal constant returns (slice) {
+        selfptr = self._ptr;
+
+        for (uint i = 0; i < self._len; i++) {
+            assembly {
+                switch gt(mload(add(selfptr),i),0x40)
+                case 1 {
+                    switch lt(mload(add(selfptr),i),0x5B)
+                    case 1 {
+                        mstore(add(selfptr,i), add(mload(add(selfptr,i)),0x20))
+                    }
+                }
+            }
+
+            /*if (uint8(a[i]) >= 0x41 && uint8(a[i]) <= 0x5A) {
+                a[i] = byte(uint8(a[i]) + 0x20);
+            }
+        }
+        return self;
+    }*/
 }

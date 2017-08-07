@@ -1303,7 +1303,7 @@ library ArrayUtilsLib {
   }
 
   function indexOf(uint128[] storage self, uint128 value, bool isSorted) constant
-           returns(bool found, uint128 index) {
+           returns(bool found, uint256 index) {
     uint256 term;
     assembly{
       mstore(0x60,self_slot)
@@ -1360,6 +1360,122 @@ library ArrayUtilsLib {
             index := i
             i := sload(self_slot)
           }
+        }
+      }
+    }
+  }
+
+  function indexOf(uint64[] storage self, uint64 value, bool isSorted) constant
+           returns(bool found, uint256 index) {
+    if (isSorted) {
+        uint256 high = self.length - 1;
+        uint256 mid = 0;
+        uint256 low = 0;
+        while (low <= high) {
+          mid = (low+high)/2;
+          if (self[mid] == value) {
+            found = true;
+            index = mid;
+            low = high + 1;
+          } else if (self[mid] < value) {
+            low = mid + 1;
+          } else {
+            high = mid - 1;
+          }
+        }
+    } else {
+      for (uint256 i = 0; i<self.length; i++) {
+        if (self[i] == value) {
+          found = true;
+          index = i;
+          i = self.length;
+        }
+      }
+    }
+  }
+
+  function indexOf(uint32[] storage self, uint32 value, bool isSorted) constant
+           returns(bool found, uint256 index) {
+    if (isSorted) {
+        uint256 high = self.length - 1;
+        uint256 mid = 0;
+        uint256 low = 0;
+        while (low <= high) {
+          mid = (low+high)/2;
+          if (self[mid] == value) {
+            found = true;
+            index = mid;
+            low = high + 1;
+          } else if (self[mid] < value) {
+            low = mid + 1;
+          } else {
+            high = mid - 1;
+          }
+        }
+    } else {
+      for (uint256 i = 0; i<self.length; i++) {
+        if (self[i] == value) {
+          found = true;
+          index = i;
+          i = self.length;
+        }
+      }
+    }
+  }
+
+  function indexOf(uint16[] storage self, uint16 value, bool isSorted) constant
+           returns(bool found, uint256 index) {
+    if (isSorted) {
+        uint256 high = self.length - 1;
+        uint256 mid = 0;
+        uint256 low = 0;
+        while (low <= high) {
+          mid = (low+high)/2;
+          if (self[mid] == value) {
+            found = true;
+            index = mid;
+            low = high + 1;
+          } else if (self[mid] < value) {
+            low = mid + 1;
+          } else {
+            high = mid - 1;
+          }
+        }
+    } else {
+      for (uint256 i = 0; i<self.length; i++) {
+        if (self[i] == value) {
+          found = true;
+          index = i;
+          i = self.length;
+        }
+      }
+    }
+  }
+
+  function indexOf(uint8[] storage self, uint8 value, bool isSorted) constant
+           returns(bool found, uint256 index) {
+    if (isSorted) {
+        uint256 high = self.length - 1;
+        uint256 mid = 0;
+        uint256 low = 0;
+        while (low <= high) {
+          mid = (low+high)/2;
+          if (self[mid] == value) {
+            found = true;
+            index = mid;
+            low = high + 1;
+          } else if (self[mid] < value) {
+            low = mid + 1;
+          } else {
+            high = mid - 1;
+          }
+        }
+    } else {
+      for (uint256 i = 0; i<self.length; i++) {
+        if (self[i] == value) {
+          found = true;
+          index = i;
+          i = self.length;
         }
       }
     }
@@ -1443,4 +1559,303 @@ library ArrayUtilsLib {
     }
   }
 
+  function heapSort(uint128[] storage self) {
+    uint256 end = self.length - 1;
+    uint256 start = getParentI(end);
+    uint256 root = start;
+    uint256 lChild;
+    uint256 rChild;
+    uint256 swap;
+    uint128 temp;
+    while(start >= 0){
+      root = start;
+      lChild = getLeftChildI(start);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end+1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+      if(start == 0)
+        break;
+      else
+        start = start - 1;
+    }
+    while(end > 0){
+      temp = self[end];
+      self[end] = self[0];
+      self[0] = temp;
+      end = end - 1;
+      root = 0;
+      lChild = getLeftChildI(0);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end + 1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+    }
+  }
+
+  function heapSort(uint64[] storage self) {
+    uint256 end = self.length - 1;
+    uint256 start = getParentI(end);
+    uint256 root = start;
+    uint256 lChild;
+    uint256 rChild;
+    uint256 swap;
+    uint64 temp;
+    while(start >= 0){
+      root = start;
+      lChild = getLeftChildI(start);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end+1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+      if(start == 0)
+        break;
+      else
+        start = start - 1;
+    }
+    while(end > 0){
+      temp = self[end];
+      self[end] = self[0];
+      self[0] = temp;
+      end = end - 1;
+      root = 0;
+      lChild = getLeftChildI(0);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end + 1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+    }
+  }
+
+  function heapSort(uint32[] storage self) {
+    uint256 end = self.length - 1;
+    uint256 start = getParentI(end);
+    uint256 root = start;
+    uint256 lChild;
+    uint256 rChild;
+    uint256 swap;
+    uint32 temp;
+    while(start >= 0){
+      root = start;
+      lChild = getLeftChildI(start);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end+1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+      if(start == 0)
+        break;
+      else
+        start = start - 1;
+    }
+    while(end > 0){
+      temp = self[end];
+      self[end] = self[0];
+      self[0] = temp;
+      end = end - 1;
+      root = 0;
+      lChild = getLeftChildI(0);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end + 1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+    }
+  }
+
+  function heapSort(uint16[] storage self) {
+    uint256 end = self.length - 1;
+    uint256 start = getParentI(end);
+    uint256 root = start;
+    uint256 lChild;
+    uint256 rChild;
+    uint256 swap;
+    uint16 temp;
+    while(start >= 0){
+      root = start;
+      lChild = getLeftChildI(start);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end+1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+      if(start == 0)
+        break;
+      else
+        start = start - 1;
+    }
+    while(end > 0){
+      temp = self[end];
+      self[end] = self[0];
+      self[0] = temp;
+      end = end - 1;
+      root = 0;
+      lChild = getLeftChildI(0);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end + 1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+    }
+  }
+
+  function heapSort(uint8[] storage self) {
+    uint256 end = self.length - 1;
+    uint256 start = getParentI(end);
+    uint256 root = start;
+    uint256 lChild;
+    uint256 rChild;
+    uint256 swap;
+    uint8 temp;
+    while(start >= 0){
+      root = start;
+      lChild = getLeftChildI(start);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end+1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+      if(start == 0)
+        break;
+      else
+        start = start - 1;
+    }
+    while(end > 0){
+      temp = self[end];
+      self[end] = self[0];
+      self[0] = temp;
+      end = end - 1;
+      root = 0;
+      lChild = getLeftChildI(0);
+      while(lChild <= end){
+        rChild = lChild + 1;
+        swap = root;
+        if(self[swap] < self[lChild])
+          swap = lChild;
+        if((rChild <= end) && (self[swap]<self[rChild]))
+          swap = rChild;
+        if(swap == root)
+          lChild = end + 1;
+        else {
+          temp = self[swap];
+          self[swap] = self[root];
+          self[root] = temp;
+          root = swap;
+          lChild = getLeftChildI(root);
+        }
+      }
+    }
+  }
 }

@@ -1,0 +1,8 @@
+{
+  "contract_name": "StringUtilsLib",
+  "abi": [],
+  "unlinked_binary": "0x60606040523415600e57600080fd5b5b603680601c6000396000f30060606040525b600080fd00a165627a7a723058205d3ca29381673fc0a5d88244c60ac8d49cf7666ab58b05411bb13d7acaf076140029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1502069590956
+}

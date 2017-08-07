@@ -31,17 +31,9 @@ contract TestArrayUtilsLib{
 
       Assert.equal(result,expected,"The sumElements64 function should add all array elements together and return the sum.");
 
-      result = instance.getSumElements32();
+      result = instance.getSumElements8();
 
-      Assert.equal(result,expected,"The sumElements32 function should add all array elements together and return the sum.");
-
-      result = instance.getSumElements16();
-
-      Assert.equal(result,expected,"The sumElements16 function should add all array elements together and return the sum.");
-
-      //result = instance.getSumElements8();
-
-      //Assert.equal(result,expected,"The sumElements8 function should add all array elements together and return the sum.");
+      Assert.equal(result,expected,"The sumElements8 function should add all array elements together and return the sum.");
   }
 
   function testGetMaxFunction() {
@@ -59,16 +51,6 @@ contract TestArrayUtilsLib{
     result = instance.getGetMaxMiddle64();
 
     Assert.equal(result,expected,"The getMax64 function should return the max value in an array where the max is in the middle of the array");
-
-    expected = 29588;
-    result = instance.getGetMaxMiddle32();
-
-    Assert.equal(result,expected,"The getMax32 function should return the max value in an array where the max is in the middle of the array");
-
-    expected = 29588;
-    result = instance.getGetMaxMiddle16();
-
-    Assert.equal(result,expected,"The getMax16 function should return the max value in an array where the max is in the middle of the array");
 
     expected = 152;
     result = instance.getGetMaxMiddle8();
@@ -91,26 +73,12 @@ contract TestArrayUtilsLib{
 
     Assert.equal(result,expected,"The getMin64 function should return the min value in an array where the min is in the middle of the array");
 
-    result = instance.getGetMinMiddle32();
-
-    Assert.equal(result,expected,"The getMin32 function should return the min value in an array where the min is in the middle of the array");
-
-    result = instance.getGetMinMiddle16();
-
-    Assert.equal(result,expected,"The getMin16 function should return the min value in an array where the min is in the middle of the array");
-
     result = instance.getGetMinMiddle8();
 
     Assert.equal(result,expected,"The getMin8 function should return the min value in an array where the min is in the middle of the array");
   }
 
   function testSortedIndexOfFunction(){
-    expected = 3;
-    (bResult, result) = instance.getSortedIndexOf256(7);
-
-    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
-    Assert.equal(result,expected,"The indexOf function should return the index 3 of the given value");
-
     expected = 1;
     (bResult, result) = instance.getSortedIndexOf256(3);
 
@@ -129,11 +97,21 @@ contract TestArrayUtilsLib{
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index 0 of the given value");
 
-    expected = 4;
-    (bResult, result) = instance.getSortedIndexOf128(8);
 
-    Assert.isTrue(bResult,"The indexOf128 function should return true if array contains value");
-    Assert.equal(result,expected,"The indexOf128 function should return the index 4 of the given value");
+
+    /*for (uint128 i = 0; i < 4; i++) {
+      expected = i;
+      (bResult, result) = instance.getSortedIndexOf128(i);
+
+      Assert.isTrue(bResult,"The indexOf128 function should return true if array contains value");
+      Assert.equal(result,expected,"The indexOf128 function should return the index 4 of the given value");
+    }
+
+    expected = 4;
+    (bResult, result) = instance.getSortedIndexOf64(4);
+
+    Assert.isTrue(bResult,"The indexOf64 function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf64 function should return the index 4 of the given value");*/
   }
 
   function testUnsortedIndexOfFunction() {
@@ -155,10 +133,10 @@ contract TestArrayUtilsLib{
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index of the given value");
 
-    (bResult, result) = instance.getUnsortedIndexOf128(1095);
+    (bResult, result) = instance.getUnsortedIndexOf64(1095);
 
-    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
-    Assert.equal(result,expected,"The indexOf function should return the index of the given value");
+    Assert.isTrue(bResult,"The indexOf64 function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf64 function should return the index of the given value");
   }
 
   function testNoIndexOfFunction() {
@@ -174,10 +152,10 @@ contract TestArrayUtilsLib{
     Assert.isFalse(bResult,"The indexOf function should return false if array does not contain value");
     Assert.equal(result,expected,"The indexOf function should return 0 if array does not contain value");
 
-    (bResult, result) = instance.getNoIndexOf128(39482,false);
+    (bResult, result) = instance.getNoIndexOf64(39482,false);
 
-    Assert.isFalse(bResult,"The indexOf function should return false if array does not contain value");
-    Assert.equal(result,expected,"The indexOf function should return 0 if array does not contain value");
+    Assert.isFalse(bResult,"The indexOf64 function should return false if array does not contain value");
+    Assert.equal(result,expected,"The indexOf64 function should return 0 if array does not contain value");
   }
 
   function testHeapSortFunction(){
@@ -191,9 +169,14 @@ contract TestArrayUtilsLib{
     expectedArray.push(9);
     expectedArray.push(1095);
     expectedArray.push(0xff3);
-    uint[10] memory r;
-    r = instance.getHeapSort();
-    resultArray = r;
+    uint[10] memory r1;
+    r1 = instance.getHeapSort256();
+    resultArray = r1;
+    Assert.equal(resultArray, expectedArray, "heapSort");
+  
+    uint64[10] memory r2;
+    r2 = instance.getHeapSort64();
+    resultArray = r2;
     Assert.equal(resultArray, expectedArray, "heapSort");
   }
 

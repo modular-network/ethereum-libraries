@@ -734,4 +734,52 @@ library StringUtilsLib {
 
         return ret;
     }
+
+    /*
+    *
+    *
+    *
+    *
+    */
+
+    function toLowercase(slice self) internal returns (slice) {
+        uint256 selfptr = self._ptr;
+        uint256 selflen = self._len;
+
+        bytes32 term;
+        bytes32 str;
+        uint256 operator;
+
+        for (uint i = 0; i <= selflen/32; i++) {
+            assembly {
+                str := mload(add(selfptr,div(i,32)))
+            }
+            for (uint j = 0; j < 32; j++) {
+                operator = 2 ** (32 - j);
+                assembly {                   
+                    term := and(div(str,operator),0x00000000000000000000000000000000000000000000000000000000000000ff)
+                }
+
+
+                if (term >= 0x41 && term <= 0x5A) {
+                    assembly {
+                        str := or(and(str,not(mul(0x00000000000000000000000000000000000000000000000000000000000000ff,operator))),mul(add(term,0x20),operator))
+                    }
+                }   
+            }
+            assembly {
+                mstore(add(selfptr,div(i,32)),str)
+            }
+
+
+        }
+
+        /*divide = 2 ** 32;
+        assembly {
+            str := and(mload(add(selfptr,0)),0x00000000000000000000000000000000000000000000000000000000000000ff)
+            //term := 0x00000000000000000000000000000000000000000000000000000000000000ff
+            mstore(selfptr,str)
+        }*/
+        return self;
+    }
 }

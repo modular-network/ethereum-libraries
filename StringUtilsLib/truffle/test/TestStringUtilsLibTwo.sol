@@ -9,6 +9,8 @@ contract TestStringUtilsLibTwo {
 	StringUtilsLib.slice tSliceOne;
 	StringUtilsLib.slice tSliceTwo;
 
+	event Print(string message, bytes32 data);
+
 	function testUntil() {
 		tSliceOne = "My English teacher wanted".toSlice();
 		tSliceTwo = " wanted".toSlice();
@@ -127,6 +129,23 @@ contract TestStringUtilsLibTwo {
 		str = tSliceOne.join(parts);
 
 		Assert.equal(str,"All done with this!","The function should join parts using a space.");
+	}
+
+	function testlowercaseString() {
+		tSliceOne = "UPPERCaseeeeeeeeeeeeeeeeeeeeeeee".toSlice();
+		bytes32 testptr = bytes32(tSliceOne._ptr);
+		bytes32 teststr;
+
+		assembly {
+			teststr := mload(testptr)
+		}
+		
+
+		string memory str = tSliceOne.toLowercase().toString();
+
+		Print(str, teststr);
+
+		Assert.equal(str,"uppercase", "The function should change the string to lowercase");
 	}
 
 }
