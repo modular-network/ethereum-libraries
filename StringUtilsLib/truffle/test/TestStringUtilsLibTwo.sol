@@ -131,21 +131,4 @@ contract TestStringUtilsLibTwo {
 		Assert.equal(str,"All done with this!","The function should join parts using a space.");
 	}
 
-	function testlowercaseString() {
-		tSliceOne = "UPPERCaseeeeeeeeeeeeeeeeeeeeeeee".toSlice();
-		bytes32 testptr = bytes32(tSliceOne._ptr);
-		bytes32 teststr;
-
-		assembly {
-			teststr := mload(testptr)
-		}
-		
-
-		string memory str = tSliceOne.toLowercase().toString();
-
-		Print(str, teststr);
-
-		Assert.equal(str,"uppercase", "The function should change the string to lowercase");
-	}
-
 }
