@@ -4,7 +4,7 @@ pragma solidity ^0.4.13;
  * @title String & slice utility library for Solidity contracts.
  * @author Nick Johnson <arachnid@notdot.net>
  *
- * version 1.0.0
+ * version 1.1.0
  * Copyright 2016 Nick Johnson
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@ pragma solidity ^0.4.13;
  *
  * This utility library was forked from https://github.com/Arachnid/solidity-stringutils
  * into the Majoolr ethereum-libraries repo at https://github.com/Majoolr/ethereum-libraries
- * with permission.
+ * with permission. It has been updated by Joshua Hannan to be more compatible
+ * with solidity 0.4.13 coding patterns.
  *
  * Majoolr works on open source projects in the Ethereum community with the
  * purpose of testing, documenting, and deploying reusable code onto the
@@ -495,13 +496,22 @@ library StringUtilsLib {
                     let mask := not(sub(exp(2, mul(8, sub(32, needlelen))), 1))
                     let needledata := and(mload(needleptr), mask)
                     let end := add(selfptr, sub(selflen, needlelen))
-                    ptr := selfptr
-                    loop:
-                    jumpi(exit, eq(and(mload(ptr), mask), needledata))
-                    ptr := add(ptr, 1)
-                    jumpi(loop, lt(sub(ptr, 1), end))
-                    ptr := add(selfptr, selflen)
-                    exit:
+                    let loop := selfptr
+
+                    for { } lt(loop, end) { } {
+                        switch eq(and(mload(loop), mask), needledata)
+                        case 1 {
+                            ptr := loop
+                            loop := end
+                        }
+                        case 0 {
+                            loop := add(loop,1)
+                        }
+                    }
+                    switch eq(and(mload(ptr), mask), needledata)
+                    case 0 {
+                        ptr := add(selfptr, selflen)
+                    }
                 }
                 return ptr;
             } else {
@@ -532,16 +542,25 @@ library StringUtilsLib {
                 assembly {
                     let mask := not(sub(exp(2, mul(8, sub(32, needlelen))), 1))
                     let needledata := and(mload(needleptr), mask)
-                    ptr := add(selfptr, sub(selflen, needlelen))
-                    loop:
-                    jumpi(ret, eq(and(mload(ptr), mask), needledata))
-                    ptr := sub(ptr, 1)
-                    jumpi(loop, gt(add(ptr, 1), selfptr))
-                    ptr := selfptr
-                    jump(exit)
-                    ret:
-                    ptr := add(ptr, needlelen)
-                    exit:
+                    let loop := add(selfptr, sub(selflen, needlelen))
+
+                    for { } gt(loop, selfptr) { } {
+                        switch eq(and(mload(loop), mask), needledata)
+                        case 1 {
+                            ptr := loop
+                            loop := selfptr
+                        }
+                        case 0 {
+                            loop := sub(loop,1)
+                        }
+                    }
+                    switch eq(and(mload(ptr), mask), needledata)
+                    case 1 {
+                        ptr := add(ptr, needlelen)
+                    }
+                    case 0 {
+                        ptr := selfptr
+                    }
                 }
                 return ptr;
             } else {
@@ -734,4 +753,5 @@ library StringUtilsLib {
 
         return ret;
     }
+
 }

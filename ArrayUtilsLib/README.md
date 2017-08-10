@@ -1,16 +1,24 @@
-ArrayUtilsLib
+Array Utility Libraries
 =========================
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
 [![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
 
-An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") .
+An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") .   
+
+*Note: Each uint array type now has its own library thanks to Joshua Hannan's help. If your storage array contains uint16[] types, for instance, then you would link to the Array16Lib.sol library. This README uses the Array256Lib for all examples.*
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Library Address](#library-address)
+- [Library Addresses](#library-addresses)
+  - [Array256Lib](#array256lib)
+  - [Array128Lib](#array128lib)
+  - [Array64Lib](#array64lib)
+  - [Array32Lib](#array32lib)
+  - [Array16Lib](#array16lib)
+  - [Array8Lib](#array8lib)
 - [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
   - [Truffle Installation](#truffle-installation)
@@ -34,20 +42,54 @@ An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoo
   - [getMax(uint256[] storage self) constant returns(uint256 maxValue)](#getmaxuint256-storage-self-constant-returnsuint256-maxvalue)
     - [Arguments](#arguments-1)
     - [Returns](#returns-1)
-  - [indexOf(uint256[] storage self, uint256 value, bool isSorted) constant](#indexofuint256-storage-self-uint256-value-bool-issorted-constant)
+  - [getMin(uint256[] storage self) constant returns(uint256 minValue)](#getminuint256-storage-self-constant-returnsuint256-minvalue)
     - [Arguments](#arguments-2)
     - [Returns](#returns-2)
-  - [heapSort(uint256[] storage self)](#heapsortuint256-storage-self)
+  - [indexOf(uint256[] storage self, uint256 value, bool isSorted) constant](#indexofuint256-storage-self-uint256-value-bool-issorted-constant)
     - [Arguments](#arguments-3)
+    - [Returns](#returns-3)
+  - [heapSort(uint256[] storage self)](#heapsortuint256-storage-self)
+    - [Arguments](#arguments-4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Library Address
+## Library Addresses
 
-**ENS**: ArrayUtilsLib.majoolr.eth   
-**Main Ethereum Network**: 0x90bacf482bd59c7f1a829b6b3923a4caa4dd7545   
-**Rinkeby Test Network**: 0xe39ef6c2f7b1d7de8156e32942d1b32c70beae68   
-**Ropsten Test Network**: 0x3e24231c4ec98c0d46642f8e14bb2122400c48d3    
+### Array256Lib   
+**ENS**: Array256Lib.majoolr.eth   
+**Main Ethereum Network**: 0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247   
+**Rinkeby Test Network**: 0xbc3216a0a455a66acdfb5bb3394499ce91f922a0   
+**Ropsten Test Network**: 0x7424a30199a76d085277c58e38b5b5375fb9bff8    
+
+### Array128Lib   
+**ENS**: Array128Lib.majoolr.eth   
+**Main Ethereum Network**: 0xc78c0c443c84518ec6a14e63a994b329ac19024d   
+**Rinkeby Test Network**: 0x3992e42d28f407e0447fc072d61a18d985f9d7f6   
+**Ropsten Test Network**: 0xcb4092d7c9e942511b9f4ec508ffccc5018775a5    
+
+### Array64Lib   
+**ENS**: Array64Lib.majoolr.eth   
+**Main Ethereum Network**: 0x5aceb3732891236fa650f6ac0fc54ad6a62721d7   
+**Rinkeby Test Network**: 0x76eaa211356fccfb7d4145655871ba7e9ea09d18   
+**Ropsten Test Network**: 0x5cc626a7beee0ab35ebdf3a5b03f0b0a996aa981    
+
+### Array32Lib   
+**ENS**: Array32Lib.majoolr.eth   
+**Main Ethereum Network**: 0xd013b100aa17fbc70be8ced563a49feaacc5fd1d   
+**Rinkeby Test Network**: 0x60b46cf2b2f4eab3bc62b2a1bf32f2e0bddd026e   
+**Ropsten Test Network**: 0x1252909f34f6d947f065f43c2cdd562c94ce876c    
+
+### Array16Lib   
+**ENS**: Array16Lib.majoolr.eth   
+**Main Ethereum Network**: 0x2c61c117b2fb8a481a6936ad7015717b6a9c6ba1   
+**Rinkeby Test Network**: 0xe883e1ce1ca062d81697a10f9bb1b880c3e5563c   
+**Ropsten Test Network**: 0xfb82af7c5c72a412990ed3cff53fa3b3fdc68db5    
+
+### Array8Lib   
+**ENS**: Array8Lib.majoolr.eth   
+**Main Ethereum Network**: 0xf1da7827c3bb76e9cddfa2d6077695e550f121d7   
+**Rinkeby Test Network**: 0xb01497c19cfcae1b30e7dbcd820f9e278eb9a639   
+**Ropsten Test Network**: 0xb16d12469c89aaccaea09bc28160ab80674d575a    
 
 ## License and Warranty
 
@@ -67,7 +109,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### Truffle Installation
 
-**version 3.3.0**
+**version 3.4.6**
 
 First install truffle via npm using `npm install -g truffle` .
 
@@ -77,24 +119,24 @@ Please [visit Truffle's installation guide](http://truffleframework.com/docs/get
 
 This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development.
 
-1. Place the ArrayUtilsLib.sol file in your truffle `contracts/` directory.
-2. Place the ArrayUtilsLib.json file in your truffle `build/contracts/` directory.
+1. Place the Array256Lib.sol file in your truffle `contracts/` directory.
+2. Place the Array256Lib.json file in your truffle `build/contracts/` directory.
 3. Amend the deployment .js file in your truffle `migrations/` directory as follows:
 
 ```js
-var ArrayUtilsLib = artifacts.require("./ArrayUtilsLib.sol");
+var Array256Lib = artifacts.require("./Array256Lib.sol");
 var OtherLibs = artifacts.require("./OtherLibs.sol");
 var YourOtherContract = artifacts.require("./YourOtherContract.sol");
 ...
 
 module.exports = function(deployer) {
-  deployer.deploy(ArrayUtilsLib, {overwrite: false});
-  deployer.link(ArrayUtilsLib, YourOtherContract);
+  deployer.deploy(Array256Lib, {overwrite: false});
+  deployer.link(Array256Lib, YourOtherContract);
   deployer.deploy(YourOtherContract);
 };
 ```
 
-**Note**: The `.link()` function should be called *before* you `.deploy(YourOtherContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(ArrayUtilsLib, {overwrite: false})`. This prevents deploying the library onto the main network or Rinkeby test network at your cost and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
+**Note**: The `.link()` function should be called *before* you `.deploy(YourOtherContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(Array256Lib, {overwrite: false})`. This prevents deploying the library onto the main network or Rinkeby test network at your cost and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
 
 #### Testing the library in truffle
 
@@ -114,7 +156,7 @@ We were experiencing errors with EthPM deployment and will update this when thos
 
 ### solc Installation
 
-**version 0.4.11**
+**version 0.4.13**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").
 
@@ -131,8 +173,8 @@ For direction and instructions on how the Solidity command line compiler works [
       ...
       ...
     },
-    "ArrayUtilsLib.sol": {
-      "content": "[Contents of ArrayUtilsLib.sol]"
+    "Array256Lib.sol": {
+      "content": "[Contents of Array256Lib.sol]"
     }
   },
   "settings":
@@ -140,7 +182,7 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "ArrayUtilsLib": "0xf44ab905eba847774848c43735c8ec7d0530956f"
+        "Array256Lib": "0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"
       }
     }
   }
@@ -152,11 +194,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "ArrayUtilsLib:0xf44ab905eba847774848c43735c8ec7d0530956f"`
+`--libraries "Array256Lib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"`
 
 Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:
 
-`"ArrayUtilsLib:0xf44ab905eba847774848c43735c8ec7d0530956f"`
+`"Array256Lib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"`
 
 then add the following flag to your command:
 
@@ -164,7 +206,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "ArrayUtilsLib:0xf44ab905eba847774848c43735c8ec7d0530956f"`
+`--libraries "Array256Lib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"`
 
 #### solc documentation
 
@@ -172,7 +214,7 @@ Finally, if you have an unlinked binary already stored with the '__LibraryName__
 
 ### solc-js Installation
 
-**version 0.4.11**
+**version 0.4.13**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.
 
@@ -183,7 +225,7 @@ var solc = require('solc');
 var fs = require('fs');
 
 var file = fs.readFileSync('/path/to/YourContract.sol','utf8');
-var lib = fs.readFileSync('./path/to/ArrayUtilsLib.sol','utf8');
+var lib = fs.readFileSync('./path/to/Array256Lib.sol','utf8');
 
 var input = {
   "language": "Solidity",
@@ -192,7 +234,7 @@ var input = {
     "YourContract.sol": {
       "content": file
     },
-    "ArrayUtilsLib.sol": {
+    "Array256Lib.sol": {
       "content": lib
     }
   },
@@ -201,7 +243,7 @@ var input = {
     ...
     "libraries": {
       "YourContract.sol": {
-        "ArrayUtilsLib": "0xf44ab905eba847774848c43735c8ec7d0530956f"
+        "Array256Lib": "0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"
       }
     }
     ...
@@ -218,7 +260,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'ArrayUtilsLib': '0xf44ab905eba847774848c43735c8ec7d0530956f' });
+ bytecode = solc.linkBytecode(bytecode, { 'Array256Lib': '0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247' });
  ```
 
 #### Solc-js documentation
@@ -234,19 +276,19 @@ For a detailed explanation on how libraries are used please read the following f
    * [Libraries](http://solidity.readthedocs.io/en/develop/contracts.html#libraries)
    * [Using For](http://solidity.readthedocs.io/en/develop/contracts.html#using-for)
 
-The ArrayUtilsLib library provides several utility functions for contracts that contain storage arrays. All of the functions only accept a storage array of uint256 types and either returns a uint256 value or, in the case of heapSort, sorts the given array in place which helps to reduce gas costs because of low memory usage. The library uses inline Assembly for most functions which gives a slight improvement in performance and helps us build competency in the lower level language.
+The Array Utility libraries provide several utility functions for contracts that contain storage arrays. Each library handles the specified uint type and either returns the uint value or, in the case of heapSort, sorts the given array in place which helps to reduce gas costs because of low memory usage.   
 
 When using the `indexOf` function be sure to provide a return tuple and check to ensure the value was found in the array. The function will return 0 as the index if the value was not found. See the usage example below.
 
 ### Usage Example
 
 ```
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
-import "./ArrayUtilsLib.sol";
+import "./Array256Lib.sol";
 
 contract YourContract {
-  using ArrayUtilsLib for uint256[];
+  using Array256Lib for uint256[];
 
   uint256[] array;
 
@@ -281,7 +323,7 @@ All of the functions only accept storage arrays containing uint256 types.
 The following is the list of functions available to use in your smart contract.
 
    ### sumElements(uint256[] storage self) constant returns(uint256 sum)
-   *(ArrayUtilsLib.sol, line 34)*
+   *(Array256Lib.sol, line 34)*
 
    Returns the sum of the array elements
 
@@ -292,7 +334,7 @@ The following is the list of functions available to use in your smart contract.
    *uint256* sum    
 
    ### getMax(uint256[] storage self) constant returns(uint256 maxValue)
-   *(ArrayUtilsLib.sol, line 47)*
+   *(Array256Lib.sol, line 47)*
 
    Returns the maximum value in the given array.
 
@@ -302,9 +344,20 @@ The following is the list of functions available to use in your smart contract.
    #### Returns
    *uint256* maxValue   
 
+   ### getMin(uint256[] storage self) constant returns(uint256 minValue)
+   *(Array256Lib.sol, line 64)*
+
+   Returns the minimum value in the given array.
+
+   #### Arguments
+   *uint256[] storage variable* self   
+
+   #### Returns
+   *uint256* minValue    
+
    ### indexOf(uint256[] storage self, uint256 value, bool isSorted) constant
        returns(bool found, uint256 index)
-   *(ArrayUtilsLib.sol, line 66)*
+   *(Array256Lib.sol, line 84)*
 
    Returns true and the index of the given value if found or false and 0 otherwise
 
@@ -318,7 +371,7 @@ The following is the list of functions available to use in your smart contract.
    *uint256* index    
 
    ### heapSort(uint256[] storage self)
-   *(ArrayUtilsLib.sol, line 118)*
+   *(ArrayUtilsLib.sol, line 144)*
 
    Sorts the given array.
 
