@@ -1,9 +1,19 @@
 pragma solidity ^0.4.13;
 
-import "./ArrayUtilsLib.sol";
+import "./Array256Lib.sol";
+import "./Array128Lib.sol";
+import "./Array64Lib.sol";
+import "./Array32Lib.sol";
+import "./Array16Lib.sol";
+import "./Array8Lib.sol";
 
 contract ArrayUtilsTestContract {
-  using ArrayUtilsLib for *;
+  using Array256Lib for uint256[];
+  using Array128Lib for uint128[];
+  using Array64Lib for uint64[];
+  using Array32Lib for uint32[];
+  using Array16Lib for uint16[];
+  using Array8Lib for uint8[];
 
   uint256[] array256;
   uint128[] array128;

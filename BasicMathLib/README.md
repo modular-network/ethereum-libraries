@@ -46,9 +46,9 @@ A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Gi
 ## Library Address
 
 **ENS**: BasicMathLib.majoolr.eth   
-**Main Ethereum Network**: 0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e   
-**Rinkeby Test Network**: 0x11a69bb2979dbd80ec6f142760c1f7abcad5c9b4   
-**Ropsten Test Network**: 0x59580eaaa928a54c58c27cd83b9fa6aa3cdfadfa
+**Main Ethereum Network**: 0x74453cf53c97437066b1987e364e5d6b54bcaee6   
+**Rinkeby Test Network**: 0x73c983f3b4cf4f06921b5f39291cb532fd5f548c  
+**Ropsten Test Network**: 0xd47c1de4e876b7382fd2d6e536f8e61553773560
 
 ## License and Warranty
 
@@ -68,7 +68,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### Truffle Installation
 
-**version 3.3.0**
+**version 3.4.6**
 
 First install truffle via npm using `npm install -g truffle` .
 
@@ -115,7 +115,7 @@ We were experiencing errors with EthPM deployment and will update this when thos
 
 ### solc Installation
 
-**version 0.4.11**
+**version 0.4.13**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").
 
@@ -141,7 +141,7 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"
+        "BasicMathLib": "0x74453cf53c97437066b1987e364e5d6b54bcaee6"
       }
     }
   }
@@ -153,11 +153,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "BasicMathLib:0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"`
+`--libraries "BasicMathLib:0x74453cf53c97437066b1987e364e5d6b54bcaee6"`
 
 Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:
 
-`"BasicMathLib:0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"`
+`"BasicMathLib:0x74453cf53c97437066b1987e364e5d6b54bcaee6"`
 
 then add the following flag to your command:
 
@@ -165,7 +165,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "BasicMathLib:0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"`
+`--libraries "BasicMathLib:0x74453cf53c97437066b1987e364e5d6b54bcaee6"`
 
 #### solc documentation
 
@@ -173,7 +173,7 @@ Finally, if you have an unlinked binary already stored with the '__LibraryName__
 
 ### solc-js Installation
 
-**version 0.4.11**
+**version 0.4.13**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.
 
@@ -202,7 +202,7 @@ var input = {
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"
+        "BasicMathLib": "0x74453cf53c97437066b1987e364e5d6b54bcaee6"
       }
     }
     ...
@@ -219,7 +219,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'BasicMathLib': '0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e' });
+ bytecode = solc.linkBytecode(bytecode, { 'BasicMathLib': '0x74453cf53c97437066b1987e364e5d6b54bcaee6' });
  ```
 
 #### Solc-js documentation
@@ -256,7 +256,7 @@ In order to use the BasicMathLib library, import it into your contract and then 
 ### Usage Example
 
 ```
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
 import "./BasicMathLib.sol";
 
@@ -290,7 +290,7 @@ but wish to preserve the value, you need to use a temporary variable to hold
 that value until checks pass. Consider the following code:
 
 ```
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
 import "./BasicMathLib.sol";
 
@@ -340,7 +340,7 @@ The following is the list of functions available to use in your smart contract.
    *uint256* number    
 
    ### dividedBy(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 57)*
+   *(BasicMathLib.sol, line 58)*
 
    Divide two numbers. Checks for 0 divisor.
 
@@ -352,7 +352,7 @@ The following is the list of functions available to use in your smart contract.
    *uint256* number   
 
    ### plus(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 75)*
+   *(BasicMathLib.sol, line 77)*
 
    Add two numbers. Checks for overflow.
 
@@ -364,7 +364,7 @@ The following is the list of functions available to use in your smart contract.
    *uint256* number   
 
    ### minus(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 93)*
+   *(BasicMathLib.sol, line 96)*
 
    Subtract two numbers. Checks for underflow.
 

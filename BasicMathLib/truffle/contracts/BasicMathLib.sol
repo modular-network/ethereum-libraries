@@ -1,10 +1,10 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
 /**
  * @title Basic Math Library
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 1.1.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -43,7 +43,7 @@ library BasicMathLib {
       case 0 {
         err := 1
         res := 0
-      }      
+      }
     }
     if (err)
       Err("times func overflow");
@@ -77,7 +77,7 @@ library BasicMathLib {
   function plus(uint256 a, uint256 b) constant returns (bool err, uint256 res) {
     assembly{
       res := add(a,b)
-      switch and(eq(sub(res,b), a), gt(res,b))
+      switch and(eq(sub(res,b), a), or(gt(res,b),eq(res,b)))
       case 0 {
         err := 1
         res := 0

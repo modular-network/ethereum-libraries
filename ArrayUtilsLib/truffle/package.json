@@ -1,6 +1,6 @@
 {
-  "name": "ArrayUtilsLib",
-  "version": "1.0.1",
+  "name": "ArrayUtilityLibraries",
+  "version": "1.0.0",
   "description": "Array utilities library deployed on Ethereum mainnet",
   "devDependencies": {
     "truffle": "^3.4.5",
