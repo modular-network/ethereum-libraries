@@ -9,6 +9,8 @@ contract TestStringUtilsLibTwo {
 	StringUtilsLib.slice tSliceOne;
 	StringUtilsLib.slice tSliceTwo;
 
+	event Print(string message, bytes32 data);
+
 	function testUntil() {
 		tSliceOne = "My English teacher wanted".toSlice();
 		tSliceTwo = " wanted".toSlice();

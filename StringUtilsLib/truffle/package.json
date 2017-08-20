@@ -1,6 +1,6 @@
 {
   "name": "StringUtilsLib",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "String utility library for Ethereum smart contracts",
   "devDependencies": {
     "truffle": "^3.4.5",
