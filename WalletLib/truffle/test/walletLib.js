@@ -1,6 +1,6 @@
 var WalletLibTestContract = artifacts.require("WalletLibTestContract");
 var TestToken = artifacts.require("TestToken");
-var SolidityCoder = require("web3/lib/solidity/coder.js");
+//var SolidityCoder = require("web3/lib/solidity/coder.js");
 
 contract('WalletLibTestContract', function(accounts) {
   it("should properly initialize wallet data", function() {
