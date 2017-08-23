@@ -1,10 +1,10 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
 /**
  * @title Basic Math Library
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 1.1.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -39,10 +39,11 @@ library BasicMathLib {
   function times(uint256 a, uint256 b) constant returns (bool err,uint256 res) {
     assembly{
       res := mul(a,b)
-      jumpi(allGood, or(iszero(b), eq(div(res,b), a)))
-      err := 1
-      res := 0
-      allGood:
+      switch or(iszero(b), eq(div(res,b), a))
+      case 0 {
+        err := 1
+        res := 0
+      }
     }
     if (err)
       Err("times func overflow");
@@ -56,11 +57,12 @@ library BasicMathLib {
   /// @return res The quotient of a and b, or 0 if `b` is 0
   function dividedBy(uint256 a, uint256 b) constant returns (bool err,uint256 res) {
     assembly{
-      jumpi(e, iszero(b))
-      res := div(a,b)
-      mstore(add(mload(0x40),0x20),res)
-      return(mload(0x40),0x40)
-      e:
+      switch iszero(b)
+      case 0 {
+        res := div(a,b)
+        mstore(add(mload(0x40),0x20),res)
+        return(mload(0x40),0x40)
+      }
     }
     Err("tried to divide by zero");
     return (true, 0);
@@ -75,10 +77,11 @@ library BasicMathLib {
   function plus(uint256 a, uint256 b) constant returns (bool err, uint256 res) {
     assembly{
       res := add(a,b)
-      jumpi(allGood, and(eq(sub(res,b), a), gt(res,b)))
-      err := 1
-      res := 0
-      allGood:
+      switch and(eq(sub(res,b), a), or(gt(res,b),eq(res,b)))
+      case 0 {
+        err := 1
+        res := 0
+      }
     }
     if (err)
       Err("plus func overflow");
@@ -93,10 +96,11 @@ library BasicMathLib {
   function minus(uint256 a, uint256 b) constant returns (bool err,uint256 res) {
     assembly{
       res := sub(a,b)
-      jumpi(allGood, eq(and(eq(add(res,b), a), or(lt(res,a), eq(res,a))), 1))
-      err := 1
-      res := 0
-      allGood:
+      switch eq(and(eq(add(res,b), a), or(lt(res,a), eq(res,a))), 1)
+      case 0 {
+        err := 1
+        res := 0
+      }
     }
     if (err)
       Err("minus func underflow");
