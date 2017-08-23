@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.13;
 
 import "./WalletLib.sol";
 
@@ -112,7 +112,7 @@ contract WalletLibTestContract {
   }
 
   /*Tx Execution*/
-  
+
   function serveTx(address _to, uint _value, bytes _txData, bool _confirm) returns (bool,bytes32) {
     return wallet.serveTx(_to, _value, _txData, _confirm, msg.data);
   }

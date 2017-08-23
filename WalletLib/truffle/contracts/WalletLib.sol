@@ -1,5 +1,33 @@
 pragma solidity 0.4.13;
 
+/**
+ * @title Wallet Library
+ * @author Majoolr.io
+ *
+ * version 1.0.0
+ * Copyright (c) 2017 Majoolr, LLC
+ * The MIT License (MIT)
+ * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ *
+ * The Wallet Library is inspired by the multisig wallets built by Consensys
+ * at https://github.com/ConsenSys/MultiSigWallet and Parity at
+ * https://github.com/paritytech/contracts/blob/master/Wallet.sol with added
+ * functionality. Majoolr works on open source projects in the Ethereum
+ * community with the purpose of testing, documenting, and deploying reusable
+ * code onto the blockchain to improve security and usability of smart contracts.
+ * Majoolr also strives to educate non-profits, schools, and other community
+ * members about the application of blockchain technology. For further
+ * information: majoolr.io, consensys.net, paritytech.io
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 import "./Array256Lib.sol";
 import "./BasicMathLib.sol";
 
@@ -298,92 +326,6 @@ library WalletLib {
     LogContractCreated(_newContract, _value);
   }
 
-  /*Confirm/Revoke functions using tx ID*/
-
-  /// @dev Revokes a prior confirmation from sender, call with tx ID
-  /// @param self Wallet in contract storage
-  /// @param _id ID of the transaction
-  /// @return Returns true if successful, false otherwise
-  function revokeConfirm(WalletData storage self, bytes32 _id)
-           returns (bool)
-  {
-    require(self.ownerIndex[msg.sender] > 0);
-    uint _number = self.transactionInfo[_id].length;
-
-    if(_number == 0){
-      LogErrMsg("Tx not initiated");
-      LogTransactionFailed(_id, msg.sender);
-      return false;
-    }
-
-    _number--;
-    if(self.transactionInfo[_id][_number].success){
-      LogErrMsg("Transaction already complete");
-      LogTransactionFailed(_id, msg.sender);
-      return false;
-    }
-
-    //Function from Majoolr.io array utility library
-    bool found;
-    uint index;
-    (found, index) = self.transactionInfo[_id][_number].confirmedOwners.indexOf(uint(msg.sender), false);
-    if(!found){
-      LogErrMsg("Owner has not confirmed tx");
-      LogTransactionFailed(_id, msg.sender);
-      return false;
-    }
-    self.transactionInfo[_id][_number].confirmedOwners[index] = 0;
-    self.transactionInfo[_id][_number].confirmCount--;
-
-    uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                             self.transactionInfo[_id][_number].confirmCount);
-    //Transaction removed if all sigs revoked but id remains in wallet transaction list
-    if(self.transactionInfo[_id][_number].confirmCount == 0)
-      self.transactionInfo[_id].length--;
-
-		LogRevokeNotice(_id, msg.sender, confirmsNeeded);
-    return true;
-	}
-
-  /// @dev Confirms a current pending tx, will execute if final confirmation
-  /// @param self Wallet in contract storage
-  /// @param _id ID of the transaction
-  /// @return Returns true if successful, false otherwise
-  function confirmTx(WalletData storage self, bytes32 _id) returns (bool){
-    require(self.ownerIndex[msg.sender] > 0);
-    uint _number = self.transactionInfo[_id].length;
-    bool ret;
-
-    if(_number == 0){
-      LogErrMsg("Tx not initiated");
-      LogTransactionFailed(_id, msg.sender);
-      return false;
-    }
-
-    _number--;
-    bool allGood = checkNotConfirmed(self, _id, _number);
-    if(!allGood)
-      return false;
-
-    self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-    self.transactionInfo[_id][_number].confirmCount++;
-
-    if(self.transactionInfo[_id][_number].confirmCount ==
-       self.transactionInfo[_id][_number].confirmRequired)
-    {
-      address a = address(this);
-      require(a.call(self.transactionInfo[_id][_number].data));
-    } else {
-      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
-
-      LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
-      ret = true;
-    }
-
-    return ret;
-  }
-
   /*Administrative Functions*/
 
   /// @dev Changes owner address to a new address
@@ -411,13 +353,13 @@ library WalletLib {
         allGood = revokeConfirm(self, _id);
         return (allGood,_id);
       } else {  //confirming the change
-        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){    //if this is a new transaction or if a previous identical transaction had already succeeded 
+        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){    //if this is a new transaction or if a previous identical transaction had already succeeded
           require(self.ownerIndex[msg.sender] > 0);
           allGood = checkChangeOwnerArgs(self.ownerIndex[_from], self.ownerIndex[_to]);
           if(!allGood)
             return (false,0);
           //  add this transaction to the wallets record and initialize the settings
-          self.transactionInfo[_id].length++;   
+          self.transactionInfo[_id].length++;
           self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
           self.transactionInfo[_id][_number].day = now / 1 days;
           self.transactions[now / 1 days].push(_id);
@@ -429,7 +371,7 @@ library WalletLib {
         }
       }
       // add the senders confirmation to the change
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));    
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
       self.transactionInfo[_id][_number].confirmCount++;
     } else {
       _number--;   // set the _number index to the index of the existing transaction
@@ -947,6 +889,92 @@ library WalletLib {
 
     return (true,_id);
 	}
+
+  /*Confirm/Revoke functions using tx ID*/
+
+  /// @dev Revokes a prior confirmation from sender, call with tx ID
+  /// @param self Wallet in contract storage
+  /// @param _id ID of the transaction
+  /// @return Returns true if successful, false otherwise
+  function revokeConfirm(WalletData storage self, bytes32 _id)
+           returns (bool)
+  {
+    require(self.ownerIndex[msg.sender] > 0);
+    uint _number = self.transactionInfo[_id].length;
+
+    if(_number == 0){
+      ErrMsg("Tx not initiated");
+      TransactionFailed(_id, msg.sender);
+      return false;
+    }
+
+    _number--;
+    if(self.transactionInfo[_id][_number].success){
+      ErrMsg("Transaction already complete");
+      TransactionFailed(_id, msg.sender);
+      return false;
+    }
+
+    //Function from Majoolr.io array utility library
+    bool found;
+    uint index;
+    (found, index) = self.transactionInfo[_id][_number].confirmedOwners.indexOf(uint(msg.sender), false);
+    if(!found){
+      ErrMsg("Owner has not confirmed tx");
+      TransactionFailed(_id, msg.sender);
+      return false;
+    }
+    self.transactionInfo[_id][_number].confirmedOwners[index] = 0;
+    self.transactionInfo[_id][_number].confirmCount--;
+
+    uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+                                             self.transactionInfo[_id][_number].confirmCount);
+    //Transaction removed if all sigs revoked but id remains in wallet transaction list
+    if(self.transactionInfo[_id][_number].confirmCount == 0)
+      self.transactionInfo[_id].length--;
+
+		RevokeNotice(_id, msg.sender, confirmsNeeded);
+    return true;
+	}
+
+  /// @dev Confirms a current pending tx, will execute if final confirmation
+  /// @param self Wallet in contract storage
+  /// @param _id ID of the transaction
+  /// @return Returns true if successful, false otherwise
+  function confirmTx(WalletData storage self, bytes32 _id) returns (bool){
+    require(self.ownerIndex[msg.sender] > 0);
+    uint _number = self.transactionInfo[_id].length;
+    bool ret;
+
+    if(_number == 0){
+      ErrMsg("Tx not initiated");
+      TransactionFailed(_id, msg.sender);
+      return false;
+    }
+
+    _number--;
+    bool allGood = checkNotConfirmed(self, _id, _number);
+    if(!allGood)
+      return false;
+
+    self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
+    self.transactionInfo[_id][_number].confirmCount++;
+
+    if(self.transactionInfo[_id][_number].confirmCount ==
+       self.transactionInfo[_id][_number].confirmRequired)
+    {
+      address a = address(this);
+      require(a.call(self.transactionInfo[_id][_number].data));
+    } else {
+      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+                                               self.transactionInfo[_id][_number].confirmCount);
+
+      TransactionConfirmed(_id, msg.sender, confirmsNeeded);
+      ret = true;
+    }
+
+    return ret;
+  }
 
   /*Getter Functions*/
 

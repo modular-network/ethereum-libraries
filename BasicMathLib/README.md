@@ -101,7 +101,7 @@ module.exports = function(deployer) {
 
 The following process will allow you to `truffle test` this library in your project.
 
-1. `git clone --recursive` or download the truffle directory.
+1. `git clone --recursive` or download the truffle directory.   
    Each folder in the truffle directory correlates to the folders in your truffle installation.
 2. Place each file in their respective directory in **your** truffle project.
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
@@ -279,7 +279,8 @@ contract YourContract {
 }
 ```
 
-Binding the library allows you to call the function in the format [firstParameter].function(secondParameter)
+Binding the library allows you to call the function in the format [firstParameter].function(secondParameter)   
+
 ### Usage Note
 
 All of the functions only accept uint256 types.
