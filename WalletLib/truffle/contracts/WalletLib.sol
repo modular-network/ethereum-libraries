@@ -100,7 +100,7 @@ library WalletLib {
     require(self.ownerIndex[msg.sender] > 0);
     uint _txLen = self.transactionInfo[_id].length;
 
-    if(_txLen == 0){
+    if(_txLen == 0 || _number >= _txLen){
       LogErrMsg("Tx not initiated");
       LogTransactionFailed(_id, msg.sender);
       return false;
