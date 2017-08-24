@@ -124,4 +124,8 @@ contract WalletLibTestContract {
   function revokeConfirm(bytes32 _id) returns (bool) {
     return wallet.revokeConfirm(_id);
   }
+
+  function checkNotConfirmed(bytes32 _id, uint _number) returns (bool) {
+    return wallet.checkNotConfirmed(_id, _number);
+  }
 }
