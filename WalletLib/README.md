@@ -6,8 +6,31 @@ WalletLib
 
 A wallet library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for multisig wallet contract deployment.   
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Libraray Address](#libraray-address)
+- [License and Warranty](#license-and-warranty)
+- [How to install](#how-to-install)
+  - [Truffle Installation](#truffle-installation)
+    - [Manual Install](#manual-install)
+    - [Testing the library in truffle](#testing-the-library-in-truffle)
+  - [solc Installation](#solc-installation)
+    - [With standard JSON input](#with-standard-json-input)
+    - [solc without standard JSON input](#solc-without-standard-json-input)
+    - [solc documentation](#solc-documentation)
+  - [solc-js Installation](#solc-js-installation)
+    - [Solc-js Installation via Linking](#solc-js-installation-via-linking)
+    - [Solc-js documentation](#solc-js-documentation)
+  - [Basic Usage](#basic-usage)
+  - [Usage Example](#usage-example)
+- [Functions](#functions)
+  - [Primary Functions](#primary-functions)
+  - [Administrative Functions](#administrative-functions)
+  - [Getter Functions](#getter-functions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Libraray Address   
 
