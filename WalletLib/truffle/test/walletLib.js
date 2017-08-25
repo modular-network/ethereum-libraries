@@ -478,7 +478,7 @@ contract('WalletLibTestContract', function(accounts) {
       }).then(function(bal){
         bal = Math.floor(bal.valueOf()/10**18);
         assert.equal(bal, 100, "100 ether should be transferred to the wallet from accounts[5]");
-        return c.serveTx(accounts[5], 10000000000000001000, 0, true, {from: accounts[0]});
+        return c.serveTx(accounts[5], 10000000000000000000, 0, true, {from: accounts[0]});
       }).then(function(ret){
         console.log(ret.logs[0].args);
         id = ""+ret.logs[0].args.txid+"";
