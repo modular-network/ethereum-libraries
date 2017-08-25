@@ -4,13 +4,16 @@ WalletLib
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
 [![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
 
-A wallet library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for multisig wallet contract deployment.   
+A wallet library family [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") composed of 3 libraries to use for multisig wallet contract deployment.   
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Libraray Address](#libraray-address)
+- [Libraray Addresses](#libraray-addresses)
+  - [WalletMainLib](#walletmainlib)
+  - [WalletAdminLib](#walletadminlib)
+  - [WalletGetterLib](#walletgetterlib)
 - [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
   - [Truffle Installation](#truffle-installation)
@@ -27,92 +30,105 @@ A wallet library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Git
   - [Usage Example](#usage-example)
 - [Functions](#functions)
   - [Primary Functions](#primary-functions)
-    - [init(WalletLib.WalletData storage, address[], uint256, uint256, uint256, uint256)](#initwalletlibwalletdata-storage-address-uint256-uint256-uint256-uint256)
+    - [init(WalletMainLib.WalletData storage, address[], uint256, uint256, uint256, uint256)](#initwalletmainlibwalletdata-storage-address-uint256-uint256-uint256-uint256)
       - [Arguments](#arguments)
       - [Returns](#returns)
-    - [serveTx(WalletLib.WalletData, address, uint256, bytes, bool, bytes)](#servetxwalletlibwalletdata-address-uint256-bytes-bool-bytes)
+    - [serveTx(WalletMainLib.WalletData, address, uint256, bytes, bool, bytes)](#servetxwalletmainlibwalletdata-address-uint256-bytes-bool-bytes)
       - [Arguments](#arguments-1)
       - [Returns](#returns-1)
-    - [confirmTx(WalletLib.WalletData storage, bytes32)](#confirmtxwalletlibwalletdata-storage-bytes32)
+    - [confirmTx(WalletMainLib.WalletData storage, bytes32)](#confirmtxwalletmainlibwalletdata-storage-bytes32)
       - [Arguments](#arguments-2)
       - [Returns](#returns-2)
-    - [revokeConfirm(WalletLib.WalletData storage, bytes32)](#revokeconfirmwalletlibwalletdata-storage-bytes32)
+    - [revokeConfirm(WalletMainLib.WalletData storage, bytes32)](#revokeconfirmwalletmainlibwalletdata-storage-bytes32)
       - [Arguments](#arguments-3)
       - [Returns](#returns-3)
   - [Administrative Functions](#administrative-functions)
-    - [changeOwner(WalletLib.WalletData storage, address, address, bool, bytes)](#changeownerwalletlibwalletdata-storage-address-address-bool-bytes)
+    - [changeOwner(WalletMainLib.WalletData storage, address, address, bool, bytes)](#changeownerwalletmainlibwalletdata-storage-address-address-bool-bytes)
       - [Arguments](#arguments-4)
       - [Returns](#returns-4)
-    - [addOwner(WalletLib.WalletData storage, address, bool, bytes)](#addownerwalletlibwalletdata-storage-address-bool-bytes)
+    - [addOwner(WalletMainLib.WalletData storage, address, bool, bytes)](#addownerwalletmainlibwalletdata-storage-address-bool-bytes)
       - [Arguments](#arguments-5)
       - [Returns](#returns-5)
-    - [removeOwner(WalletLib.WalletData storage, address, bool, bytes)](#removeownerwalletlibwalletdata-storage-address-bool-bytes)
+    - [removeOwner(WalletMainLib.WalletData storage, address, bool, bytes)](#removeownerwalletmainlibwalletdata-storage-address-bool-bytes)
       - [Arguments](#arguments-6)
       - [Returns](#returns-6)
-    - [changeRequiredAdmin(WalletLib.WalletData storage, uint256, bool, bytes)](#changerequiredadminwalletlibwalletdata-storage-uint256-bool-bytes)
+    - [changeRequiredAdmin(WalletMainLib.WalletData storage, uint256, bool, bytes)](#changerequiredadminwalletmainlibwalletdata-storage-uint256-bool-bytes)
       - [Arguments](#arguments-7)
       - [Returns](#returns-7)
-    - [changeRequiredMajor(WalletLib.WalletData storage, uint256, bool, bytes)](#changerequiredmajorwalletlibwalletdata-storage-uint256-bool-bytes)
+    - [changeRequiredMajor(WalletMainLib.WalletData storage, uint256, bool, bytes)](#changerequiredmajorwalletmainlibwalletdata-storage-uint256-bool-bytes)
       - [Arguments](#arguments-8)
       - [Returns](#returns-8)
-    - [changeRequiredMinor(WalletLib.WalletData storage, uint256, bool, bytes)](#changerequiredminorwalletlibwalletdata-storage-uint256-bool-bytes)
+    - [changeRequiredMinor(WalletMainLib.WalletData storage, uint256, bool, bytes)](#changerequiredminorwalletmainlibwalletdata-storage-uint256-bool-bytes)
       - [Arguments](#arguments-9)
       - [Returns](#returns-9)
-    - [changeMajorThreshold(WalletLib.WalletData storage, address, address, bool, bytes)](#changemajorthresholdwalletlibwalletdata-storage-address-address-bool-bytes)
+    - [changeMajorThreshold(WalletMainLib.WalletData storage, address, address, bool, bytes)](#changemajorthresholdwalletmainlibwalletdata-storage-address-address-bool-bytes)
       - [Arguments](#arguments-10)
       - [Returns](#returns-10)
   - [Getter Functions](#getter-functions)
-    - [getOwners(WalletLib.WalletData storage)](#getownerswalletlibwalletdata-storage)
+    - [getOwners(WalletMainLib.WalletData storage)](#getownerswalletmainlibwalletdata-storage)
       - [Arguments](#arguments-11)
       - [Returns](#returns-11)
-    - [getOwnerIndex(WalletLib.WalletData storage)](#getownerindexwalletlibwalletdata-storage)
+    - [getOwnerIndex(WalletMainLib.WalletData storage)](#getownerindexwalletmainlibwalletdata-storage)
       - [Arguments](#arguments-12)
       - [Returns](#returns-12)
-    - [getMaxOwners(WalletLib.WalletData storage)](#getmaxownerswalletlibwalletdata-storage)
+    - [getMaxOwners(WalletMainLib.WalletData storage)](#getmaxownerswalletmainlibwalletdata-storage)
       - [Arguments](#arguments-13)
       - [Returns](#returns-13)
-    - [getOwnerCount(WalletLib.WalletData storage)](#getownercountwalletlibwalletdata-storage)
+    - [getOwnerCount(WalletMainLib.WalletData storage)](#getownercountwalletmainlibwalletdata-storage)
       - [Arguments](#arguments-14)
       - [Returns](#returns-14)
-    - [getRequiredAdmin(WalletLib.WalletData storage)](#getrequiredadminwalletlibwalletdata-storage)
+    - [getRequiredAdmin(WalletMainLib.WalletData storage)](#getrequiredadminwalletmainlibwalletdata-storage)
       - [Arguments](#arguments-15)
       - [Returns](#returns-15)
-    - [getRequiredMinor(WalletLib.WalletData storage)](#getrequiredminorwalletlibwalletdata-storage)
+    - [getRequiredMinor(WalletMainLib.WalletData storage)](#getrequiredminorwalletmainlibwalletdata-storage)
       - [Arguments](#arguments-16)
       - [Returns](#returns-16)
-    - [getRequiredMajor(WalletLib.WalletData storage)](#getrequiredmajorwalletlibwalletdata-storage)
+    - [getRequiredMajor(WalletMainLib.WalletData storage)](#getrequiredmajorwalletmainlibwalletdata-storage)
       - [Arguments](#arguments-17)
       - [Returns](#returns-17)
-    - [getCurrentSpend(WalletLib.WalletData storage, address)](#getcurrentspendwalletlibwalletdata-storage-address)
+    - [getCurrentSpend(WalletMainLib.WalletData storage, address)](#getcurrentspendwalletmainlibwalletdata-storage-address)
       - [Arguments](#arguments-18)
       - [Returns](#returns-18)
-    - [getMajorThreshold(WalletLib.WalletData storage, address)](#getmajorthresholdwalletlibwalletdata-storage-address)
+    - [getMajorThreshold(WalletMainLib.WalletData storage, address)](#getmajorthresholdwalletmainlibwalletdata-storage-address)
       - [Arguments](#arguments-19)
       - [Returns](#returns-19)
-    - [getTransactions(WalletLib.WalletData storage, uint256)](#gettransactionswalletlibwalletdata-storage-uint256)
+    - [getTransactions(WalletMainLib.WalletData storage, uint256)](#gettransactionswalletmainlibwalletdata-storage-uint256)
       - [Arguments](#arguments-20)
       - [Returns](#returns-20)
-    - [getTransactionLength(WalletLib.WalletData storage, bytes32)](#gettransactionlengthwalletlibwalletdata-storage-bytes32)
+    - [getTransactionLength(WalletMainLib.WalletData storage, bytes32)](#gettransactionlengthwalletmainlibwalletdata-storage-bytes32)
       - [Arguments](#arguments-21)
       - [Returns](#returns-21)
-    - [getTransactionConfirms(WalletLib.WalletData storage, bytes32, uint256)](#gettransactionconfirmswalletlibwalletdata-storage-bytes32-uint256)
+    - [getTransactionConfirms(WalletMainLib.WalletData storage, bytes32, uint256)](#gettransactionconfirmswalletmainlibwalletdata-storage-bytes32-uint256)
       - [Arguments](#arguments-22)
       - [Returns](#returns-22)
-    - [getTransactionConfirmCount(WalletLib.WalletData storage, bytes32, uint256)](#gettransactionconfirmcountwalletlibwalletdata-storage-bytes32-uint256)
+    - [getTransactionConfirmCount(WalletMainLib.WalletData storage, bytes32, uint256)](#gettransactionconfirmcountwalletmainlibwalletdata-storage-bytes32-uint256)
       - [Arguments](#arguments-23)
       - [Returns](#returns-23)
-    - [getTransactionSuccess(WalletLib.WalletData storage, bytes32, uint256)](#gettransactionsuccesswalletlibwalletdata-storage-bytes32-uint256)
+    - [getTransactionSuccess(WalletMainLib.WalletData storage, bytes32, uint256)](#gettransactionsuccesswalletmainlibwalletdata-storage-bytes32-uint256)
       - [Arguments](#arguments-24)
       - [Returns](#returns-24)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Libraray Address   
+## Libraray Addresses   
 
-**ENS**:    
-**Main Ethereum Network**:    
-**Rinkeby Test Network**:    
-**Ropsten Test Network**:    
+### WalletMainLib
+**ENS**: WalletMainLib.majoolr.eth    
+**Main Ethereum Network**: 0xdd9dbcc279b0e034ce74db24015ebf2606d88539    
+**Rinkeby Test Network**: 0xd6a1bbe5790f126bd7e793e48cb88d2514175bd1    
+**Ropsten Test Network**: 0x6c8d43cf4b43646ec546183478dfd1ccfb5996bb    
+
+### WalletAdminLib
+**ENS**: WalletAdminLib.majoolr.eth    
+**Main Ethereum Network**: 0x90aa9a12de088968443ddab93942ffb23807fa5c    
+**Rinkeby Test Network**: 0x8751e3c11e5074f7617fbc42c31cda60a1f06f12    
+**Ropsten Test Network**: 0x160a104aec4d24ed92e804bbb5b26d36f809eaca    
+
+### WalletGetterLib
+**ENS**: WalletGetterLib.majoolr.eth    
+**Main Ethereum Network**: 0x57feddbc093c4b3fdd542a8115eca5bcd33812ac    
+**Rinkeby Test Network**: 0xcab7ccfc76208e3fdde707314ed28c3357cfd800    
+**Ropsten Test Network**: 0x6940a5bd3f37211355ede4a5d621de95bcba73b9    
 
 ## License and Warranty   
 
@@ -133,24 +149,44 @@ Please [visit Truffle's installation guide](http://truffleframework.com/docs/get
 
 This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development.   
 
-1. Place the WalletLib.sol file in your truffle `contracts/` directory.
-2. Place the WalletLib.json file in your truffle `build/contracts/` directory.
+1. Place the following files in your truffle `contracts/` directory.
+  * BasicMathLib.sol - [From our BasicMathLib directory](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link")
+  * Array256Lib.sol - [From our ArrayUtilsLib directory](https://github.com/Majoolr/ethereum-libraries/tree/master/ArrayUtilsLib "ArrayUtilsLib link")
+  * WalletMainLib.sol
+  * WalletAdminLib.sol
+  * WalletGetterLib.sol
+2. Place the .json file for each library in your truffle `build/contracts/` directory.
 3. Amend the deployment .js file in your truffle `migrations/` directory as follows:
 
 ```js
-var WalletLib = artifacts.require("./WalletLib.sol");
+var BasicMathLib = artifacts.require("./BasicMathLib.sol");
+var Array256Lib = artifacts.require("./Array256Lib.sol");
+var WalletMainLib = artifacts.require("./WalletMainLib.sol");
+var WalletAdminLib = artifacts.require("./WalletAdminLib.sol");
+var WalletGetterLib = artifacts.require("./WalletGetterLib.sol");
 var OtherLibs = artifacts.require("./OtherLibs.sol");
-var YourOtherContract = artifacts.require("./YourOtherContract.sol");
+var YourWalletContract = artifacts.require("./YourWalletContract.sol");
 ...
 
 module.exports = function(deployer) {
-  deployer.deploy(WalletLib, {overwrite: false});
-  deployer.link(WalletLib, YourOtherContract);
-  deployer.deploy(YourOtherContract);
+  deployer.deploy(BasicMathLib,{overwrite: false});
+  deployer.deploy(Array256Lib, {overwrite: false});
+  deployer.link(BasicMathLib, WalletMainLib);
+  deployer.link(Array256Lib, WalletMainLib);
+  deployer.deploy(WalletMainLib,{overwrite: false});
+  deployer.link(WalletMainLib,WalletAdminLib);
+  deployer.link(WalletMainLib,WalletGetterLib);
+  deployer.deploy(WalletAdminLib,{overwrite: false});
+  deployer.deploy(WalletGetterLib,{overwrite: false});
+
+  deployer.link(WalletMainLib, YourWalletContract);
+  deployer.link(WalletAdminLib, YourWalletContract);
+  deployer.link(WalletGetterLib, YourWalletContract);
+  deployer.deploy(YourWalletContract);
 };
 ```
 
-**Note**: The `.link()` function should be called *before* you `.deploy(YourOtherContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(WalletLib, {overwrite: false})`. This prevents deploying the library onto the main network at your cost and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
+**Note**: The `.link()` function should be called *before* you `.deploy(YourContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(WalletMainLib, {overwrite: false})`. This prevents deploying the library onto the main network at your cost and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
 
 #### Testing the library in truffle
 
@@ -186,8 +222,14 @@ For direction and instructions on how the Solidity command line compiler works [
       ...
       ...
     },
-    "WalletLib.sol": {
-      "content": "[Contents of WalletLib.sol]"
+    "WalletMainLib.sol": {
+      "content": "[Contents of WalletMainLib.sol]"
+    },
+    "WalletAdminLib.sol": {
+      "content": "[Contents of WalletAdminLib.sol]"
+    },
+    "WalletGetterLib.sol": {
+      "content": "[Contents of WalletGetterLib.sol]"
     }
   },
   "settings":
@@ -195,7 +237,9 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "WalletLib": ""
+        "WalletMainLib": "",
+        "WalletAdminLib": "",
+        "WalletGetterLib": "",
       }
     }
   }
@@ -204,21 +248,21 @@ For direction and instructions on how the Solidity command line compiler works [
 
 #### solc without standard JSON input
 
-When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '____LibraryName____' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:   
+When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '____LibraryName____' which leaves a 20 byte space for the library's address. In order to include the deployed libraries in your bytecode create a file with one library string per line and include these libraries as follows:     
 
-`--libraries "WalletLib:"`
-
-Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:   
-
-`--libraries "WalletLib:"`
+```
+"WalletMainLib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"
+"WalletAdminLib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"
+"WalletGetterLib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"
+```
 
 then add the following flag to your command:
 
 `--libraries filename`
 
-Finally, if you have an unlinked binary already stored with the '____LibraryName____' placeholder, you can run the compiler with the --link flag and also include the following flag:
+Finally, if you have an unlinked binary already stored with the '____LibraryName____' placeholder, you can run the compiler with the --link flag and include each library with the following flag:
 
-`--libraries "WalletLib:"`
+`--libraries "WalletMainLib:"`
 
 #### solc documentation
 
@@ -236,8 +280,10 @@ This version of Solc-js also uses the [standard JSON input](#with-standard-json-
 var solc = require('solc');
 var fs = require('fs');
 
-var file = fs.readFileSync('/path/to/YourContract.sol','utf8');
-var lib = fs.readFileSync('./path/to/WalletLib.sol','utf8');
+var file = fs.readFileSync('/path/to/YourWalletContract.sol','utf8');
+var mainLib = fs.readFileSync('./path/to/WalletMainLib.sol','utf8');
+var adminLib = fs.readFileSync('./path/to/WalletAdminLib.sol','utf8');
+var getterLib = fs.readFileSync('./path/to/WalletGetterLib.sol','utf8');
 
 var input = {
   "language": "Solidity",
@@ -246,8 +292,14 @@ var input = {
     "YourContract.sol": {
       "content": file
     },
-    "WalletLib.sol": {
-      "content": lib
+    "WalletMainLib.sol": {
+      "content": mainLib
+    },
+    "WalletAdminLib.sol": {
+      "content": adminLib
+    },
+    "WalletGetterLib.sol": {
+      "content": getterLib
     }
   },
   "settings":
@@ -255,7 +307,9 @@ var input = {
     ...
     "libraries": {
       "YourContract.sol": {
-        "WalletLib": ""
+        "WalletMainLib": "",
+        "WalletAdminLib": "",
+        "WalletGetterLib": "",
       }
     }
     ...
@@ -269,10 +323,10 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 
 #### Solc-js Installation via Linking
 
-Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
+Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link each library the call would be:
 
 ```js
-bytecode = solc.linkBytecode(bytecode, { 'WalletLib': '' });
+bytecode = solc.linkBytecode(bytecode, { 'WalletMainLib': '' });
 ```
 
 #### Solc-js documentation
@@ -281,7 +335,15 @@ bytecode = solc.linkBytecode(bytecode, { 'WalletLib': '' });
 
 ### Basic Usage
 
-The WalletLib library provides all of the functionality needed to generate a fully functional multisig wallet. The wallet generated will have some of these benefits and characteristics:
+The Wallet Libraries provide all of the functionality needed to generate a fully functional multisig wallet. Functionality is split into 3 different libraries. Each library serves the following purposes:
+
+1. WalletMainLib: This is the main library used to create a wallet and initialize parameters. It contains the WalletData struct which should be placed in the storage of your wallet contract. This library also contains the primary transaction initiating, confirming, and revocation code.
+
+2. WalletAdminLib: This library contains all of the functionality to change the parameters of your multisig wallet such as adding owners, changing signature requirements, etc.
+
+3. WalletGetterLib: This library contains all of the getter functions for your wallet data.
+
+The wallet generated will have some of these benefits and characteristics:
 
    * Can have up to 50 wallet owners.
    * Allows for signature requirements to be defined for three types of operations: administrative, minor transactions, and major transactions.   
@@ -294,9 +356,9 @@ The WalletLib library provides all of the functionality needed to generate a ful
    * Any new token will automatically have a major threshold of 0 until a threshold is defined by the wallet owners.
    * Allows signatures to be revoked at any point in time prior to the transaction confirming.
 
-The wallet contract should put the `init` function in the constructor with the required parameters given. Once deployed, owners can initiate any transaction by calling the appropriate function with the required data for admin functions, transfer or value data for token or ether transactions, or contract data for deploying new contracts. Most transaction requests end with a `bool` and `bytes` parameter. The `bool` parameter should be true for any transaction being initiated or confirmed and false for any signature revocation. The `bytes` parameter should be the msg.data passed automatically by the wallet contract. [See our example wallet contract](https://www.github.com/Majoolr/ethereum-contracts "Majoolr repo") to get a better idea of its implementation.
+The wallet contract should put the `init` function from the WalletMainLib in the constructor with the required parameters given. Once deployed, owners can initiate any transaction by calling the appropriate function with the required data for admin functions, transfer or value data for token or ether transactions, or contract data for deploying new contracts. Most transaction requests end with a `bool` and `bytes` parameter. The `bool` parameter should be true for any transaction being initiated or confirmed and false for any signature revocation. The `bytes` parameter should be the msg.data passed automatically by the wallet contract. [See our example wallet contract](https://www.github.com/Majoolr/ethereum-contracts "Majoolr repo") to get a better idea of its implementation.
 
-Most functions return two parameters, a `bool` and a `bytes32`. The wallet library functions will generally return false and log an error event when submitted parameters are either wrong or the call will not work. In the case of a non-owner attempting to submit a transaction or any failure during actual execution, the wallet library will throw a standard out of gas error with no reason in order to successfully revert changes. These functions will return true if any confirm or revocation call is successful. The functions that return a `bytes32` will also log this value in an event. Owners may choose to use the generic `confirmTx` or `revokeConfirm` functions by providing the id for any transaction already initiated, a concept artfully developed by Gav of York himself.
+Most functions return two parameters, a `bool` and a `bytes32`. The transaction and admin functions will generally return false and log an error event when submitted parameters are either wrong or the call will not work. In the case of a non-owner attempting to submit a transaction or any failure during actual execution, the function will throw a standard out of gas error with no reason in order to successfully revert changes. These functions will return true if any confirm or revocation call is successful. The functions that return a `bytes32` will also log this value in an event. Owners may choose to use the generic `confirmTx` or `revokeConfirm` functions by providing the id for any transaction already initiated, a concept artfully developed by Gav of York himself.
 
 **DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, a non-owners ability to gain access to your wallet, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://majoolr.io "Majoolr website") if you have discovered any issues or vulnerabilities with this library.
 
@@ -305,12 +367,14 @@ Most functions return two parameters, a `bool` and a `bytes32`. The wallet libra
 ```
 pragma solidity ^"+sver+";
 
-import "./WalletLib.sol";
+import "./WalletMainLib.sol";
+import "./WalletAdminLib.sol";
+import "./WalletGetterLib.sol";
 
 contract YourWalletContract {
-  using WalletLib for WalletLib.WalletData;
+  using WalletMainLib for WalletMainLib.WalletData;
 
-  WalletLib.WalletData public wallet;
+  WalletMainLib.WalletData public wallet;
 
   event Deposit(uint value);
 
@@ -351,13 +415,13 @@ The following is the list of functions available to use in your smart contract.
 
 ### Primary Functions
 
-#### init(WalletLib.WalletData storage, address[], uint256, uint256, uint256, uint256)   
-*(WalletLib.sol, line 93)*
+#### init(WalletMainLib.WalletData storage, address[], uint256, uint256, uint256, uint256)   
+*(WalletMainLib.sol, line 88)*
 
 Constructor. Initializes the wallet in the calling contract's storage.  Caller passes in owners and signature settings for the wallet.  Owners must be valid ethereum addresses and signature requirements must be greater than zero and less than or equal to the number of owners. _majorThreshold parameter should set the daily spend limit for minor ether transactions in wei.
 
 ##### Arguments
-**WalletLib.WalletData** self The storage wallet in the calling contract.   
+**WalletMainLib.WalletData** self The storage wallet in the calling contract.   
 **address[]** _owners Array of initial wallet owner addresses   
 **uint256** _requiredAdmin The number of signatures required for administrative changes   
 **uint256** _requiredMajor The number of signatures required for major transactions   
@@ -367,13 +431,13 @@ Constructor. Initializes the wallet in the calling contract's storage.  Caller p
 ##### Returns
 **bool**   
 
-#### serveTx(WalletLib.WalletData, address, uint256, bytes, bool, bytes)   
-*(WalletLib.sol, line 342)*
+#### serveTx(WalletMainLib.WalletData, address, uint256, bytes, bool, bytes)   
+*(WalletMainLib.sol, line 266)*
 
-Sends the specified amount of Ether or tokens from the Wallet to an address.
+Sends the specified amount of Ether or tokens from the Wallet to an address.  This function requires a certain number of signatures from the wallet owners, indicated by requiredMinor for minor transactions and requiredMajor for major transactions.  If it is the first call with the given parameters, the transaction is created and a confirmation from the sender is recorded.  Additional calls sent from different owners but with the same parameters act as confirmations of the transaction.  If a previously confirmed owner calls this function with the same arguments for the pending transaction, but with the confirm flag set to false, their confirmation for the transaction will be revoked.  When the confirmations reach the required number, the transaction is executed.
 
 ##### Arguments
-**WalletLib.WalletData** self The storage wallet in the calling contract.   
+**WalletMainLib.WalletData** self The storage wallet in the calling contract.   
 **address** _to Intended recipient of transaction.   
 **uint256** _value Amount of Ether to be sent.   
 **bytes** txData Any transaction data to be sent to recipient.   
@@ -384,25 +448,25 @@ Sends the specified amount of Ether or tokens from the Wallet to an address.
 **bool** True if transaction confirmed or revoked successfully   
 **bytes32** The transaction id which can be provided to `confirmTx` or `revokeConfirm`.   
 
-#### confirmTx(WalletLib.WalletData storage, bytes32)   
-*(WalletLib.sol, line 434)*
+#### confirmTx(WalletMainLib.WalletData storage, bytes32)   
+*(WalletMainLib.sol, line 358)*
 
 Confirms the specified pending transaction with the sender's signature.  If the transaction does not exist, the call will fail.  If the callers signature is the final signature needed for the transaction to succeed, the transaction will execute.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **bytes32** _id
 
 ##### Returns
 **bool**   
 
-#### revokeConfirm(WalletLib.WalletData storage, bytes32)   
-*(WalletLib.sol, line 473)*
+#### revokeConfirm(WalletMainLib.WalletData storage, bytes32)   
+*(WalletMainLib.sol, line 397)*
 
 Revokes the sender's confirmation from a pending transaction.  If the transaction does not exist or has already succeeded, the call will fail.  The caller also needs to have already confirmed the transaction.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **bytes32** _id
 
 ##### Returns
@@ -410,15 +474,15 @@ Revokes the sender's confirmation from a pending transaction.  If the transactio
 
 ### Administrative Functions
 
-These functions are for performing actions that change the administrative settings of the Wallet contract such as owners, major/minor transaction threshholds, and number of signatures required.  Like normal wallet transactions, these functions require a certain number of signatures from the wallet owners, indicated by requiredAdmin.  A call to one of these functions acts as a confirmation of the action.  If it is the first confirmation, the transaction is created and the confirmation is recorded.  When the confirmations reach the required number, the action is executed.  If an owner calls these functions for a change they have already confirmed, with the correct arguments for the pending transaction, with the confirm flag set to false, their confirmation for the transaction will be revoked.   
+These functions are for performing actions that change the administrative settings of the Wallet contract such as owners, major/minor transaction threshholds, and number of signatures required. They behave almost exactly like ServeTx behaves above, but with requiredAdmin number of signatures required to execute changes.   
 
-#### changeOwner(WalletLib.WalletData storage, address, address, bool, bytes)   
-*(WalletLib.sol, line 524)*
+#### changeOwner(WalletMainLib.WalletData storage, address, address, bool, bytes)   
+*(WalletAdminLib.sol, line 137)*
 
 Changes owner address to a new address. bool should be true if confirming or initiating the transaction and false if revoking a confirmation. bytes parameter should be passed as msg.data from wallet contract.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **adress** _from   
 **address** _to   
 **bool** _confirm   
@@ -428,13 +492,13 @@ Changes owner address to a new address. bool should be true if confirming or ini
 **bool**   
 **bytes32**   
 
-#### addOwner(WalletLib.WalletData storage, address, bool, bytes)   
-*(WalletLib.sol, line 593)*
+#### addOwner(WalletMainLib.WalletData storage, address, bool, bytes)   
+*(WalletAdminLib.sol, line 206)*
 
 Adds a new user as an owner of the wallet.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **adress** _newOwner   
 **bool** _confirm   
 **bytes** _data
@@ -443,13 +507,13 @@ Adds a new user as an owner of the wallet.
 **bool**   
 **bytes32**   
 
-#### removeOwner(WalletLib.WalletData storage, address, bool, bytes)   
-*(WalletLib.sol, line 663)*
+#### removeOwner(WalletMainLib.WalletData storage, address, bool, bytes)   
+*(WalletAdminLib.sol, line 276)*
 
 Removes an existing owner from the wallet.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **adress** _ownerRemoving   
 **bool** _confirm   
 **bytes** _data
@@ -458,13 +522,13 @@ Removes an existing owner from the wallet.
 **bool**   
 **bytes32**   
 
-#### changeRequiredAdmin(WalletLib.WalletData storage, uint256, bool, bytes)   
-*(WalletLib.sol, line 733)*
+#### changeRequiredAdmin(WalletMainLib.WalletData storage, uint256, bool, bytes)   
+*(WalletAdminLib.sol, line 346)*
 
 Changes the number of signatures required to confirm administrative changes.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **uint256** _requiredAdmin   
 **bool** _confirm   
 **bytes** _data
@@ -473,13 +537,13 @@ Changes the number of signatures required to confirm administrative changes.
 **bool**   
 **bytes32**   
 
-#### changeRequiredMajor(WalletLib.WalletData storage, uint256, bool, bytes)   
-*(WalletLib.sol, line 799)*
+#### changeRequiredMajor(WalletMainLib.WalletData storage, uint256, bool, bytes)   
+*(WalletAdminLib.sol, line 412)*
 
 Changes the number of signatures required to confirm major transactions.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **uint256** _requiredMajor   
 **bool** _confirm   
 **bytes** _data
@@ -488,13 +552,13 @@ Changes the number of signatures required to confirm major transactions.
 **bool**   
 **bytes32**   
 
-#### changeRequiredMinor(WalletLib.WalletData storage, uint256, bool, bytes)   
-*(WalletLib.sol, line 865)*
+#### changeRequiredMinor(WalletMainLib.WalletData storage, uint256, bool, bytes)   
+*(WalletAdminLib.sol, line 478)*
 
 Changes the number of signatures required to confirm minor transactions.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **uint256** _requiredMinor   
 **bool** _confirm   
 **bytes** _data
@@ -503,13 +567,13 @@ Changes the number of signatures required to confirm minor transactions.
 **bool**   
 **bytes32**   
 
-#### changeMajorThreshold(WalletLib.WalletData storage, address, address, bool, bytes)   
-*(WalletLib.sol, line 932)*
+#### changeMajorThreshold(WalletMainLib.WalletData storage, address, address, bool, bytes)   
+*(WalletAdminLib.sol, line 545)*
 
 Changes the threshold of tokens or wei spent per day that needs to be crossed for the transaction to be considered major.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **adress** _from   
 **address** _to   
 **bool** _confirm   
@@ -521,164 +585,164 @@ Changes the threshold of tokens or wei spent per day that needs to be crossed fo
 
 ### Getter Functions
 
-#### getOwners(WalletLib.WalletData storage)   
-*(WalletLib.sol, line 994)*
+#### getOwners(WalletMainLib.WalletData storage)   
+*(WalletGetterLib.sol, line 40)*
 
 Get list of wallet owners, will return fixed 50 item array until Metro fork.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 
 ##### Returns
 **address[51]**   
 
-#### getOwnerIndex(WalletLib.WalletData storage)   
-*(WalletLib.sol, line 1006)*
+#### getOwnerIndex(WalletMainLib.WalletData storage)   
+*(WalletGetterLib.sol, line 52)*
 
 Get index of an owner.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 
 ##### Returns
 **uint256**   
 
-#### getMaxOwners(WalletLib.WalletData storage)   
-*(WalletLib.sol, line 1013)*
+#### getMaxOwners(WalletMainLib.WalletData storage)   
+*(WalletGetterLib.sol, line 59)*
 
 Get max number of wallet owners.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 
 ##### Returns
 **uint256**   
 
-#### getOwnerCount(WalletLib.WalletData storage)   
-*(WalletLib.sol, line 1020)*
+#### getOwnerCount(WalletMainLib.WalletData storage)   
+*(WalletGetterLib.sol, line 66)*
 
 Get number of wallet owners.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 
 ##### Returns
 **uint256**   
 
-#### getRequiredAdmin(WalletLib.WalletData storage)   
-*(WalletLib.sol, line 1027)*
+#### getRequiredAdmin(WalletMainLib.WalletData storage)   
+*(WalletGetterLib.sol, line 73)*
 
 Get sig requirements for administrative changes.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 
 ##### Returns
 **uint256**   
 
-#### getRequiredMinor(WalletLib.WalletData storage)   
-*(WalletLib.sol, line 1034)*
+#### getRequiredMinor(WalletMainLib.WalletData storage)   
+*(WalletGetterLib.sol, line 80)*
 
 Get sig requirements for minor tx spends.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 
 ##### Returns
 **uint256**   
 
-#### getRequiredMajor(WalletLib.WalletData storage)   
-*(WalletLib.sol, line 1041)*
+#### getRequiredMajor(WalletMainLib.WalletData storage)   
+*(WalletGetterLib.sol, line 87)*
 
 Get sig requirements for major tx spends.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 
 ##### Returns
 **uint256**   
 
-#### getCurrentSpend(WalletLib.WalletData storage, address)   
-*(WalletLib.sol, line 1049)*
+#### getCurrentSpend(WalletMainLib.WalletData storage, address)   
+*(WalletGetterLib.sol, line 95)*
 
 Get current day spend for token.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **address** _token Address of the token contract, use 0 for ether.   
 
 ##### Returns
 **uint256[2]** 0-index is day timestamp, 1-index is the day spend   
 
-#### getMajorThreshold(WalletLib.WalletData storage, address)   
-*(WalletLib.sol, line 1060)*
+#### getMajorThreshold(WalletMainLib.WalletData storage, address)   
+*(WalletGetterLib.sol, line 106)*
 
 Get major tx threshold per token.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **address** _token   
 
 ##### Returns
 **uint256**   
 
-#### getTransactions(WalletLib.WalletData storage, uint256)   
-*(WalletLib.sol, line 1068)*
+#### getTransactions(WalletMainLib.WalletData storage, uint256)   
+*(WalletGetterLib.sol, line 114)*
 
 Get last 10 transactions for the day, fixed at 10 until fork.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **uint256** _date Timestamp of the day.   
 
 ##### Returns
 **bytes32[10]** The id for each of the last 10 transactions.   
 
-#### getTransactionLength(WalletLib.WalletData storage, bytes32)   
-*(WalletLib.sol, line 1081)*
+#### getTransactionLength(WalletMainLib.WalletData storage, bytes32)   
+*(WalletGetterLib.sol, line 127)*
 
 Get the number of tx's with the same id.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **bytes32** _id   
 
 ##### Returns
 **uint256** Number of transactions with this id, can be used to query for specific tx, see `getTransactionConfirms`   
 
-#### getTransactionConfirms(WalletLib.WalletData storage, bytes32, uint256)   
-*(WalletLib.sol, line 1090)*
+#### getTransactionConfirms(WalletMainLib.WalletData storage, bytes32, uint256)   
+*(WalletGetterLib.sol, line 136)*
 
 Get list of confirmations for a tx, use `getTransactionLength` to get latest number.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **bytes32** _id   
 **uint256** _number   
 
 ##### Returns
 **uint256[50]** List of confirmations, fixed at 50 items until Metro fork   
 
-#### getTransactionConfirmCount(WalletLib.WalletData storage, bytes32, uint256)   
-*(WalletLib.sol, line 1107)*
+#### getTransactionConfirmCount(WalletMainLib.WalletData storage, bytes32, uint256)   
+*(WalletGetterLib.sol, line 153)*
 
 Retrieve tx confirmation count.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **bytes32** _id   
 **uint256** _number   
 
 ##### Returns
 **uint256** The current number of tx confirmations.   
 
-#### getTransactionSuccess(WalletLib.WalletData storage, bytes32, uint256)   
-*(WalletLib.sol, line 1120)*
+#### getTransactionSuccess(WalletMainLib.WalletData storage, bytes32, uint256)   
+*(WalletGetterLib.sol, line 166)*
 
 Retrieve if transaction was successful.
 
 ##### Arguments
-**WalletLib.WalletData** self   
+**WalletMainLib.WalletData** self   
 **bytes32** _id   
 **uint256** _number   
 

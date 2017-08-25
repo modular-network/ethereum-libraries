@@ -1,11 +1,15 @@
 pragma solidity ^0.4.13;
 
-import "./WalletLib.sol";
+import "./WalletMainLib.sol";
+import "./WalletAdminLib.sol";
+import "./WalletGetterLib.sol";
 
 contract WalletLibTestContract {
-  using WalletLib for WalletLib.WalletData;
+  using WalletMainLib for WalletMainLib.WalletData;
+  using WalletAdminLib for WalletMainLib.WalletData;
+  using WalletGetterLib for WalletMainLib.WalletData;
 
-  WalletLib.WalletData public wallet;
+  WalletMainLib.WalletData public wallet;
 
   event Deposit(uint value);
 

@@ -61,7 +61,7 @@ contract('WalletLibTestContract', function(accounts) {
       length = len.valueOf();
       assert.equal(length, 1, 'Should have 1 transaction with this ID');
       return c.checkNotConfirmed('0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57', length - 1, {from:accounts[1]});
-    }).then(function(ret){  
+    }).then(function(ret){
       assert.equal(ret.logs[0].args.msg,'Tx not initiated', "should return msg that the tx hasn't been initiated");
 
       return c.transactionConfirmCount(id, length - 1);
@@ -102,7 +102,7 @@ contract('WalletLibTestContract', function(accounts) {
     }).then(function(len){
       length = len.valueOf();
       return c.checkNotConfirmed(id, length - 1, {from:accounts[1]});
-    }).then(function(ret){  
+    }).then(function(ret){
       assert.equal(ret.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
       return c.transactionConfirmCount(id, length - 1);
     }).then(function(count){
@@ -478,7 +478,7 @@ contract('WalletLibTestContract', function(accounts) {
       }).then(function(bal){
         bal = Math.floor(bal.valueOf()/10**18);
         assert.equal(bal, 100, "100 ether should be transferred to the wallet from accounts[5]");
-        return c.serveTx(accounts[5], 10000000000000000000, 0, true, {from: accounts[0]});
+        return c.serveTx(accounts[5], 10000000000000001000, 0, true, {from: accounts[0]});
       }).then(function(ret){
         console.log(ret.logs[0].args);
         id = ""+ret.logs[0].args.txid+"";
@@ -509,6 +509,7 @@ contract('WalletLibTestContract', function(accounts) {
       }).then(function(){
         return c.serveTx(tcAdd, 0, ""+data+"", true, {from: accounts[0]});
       }).then(function(ret){
+        console.log(ret.logs[0].args);
         return c.transactionLength(id);
       }).then(function(len){
         len = len.valueOf();
