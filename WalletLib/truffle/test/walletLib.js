@@ -485,10 +485,7 @@ contract('WalletLibTestContract', function(accounts) {
         return c.confirmTx(id, {from:accounts[2]});
       }).then(function(ret){
         console.log(ret.logs[0].args);
-        return web3.eth.getBalance(accounts[5]);
-      }).then(function(bal){
-        bal = initialBalance - Math.floor(bal.valueOf()/10**18);
-        assert.equal(bal, 90, "10 ether should be transferred to accounts[5] from the wallet with 2 sigs");
+        assert.equal(ret.logs[0].args.value.valueOf(), 10000000000000000000, "10 ether should be transferred to accounts[5] from the wallet with 2 sigs");
       }).then(function(){
         return tc.transfer.request(accounts[5], 2);
       }).then(function(ret){
