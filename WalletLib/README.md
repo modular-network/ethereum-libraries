@@ -276,336 +276,336 @@ The following is the list of functions available to use in your smart contract.
 
 ### Primary Functions
 
-    #### init(WalletLib.WalletData storage, address[], uint256, uint256, uint256, uint256)   
-    *(WalletLib.sol, line 93)*
+#### init(WalletLib.WalletData storage, address[], uint256, uint256, uint256, uint256)   
+*(WalletLib.sol, line 93)*
 
-    Constructor. Initializes the wallet in the calling contract's storage.  Caller passes in owners and signature settings for the wallet.  Owners must be valid ethereum addresses and signature requirements must be greater than zero and less than or equal to the number of owners. _majorThreshold parameter should set the daily spend limit for minor ether transactions in wei.
+Constructor. Initializes the wallet in the calling contract's storage.  Caller passes in owners and signature settings for the wallet.  Owners must be valid ethereum addresses and signature requirements must be greater than zero and less than or equal to the number of owners. _majorThreshold parameter should set the daily spend limit for minor ether transactions in wei.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **adress[]** _owners   
-    **uint256** _requiredAdmin   
-    **uint256** _requiredMajor   
-    **uint256** _requiredMinor   
-    **uint256** _majorThreshold
+##### Arguments
+**WalletLib.WalletData** self   
+**adress[]** _owners   
+**uint256** _requiredAdmin   
+**uint256** _requiredMajor   
+**uint256** _requiredMinor   
+**uint256** _majorThreshold
 
-    ##### Returns
-    **bool**   
+##### Returns
+**bool**   
 
-    #### serveTx(WalletLib.WalletData, address, uint256, bytes, bool, bytes)   
-    *(WalletLib.sol, line 342)*
+#### serveTx(WalletLib.WalletData, address, uint256, bytes, bool, bytes)   
+*(WalletLib.sol, line 342)*
 
-    Sends the specified amount of Ether or tokens from the Wallet to an address.
+Sends the specified amount of Ether or tokens from the Wallet to an address.
 
-    ##### Arguments
-    **WalletLib.WalletData** self The storage wallet in the calling contract.   
-    **address** _to Intended recipient of transaction.   
-    **uint256** _value Amount of Ether to be sent.   
-    **bytes** txData Any transaction data to be sent to recipient.   
-    **bool** confirm True if initiaing or confirming a transaction, false if revoking a signature.   
-    **bytes** _data Data for this call sent automatically by the calling contract.   
+##### Arguments
+**WalletLib.WalletData** self The storage wallet in the calling contract.   
+**address** _to Intended recipient of transaction.   
+**uint256** _value Amount of Ether to be sent.   
+**bytes** txData Any transaction data to be sent to recipient.   
+**bool** confirm True if initiaing or confirming a transaction, false if revoking a signature.   
+**bytes** _data Data for this call sent automatically by the calling contract.   
 
-    ##### Returns
-    **bool** True if transaction confirmed or revoked successfully   
-    **bytes32** The transaction id which can be provided to `confirmTx` or `revokeConfirm`.   
+##### Returns
+**bool** True if transaction confirmed or revoked successfully   
+**bytes32** The transaction id which can be provided to `confirmTx` or `revokeConfirm`.   
 
-    #### confirmTx(WalletLib.WalletData storage, bytes32)   
-    *(WalletLib.sol, line 434)*
+#### confirmTx(WalletLib.WalletData storage, bytes32)   
+*(WalletLib.sol, line 434)*
 
-    Confirms the specified pending transaction with the sender's signature.  If the transaction does not exist, the call will fail.  If the callers signature is the final signature needed for the transaction to succeed, the transaction will execute.
+Confirms the specified pending transaction with the sender's signature.  If the transaction does not exist, the call will fail.  If the callers signature is the final signature needed for the transaction to succeed, the transaction will execute.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **bytes32** _id
+##### Arguments
+**WalletLib.WalletData** self   
+**bytes32** _id
 
-    ##### Returns
-    **bool**   
+##### Returns
+**bool**   
 
-    #### revokeConfirm(WalletLib.WalletData storage, bytes32)   
-    *(WalletLib.sol, line 473)*
+#### revokeConfirm(WalletLib.WalletData storage, bytes32)   
+*(WalletLib.sol, line 473)*
 
-    Revokes the sender's confirmation from a pending transaction.  If the transaction does not exist or has already succeeded, the call will fail.  The caller also needs to have already confirmed the transaction.
+Revokes the sender's confirmation from a pending transaction.  If the transaction does not exist or has already succeeded, the call will fail.  The caller also needs to have already confirmed the transaction.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **bytes32** _id
+##### Arguments
+**WalletLib.WalletData** self   
+**bytes32** _id
 
-    ##### Returns
-    **bool**   
+##### Returns
+**bool**   
 
 ### Administrative Functions
 
 These functions are for performing actions that change the administrative settings of the Wallet contract such as owners, major/minor transaction threshholds, and number of signatures required.  Like normal wallet transactions, these functions require a certain number of signatures from the wallet owners, indicated by requiredAdmin.  A call to one of these functions acts as a confirmation of the action.  If it is the first confirmation, the transaction is created and the confirmation is recorded.  When the confirmations reach the required number, the action is executed.  If an owner calls these functions for a change they have already confirmed, with the correct arguments for the pending transaction, with the confirm flag set to false, their confirmation for the transaction will be revoked.   
 
-    #### changeOwner(WalletLib.WalletData storage, address, address, bool, bytes)   
-    *(WalletLib.sol, line 524)*
+#### changeOwner(WalletLib.WalletData storage, address, address, bool, bytes)   
+*(WalletLib.sol, line 524)*
 
-    Changes owner address to a new address. bool should be true if confirming or initiating the transaction and false if revoking a confirmation. bytes parameter should be passed as msg.data from wallet contract.
+Changes owner address to a new address. bool should be true if confirming or initiating the transaction and false if revoking a confirmation. bytes parameter should be passed as msg.data from wallet contract.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **adress** _from   
-    **address** _to   
-    **bool** _confirm   
-    **bytes** _data
+##### Arguments
+**WalletLib.WalletData** self   
+**adress** _from   
+**address** _to   
+**bool** _confirm   
+**bytes** _data
 
-    ##### Returns
-    **bool**   
-    **bytes32**   
+##### Returns
+**bool**   
+**bytes32**   
 
-    #### addOwner(WalletLib.WalletData storage, address, bool, bytes)   
-    *(WalletLib.sol, line 593)*
+#### addOwner(WalletLib.WalletData storage, address, bool, bytes)   
+*(WalletLib.sol, line 593)*
 
-    Adds a new user as an owner of the wallet.
+Adds a new user as an owner of the wallet.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **adress** _newOwner   
-    **bool** _confirm   
-    **bytes** _data
+##### Arguments
+**WalletLib.WalletData** self   
+**adress** _newOwner   
+**bool** _confirm   
+**bytes** _data
 
-    ##### Returns
-    **bool**   
-    **bytes32**   
+##### Returns
+**bool**   
+**bytes32**   
 
-    #### removeOwner(WalletLib.WalletData storage, address, bool, bytes)   
-    *(WalletLib.sol, line 663)*
+#### removeOwner(WalletLib.WalletData storage, address, bool, bytes)   
+*(WalletLib.sol, line 663)*
 
-    Removes an existing owner from the wallet.
+Removes an existing owner from the wallet.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **adress** _ownerRemoving   
-    **bool** _confirm   
-    **bytes** _data
+##### Arguments
+**WalletLib.WalletData** self   
+**adress** _ownerRemoving   
+**bool** _confirm   
+**bytes** _data
 
-    ##### Returns
-    **bool**   
-    **bytes32**   
+##### Returns
+**bool**   
+**bytes32**   
 
-    #### changeRequiredAdmin(WalletLib.WalletData storage, uint256, bool, bytes)   
-    *(WalletLib.sol, line 733)*
+#### changeRequiredAdmin(WalletLib.WalletData storage, uint256, bool, bytes)   
+*(WalletLib.sol, line 733)*
 
-    Changes the number of signatures required to confirm administrative changes.
+Changes the number of signatures required to confirm administrative changes.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **uint256** _requiredAdmin   
-    **bool** _confirm   
-    **bytes** _data
+##### Arguments
+**WalletLib.WalletData** self   
+**uint256** _requiredAdmin   
+**bool** _confirm   
+**bytes** _data
 
-    ##### Returns
-    **bool**   
-    **bytes32**   
+##### Returns
+**bool**   
+**bytes32**   
 
-    #### changeRequiredMajor(WalletLib.WalletData storage, uint256, bool, bytes)   
-    *(WalletLib.sol, line 799)*
+#### changeRequiredMajor(WalletLib.WalletData storage, uint256, bool, bytes)   
+*(WalletLib.sol, line 799)*
 
-    Changes the number of signatures required to confirm major transactions.
+Changes the number of signatures required to confirm major transactions.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **uint256** _requiredMajor   
-    **bool** _confirm   
-    **bytes** _data
+##### Arguments
+**WalletLib.WalletData** self   
+**uint256** _requiredMajor   
+**bool** _confirm   
+**bytes** _data
 
-    ##### Returns
-    **bool**   
-    **bytes32**   
+##### Returns
+**bool**   
+**bytes32**   
 
-    #### changeRequiredMinor(WalletLib.WalletData storage, uint256, bool, bytes)   
-    *(WalletLib.sol, line 865)*
+#### changeRequiredMinor(WalletLib.WalletData storage, uint256, bool, bytes)   
+*(WalletLib.sol, line 865)*
 
-    Changes the number of signatures required to confirm minor transactions.
+Changes the number of signatures required to confirm minor transactions.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **uint256** _requiredMinor   
-    **bool** _confirm   
-    **bytes** _data
+##### Arguments
+**WalletLib.WalletData** self   
+**uint256** _requiredMinor   
+**bool** _confirm   
+**bytes** _data
 
-    ##### Returns
-    **bool**   
-    **bytes32**   
+##### Returns
+**bool**   
+**bytes32**   
 
-    #### changeMajorThreshold(WalletLib.WalletData storage, address, address, bool, bytes)   
-    *(WalletLib.sol, line 932)*
+#### changeMajorThreshold(WalletLib.WalletData storage, address, address, bool, bytes)   
+*(WalletLib.sol, line 932)*
 
-    Changes the threshold of tokens or wei spent per day that needs to be crossed for the transaction to be considered major.
+Changes the threshold of tokens or wei spent per day that needs to be crossed for the transaction to be considered major.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **adress** _from   
-    **address** _to   
-    **bool** _confirm   
-    **bytes** _data
+##### Arguments
+**WalletLib.WalletData** self   
+**adress** _from   
+**address** _to   
+**bool** _confirm   
+**bytes** _data
 
-    ##### Returns
-    **bool**   
-    **bytes32**   
+##### Returns
+**bool**   
+**bytes32**   
 
 ### Getter Functions
 
-    #### getOwners(WalletLib.WalletData storage)   
-    *(WalletLib.sol, line 994)*
+#### getOwners(WalletLib.WalletData storage)   
+*(WalletLib.sol, line 994)*
 
-    Get list of wallet owners, will return fixed 50 item array until Metro fork.
+Get list of wallet owners, will return fixed 50 item array until Metro fork.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
+##### Arguments
+**WalletLib.WalletData** self   
 
-    ##### Returns
-    **address[51]**   
+##### Returns
+**address[51]**   
 
-    #### getOwnerIndex(WalletLib.WalletData storage)   
-    *(WalletLib.sol, line 1006)*
+#### getOwnerIndex(WalletLib.WalletData storage)   
+*(WalletLib.sol, line 1006)*
 
-    Get index of an owner.
+Get index of an owner.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
+##### Arguments
+**WalletLib.WalletData** self   
 
-    ##### Returns
-    **uint256**   
+##### Returns
+**uint256**   
 
-    #### getMaxOwners(WalletLib.WalletData storage)   
-    *(WalletLib.sol, line 1013)*
+#### getMaxOwners(WalletLib.WalletData storage)   
+*(WalletLib.sol, line 1013)*
 
-    Get max number of wallet owners.
+Get max number of wallet owners.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
+##### Arguments
+**WalletLib.WalletData** self   
 
-    ##### Returns
-    **uint256**   
+##### Returns
+**uint256**   
 
-    #### getOwnerCount(WalletLib.WalletData storage)   
-    *(WalletLib.sol, line 1020)*
+#### getOwnerCount(WalletLib.WalletData storage)   
+*(WalletLib.sol, line 1020)*
 
-    Get number of wallet owners.
+Get number of wallet owners.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
+##### Arguments
+**WalletLib.WalletData** self   
 
-    ##### Returns
-    **uint256**   
+##### Returns
+**uint256**   
 
-    #### getRequiredAdmin(WalletLib.WalletData storage)   
-    *(WalletLib.sol, line 1027)*
+#### getRequiredAdmin(WalletLib.WalletData storage)   
+*(WalletLib.sol, line 1027)*
 
-    Get sig requirements for administrative changes.
+Get sig requirements for administrative changes.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
+##### Arguments
+**WalletLib.WalletData** self   
 
-    ##### Returns
-    **uint256**   
+##### Returns
+**uint256**   
 
-    #### getRequiredMinor(WalletLib.WalletData storage)   
-    *(WalletLib.sol, line 1034)*
+#### getRequiredMinor(WalletLib.WalletData storage)   
+*(WalletLib.sol, line 1034)*
 
-    Get sig requirements for minor tx spends.
+Get sig requirements for minor tx spends.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
+##### Arguments
+**WalletLib.WalletData** self   
 
-    ##### Returns
-    **uint256**   
+##### Returns
+**uint256**   
 
-    #### getRequiredMajor(WalletLib.WalletData storage)   
-    *(WalletLib.sol, line 1041)*
+#### getRequiredMajor(WalletLib.WalletData storage)   
+*(WalletLib.sol, line 1041)*
 
-    Get sig requirements for major tx spends.
+Get sig requirements for major tx spends.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
+##### Arguments
+**WalletLib.WalletData** self   
 
-    ##### Returns
-    **uint256**   
+##### Returns
+**uint256**   
 
-    #### getCurrentSpend(WalletLib.WalletData storage, address)   
-    *(WalletLib.sol, line 1049)*
+#### getCurrentSpend(WalletLib.WalletData storage, address)   
+*(WalletLib.sol, line 1049)*
 
-    Get current day spend for token.
+Get current day spend for token.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **address** _token Address of the token contract, use 0 for ether.   
+##### Arguments
+**WalletLib.WalletData** self   
+**address** _token Address of the token contract, use 0 for ether.   
 
-    ##### Returns
-    **uint256[2]** 0-index is day timestamp, 1-index is the day spend   
+##### Returns
+**uint256[2]** 0-index is day timestamp, 1-index is the day spend   
 
-    #### getMajorThreshold(WalletLib.WalletData storage, address)   
-    *(WalletLib.sol, line 1060)*
+#### getMajorThreshold(WalletLib.WalletData storage, address)   
+*(WalletLib.sol, line 1060)*
 
-    Get major tx threshold per token.
+Get major tx threshold per token.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **address** _token   
+##### Arguments
+**WalletLib.WalletData** self   
+**address** _token   
 
-    ##### Returns
-    **uint256**   
+##### Returns
+**uint256**   
 
-    #### getTransactions(WalletLib.WalletData storage, uint256)   
-    *(WalletLib.sol, line 1068)*
+#### getTransactions(WalletLib.WalletData storage, uint256)   
+*(WalletLib.sol, line 1068)*
 
-    Get last 10 transactions for the day, fixed at 10 until fork.
+Get last 10 transactions for the day, fixed at 10 until fork.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **uint256** _date Timestamp of the day.   
+##### Arguments
+**WalletLib.WalletData** self   
+**uint256** _date Timestamp of the day.   
 
-    ##### Returns
-    **bytes32[10]** The id for each of the last 10 transactions.   
+##### Returns
+**bytes32[10]** The id for each of the last 10 transactions.   
 
-    #### getTransactionLength(WalletLib.WalletData storage, bytes32)   
-    *(WalletLib.sol, line 1081)*
+#### getTransactionLength(WalletLib.WalletData storage, bytes32)   
+*(WalletLib.sol, line 1081)*
 
-    Get the number of tx's with the same id.
+Get the number of tx's with the same id.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **bytes32** _id   
+##### Arguments
+**WalletLib.WalletData** self   
+**bytes32** _id   
 
-    ##### Returns
-    **uint256** Number of transactions with this id, can be used to query for specific tx, see `getTransactionConfirms`   
+##### Returns
+**uint256** Number of transactions with this id, can be used to query for specific tx, see `getTransactionConfirms`   
 
-    #### getTransactionConfirms(WalletLib.WalletData storage, bytes32, uint256)   
-    *(WalletLib.sol, line 1090)*
+#### getTransactionConfirms(WalletLib.WalletData storage, bytes32, uint256)   
+*(WalletLib.sol, line 1090)*
 
-    Get list of confirmations for a tx, use `getTransactionLength` to get latest number.
+Get list of confirmations for a tx, use `getTransactionLength` to get latest number.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **bytes32** _id   
-    **uint256** _number   
+##### Arguments
+**WalletLib.WalletData** self   
+**bytes32** _id   
+**uint256** _number   
 
-    ##### Returns
-    **uint256[50]** List of confirmations, fixed at 50 items until Metro fork   
+##### Returns
+**uint256[50]** List of confirmations, fixed at 50 items until Metro fork   
 
-    #### getTransactionConfirmCount(WalletLib.WalletData storage, bytes32, uint256)   
-    *(WalletLib.sol, line 1107)*
+#### getTransactionConfirmCount(WalletLib.WalletData storage, bytes32, uint256)   
+*(WalletLib.sol, line 1107)*
 
-    Retrieve tx confirmation count.
+Retrieve tx confirmation count.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **bytes32** _id   
-    **uint256** _number   
+##### Arguments
+**WalletLib.WalletData** self   
+**bytes32** _id   
+**uint256** _number   
 
-    ##### Returns
-    **uint256** The current number of tx confirmations.   
+##### Returns
+**uint256** The current number of tx confirmations.   
 
-    #### getTransactionSuccess(WalletLib.WalletData storage, bytes32, uint256)   
-    *(WalletLib.sol, line 1120)*
+#### getTransactionSuccess(WalletLib.WalletData storage, bytes32, uint256)   
+*(WalletLib.sol, line 1120)*
 
-    Retrieve if transaction was successful.
+Retrieve if transaction was successful.
 
-    ##### Arguments
-    **WalletLib.WalletData** self   
-    **bytes32** _id   
-    **uint256** _number   
+##### Arguments
+**WalletLib.WalletData** self   
+**bytes32** _id   
+**uint256** _number   
 
-    ##### Returns
-    **bool**   
+##### Returns
+**bool**   
