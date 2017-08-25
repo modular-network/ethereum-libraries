@@ -196,7 +196,7 @@ When creating unlinked binary, the compiler currently leaves special substrings 
 
 `--libraries "Array256Lib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"`
 
-Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:
+Additionally, if you have multiple libraries, you can create a file with one library string per line and include this library as follows:
 
 `"Array256Lib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"`
 
