@@ -26,6 +26,7 @@ contract('WalletLibTestContract', function(accounts) {
       return c.owners.call();
     }).then(function(o){
       returnObj.o = o;
+      console.log(returnObj.o);
       return c.majorThreshold.call(0);
     }).then(function(mt){
       returnObj.mt = mt;
@@ -54,10 +55,16 @@ contract('WalletLibTestContract', function(accounts) {
       id = ""+ret.logs[0].args.txid+"";
       return c.revokeConfirm(id, {from:accounts[1]});
     }).then(function(ret){
+      assert.equal(ret.logs[0].args.msg, 'Owner has not confirmed tx', "should give message that the owner hasn't confirmed the transaction yet");
       return c.transactionLength(id);
     }).then(function(len){
-      len = len.valueOf();
-      return c.transactionConfirmCount(id, len - 1);
+      length = len.valueOf();
+      assert.equal(length, 1, 'Should have 1 transaction with this ID');
+      return c.checkNotConfirmed('0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57', length - 1, {from:accounts[1]});
+    }).then(function(ret){  
+      assert.equal(ret.logs[0].args.msg,'Tx not initiated', "should return msg that the tx hasn't been initiated");
+
+      return c.transactionConfirmCount(id, length - 1);
     }).then(function(count){
       count = count.valueOf();
       assert.equal(count, 1, "Confirmation count should still be one b/c accounts[1] has not confirmed");
@@ -90,10 +97,14 @@ contract('WalletLibTestContract', function(accounts) {
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[1]});
     }).then(function(ret){
+      assert.equal(ret.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
       return c.transactionLength(id);
     }).then(function(len){
-      len = len.valueOf();
-      return c.transactionConfirmCount(id, len - 1);
+      length = len.valueOf();
+      return c.checkNotConfirmed(id, length - 1, {from:accounts[1]});
+    }).then(function(ret){  
+      assert.equal(ret.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
+      return c.transactionConfirmCount(id, length - 1);
     }).then(function(count){
       count = count.valueOf();
       assert.equal(count, 3, "Confirmation count should still be three b/c accounts[1] has already confirmed");
