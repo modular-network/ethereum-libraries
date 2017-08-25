@@ -204,7 +204,7 @@ For direction and instructions on how the Solidity command line compiler works [
 
 #### solc without standard JSON input
 
-When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:   
+When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '____LibraryName____' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:   
 
 `--libraries "WalletLib:"`
 
@@ -216,7 +216,7 @@ then add the following flag to your command:
 
 `--libraries filename`
 
-Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
+Finally, if you have an unlinked binary already stored with the '____LibraryName____' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
 `--libraries "WalletLib:"`
 
@@ -284,21 +284,21 @@ bytecode = solc.linkBytecode(bytecode, { 'WalletLib': '' });
 The WalletLib library provides all of the functionality needed to generate a fully functional multisig wallet. The wallet generated will have some of these benefits and characteristics:
 
    * Can have up to 50 wallet owners.
-   * Allows for signature requirements to be defined for three types of operations: administrative, minor transactions, and major transactions.
-          **Administrative:** These are transactions that change signature requirements, add owners, remove owners, etc.
-          **Minor Transactions:** These are ether or token transfers below a set daily threshold.
-          **Major Transactions:** These are ether or token transfers at or above a set daily threshold.
+   * Allows for signature requirements to be defined for three types of operations: administrative, minor transactions, and major transactions.   
+          **Administrative:** These are transactions that change signature requirements, add owners, remove owners, etc.   
+          **Minor Transactions:** These are ether or token transfers below a set daily threshold.   
+          **Major Transactions:** These are ether or token transfers at or above a set daily threshold.   
    * Allows a major transaction threshold to be set individually for any token.
    * Provides a transaction hash for any pending transaction such as is implemented in Gav's wallet, allowing subsequent signatures to be submitted by hash.
    * Can create other contracts from within the wallet.
    * Any new token will automatically have a major threshold of 0 until a threshold is defined by the wallet owners.
    * Allows signatures to be revoked at any point in time prior to the transaction confirming.
 
-The wallet contract should put the `init` function in the constructor with the required parameters given. Once deployed, owners can initiate any transaction by calling the appropriate function with the required data for admin functions, transfer or value data for token or ether transactions, or contract data for deploying new contracts. Most transaction requests end with a `bool` and `bytes` parameter. The `bool` parameter should be true for any transaction being initiated or confirmed and false for any signature revocation. The `bytes` parameter should be the msg.data passed automatically by the wallet contract. [See our example wallet contract](https://www.github.com/Majoolr/ethereum-contracts \"Majoolr repo\") to get a better idea of its implementation.
+The wallet contract should put the `init` function in the constructor with the required parameters given. Once deployed, owners can initiate any transaction by calling the appropriate function with the required data for admin functions, transfer or value data for token or ether transactions, or contract data for deploying new contracts. Most transaction requests end with a `bool` and `bytes` parameter. The `bool` parameter should be true for any transaction being initiated or confirmed and false for any signature revocation. The `bytes` parameter should be the msg.data passed automatically by the wallet contract. [See our example wallet contract](https://www.github.com/Majoolr/ethereum-contracts "Majoolr repo") to get a better idea of its implementation.
 
 Most functions return two parameters, a `bool` and a `bytes32`. The wallet library functions will generally return false and log an error event when submitted parameters are either wrong or the call will not work. In the case of a non-owner attempting to submit a transaction or any failure during actual execution, the wallet library will throw a standard out of gas error with no reason in order to successfully revert changes. These functions will return true if any confirm or revocation call is successful. The functions that return a `bytes32` will also log this value in an event. Owners may choose to use the generic `confirmTx` or `revokeConfirm` functions by providing the id for any transaction already initiated, a concept artfully developed by Gav of York himself.
 
-**DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, a non-owners ability to gain access to your wallet, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://majoolr.io \"Majoolr website\") if you have discovered any issues or vulnerabilities with this library.
+**DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, a non-owners ability to gain access to your wallet, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://majoolr.io "Majoolr website") if you have discovered any issues or vulnerabilities with this library.
 
 ### Usage Example
 
@@ -357,12 +357,12 @@ The following is the list of functions available to use in your smart contract.
 Constructor. Initializes the wallet in the calling contract's storage.  Caller passes in owners and signature settings for the wallet.  Owners must be valid ethereum addresses and signature requirements must be greater than zero and less than or equal to the number of owners. _majorThreshold parameter should set the daily spend limit for minor ether transactions in wei.
 
 ##### Arguments
-**WalletLib.WalletData** self   
-**adress[]** _owners   
-**uint256** _requiredAdmin   
-**uint256** _requiredMajor   
-**uint256** _requiredMinor   
-**uint256** _majorThreshold
+**WalletLib.WalletData** self The storage wallet in the calling contract.   
+**address[]** _owners Array of initial wallet owner addresses   
+**uint256** _requiredAdmin The number of signatures required for administrative changes   
+**uint256** _requiredMajor The number of signatures required for major transactions   
+**uint256** _requiredMinor The number of signatures required for minor transactions   
+**uint256** _majorThreshold The daily Ether spend threshold for transactions to become major, in units of wei
 
 ##### Returns
 **bool**   
