@@ -6,7 +6,7 @@ node_js:
 env:
   - TEST_DIR=BasicMathLib/truffle
   - TEST_DIR=ArrayUtilsLib/truffle
-  - TEST_DIR=ERC20Lib/truffle
+  - TEST_DIR=TokenLib/truffle
   - TEST_DIR=StringUtilsLib/truffle
   - TEST_DIR=WalletLib/truffle
 
