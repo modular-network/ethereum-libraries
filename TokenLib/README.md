@@ -16,7 +16,6 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
   - [Truffle Installation](#truffle-installation)
     - [Manual install:](#manual-install)
     - [Testing the library in truffle](#testing-the-library-in-truffle)
-    - [EthPM install:](#ethpm-install)
   - [solc Installation](#solc-installation)
     - [With standard JSON input](#with-standard-json-input)
     - [solc without standard JSON input](#solc-without-standard-json-input)
@@ -27,32 +26,49 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 - [Basic Usage](#basic-usage)
   - [Usage Example](#usage-example)
 - [Functions](#functions)
-  - [init(TokenStorage storage self, uint256 _initial_supply)](#inittokenstorage-storage-self-uint256-_initial_supply)
-    - [Arguments](#arguments)
-  - [transfer(TokenStorage storage self, address _to, uint256 _value) returns (bool success)](#transfertokenstorage-storage-self-address-_to-uint256-_value-returns-bool-success)
-    - [Arguments](#arguments-1)
-    - [Returns](#returns)
-  - [transferFrom(TokenStorage storage self,](#transferfromtokenstorage-storage-self)
-    - [Arguments](#arguments-2)
-    - [Returns](#returns-1)
-  - [balanceOf(TokenStorage storage self, address _owner) constant returns (uint256 balance)](#balanceoftokenstorage-storage-self-address-_owner-constant-returns-uint256-balance)
-    - [Arguments](#arguments-3)
-    - [Returns](#returns-2)
-  - [approve(TokenStorage storage self, address _spender, uint256 _value) returns (bool success)](#approvetokenstorage-storage-self-address-_spender-uint256-_value-returns-bool-success)
-    - [Arguments](#arguments-4)
-    - [Returns](#returns-3)
-  - [allowance(TokenStorage storage self,](#allowancetokenstorage-storage-self)
-    - [Arguments](#arguments-5)
-    - [Returns](#returns-4)
+    - [init(TokenLib.TokenStorage storage, address, string, string, uint8, uint256, bool)](#inittokenlibtokenstorage-storage-address-string-string-uint8-uint256-bool)
+      - [Arguments](#arguments)
+      - [Returns](#returns)
+    - [transfer(TokenLib.TokenStorage storage, address, uint256)](#transfertokenlibtokenstorage-storage-address-uint256)
+      - [Arguments](#arguments-1)
+      - [Returns](#returns-1)
+    - [transferFrom(TokenLib.TokenStorage storage, address, address, uint256)](#transferfromtokenlibtokenstorage-storage-address-address-uint256)
+      - [Arguments](#arguments-2)
+      - [Returns](#returns-2)
+    - [balanceOf(TokenLib.TokenStorage storage, address)](#balanceoftokenlibtokenstorage-storage-address)
+      - [Arguments](#arguments-3)
+      - [Returns](#returns-3)
+    - [approve(TokenLib.TokenStorage storage, address, uint256)](#approvetokenlibtokenstorage-storage-address-uint256)
+      - [Arguments](#arguments-4)
+      - [Returns](#returns-4)
+    - [allowance(TokenLib.TokenStorage storage, address, address)](#allowancetokenlibtokenstorage-storage-address-address)
+      - [Arguments](#arguments-5)
+      - [Returns](#returns-5)
+  - [Enhanced Token Functions](#enhanced-token-functions)
+    - [approveChange(TokenLib.TokenStorage storage, address, uint256, bool)](#approvechangetokenlibtokenstorage-storage-address-uint256-bool)
+      - [Arguments](#arguments-6)
+      - [Returns](#returns-6)
+    - [changeOwner(TokenLib.TokenStorage storage, address)](#changeownertokenlibtokenstorage-storage-address)
+      - [Arguments](#arguments-7)
+      - [Returns](#returns-7)
+    - [mintToken(TokenLib.TokenStorage storage, uint256)](#minttokentokenlibtokenstorage-storage-uint256)
+      - [Arguments](#arguments-8)
+      - [Returns](#returns-8)
+    - [closeMint(TokenLib.TokenStorage storage)](#closeminttokenlibtokenstorage-storage)
+      - [Arguments](#arguments-9)
+      - [Returns](#returns-9)
+    - [burnToken(TokenLib.TokenStorage storage, uint256)](#burntokentokenlibtokenstorage-storage-uint256)
+      - [Arguments](#arguments-10)
+      - [Returns](#returns-10)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address
 
 **ENS**: TokenLib.majoolr.eth   
-**Main Ethereum Network**: 0x7bc3a3d4d304127d04f6aec09dd546d254e02ce1  
-**Rinkeby Test Network**: 0x9b40715474cb7b384438821d69f8455c79c0f0dc   
-**Ropsten Test Network**: 0xc5f20410e1c6db8090c842d2ade8b42c214199dd
+**Main Ethereum Network**: 0x0aa4e6e25a76f81f079aa300c33621e20c632e6a   
+**Rinkeby Test Network**: 0x4efd23da884251417907a6526b0241595cd3449a   
+**Ropsten Test Network**: 0x0f1064372d2c28c06f04279116e48e7a4d1c45f9   
 
 ## License and Warranty
 
@@ -119,8 +135,7 @@ The following process will allow you to `truffle test` this library in your proj
 2. Place each file in their respective directory in **your** truffle project.
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
 3. [Start a testrpc node](https://github.com/ethereumjs/testrpc "testrpc's Github")
-4. In your terminal go to your truffle project directory and run `truffle migrate`.
-5. After migration run `truffle test`.
+4. In your terminal go to your truffle project directory and run `truffle test`.
 
 ### solc Installation
 
@@ -153,10 +168,10 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "TokenLib.sol": {
-        "BasicMathLib" : "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"
+        "BasicMathLib" : "0x74453cf53c97437066b1987e364e5d6b54bcaee6"
       },
       "YourTokenContract.sol": {
-        "TokenLib": "0x71ecde7c4b184558e8dba60d9f323d7a87411946"
+        "TokenLib": "0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"
       }
     }
   }
@@ -168,11 +183,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "TokenLib:0x71ecde7c4b184558e8dba60d9f323d7a87411946"`
+`--libraries "TokenLib:0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"`
 
 Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:
 
-`"TokenLib:0x71ecde7c4b184558e8dba60d9f323d7a87411946"`
+`"TokenLib:0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"`
 
 then add the following flag to your command:
 
@@ -180,7 +195,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "TokenLib:0x71ecde7c4b184558e8dba60d9f323d7a87411946"`
+`--libraries "TokenLib:0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"`
 
 #### solc documentation
 
@@ -221,10 +236,10 @@ var input = {
     ...
     "libraries": {
       "TokenLib": {
-        "BasicMathLib": "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"
+        "BasicMathLib": "0x74453cf53c97437066b1987e364e5d6b54bcaee6"
       },
       "YourContract.sol": {
-        "TokenLib": "0x71ecde7c4b184558e8dba60d9f323d7a87411946"
+        "TokenLib": "0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"
       }
     }
     ...
@@ -273,16 +288,21 @@ contract TokenLibTestContract {
 
   TokenLib.TokenStorage token;
 
-  function TokenLibTestContract(string name, string symbol, uint8 decimals, uint256 initialSupply) {
-    token.init(name, symbol, decimals, initialSupply);
+  function TokenLibTestContract(address owner,
+                                string name,
+                                string symbol,
+                                uint8 decimals,
+                                uint256 initialSupply,
+                                bool allowMinting) {
+    token.init(name, symbol, decimals, initialSupply, allowMinting);
+  }
+
+  function owner() constant returns (string) {
+    return token.owner;
   }
 
   function name() constant returns (string) {
     return token.name;
-  }
-
-  function symbol() constant returns (string) {
-    return token.symbol;
   }
 
   ...

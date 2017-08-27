@@ -29,6 +29,4 @@ contract('TokenLibTestContract', function(accounts) {
       assert.equal(returnObj.initialSupply.valueOf(), 100, "Initial supply should reflect 10.");
     });
   });
-
-
 });
