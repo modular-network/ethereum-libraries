@@ -1,4 +1,4 @@
-ERC20Lib
+TokenLib
 =========================
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
@@ -49,7 +49,7 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 ## Library Address
 
-**ENS**: ERC20Lib.majoolr.eth   
+**ENS**: TokenLib.majoolr.eth   
 **Main Ethereum Network**: 0x7bc3a3d4d304127d04f6aec09dd546d254e02ce1  
 **Rinkeby Test Network**: 0x9b40715474cb7b384438821d69f8455c79c0f0dc   
 **Ropsten Test Network**: 0xc5f20410e1c6db8090c842d2ade8b42c214199dd
@@ -72,7 +72,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### Truffle Installation
 
-**version 3.3.0**
+**version 3.4.9**
 
 First install truffle via npm using `npm install -g truffle` .
 
@@ -80,30 +80,35 @@ Please [visit Truffle's installation guide](http://truffleframework.com/docs/get
 
 #### Manual install:
 
-This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development. The ERC20Lib uses the BasicMathLib as a lower level library so you must go through the install of that library first. If you do not have [BasicMathLib in your project please start there](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link") and then come back.
+This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development. The TokenLib uses the BasicMathLib as a lower level library so you must go through the install of that library first. If you do not have [BasicMathLib in your project please start there](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link") and then come back.
 
 1. [Install BasicMathLib](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link") .
-2. Place the ERC20Lib.sol file in your truffle `contracts/` directory.
-3. Place the ERC20Lib.json file in your truffle `build/contracts/` directory.
+2. Place the TokenLib.sol file in your truffle `contracts/` directory.
+3. Place the TokenLib.json file in your truffle `build/contracts/` directory.
 4. Amend the deployment .js file in your truffle `migrations/` directory as follows:
 
 ```js
 var BasicMathLib = artifacts.require("./BasicMathLib");
-var ERC20Lib = artifacts.require("./ERC20Lib.sol");
+var TokenLib = artifacts.require("./TokenLib.sol");
 var OtherLibs = artifacts.require("./OtherLibs.sol");
 var YourStandardTokenContract = artifacts.require("./YourStandardTokenContract.sol");
 ...
 
+//Input your parameters
+var name = //"Your Token Name";
+var symbol = //"YTS";
+var decimals = //18;
+var initialSupply = //10;
 module.exports = function(deployer) {
   deployer.deploy(BasicMathLib,{overwrite: false});
-  deployer.link(BasicMathLib, ERC20Lib);
-  deployer.deploy(ERC20Lib, {overwrite: false});
-  deployer.link(ERC20Lib, YourStandardTokenContract);
-  deployer.deploy(YourStandardTokenContract);
+  deployer.link(BasicMathLib, TokenLib);
+  deployer.deploy(TokenLib, {overwrite: false});
+  deployer.link(TokenLib, YourStandardTokenContract);
+  deployer.deploy(YourStandardTokenContract, name, symbol, decimals, initialSupply);
 };
 ```
 
-**Note**: The `.link()` function should be called *before* you `.deploy(YourStandardTokenContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(ERC20Lib, {overwrite: false})`. This prevents deploying the library onto the main network or Rinkeby test network at your cost and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
+**Note**: The `.link()` function should be called *before* you `.deploy(YourStandardTokenContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(TokenLib, {overwrite: false})`. This prevents deploying the library onto the main network or Rinkeby test network at your cost and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
 
 #### Testing the library in truffle
 
@@ -117,13 +122,9 @@ The following process will allow you to `truffle test` this library in your proj
 4. In your terminal go to your truffle project directory and run `truffle migrate`.
 5. After migration run `truffle test`.
 
-#### EthPM install:
-
-We were experiencing errors with EthPM deployment and will update this when those are resolved.
-
 ### solc Installation
 
-**version 0.4.11**
+**version 0.4.15**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").
 
@@ -143,19 +144,19 @@ For direction and instructions on how the Solidity command line compiler works [
     "BasicMathLib.sol": {
       "content": "[Contents of BasicMathLib.sol]"
     },
-    "ERC20Lib.sol": {
-      "content": "[Contents of ERC20Lib.sol]"
+    "TokenLib.sol": {
+      "content": "[Contents of TokenLib.sol]"
     }
   },
   "settings":
   {
     ...
     "libraries": {
-      "ERC20Lib.sol": {
+      "TokenLib.sol": {
         "BasicMathLib" : "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"
       },
       "YourTokenContract.sol": {
-        "ERC20Lib": "0x71ecde7c4b184558e8dba60d9f323d7a87411946"
+        "TokenLib": "0x71ecde7c4b184558e8dba60d9f323d7a87411946"
       }
     }
   }
@@ -167,11 +168,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "ERC20Lib:0x71ecde7c4b184558e8dba60d9f323d7a87411946"`
+`--libraries "TokenLib:0x71ecde7c4b184558e8dba60d9f323d7a87411946"`
 
 Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:
 
-`"ERC20Lib:0x71ecde7c4b184558e8dba60d9f323d7a87411946"`
+`"TokenLib:0x71ecde7c4b184558e8dba60d9f323d7a87411946"`
 
 then add the following flag to your command:
 
@@ -179,7 +180,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "ERC20Lib:0x71ecde7c4b184558e8dba60d9f323d7a87411946"`
+`--libraries "TokenLib:0x71ecde7c4b184558e8dba60d9f323d7a87411946"`
 
 #### solc documentation
 
@@ -187,7 +188,7 @@ Finally, if you have an unlinked binary already stored with the '__LibraryName__
 
 ### solc-js Installation
 
-**version 0.4.11**
+**version 0.4.15**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.
 
@@ -199,7 +200,7 @@ var fs = require('fs');
 
 var file = fs.readFileSync('/path/to/YourTokenContract.sol','utf8');
 var basicMath = fs.readFileSync('./path/to/BasicMathLib.sol','utf8');
-var lib = fs.readFileSync('./path/to/ERC20Lib.sol','utf8');
+var lib = fs.readFileSync('./path/to/TokenLib.sol','utf8');
 
 var input = {
   "language": "Solidity",
@@ -211,7 +212,7 @@ var input = {
     "BasicMathLib": {
       "content": basicMath
     },
-    "ERC20Lib.sol": {
+    "TokenLib.sol": {
       "content": lib
     }
   },
@@ -219,11 +220,11 @@ var input = {
   {
     ...
     "libraries": {
-      "ERC20Lib": {
+      "TokenLib": {
         "BasicMathLib": "0x3e25cde3fb9c93e4c617fe91c8c0d6720c87d61e"
       },
       "YourContract.sol": {
-        "ERC20Lib": "0x71ecde7c4b184558e8dba60d9f323d7a87411946"
+        "TokenLib": "0x71ecde7c4b184558e8dba60d9f323d7a87411946"
       }
     }
     ...
@@ -240,7 +241,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'ERC20Lib': '0x71ecde7c4b184558e8dba60d9f323d7a87411946' });
+ bytecode = solc.linkBytecode(bytecode, { 'TokenLib': '0x71ecde7c4b184558e8dba60d9f323d7a87411946' });
  ```
 
 #### Solc-js documentation
@@ -249,148 +250,206 @@ Solc-js also provides a linking method if you have compiled binary code already 
 
 ## Basic Usage
 
-*Disclaimer: While we make every effort to produce professional grade code we can not guarantee the security and performance of these libraries in your smart contracts. Please use good judgement and security practices while developing, we do not take responsibility for any issues you, your customers, or your applications encounter when using these open source resources.
+*Disclaimer: While we make every effort to produce professional grade code we can not guarantee the security and performance of these libraries in your smart contracts. Please use good judgement and security practices while developing, we do not take responsibility for any issues you, your customers, or your applications encounter when using these open source resources.*
 
 For a detailed explanation on how libraries are used please read the following from the Solidity documentation:
 
    * [Libraries](http://solidity.readthedocs.io/en/develop/contracts.html#libraries)
    * [Using For](http://solidity.readthedocs.io/en/develop/contracts.html#using-for)
 
-The ERC20Lib abstracts away all of the functions required for an ERC20 standard token. Users will include this library in their standard token contract and use it to make state changes. When there is an overspend, the library will not make any state changes and will **not** throw an error. It will return an error event with a message string stating what happened. If you are using your standard token to make state changes in other contracts, then you will need to decide how to handle an overspend. When an account is overspent, the transfer functions will return false. If the standard token contract is not being used in other contracts then there will be no state changes if an account overspends.
+The TokenLib abstracts away all of the functions required for several token variations. Users will include this library in their token contract and use it to make state changes.
 
-In order to use the ERC20Lib, import it into your token contract and then bind it as follows:
+In order to use the TokenLib, import it into your token contract and then bind it as follows:
 
 ### Usage Example
 
 ```
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.15;
 
-import "./ERC20Lib.sol";
+import "./TokenLib.sol";
 
-contract MyToken {
-  using ERC20Lib for ERC20Lib.TokenStorage;
+contract TokenLibTestContract {
+  using TokenLib for TokenLib.TokenStorage;
 
-  ERC20Lib.TokenStorage token;
+  TokenLib.TokenStorage token;
 
-  string public name = "Money";
-  string public symbol = "PLZ";
-  uint public decimals = 18;
-  //10,000,000 tokens with 18 decimal zeros
-  uint public INITIAL_SUPPLY = 10000000000000000000000000;
-
-  function MyToken() {
-    token.init(INITIAL_SUPPLY);
+  function TokenLibTestContract(string name, string symbol, uint8 decimals, uint256 initialSupply) {
+    token.init(name, symbol, decimals, initialSupply);
   }
 
-  function totalSupply() constant returns (uint) {
-    return token.totalSupply;
+  function name() constant returns (string) {
+    return token.name;
   }
 
-  function balanceOf(address who) constant returns (uint) {
-    return token.balanceOf(who);
+  function symbol() constant returns (string) {
+    return token.symbol;
   }
 
-  function allowance(address owner, address spender) constant returns (uint) {
-    return token.allowance(owner, spender);
-  }
-
-  function transfer(address to, uint value) returns (bool ok) {
-    return token.transfer(to, value);
-  }
-
-  function transferFrom(address from, address to, uint value) returns (bool ok) {
-    return token.transferFrom(from, to, value);
-  }
-
-  function approve(address spender, uint value) returns (bool ok) {
-    return token.approve(spender, value);
-  }
+  ...
 }
 ```
 
-Binding the library allows you to call the function in the format [firstParameter].function(secondParameter)
+Binding the library allows you to call the function in the format [firstParameter].function(secondParameter) . For a complete ERC20 standard token example, [please visit our Ethereum Contracts repository](https://www.github.com/Majoolr/ethereum-contracts "Majoolr contracts repo").
 
 ## Functions
 
 The following is the list of functions available to use in your token contract.
 
-   ### init(TokenStorage storage self, uint256 _initial_supply)
-   *(ERC20Lib.sol, line 55)*
+###Standard Token Functions
 
-   Initialize token with supply.
+   #### init(TokenLib.TokenStorage storage, address, string, string, uint8, uint256, bool)   
+   *(TokenLib.sol, line 63)*
 
-   #### Arguments
-   *TokenStorage storage variable* self   
-   *uint256* _initial_supply   
+   Initialize token with owner address, token name, symbol, decimals, supply, and minting status. Standard decimals is 18, the decimals used for Ether. If no additional tokens will be minted _allowMinting should be false.
 
-   ### transfer(TokenStorage storage self, address _to, uint256 _value) returns (bool success)
-   *(ERC20Lib.sol, line 65)*
+   ##### Arguments
+   **TokenLib.TokenStorage storage** self The storage token in the calling contract.   
+   **address** _owner Owning address of token contract.
+   **string** _name Name of the token.   
+   **string** _symbol Symbol of the token.   
+   **uint8** _decimals Decimal places for token represented.   
+   **uint256** _initial_supply Initial supply for the token.   
+   **bool** _allowMinting True if more tokens will be created, false otherwise.
+
+   ##### Returns
+   Nada
+
+   #### transfer(TokenLib.TokenStorage storage, address, uint256)    
+                 returns (bool)   
+   *(TokenLib.sol, line 87)*
 
    Transfer tokens from msg.sender to another account.
 
-   #### Arguments
-   *TokenStorage storage variable* self   
-   *address* _to   
-   *uint256* _value   
+   ##### Arguments
+   **TokenLib.TokenStorage storage variable** self   
+   **address** _to   
+   **uint256** _value   
 
-   #### Returns
-   *bool* success   
+   ##### Returns
+   **bool** Returns true after successful transfer.     
 
-   ### transferFrom(TokenStorage storage self,
-                         address _from,
-                         address _to,
-                         uint256 _value)
-                         returns (bool success) {
-   *(ERC20Lib.sol, line 87)*
+   #### transferFrom(TokenLib.TokenStorage storage, address, address, uint256)   
+                     returns (bool)   
+   *(TokenLib.sol, line 106)*
 
    Authorized spender, msg.sender, transfers tokens from one account to another.
 
-   #### Arguments
-   *TokenStorage storage variable* self   
-   *address* _from   
-   *address* _to   
-   *uint256* _value   
+   ##### Arguments
+   **TokenLib.TokenStorage storage** self   
+   **address** _from   
+   **address** _to   
+   **uint256** _value   
 
-   #### Returns
-   *bool* success   
+   ##### Returns
+   **bool**      
 
-   ### balanceOf(TokenStorage storage self, address _owner) constant returns (uint256 balance)
-   *(ERC20Lib.sol, line 120)*
+   #### balanceOf(TokenLib.TokenStorage storage, address)    
+                  constant returns (uint256)   
+   *(TokenLib.sol, line 135)*   
 
    Retrieve the token balance of the given account.
 
-   #### Arguments
-   *TokenStorage storage variable* self   
-   *address* _owner   
+   ##### Arguments
+   **TokenLib.TokenStorage storage** self   
+   **address** _owner   
 
-   #### Returns
-   *uint256* balance    
+   ##### Returns
+   **uint256** balance    
 
-   ### approve(TokenStorage storage self, address _spender, uint256 _value) returns (bool success)
-   *(ERC20Lib.sol, line 129)*
+   #### approve(TokenLib.TokenStorage storage, address, uint256)    
+                returns (bool)   
+   *(TokenLib.sol, line 144)*   
 
    msg.sender approves a third party to spend up to _value in tokens.
 
-   #### Arguments
-   *TokenStorage storage variable* self    
-   *address* _spender   
-   *uint256* _value   
+   ##### Arguments
+   **TokenLib.TokenStorage storage** self    
+   **address** _spender   
+   **uint256** _value   
 
-   #### Returns
-   success *bool*
+   ##### Returns
+   **bool**   
 
-   ### allowance(TokenStorage storage self,
-                      address _owner,
-                      address _spender)
-                      constant returns (uint256 remaining)
-   *(ERC20Lib.sol, line 140)*
+   #### allowance(TokenLib.TokenStorage storage, address, address)   
+                  constant returns (uint256)   
+   *(TokenLib.sol, line 155)*
 
    Check the remaining allowance spender has from owner.
 
-   #### Arguments
-   *TokenStorage storage variable* self   
-   *address* _owner   
-   *address* _spender   
+   ##### Arguments
+   **TokenStorage storage** self   
+   **address** _owner   
+   **address** _spender   
 
-   #### Returns
-   *uint256* remaining   
+   ##### Returns
+   **uint256** remaining   
+
+### Enhanced Token Functions
+
+These are additional functions beyond the standard that can enhance token functionality.   
+
+   #### approveChange(TokenLib.TokenStorage storage, address, uint256, bool)   
+                     returns (bool)   
+   *(TokenLib.sol, line 165)*   
+
+   msg.sender approves a third party to spend tokens by increasing or decreasing the allowance by an amount equal to _valueChange. _increase should be true if increasing the approval amount and false if decreasing the approval amount. This is an enhancement to the `approve` function which subverts [the attack vector described here](https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit#heading=h.m9fhqynw2xvt "ERC20 approve attack vector") by acting on the allowance delta rather than the amount explicitly.   
+
+   ##### Arguments
+   **TokenLib.TokenStorage storage** self    
+   **address** _spender   
+   **uint256** _valueChange The amount to change approval by.   
+   **bool** _increase True if increasing approval, false if decreasing.      
+
+   ##### Returns
+   **bool**   
+
+   #### changeOwner(TokenLib.TokenStorage storage, address)   
+                     returns (bool)   
+   *(TokenLib.sol, line 193)*   
+
+   Changes the owning address of the token contract.   
+
+   ##### Arguments
+   **TokenLib.TokenStorage storage** self    
+   **address** _newOwner   
+
+   ##### Returns
+   **bool**   
+
+   #### mintToken(TokenLib.TokenStorage storage, uint256)   
+                     returns (bool)   
+   *(TokenLib.sol, line 205)*   
+
+   Mints new tokens if allowed, increases totalSupply. New tokens go to the token contract owner address.   
+
+   ##### Arguments
+   **TokenLib.TokenStorage storage** self    
+   **uint256** _value Amount of tokens to mint.   
+
+   ##### Returns
+   **bool**    
+
+   #### closeMint(TokenLib.TokenStorage storage)   
+                     returns (bool)   
+   *(TokenLib.sol, line 222)*   
+
+   Permanently closes minting capability.   
+
+   ##### Arguments
+   **TokenLib.TokenStorage storage** self    
+
+   ##### Returns
+   **bool**   
+
+   #### burnToken(TokenLib.TokenStorage storage, uint256)   
+                     returns (bool)   
+   *(TokenLib.sol, line 234)*   
+
+   Allows to permanently burn tokens, reduces totalSupply.   
+
+   ##### Arguments
+   **TokenLib.TokenStorage storage** self    
+   **uint256** _value Amount of tokens to burn.   
+
+   ##### Returns
+   **bool**   

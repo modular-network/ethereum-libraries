@@ -1,9 +1,0 @@
-{
-  "name": "ERC20Lib",
-  "version": "1.0.1",
-  "description": "ERC20 token library used by standard token contracts",
-  "devDependencies": {
-    "truffle": "^3.4.5",
-    "ethereumjs-testrpc": "^4.0.0"
-  }
-}
