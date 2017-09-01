@@ -2,7 +2,8 @@ StringUtilsLib
 =========================
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
+[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
 
 A library [provided by Arachnid](https://github.com/Arachnid "Arachnid's Github") and [forked here by Majoolr](https://github.com/Majoolr "Majoolr's Github") to provide internal string utility functions for smart contracts on an Ethereum network. Big thanks to Nick Johnson for allowing us to add
 this to our collective library repository. The library is currently an exact copy
