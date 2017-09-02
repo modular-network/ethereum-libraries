@@ -1,7 +1,7 @@
 pragma solidity ^0.4.13;
 
 /**
- * @title DirectICOLib
+ * @title DirectCrowdsaleLib
  * @author Majoolr.io
  *
  * version 1.0.0
@@ -9,7 +9,7 @@ pragma solidity ^0.4.13;
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
  *
- * The DirectICO Library provides functionality to create a initial coin offering
+ * The DirectCrowdsale Library provides functionality to create a initial coin offering
  * for a standard token sale with high supply where there is a direct ether to
  * token transfer.  
  * See https://github.com/Majoolr/ethereum-contracts for an example of how to
@@ -33,17 +33,15 @@ pragma solidity ^0.4.13;
 
 import "./BasicMathLib.sol";
 import "./TokenLib.sol";
-import "./Array256Lib.sol";
 import "./CrowdsaleLib.sol";
 
-library DirectICOLib {
+library DirectCrowdsaleLib {
   using BasicMathLib for uint256;
-  using Array256Lib for uint256[];
   using CrowdsaleLib for CrowdsaleLib.CrowdsaleStorage;
 
-  struct DirectICOStorage {
+  struct DirectCrowdsaleStorage {
 
-  	CrowdsaleLib.CrowdsaleStorage sale;
+  	CrowdsaleLib.CrowdsaleStorage base;
 
   	uint256 periodicChange;    // amount in ether that the token price changes after a specified interval
   	uint256 timeInterval;      // amount of time between changes in the price of the token
@@ -65,7 +63,7 @@ library DirectICOLib {
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _decimals Decimal places for the token represented
-  function init(DirectICOStorage storage self,
+  function init(DirectCrowdsaleStorage storage self,
                 address _owner,
                 uint256 _tokenPrice,
                 uint256 _capAmount,
@@ -80,7 +78,7 @@ library DirectICOLib {
                 bool _increase,
                 CrowdsaleToken _token)
   {
-  	self.sale.init(_owner,
+  	self.base.init(_owner,
                 _tokenPrice,
                 _capAmount,
                 _minimumTargetRaise,
@@ -103,53 +101,99 @@ library DirectICOLib {
 
   /// @dev Called when an address wants to purchase tokens
   /// @param self Stored crowdsale from crowdsale contract
-  function registerBuyer(DirectICOStorage storage self) {
-  	self.sale.isRegistered[msg.sender] = true;
-  }
-
-
-  /// @dev Called when an address wants to purchase tokens
-  /// @param self Stored crowdsale from crowdsale contract
   /// @param _amount amound of wei that the buyer is sending
-  function receivePurchase(DirectICOStorage storage self, uint256 _amount) {
-  	require(self.sale.validPurchase());
-  	require(self.sale.hasContributed[msg.sender] < self.sale.addressCap);
-  	require(self.weiRaised < self.sale.capAmount);
+  function receivePurchase(DirectCrowdsaleStorage storage self, uint256 _amount) {
+  	require(self.base.validPurchase());
+  	require(self.base.hasContributed[msg.sender] < self.base.addressCap);
+  	require(self.weiRaised < self.base.capAmount);
 
   	// if the token price increase interval has passed, update the current day and change the token price
-  	if (now > (self.currDay + self.timeInterval)) {
+  	if ((self.timeInterval > 0) && (now > (self.currDay + self.timeInterval))) {
   		self.currDay = now;
-  		if (self.increase) { self.sale.increaseTokenPrice(self.periodicChange); }
-  		else { self.sale.decreaseTokenPrice(self.periodicChange); }
+  		if (self.increase) { self.base.increaseTokenPrice(self.periodicChange); }
+  		else { self.base.decreaseTokenPrice(self.periodicChange); }
   	}
 
   	uint256 numTokens;     //number of tokens that will be purchased
   	bool err;
 
   	// if the sender over pays their allocated contribution, put the leftover ether into a mapping for their address that they can withdraw later
-  	if (self.sale.hasContributed[msg.sender] + _amount > self.sale.addressCap) {
-		uint256 leftoverWei = _amount - (self.sale.addressCap-self.sale.hasContributed[msg.sender]);
-		uint256 amountContributed = _amount-leftoverWei;
-		self.sale.hasContributed[msg.sender] += amountContributed;     // can't overflow because it will be under the cap
-		self.sale.excessEther[msg.sender] += leftoverWei;				// can this overflow?
-		(err,numTokens) = amountContributed.dividedBy(self.sale.tokenPrice);
+  	if (self.base.hasContributed[msg.sender] + _amount > self.base.addressCap) {
+		  uint256 leftoverWei = _amount - (self.base.addressCap-self.base.hasContributed[msg.sender]);
+		  uint256 amountContributed = _amount-leftoverWei;
+		  self.base.hasContributed[msg.sender] += amountContributed;     // can't overflow because it will be under the cap
+		  self.base.excessEther[msg.sender] += leftoverWei;				// can this overflow?
+		  (err,numTokens) = amountContributed.dividedBy(self.base.tokenPrice);
 
-		require(!err);
+		  require(!err);
 
-	} else {
-		self.sale.hasContributed[msg.sender] += _amount;      // can't overflow because it is under the cap
-		(err,numTokens) = _amount.dividedBy(self.sale.tokenPrice);
+	  } else {
+		  self.base.hasContributed[msg.sender] += _amount;      // can't overflow because it is under the cap
+		  (err,numTokens) = _amount.dividedBy(self.base.tokenPrice);
 
-		require(!err);
-	}
+		  require(!err);
+	  }
 
-	self.sale.withdrawTokensMap[msg.sender] += numTokens;    // can't overflow because it will be under the cap
+	  self.base.withdrawTokensMap[msg.sender] += numTokens;    // can't overflow because it will be under the cap
 
-	TokensBought(msg.sender, numTokens);
+    forwardEthertoOwner(self.base.owner);
+
+	  TokensBought(msg.sender, numTokens);
 
   }
 
+  /// @dev send ether from a purchase to the owners wallet address
+  function forwardEthertoOwner(address _owner) internal {
+    _owner.transfer(msg.value);
+  }
+ 
 
+  ///  Functions "inherited" from CrowdsaleLib library
+
+
+  function crowdsaleActive(DirectCrowdsaleStorage storage self) constant returns (bool) {
+    return self.base.crowdsaleActive();
+  }
+
+  function crowdsaleEnded(DirectCrowdsaleStorage storage self) constant returns (bool) {
+    return self.base.crowdsaleEnded();
+  }
+
+  function validPurchase(DirectCrowdsaleStorage storage self) constant returns (bool) {
+    return self.base.validPurchase();
+  }
+
+  function withdrawTokens(DirectCrowdsaleStorage storage self) {
+    self.base.withdrawTokens();
+  }
+
+  function withdrawEther(DirectCrowdsaleStorage storage self) {
+    self.base.withdrawEther();
+  }
+
+  function increaseTokenPrice(DirectCrowdsaleStorage storage self, uint256 _amount) {
+    self.base.increaseTokenPrice(_amount);
+  }
+
+  function decreaseTokenPrice(DirectCrowdsaleStorage storage self, uint256 _amount) {
+    self.base.decreaseTokenPrice(_amount);
+  }
+
+  function changeAddressCap(DirectCrowdsaleStorage storage self, uint256 _newCap) returns (bool) {
+    return self.base.changeAddressCap(_newCap);
+  }
+
+  function getContribution(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
+    return self.base.getContribution(_buyer);
+  }
+
+  function getTokenPurchase(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
+    return self.base.getTokenPurchase(_buyer);
+  }
+
+  function getExcessEther(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
+    return self.base.getExcessEther(_buyer);
+  }
 
 
 

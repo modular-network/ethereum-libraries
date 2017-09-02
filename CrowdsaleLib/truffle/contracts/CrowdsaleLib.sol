@@ -33,27 +33,24 @@ pragma solidity ^0.4.13;
 
 import "./BasicMathLib.sol";
 import "./TokenLib.sol";
-import "./Array256Lib.sol";
 import "./CrowdsaleToken.sol";
 
 library CrowdsaleLib {
   using BasicMathLib for uint256;
-  using Array256Lib for uint256[];
 
   struct CrowdsaleStorage {
   	address owner;     //owner of the crowdsale
 
   	uint256 tokenPrice;  //price (in wei) of each token
-  	uint256 capAmount; //Maximum amount to be raised in ether
-  	uint256 minimumTargetRaise; //Minimum amount acceptable for successful auction in ether
+  	uint256 capAmount; //Maximum amount to be raised in wei
+  	uint256 minimumTargetRaise; //Minimum amount acceptable for successful auction in wei
   	uint256 auctionSupply; // number of tokens available in the sale
   	uint8 decimals; //Number of zeros to add to token supply, usually 18
   	uint256 startTime; //ICO start time, timestamp
   	uint256 endTime; //ICO end time, timestamp automatically calculated
-  	uint256 addressCap;      //amount of ether one account can spend in the sale
+  	uint256 addressCap;      //amount of wei one account can spend in the sale
 
-  	mapping (address => bool) isRegistered;       //indicates if an address has registered for the crowdsale
-  	mapping (address => uint256) hasContributed;  //shows how much ether an address has contributed
+  	mapping (address => uint256) hasContributed;  //shows how much wei an address has contributed
   	mapping (address => uint) withdrawTokensMap;  //For token withdraw function, maps a user address to the amount of tokens they can withdraw
   	mapping (address => uint256) excessEther;   //Catch for failed deposits. indicates how much a failed or overpaid user deposit paid
 
@@ -99,27 +96,32 @@ library CrowdsaleLib {
     self.endTime = _endTime;
     self.addressCap = _addressCap;
     self.token = _token;
-  }
+  }  
 
   /// @dev function to check if the crowdsale is currently active
+  /// @param self Stored crowdsale from crowdsale contract
+  /// @return success
   function crowdsaleActive(CrowdsaleStorage storage self) constant returns (bool) {
   	return (now >= self.startTime && now <= self.endTime);
   }
 
   /// @dev function to check if the crowdsale has ended
+  /// @param self Stored crowdsale from crowdsale contract
+  /// @return success
   function crowdsaleEnded(CrowdsaleStorage storage self) constant returns (bool) {
   	return now > self.endTime;
   }
 
-  ///  @dev function to check if a purchase is valid
+  /// @dev function to check if a purchase is valid
+  /// @param self Stored crowdsale from crowdsale contract
   /// @return true if the transaction can buy tokens
   function validPurchase(CrowdsaleStorage storage self) constant returns (bool) {
     bool nonZeroPurchase = msg.value != 0;
-    bool registered = self.isRegistered[msg.sender];
-    return crowdsaleActive(self) && registered && nonZeroPurchase;
+    return crowdsaleActive(self) && nonZeroPurchase;
   }
 
   /// @dev Function called by purchasers to pull tokens
+  /// @param self Stored crowdsale from crowdsale contract
   function withdrawTokens(CrowdsaleStorage storage self) {
     var total = self.withdrawTokensMap[msg.sender];
     self.withdrawTokensMap[msg.sender] = 0;
@@ -138,7 +140,6 @@ library CrowdsaleLib {
 
   /// @dev Function to change the price of the token
   /// @param _amount amount to increase the token price by
-  /// @return success 
   function increaseTokenPrice(CrowdsaleStorage storage self, uint256 _amount) {
   	require(msg.sender == self.owner);
   	require(_amount > 0);
@@ -152,7 +153,6 @@ library CrowdsaleLib {
 
   /// @dev Function to change the price of the token
   /// @param _amount amount to increase the token price by
-  /// @return success 
   function decreaseTokenPrice(CrowdsaleStorage storage self, uint256 _amount) {
   	require(msg.sender == self.owner);
   	require(_amount > 0);
@@ -172,7 +172,30 @@ library CrowdsaleLib {
   	require(_newCap > self.addressCap);
 
   	self.addressCap = _newCap;
+  }
 
+  /// @dev Gets the amount of ether that an account has contributed
+  /// @param _buyer address to get the information for
+  /// @return amount of ether 
+  function getContribution(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
+    require(self.hasContributed[_buyer] > 0);
+    return self.hasContributed[_buyer];
+  }
+
+  /// @dev returns the number of tokens that an account has purchased
+  /// @param _buyer address to get the information for
+  /// @return number of tokens the account can withdraw 
+  function getTokenPurchase(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
+    require(self.hasContributed[_buyer] > 0);
+    return self.withdrawTokensMap[_buyer];
+  }
+
+  /// @dev Gets the amount of ether that is leftover after an account has purchased tokens
+  /// @param _buyer address to get the information for
+  /// @return amount of ether leftover from their purchases 
+  function getExcessEther(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
+    require(self.hasContributed[_buyer] > 0);
+    return self.excessEther[_buyer];
   }
 
 }

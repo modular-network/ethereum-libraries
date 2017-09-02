@@ -1,10 +1,10 @@
-TokenLib
+CrowdsaleLib
 =========================
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
 [![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
 
-A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to abstract token creation. This library was inspired by [Aragon's blog post on library usage](https://blog.aragon.one/library-driven-development-in-solidity-2bebcaf88736 "Library blog post") .
+A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to abstract crowdsale creation. This library was inspired by [Aragon's blog post on library usage](https://blog.aragon.one/library-driven-development-in-solidity-2bebcaf88736 "Library blog post") .
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -65,10 +65,10 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 ## Library Address
 
-**ENS**: TokenLib.majoolr.eth   
-**Main Ethereum Network**: 0x0aa4e6e25a76f81f079aa300c33621e20c632e6a   
-**Rinkeby Test Network**: 0x4efd23da884251417907a6526b0241595cd3449a   
-**Ropsten Test Network**: 0x0f1064372d2c28c06f04279116e48e7a4d1c45f9   
+**ENS**:  
+**Main Ethereum Network**:    
+**Rinkeby Test Network**:    
+**Ropsten Test Network**:    
 
 ## License and Warranty
 
@@ -96,7 +96,7 @@ Please [visit Truffle's installation guide](http://truffleframework.com/docs/get
 
 #### Manual install:
 
-This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development. The TokenLib uses the BasicMathLib as a lower level library so you must go through the install of that library first. If you do not have [BasicMathLib in your project please start there](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link") and then come back.
+This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development. The CrowdsaleLib uses the BasicMathLib, Array256Lib, and TokenLib as a lower level library so you must go through the install of that library first. If you do not have [BasicMathLib in your project please start there](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link") and then come back and repeat for the other Libraries.
 
 1. [Install BasicMathLib](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link") .
 2. Place the TokenLib.sol file in your truffle `contracts/` directory.
@@ -106,8 +106,11 @@ This process will allow you to both link your contract to the current on-chain l
 ```js
 var BasicMathLib = artifacts.require("./BasicMathLib");
 var TokenLib = artifacts.require("./TokenLib.sol");
-var OtherLibs = artifacts.require("./OtherLibs.sol");
+var Array256Lib = artifacts.require("./Array256Lib.sol");
+var CrowdsaleLib = artifacts.require("./CrowdsaleLib.sol");
+var DirectCrowdsaleLib = artifacts.require("./DirectCrowdsaleLib.sol");
 var YourStandardTokenContract = artifacts.require("./YourStandardTokenContract.sol");
+var YourStandardCrowdsaleContract = artifacts.require("./YourStandardCrowdsaleContract.sol");
 ...
 
 //Input your parameters
@@ -281,28 +284,28 @@ In order to use the TokenLib, import it into your token contract and then bind i
 ```
 pragma solidity ^0.4.15;
 
-import "./TokenLib.sol";
+import "./DirectCrowdsaleLib.sol";
 
-contract TokenLibTestContract {
-  using TokenLib for TokenLib.TokenStorage;
+contract CrowdsaleTestContract {
+  using DirectCrowdsaleLib for DirectCrowdsaleLib.DirectCrowdsaleStorage;
 
-  TokenLib.TokenStorage token;
+  Lib.DirectCrowdsaleStorage sale;
 
-  function TokenLibTestContract(address owner,
-                                string name,
+  function CrowdsaleLibTestContract(address owner,
+                                string name,           // Change arguments
                                 string symbol,
                                 uint8 decimals,
                                 uint256 initialSupply,
                                 bool allowMinting) {
-    token.init(name, symbol, decimals, initialSupply, allowMinting);
+    sale.init(name, symbol, decimals, initialSupply, allowMinting);
   }
 
   function owner() constant returns (string) {
-    return token.owner;
+    return sale.owner;
   }
 
   function name() constant returns (string) {
-    return token.name;
+    return sale.name;
   }
 
   ...

@@ -32,7 +32,7 @@ import "./TokenLib.sol";
 contract CrowdsaleToken {
   using TokenLib for TokenLib.TokenStorage;
 
-  TokenLib.TokenStorage token;
+  TokenLib.TokenStorage public token;
 
   function CrowdsaleToken(address owner,
                                 string name,
