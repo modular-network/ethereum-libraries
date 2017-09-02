@@ -1,0 +1,27 @@
+pragma solidity ^0.4.13;
+
+import "truffle/Assert.sol";
+import "truffle/DeployedAddresses.sol";
+import "../contracts/ThrowProxy.sol";
+import "../contracts/TokenLibTestContract.sol";
+import "../contracts/TokenLibTestSpender.sol";
+
+contract TestDirectCrowdsaleLib {
+  TokenLibTestContract instance;
+  ThrowProxy tokenThrow;
+  TokenLibTestSpender spender;
+  ThrowProxy spenderThrow;
+  uint8 expectedDecimals = 0x12;
+  uint256 expectedSupply = 0x64;
+
+  function beforeAll(){
+    address ia = new TokenLibTestContract(this, "Tester Token", "TST", 18, 1000, true);
+    instance = TokenLibTestContract(ia);
+    tokenThrow = new ThrowProxy(ia);
+    address sa = new TokenLibTestSpender(instance);
+    spender = TokenLibTestSpender(sa);
+    spenderThrow = new ThrowProxy(sa);
+
+  }
+
+}
