@@ -5,10 +5,11 @@ var WalletAdminLib = artifacts.require("./WalletAdminLib.sol");
 var WalletGetterLib = artifacts.require("./WalletGetterLib.sol");
 var TokenLib = artifacts.require("./TokenLib.sol");
 var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol")
-var CrowdsaleLib = artifacts.require("./CrowdsaleLib.sol");
-var DirectCrowdsaleLib = artifacts.require("./DirectCrowdsaleLib.sol");
-var DirectCrowdsaleTestContract = artifacts.require("./DirectCrowdsaleTestContract.sol");
+var CrowdsaleLib = artifacts.require("./TestCrowdsaleLib.sol");
+var DirectCrowdsaleLib = artifacts.require("./TestDirectCrowdsaleLib.sol");
+var TimeDirectCrowdsaleTestContract = artifacts.require("./TimeDirectCrowdsaleTestContract.sol");
 var WalletLibTestContract = artifacts.require("./WalletLibTestContract.sol");
+var walletAddress;
 
 module.exports = function(deployer, network) {
   deployer.deploy(BasicMathLib,{overwrite: false});
@@ -34,12 +35,15 @@ module.exports = function(deployer, network) {
   	deployer.link(WalletMainLib, WalletLibTestContract);
     deployer.link(WalletAdminLib, WalletLibTestContract);
     deployer.link(WalletGetterLib, WalletLibTestContract);
-    deployer.deploy(WalletLibTestContract);
-  	deployer.link(TokenLib,CrowdsaleToken);
-  	deployer.deploy(CrowdsaleToken, "0xb4e205cd196bbe4b1b3767a5e32e15f50eb79623", "Tester Token", "TST", 18, 1000000, true);
-  	//deployer.deploy(CrowdsaleToken, WalletLibTestContract.address(), "Tester Token", "TST", 18, 1000000, true);
-    deployer.link(DirectCrowdsaleLib, DirectCrowdsaleTestContract);
-    deployer.deploy(DirectCrowdsaleTestContract, WalletLibTestContract.address, 0,0,false,CrowdsaleToken.address());
-    
+    deployer.link(TokenLib,CrowdsaleToken);
+    deployer.link(CrowdsaleLib,TimeDirectCrowdsaleTestContract);
+    deployer.link(DirectCrowdsaleLib, TimeDirectCrowdsaleTestContract);
+    deployer.deploy(WalletLibTestContract).then(function() {
+      walletAddress = WalletLibTestContract.address;
+   		return deployer.deploy(CrowdsaleToken, "0x36994c7cff11859ba8b9715120a68aa9499329ee", "Tester Token", "TST", 18, 1000000, true);
+	  }).then(function() {
+      // right now it is configured to use accounts[5] as the owner and for the token price to increase periodically by 250 ether
+      return deployer.deploy(TimeDirectCrowdsaleTestContract, "0x36994c7cff11859ba8b9715120a68aa9499329ee", 100, 1000, 1000000000000000000000, 300000000000000000000, 1000000, 105, 110, 250,2,false,CrowdsaleToken.address);
+ 	  });   
   }
 };

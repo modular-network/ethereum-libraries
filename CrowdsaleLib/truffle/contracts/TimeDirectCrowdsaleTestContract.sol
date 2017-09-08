@@ -1,15 +1,16 @@
 pragma solidity ^0.4.13;
 
-import "./DirectCrowdsaleLib.sol";
+import "./TestDirectCrowdsaleLib.sol";
 import "./CrowdsaleToken.sol";
 
-contract DirectCrowdsaleTestContract {
-  using DirectCrowdsaleLib for DirectCrowdsaleLib.DirectCrowdsaleStorage;
+contract TimeDirectCrowdsaleTestContract {
+  using TestDirectCrowdsaleLib for TestDirectCrowdsaleLib.DirectCrowdsaleStorage;
 
-  DirectCrowdsaleLib.DirectCrowdsaleStorage sale;
+  TestDirectCrowdsaleLib.DirectCrowdsaleStorage sale;
 
-  function DirectCrowdsaleTestContract(
+  function TimeDirectCrowdsaleTestContract(
                 address owner,
+                uint256 currtime,
                 uint256 tokenPrice,
                 uint256 capAmount,
                 uint256 minimumTargetRaise,
@@ -21,16 +22,16 @@ contract DirectCrowdsaleTestContract {
                 bool increase,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, tokenPrice, capAmount, minimumTargetRaise, auctionSupply, startTime, endTime, periodicChange, timeInterval, increase, token);
+  	sale.init(owner, currtime, tokenPrice, capAmount, minimumTargetRaise, auctionSupply, startTime, endTime, periodicChange, timeInterval, increase, token);
   }
 
   // fallback function can be used to buy tokens
   function () payable {
-    receivePurchase();
+    //receivePurchase();
   }
 
-  function receivePurchase() payable returns (bool) {
-  	return sale.receivePurchase(msg.value);
+  function receivePurchase(uint256 currtime) payable returns (bool) {
+  	return sale.receivePurchase(msg.value, currtime);
   }
 
   function owner() constant returns (address) {
@@ -77,16 +78,16 @@ contract DirectCrowdsaleTestContract {
   	return sale.ownerBalance;
   }
 
-  function ownerWithdrawl() returns (bool) {
-  	return sale.ownerWithdrawl();
+  function ownerWithdrawl(uint256 currtime) returns (bool) {
+  	return sale.ownerWithdrawl(currtime);
   }
 
-  function crowdsaleActive() constant returns (bool) {
-  	return sale.crowdsaleActive();
+  function crowdsaleActive(uint256 currtime) constant returns (bool) {
+  	return sale.crowdsaleActive(currtime);
   }
 
-  function crowdsaleEnded() constant returns (bool) {
-  	return sale.crowdsaleEnded();
+  function crowdsaleEnded(uint256 currtime) constant returns (bool) {
+  	return sale.crowdsaleEnded(currtime);
   }
 
   function withdrawTokens() returns (bool) {

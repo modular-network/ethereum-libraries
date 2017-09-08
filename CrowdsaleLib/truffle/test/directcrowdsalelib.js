@@ -1,9 +1,9 @@
 var WalletLibTestContract = artifacts.require("WalletLibTestContract");
-var DirectCrowdsaleTestContract = artifacts.require("DirectCrowdsaleTestContract");
+var TimeDirectCrowdsaleTestContract = artifacts.require("TimeDirectCrowdsaleTestContract");
 var CrowdsaleToken = artifacts.require("CrowdsaleToken");
 
 var WalletAddress;
-var TokenAddress;
+var TokenInstance;
 
 contract('WalletLibTestContract', function(accounts) {
   it("should properly initialize wallet data", function() {
@@ -30,7 +30,6 @@ contract('WalletLibTestContract', function(accounts) {
       return c.owners.call();
     }).then(function(o){
       returnObj.o = o;
-      console.log(returnObj.o);
       return c.majorThreshold.call(0);
     }).then(function(mt){
       returnObj.mt = mt;
@@ -40,7 +39,6 @@ contract('WalletLibTestContract', function(accounts) {
       assert.equal(returnObj.rmi.valueOf(), 1, "Required sigs for minor tx should show 1.");
       assert.equal(returnObj.rma.valueOf(), 3, "Required sigs for major tx should show 3.");
       assert.equal(returnObj.mt.valueOf(), 100000000000000000000, "Max threshold should reflect 100 ether.");
-      WalletAddress = c.address.call();
     });
   });
 });
@@ -50,7 +48,7 @@ contract('CrowdsaleToken', function(accounts) {
     var returnObj = {};
     var c;
 
-    return TokenLibTestContract.deployed().then(function(instance) {
+    return CrowdsaleToken.deployed().then(function(instance) {
       c = instance;
       return c.name.call();
     }).then(function(n){
@@ -64,46 +62,318 @@ contract('CrowdsaleToken', function(accounts) {
       return c.totalSupply.call();
     }).then(function(ts){
       returnObj.totalSupply = ts;
-      return c.initialSupply.call();
-    }).then(function(is){
-      returnObj.initialSupply = is;
       assert.equal(returnObj.name.valueOf(), 'Tester Token', "Name should be set to Tester Token.");
       assert.equal(returnObj.symbol.valueOf(), 'TST', "Symbol should be set to TST.");
       assert.equal(returnObj.decimals.valueOf(), 18, "Decimals should be set to 18.");
-      assert.equal(returnObj.totalSupply.valueOf(), 1000000, "Total supply should reflect 10.");
-      assert.equal(returnObj.initialSupply.valueOf(), 1000000, "Initial supply should reflect 10.");
-      TokenAddress = c.address.call();
+      assert.equal(returnObj.totalSupply.valueOf(), 1000000, "Total supply should reflect 1000000.");
     });
   });
 });
 
-contract('DirectCrowdsaleTestContract', function(accounts) {
+contract('TimeDirectCrowdsaleTestContract', function(accounts) {
   it("should initialize the direct crowdsale contract data", function() {
     var returnObj = {};
     var c;
 
-    return DirectCrowdsaleTestContract.deployed().then(function(instance) {
+    return TimeDirectCrowdsaleTestContract.deployed().then(function(instance) {
       c = instance;
-      return c.base.owner.call();
+
+      return c.owner.call();
     }).then(function(o){
+      WalletAddress = o.valueOf();
+      console.log(WalletAddress);
       returnObj.owner = o;
-      return c.base.tokenPrice.call();
+      return c.tokenPrice.call();
     }).then(function(t){
       returnObj.tokenPrice = t;
-      return c.base.capAmount.call();
+      return c.capAmount.call();
     }).then(function(ca){
       returnObj.capAmount = ca;
-      return c.base.minimumTargetRaise.call();
+      return c.minimumTargetRaise.call();
     }).then(function(tr){
-      returnObj.minimumTargetRaise = ts;
-      return c.base.auctionSupply.call();
+      returnObj.minimumTargetRaise = tr;
+      return c.auctionSupply.call();
     }).then(function(as){
       returnObj.auctionSupply = as;
-      assert.equal(returnObj.owner.valueOf(), WalletAddress, "Owner should be set to the address of the wallet contract");
-      assert.equal(returnObj.tokenPrice.valueOf(), 1000000000000000, "Token price should be 1000000000000000 wei");
-      assert.equal(returnObj.capAmount.valueOf(), 18, "capAmount should be set to 1000000000000000000000 wei");
+      return c.startTime.call();
+    }).then(function(st){
+      returnObj.startTime = st;
+      return c.endTime.call();
+    }).then(function(et){
+      returnObj.endTime = et;
+      return c.ownerBalance.call();
+    }).then(function(ob){
+      returnObj.ownerBalance = ob;
+      //assert.equal(returnObj.owner.valueOf(), "Owner should be set to the address of the wallet contract");
+      assert.equal(returnObj.tokenPrice.valueOf(), 1000, "Token price should be 1000 tokens per ether");
+      assert.equal(returnObj.capAmount.valueOf(), 1e+21, "capAmount should be set to 1000000000000000000000 wei");
       assert.equal(returnObj.minimumTargetRaise.valueOf(), 300000000000000000000, "Minimum sale target should be set to 300000000000000000000 wei");
-      assert.equal(returnObj.auctionSupply.valueOf(), 800000, "Initial supply of tokens for the sale should reflect 800000.");
+      assert.equal(returnObj.auctionSupply.valueOf(), 1000000, "Initial supply of tokens for the sale should reflect 1000000.");
+      assert.equal(returnObj.ownerBalance.valueOf(), 0, "Amount of wei raised in the crowdsale should be zero");
     });
+  });
+  it("should deny all requests to interact with the contract before the crowdsale starts", function() {
+    var c;
+
+    return TimeDirectCrowdsaleTestContract.deployed().then(function(instance) {
+     c = instance;
+     return c.withdrawTokens({from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Sender has no tokens to withdraw!', "should give message that token sale has not ended");
+      return c.receivePurchase(103,{value: 40000000000000000000, from: accounts[1]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Invalid Purchase! Check send time and amount of ether.', "should give an error message since sale has not started");
+      return c.receivePurchase(103,{value: 20000000000000000000, from: accounts[5]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Owner cannot send ether to contract', "should give an error message since sale has not started");
+      return c.ownerWithdrawl(104,{from: accounts[5]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Cannot withdraw owner ether until after the sale', "Should give an error that sale ether cannot be withdrawn till after the sale");
+      return c.getContribution.call(accounts[1]);
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),0,"accounts[1] ether contribution should be 0");
+      return c.getTokenPurchase.call(accounts[1]);
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(), 0,"accounts[1] token balance should be 0");
+    });
+  });
+
+
+  //   /********************************************************
+  //   DURING SALE - NO PRICE CHANGE
+  //   /*******************************************************/
+  // it("should deny invalid payments during the sale and accept payments that are reflected in token balance", function() {
+  //   var c;
+
+  //   return TimeDirectCrowdsaleTestContract.deployed().then(function(instance) {
+  //     c = instance;
+
+  //     console.log(c.contract.address);
+  //     return CrowdsaleToken.deployed().then(function(instance) {
+  //     return instance.approve(c.contract.address,10000000,{from:accounts[5]});
+  //   }).then(function(ret) {
+      
+  //     return c.withdrawTokens({from:accounts[0]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.logs[0].args.Msg, 'Sender has no tokens to withdraw!', "should give message that the sender cannot withdraw any tokens");
+  //     return c.receivePurchase(106,{from:accounts[0]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.logs[0].args.Msg, 'Invalid Purchase! Check send time and amount of ether.', "should give an error message since no ether was sent");
+  //     return c.receivePurchase(106,{value:40000000000000000000,from:accounts[0]});
+  //   }).then(function(ret) {
+  //     return c.getContribution.call(accounts[0], {from:accounts[0]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),40000000000000000000, "accounts[0] amount of wei contributed should be 40000000000000000000 wei");
+  //     return c.receivePurchase(106,{value: 40000000000000000000, from:accounts[0]});
+  //   }).then(function(ret) {
+  //     return c.getContribution.call(accounts[0], {from:accounts[0]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),80000000000000000000, "accounts[0] amount of wei contributed should be 80000000000000000000 wei");
+  //     return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),80000, "accounts[0] amount of tokens purchased should be 80000 tokens");
+  //     return c.receivePurchase(106, {value: 40000000000000000000, from:accounts[0]});
+  //   }).then(function(ret) {
+  //     return c.getContribution.call(accounts[0],{from:accounts[0]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),120000000000000000000, "accounts[0] amount of wei contributed should be 120000000000000000000 wei");
+  //     return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),120000, "accounts[0] amount of tokens purchased should be 120000 tokens");
+  //     return c.receivePurchase(106,{value: 120000000000000000000, from: accounts[5]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.logs[0].args.Msg, 'Owner cannot send ether to contract', "should give an error message since sale has not started");
+  //     return c.ownerWithdrawl(106,{from: accounts[5]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.logs[0].args.Msg, 'Cannot withdraw owner ether until after the sale', "Should give an error that sale ether cannot be withdrawn till after the sale");
+  //     return c.getContribution.call(accounts[5]);
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),0,"accounts[5] (owner) ether contribution should be 0");
+  //     return c.receivePurchase(106, {value: 500000000000000000011, from:accounts[3]});
+  //   }).then(function(ret) {
+  //     return c.getContribution.call(accounts[3],{from:accounts[3]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),500000000000000000011, "accounts[3] amount of wei contributed should be 1500000000000000000011 wei");
+  //     return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),500000, "accounts[3] amount of tokens purchased should be 500000 tokens");
+  //     return c.withdrawTokens({from:accounts[0]});
+  //   }).then(function(ret) {
+  //     return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),0,"accounts[0] should have withdrawn all tokens and should now have zero in the contract");
+
+  //     return c.receivePurchase(107, {value: 1200000000000000000000, from: accounts[2]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.logs[0].args.Msg, 'buyer ether sent exceeds cap of ether to be raised!', "should give error message that the raise cap has been exceeded");
+  //     return c.receivePurchase(107, {value: 900000000000000000000, from: accounts[2]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.logs[0].args.Msg, 'buyer ether sent exceeds cap of ether to be raised!', "should give error message that the raise cap has been exceeded");
+  //   });
+  // });
+  // });
+
+
+
+  // /********************************************************
+  //   AFTER SALE - NO PRICE CHANGE
+  // /*******************************************************/
+  // it("should deny payments after the sale and allow users to withdraw their tokens/owner to withdraw ether", function() {
+  //   var c;
+
+  //   return TimeDirectCrowdsaleTestContract.deployed().then(function(instance) {
+  //     c = instance;
+  //     return c.ownerBalance.call();
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),620000000000000000000, "owners balance of ether should be 720!");
+  //     return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),0, "accounts[0] amount of tokens purchased should be 0 tokens");
+  //     return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),500000, "accounts[3] amount of tokens purchased should be 500000 tokens");
+  //     return c.withdrawTokens({from:accounts[3]});
+  //   }).then(function(ret) {
+  //     return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(),0,"accounts[3] should have withdrawn all tokens and should now have zero in the contract");
+
+  //     return c.receivePurchase(111,{from:accounts[2]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.logs[0].args.Msg, 'Invalid Purchase! Check send time and amount of ether.', "should give an error message since no ether was sent");
+  //     return c.withdrawTokens({from:accounts[2]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.logs[0].args.Msg, 'Sender has no tokens to withdraw!', "should give message that the sender cannot withdraw any tokens");
+  //     return c.ownerWithdrawl(111,{from:accounts[5]});
+  //   }).then(function(ret) {
+  //     assert.equal(ret.logs[0].args.Msg, 'crowdsale owner has withdrawn all funds', "Should give message that the owner has withdrawn all funds");
+  //     return c.ownerBalance.call();
+  //   }).then(function(ret) {
+  //     assert.equal(ret.valueOf(), 0, "Owner's ether balance in the contract should be zero!");
+  //   });
+
+  // });
+
+    /********************************************************
+    DURING SALE - YES PRICE CHANGE
+    /*******************************************************/
+  it("should deny invalid payments during the sale and accept payments that are reflected in token balance", function() {
+    var c;
+
+    return TimeDirectCrowdsaleTestContract.deployed().then(function(instance) {
+      c = instance;
+
+      console.log(c.contract.address);
+      return CrowdsaleToken.deployed().then(function(instance) {
+      return instance.approve(c.contract.address,10000000,{from:accounts[5]});
+    }).then(function(ret) {
+      return c.timeInterval.call();
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),2, "Price Change time interval should be 2!");
+      return c.periodicChange.call();
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(), 250, "Price change amount should be 250!");
+      return c.withdrawTokens({from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Sender has no tokens to withdraw!', "should give message that the sender cannot withdraw any tokens");
+      return c.receivePurchase(106,{from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Invalid Purchase! Check send time and amount of ether.', "should give an error message since no ether was sent");
+      return c.receivePurchase(106,{value:40000000000000000000,from:accounts[0]});
+    }).then(function(ret) {
+      return c.getContribution.call(accounts[0], {from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),40000000000000000000, "accounts[0] amount of wei contributed should be 40000000000000000000 wei");
+      return c.receivePurchase(107,{value: 40000000000000000000, from:accounts[0]});
+    }).then(function(ret) {
+      return c.tokenPrice.call();
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),750, "New token price should be 750 tokens per ether!");
+      return c.getContribution.call(accounts[0], {from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),80000000000000000000, "accounts[0] amount of wei contributed should be 70000000000000000000 wei");
+      return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),70000, "accounts[0] amount of tokens purchased should be 70000 tokens");
+      return c.receivePurchase(109, {value: 40000000000000000000, from:accounts[0]});
+    }).then(function(ret) {
+      return c.getContribution.call(accounts[0],{from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),120000000000000000000, "accounts[0] amount of wei contributed should be 120000000000000000000 wei");
+      return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),90000, "accounts[0] amount of tokens purchased should be 90000 tokens");
+      return c.receivePurchase(106,{value: 120000000000000000000, from: accounts[5]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Owner cannot send ether to contract', "should give an error message since the owner cannot donate to its own contract");
+      return c.ownerWithdrawl(106,{from: accounts[5]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Cannot withdraw owner ether until after the sale', "Should give an error that sale ether cannot be withdrawn till after the sale");
+      return c.getContribution.call(accounts[5]);
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),0,"accounts[5] (owner) ether contribution should be 0");
+      return c.receivePurchase(109, {value: 500000000000000000011, from:accounts[3]});
+    }).then(function(ret) {
+      return c.getContribution.call(accounts[3],{from:accounts[3]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),500000000000000000011, "accounts[3] amount of wei contributed should be 1500000000000000000011 wei");
+      return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),250000, "accounts[3] amount of tokens purchased should be 250000 tokens");
+      return c.withdrawTokens({from:accounts[0]});
+    }).then(function(ret) {
+      return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),0,"accounts[0] should have withdrawn all tokens and should now have zero in the contract");
+
+      return c.receivePurchase(107, {value: 1200000000000000000000, from: accounts[2]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'buyer ether sent exceeds cap of ether to be raised!', "should give error message that the raise cap has been exceeded");
+      return c.receivePurchase(107, {value: 900000000000000000000, from: accounts[2]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'buyer ether sent exceeds cap of ether to be raised!', "should give error message that the raise cap has been exceeded");
+    });
+  });
+  });
+
+
+
+  /********************************************************
+    AFTER SALE - YES PRICE CHANGE
+  /*******************************************************/
+  it("should deny payments after the sale and allow users to withdraw their tokens/owner to withdraw ether", function() {
+    var c;
+
+    return TimeDirectCrowdsaleTestContract.deployed().then(function(instance) {
+      c = instance;
+      return c.ownerBalance.call();
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),620000000000000000000, "owners balance of ether should be 620!");
+      return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),0, "accounts[0] amount of tokens purchased should be 0 tokens");
+      return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),250000, "accounts[3] amount of tokens purchased should be 500000 tokens");
+      return c.withdrawTokens({from:accounts[3]});
+    }).then(function(ret) {
+      return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(),0,"accounts[3] should have withdrawn all tokens and should now have zero in the contract");
+
+      return c.receivePurchase(111,{from:accounts[2]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Invalid Purchase! Check send time and amount of ether.', "should give an error message since no ether was sent");
+      return c.withdrawTokens({from:accounts[2]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'Sender has no tokens to withdraw!', "should give message that the sender cannot withdraw any tokens");
+      return c.ownerWithdrawl(111,{from:accounts[5]});
+    }).then(function(ret) {
+      assert.equal(ret.logs[0].args.Msg, 'crowdsale owner has withdrawn all funds', "Should give message that the owner has withdrawn all funds");
+      return c.ownerBalance.call();
+    }).then(function(ret) {
+      assert.equal(ret.valueOf(), 0, "Owner's ether balance in the contract should be zero!");
+    });
+
   });
 });

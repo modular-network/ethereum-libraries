@@ -1,0 +1,250 @@
+{
+  "contract_name": "TestCrowdsaleLib",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "TestCrowdsaleLib.CrowdsaleStorage storage"
+        },
+        {
+          "name": "_buyer",
+          "type": "address"
+        }
+      ],
+      "name": "getTokenPurchase",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "TestCrowdsaleLib.CrowdsaleStorage storage"
+        }
+      ],
+      "name": "withdrawTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "TestCrowdsaleLib.CrowdsaleStorage storage"
+        },
+        {
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "name": "_currtime",
+          "type": "uint256"
+        },
+        {
+          "name": "_tokenPrice",
+          "type": "uint256"
+        },
+        {
+          "name": "_capAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "_auctionSupply",
+          "type": "uint256"
+        },
+        {
+          "name": "_startTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_endTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_token",
+          "type": "CrowdsaleToken"
+        }
+      ],
+      "name": "init",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "TestCrowdsaleLib.CrowdsaleStorage storage"
+        },
+        {
+          "name": "_buyer",
+          "type": "address"
+        }
+      ],
+      "name": "getContribution",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "TestCrowdsaleLib.CrowdsaleStorage storage"
+        },
+        {
+          "name": "currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "crowdsaleActive",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "TestCrowdsaleLib.CrowdsaleStorage storage"
+        },
+        {
+          "name": "currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "crowdsaleEnded",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "TestCrowdsaleLib.CrowdsaleStorage storage"
+        },
+        {
+          "name": "currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "validPurchase",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_bidder",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "Amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogTokensWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_bidder",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "Amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogDepositWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_buyer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "Msg",
+          "type": "string"
+        }
+      ],
+      "name": "LogNoticeMsg",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "Msg",
+          "type": "string"
+        }
+      ],
+      "name": "LogErrorMsg",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b6106608061001f6000396000f300606060405236156100675763ffffffff60e060020a60003504166305b513b5811461006c57806340192fc2146100955780637ef77901146100b4578063875187a7146100ec5780638995bfa814610115578063a336c2e414610137578063d7de9e5114610159575b600080fd5b610083600435600160a060020a036024351661017b565b60405190815260200160405180910390f35b6100a060043561021f565b604051901515815260200160405180910390f35b6100ea600435600160a060020a0360243581169060443590606435906084359060a4359060c4359060e4359061010435166103b4565b005b610083600435600160a060020a0360243516610473565b60405190815260200160405180910390f35b6100a060043560243561051b565b604051901515815260200160405180910390f35b6100a060043560243561053e565b604051901515815260200160405180910390f35b6100a060043560243561054c565b604051901515815260200160405180910390f35b600160a060020a0381166000908152600783016020526040808220546000805160206106158339815191529184919051600160a060020a039092168252602082015260606040808301829052601491830191909152606060020a73557365727320746f6b656e20707572636861736502608083015260a0909101905180910390a150600160a060020a03811660009081526007830160205260409020545b92915050565b600160a060020a03331660009081526007820160205260408120548190819015156102ad576000805160206105f583398151915260405160208082526021908201527f53656e64657220686173206e6f20746f6b656e7320746f20776974686472617760408083019190915260f860020a60210260608301526080909101905180910390a1600092506103ac565b600160a060020a03338181166000908152600787016020526040808220805490839055600889015489549197508516946323b872dd949116929091879190516020015260405160e060020a63ffffffff8616028152600160a060020a0393841660048201529190921660248201526044810191909152606401602060405180830381600087803b151561033f57600080fd5b6102c65a03f1151561035057600080fd5b505050604051805191505080156103a75733600160a060020a03167fac0f38657cc8741669b8ba861fe5e6e18a4256a26ce4963b7b74a0f8739fdc6f8360405190815260200160405180910390a2600192506103ac565b600092505b5b5050919050565b6003890154156103c357600080fd5b8854600160a060020a0316156103d857600080fd5b868310156103e557600080fd5b8282116103f157600080fd5b600086116103fe57600080fd5b6000851161040b57600080fd5b6000841161041857600080fd5b8854600160a060020a03808a16600160a060020a0319928316178b5560018b0188905560028b0187905560038b0186905560048b0185905560058b0184905560088b018054918416919092161790555b505050505050505050565b600160a060020a0381166000908152600683016020526040808220546000805160206106158339815191529184919051600160a060020a039092168252602082015260606040808301829052601891830191909152604160020a772ab9b2b9399032ba3432b91031b7b73a3934b13aba34b7b702608083015260a0909101905180910390a150600160a060020a03811660009081526006830160205260409020545b92915050565b600082600401548210158015610535575082600501548211155b90505b92915050565b600582015481115b92915050565b600034151561055b848461051b565b80156105645750805b1561057257600191506105ec565b6000805160206105f583398151915260405160208082526036908201527f496e76616c69642050757263686173652120436865636b2073656e642074696d604080830191909152605160020a75329030b7321030b6b7bab73a1037b31032ba3432b9170260608301526080909101905180910390a1600091505b5b5092915050560033d5e4ca87f41f94abfa39e8857804e697a40c15950f7cc8d32d65c9a56c8a37567990ae41a073da2ab5d99943460204347712a2ce40df6e9f06dd451c20700ca165627a7a7230582079d8d058231a6c5dbabed694659f947a68d4f5001285c970765ee1d0c9a7783b0029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1504882961293
+}

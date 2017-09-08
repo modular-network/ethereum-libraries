@@ -33,15 +33,15 @@ pragma solidity ^0.4.13;
 
 import "./BasicMathLib.sol";
 import "./TokenLib.sol";
-import "./CrowdsaleLib.sol";
+import "./TestCrowdsaleLib.sol";
 
-library DirectCrowdsaleLib {
+library TestDirectCrowdsaleLib {
   using BasicMathLib for uint256;
-  using CrowdsaleLib for CrowdsaleLib.CrowdsaleStorage;
+  using TestCrowdsaleLib for TestCrowdsaleLib.CrowdsaleStorage;
 
   struct DirectCrowdsaleStorage {
 
-  	CrowdsaleLib.CrowdsaleStorage base;
+  	TestCrowdsaleLib.CrowdsaleStorage base;
 
     uint256 minimumTargetRaise; //Minimum amount acceptable for successful auction in wei
 
@@ -68,6 +68,7 @@ library DirectCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
+                uint256 _currtime,
                 uint256 _tokenPrice,
                 uint256 _capAmount,
                 uint256 _minimumTargetRaise,
@@ -80,6 +81,7 @@ library DirectCrowdsaleLib {
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
+                _currtime,
                 _tokenPrice,
                 _capAmount,
                 _auctionSupply,
@@ -101,15 +103,24 @@ library DirectCrowdsaleLib {
   /// @dev Called when an address wants to purchase tokens
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _amount amound of wei that the buyer is sending
-  function receivePurchase(DirectCrowdsaleStorage storage self, uint256 _amount) returns (bool) {
-    require(msg.sender != self.base.owner);
-  	require(self.base.validPurchase());
-
-    require((self.ownerBalance + _amount) < self.base.capAmount);  
+  function receivePurchase(DirectCrowdsaleStorage storage self, uint256 _amount, uint256 currtime) returns (bool) {
+    if(msg.sender == self.base.owner) {
+      LogErrorMsg(msg.value, "Owner cannot send ether to contract");
+      return false;
+    }        //NEEDS a REQUIRE
+    if (!self.base.validPurchase(currtime)) {   //NEEDS TO BE A REQUIRE
+      return false;
+    }
+  	//require(self.base.validPurchase());
+    if ((self.ownerBalance + _amount) > self.base.capAmount) {
+      LogErrorMsg(msg.value, "buyer ether sent exceeds cap of ether to be raised!");
+      return false;
+    }
+  	//require((self.ownerBalance + _amount) < self.base.capAmount);
 
   	// if the token price increase interval has passed, update the current day and change the token price
-  	if ((self.timeInterval > 0) && (now >= (self.currDay + self.timeInterval))) {
-  		self.currDay = now;
+  	if ((self.timeInterval > 0) && (currtime >= (self.currDay + self.timeInterval))) {
+  		self.currDay = currtime;
   		if (self.increase) { self.base.changeTokenPrice(self.base.tokenPrice + self.periodicChange); }
   		else { self.base.changeTokenPrice(self.base.tokenPrice - self.periodicChange); }
       LogTokenPriceChange(self.periodicChange,"Token Price has changed!");
@@ -143,12 +154,12 @@ library DirectCrowdsaleLib {
   }
 
   /// @dev send ether from a purchase to the owners wallet address
-  function ownerWithdrawl(DirectCrowdsaleStorage storage self) internal returns (bool) {
-    if (!self.base.crowdsaleEnded()) {
+  function ownerWithdrawl(DirectCrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
+    if (!self.base.crowdsaleEnded(currtime)) {
       LogErrorMsg(self.ownerBalance, "Cannot withdraw owner ether until after the sale");
       return false;
     }
-    //require(self.base.crowdsaleEnded());
+    //require(self.base.crowdsaleEnded(currtime));
     require(msg.sender == self.base.owner);    
     require(self.ownerBalance > 0);
 
@@ -164,20 +175,24 @@ library DirectCrowdsaleLib {
   ///  Functions "inherited" from CrowdsaleLib library
 
 
-  function crowdsaleActive(DirectCrowdsaleStorage storage self) constant returns (bool) {
-    return self.base.crowdsaleActive();
+  function crowdsaleActive(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+    return self.base.crowdsaleActive(currtime);
   }
 
-  function crowdsaleEnded(DirectCrowdsaleStorage storage self) constant returns (bool) {
-    return self.base.crowdsaleEnded();
+  function crowdsaleEnded(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+    return self.base.crowdsaleEnded(currtime);
   }
 
-  function validPurchase(DirectCrowdsaleStorage storage self) constant returns (bool) {
-    return self.base.validPurchase();
+  function validPurchase(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+    return self.base.validPurchase(currtime);
   }
 
   function withdrawTokens(DirectCrowdsaleStorage storage self) returns (bool) {
     return self.base.withdrawTokens();
+  }
+
+  function changeTokenPrice(DirectCrowdsaleStorage storage self, uint256 _newPrice) returns (bool) {
+    return self.base.changeTokenPrice(_newPrice);
   }
 
   function getContribution(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {

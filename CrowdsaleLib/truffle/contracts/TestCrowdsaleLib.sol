@@ -35,7 +35,7 @@ import "./BasicMathLib.sol";
 import "./TokenLib.sol";
 import "./CrowdsaleToken.sol";
 
-library CrowdsaleLib {
+library TestCrowdsaleLib {
   using BasicMathLib for uint256;
 
   struct CrowdsaleStorage {
@@ -65,6 +65,7 @@ library CrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   function init(CrowdsaleStorage storage self, 
                 address _owner,
+                uint256 _currtime,
                 uint256 _tokenPrice,
                 uint256 _capAmount,
                 uint256 _auctionSupply,
@@ -74,6 +75,7 @@ library CrowdsaleLib {
   {
   	require(self.auctionSupply == 0);
   	require(self.owner == 0);
+  	require(_startTime >= _currtime);
     require(_endTime > _startTime);
     require(_tokenPrice > 0);
     require(_capAmount > 0);
@@ -90,23 +92,23 @@ library CrowdsaleLib {
   /// @dev function to check if the crowdsale is currently active
   /// @param self Stored crowdsale from crowdsale contract
   /// @return success
-  function crowdsaleActive(CrowdsaleStorage storage self) constant returns (bool) {
-  	return (now >= self.startTime && now <= self.endTime);
+  function crowdsaleActive(CrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+  	return (currtime >= self.startTime && currtime <= self.endTime);
   }
 
   /// @dev function to check if the crowdsale has ended
   /// @param self Stored crowdsale from crowdsale contract
   /// @return success
-  function crowdsaleEnded(CrowdsaleStorage storage self) constant returns (bool) {
-  	return now > self.endTime;
+  function crowdsaleEnded(CrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+  	return currtime > self.endTime;
   }
 
   /// @dev function to check if a purchase is valid
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if the transaction can buy tokens
-  function validPurchase(CrowdsaleStorage storage self) constant returns (bool) {
+  function validPurchase(CrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
     bool nonZeroPurchase = msg.value != 0;
-    if (crowdsaleActive(self) && nonZeroPurchase) {
+    if (crowdsaleActive(self,currtime) && nonZeroPurchase) {
       return true;
     } else {
       LogErrorMsg("Invalid Purchase! Check send time and amount of ether.");
@@ -136,6 +138,8 @@ library CrowdsaleLib {
   /// @dev Function to change the price of the token
   /// @param _newPrice new token price (amount of tokens per ether)
   function changeTokenPrice(CrowdsaleStorage storage self,uint256 _newPrice) internal returns (bool) {
+
+    //require(msg.sender == self.owner);
   	require(_newPrice > 0);
 
   	self.tokenPrice = _newPrice;
