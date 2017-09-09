@@ -1,5 +1,11 @@
 pragma solidity ^0.4.13;
 
+/****************
+*
+*  Test contract for tesing libraries on networks
+*
+*****************/
+
 import "./DirectCrowdsaleLib.sol";
 import "./CrowdsaleToken.sol";
 
@@ -10,18 +16,17 @@ contract DirectCrowdsaleTestContract {
 
   function DirectCrowdsaleTestContract(
                 address owner,
-                uint256 tokenPrice,
+                uint256 tokensPerEth,
                 uint256 capAmount,
                 uint256 minimumTargetRaise,
-                uint256 auctionSupply,
                 uint256 startTime,
                 uint256 endTime,
                 uint256 periodicChange,
-                uint256 timeInterval,
+                uint256 changeInterval,
                 bool increase,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, tokenPrice, capAmount, minimumTargetRaise, auctionSupply, startTime, endTime, periodicChange, timeInterval, increase, token);
+  	sale.init(owner, tokensPerEth, capAmount, minimumTargetRaise, startTime, endTime, periodicChange, changeInterval, increase, token);
   }
 
   // fallback function can be used to buy tokens
@@ -37,8 +42,8 @@ contract DirectCrowdsaleTestContract {
     return sale.base.owner;
   }
 
-  function tokenPrice() constant returns (uint256) {
-    return sale.base.tokenPrice;
+  function tokensPerEth() constant returns (uint256) {
+    return sale.base.tokensPerEth;
   }
 
   function capAmount() constant returns (uint256) {
@@ -47,10 +52,6 @@ contract DirectCrowdsaleTestContract {
 
   function minimumTargetRaise() constant returns (uint256) {
     return sale.minimumTargetRaise;
-  }
-
-  function auctionSupply() constant returns (uint256) {
-    return sale.base.auctionSupply;
   }
 
   function startTime() constant returns (uint256) {
@@ -65,8 +66,8 @@ contract DirectCrowdsaleTestContract {
     return sale.periodicChange;
   }
 
-  function timeInterval() constant returns (uint256) {
-    return sale.timeInterval;
+  function changeInterval() constant returns (uint256) {
+    return sale.changeInterval;
   }
 
   function increase() constant returns (bool) {

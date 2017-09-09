@@ -12,6 +12,12 @@ pragma solidity ^0.4.13;
  * The DirectCrowdsale Library provides functionality to create a initial coin offering
  * for a standard token sale with high supply where there is a direct ether to
  * token transfer.  
+ *
+ * Test Crowdsale allows for testing in testrpc by allowing a paramater, currtime, to be passed
+ * to functions that would normally require a now variable.  This allows testrpc testing
+ * without having to add delays in the code to time it perfectly.  This also replaces some require() statements
+ * to regular conditional checks to allow for better testing.
+ *
  * See https://github.com/Majoolr/ethereum-contracts for an example of how to
  * create a basic ERC20 token.
  *
@@ -46,8 +52,8 @@ library TestDirectCrowdsaleLib {
     uint256 minimumTargetRaise; //Minimum amount acceptable for successful auction in wei
 
   	uint256 periodicChange;    // amount in ether that the token price changes after a specified interval
-  	uint256 timeInterval;      // amount of time between changes in the price of the token
-  	uint256 currDay;          // current Day
+  	uint256 changeInterval;      // amount of time between changes in the price of the token
+  	uint256 lastPriceChangeTime;          // time of the last change in token cost
     uint256 ownerBalance;
 
   	bool increase;             // true if the price of the token increases, false if it decreases
@@ -56,12 +62,8 @@ library TestDirectCrowdsaleLib {
   event LogTokensBought(address indexed buyer, uint256 amount);
   event LogAddressCapExceeded(address indexed buyer, uint256 amount, string Msg);
   event LogOwnerWithdrawl(address indexed owner, uint256 amount, string Msg);
-
-  // event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);
-  // event LogDepositWithdrawn(address indexed _bidder, uint256 Amount);
-  // event LogNoticeMsg(address indexed _from, string Msg);
   event LogErrorMsg(uint256 amount, string Msg);
-  event LogTokenPriceChange(uint256 change, string Msg);
+  event LogTokenPriceChange(uint256 amount, string Msg);
 
 
   /// @dev Called by a crowdsale contract upon creation.
@@ -69,34 +71,32 @@ library TestDirectCrowdsaleLib {
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
                 uint256 _currtime,
-                uint256 _tokenPrice,
+                uint256 _tokensPerEth,
                 uint256 _capAmount,
                 uint256 _minimumTargetRaise,
-                uint256 _auctionSupply,
                 uint256 _startTime,
                 uint256 _endTime,
                 uint256 _periodicChange,
-                uint256 _timeInterval,
+                uint256 _changeInterval,
                 bool _increase,
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
                 _currtime,
-                _tokenPrice,
+                _tokensPerEth,
                 _capAmount,
-                _auctionSupply,
                 _startTime,
                 _endTime,
                 _token);
 
     if (_periodicChange == 0) {             // if there is no increase or decrease in price, the time interval should also be zero
-    	require(_timeInterval == 0);
+    	require(_changeInterval == 0);
     }
     self.minimumTargetRaise = _minimumTargetRaise;
   	self.periodicChange = _periodicChange;
-  	self.timeInterval = _timeInterval; 
+  	self.changeInterval = _changeInterval; 
   	self.increase = _increase;
-  	self.currDay = _startTime;
+  	self.lastPriceChangeTime = _startTime;
     self.ownerBalance = 0;
   }
 
@@ -111,34 +111,37 @@ library TestDirectCrowdsaleLib {
     if (!self.base.validPurchase(currtime)) {   //NEEDS TO BE A REQUIRE
       return false;
     }
-  	//require(self.base.validPurchase());
     if ((self.ownerBalance + _amount) > self.base.capAmount) {
       LogErrorMsg(msg.value, "buyer ether sent exceeds cap of ether to be raised!");
       return false;
     }
-  	//require((self.ownerBalance + _amount) < self.base.capAmount);
 
   	// if the token price increase interval has passed, update the current day and change the token price
-  	if ((self.timeInterval > 0) && (currtime >= (self.currDay + self.timeInterval))) {
-  		self.currDay = currtime;
-  		if (self.increase) { self.base.changeTokenPrice(self.base.tokenPrice + self.periodicChange); }
-  		else { self.base.changeTokenPrice(self.base.tokenPrice - self.periodicChange); }
-      LogTokenPriceChange(self.periodicChange,"Token Price has changed!");
+  	if ((self.changeInterval > 0) && (currtime >= (self.lastPriceChangeTime + self.changeInterval))) {
+  		self.lastPriceChangeTime = currtime;
+  		if (self.increase) { 
+        self.base.changeTokenPrice(self.base.tokensPerEth + self.periodicChange);
+        LogTokenPriceChange(self.periodicChange,"Token Price has increased!"); 
+      } else { 
+        self.base.changeTokenPrice(self.base.tokensPerEth - self.periodicChange); 
+        LogTokenPriceChange(self.periodicChange,"Token Price has decreased!");
+      }   
   	}
 
   	uint256 numTokens;     //number of tokens that will be purchased
   	bool err;
     uint256 newBalance;    //the new balance of the owner of the crowdsale
-    uint256 etherContributed;
+    uint256 weiTokens;
 
-		self.base.hasContributed[msg.sender] += _amount;      // can't overflow because it is under the cap
-    (err,etherContributed) = _amount.dividedBy(1000000000000000000);
+    self.base.hasContributed[msg.sender] += _amount;      // can't overflow because it is under the cap
+    
+    (err,weiTokens) = _amount.times(self.base.tokensPerEth);
 
     require(!err);
 
-		(err,numTokens) = etherContributed.times(self.base.tokenPrice);
+    (err,numTokens) = weiTokens.dividedBy(1000000000000000000);
 
-		require(!err);
+    require(!err);
 
     (err,newBalance) = self.ownerBalance.plus(_amount);
 

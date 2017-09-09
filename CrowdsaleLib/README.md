@@ -107,6 +107,7 @@ This process will allow you to both link your contract to the current on-chain l
 var BasicMathLib = artifacts.require("./BasicMathLib");
 var TokenLib = artifacts.require("./TokenLib.sol");
 var Array256Lib = artifacts.require("./Array256Lib.sol");
+
 var CrowdsaleLib = artifacts.require("./CrowdsaleLib.sol");
 var DirectCrowdsaleLib = artifacts.require("./DirectCrowdsaleLib.sol");
 var YourStandardTokenContract = artifacts.require("./YourStandardTokenContract.sol");
@@ -114,16 +115,41 @@ var YourStandardCrowdsaleContract = artifacts.require("./YourStandardCrowdsaleCo
 ...
 
 //Input your parameters
+//Token
 var name = //"Your Token Name";
 var symbol = //"YTS";
 var decimals = //18;
 var initialSupply = //10;
+
+//Crowdsale
+var owner =  //"owner of the crowdsale";
+var tokenPrice = //"number of tokens received per ether contributed";
+var capAmount = //"Maximum amount of ether to be raised";
+var minimumTargetRaise = //"minimim amount of ether needed for successful crowdsale";
+var startTime = //"start time of the sale";
+var endTime = //"end time of the sale";
+var periodicChange = //"how much the token price changes after each interval of time, 0 if no change";
+var timeInterval = //"amount of time between price changes, 0 if no change";
+var increase = //"true for price increasing, false for decreasing"
+
 module.exports = function(deployer) {
   deployer.deploy(BasicMathLib,{overwrite: false});
   deployer.link(BasicMathLib, TokenLib);
   deployer.deploy(TokenLib, {overwrite: false});
+  deployer.link(BasicMathLib,CrowdsaleLib);
+  deployer.link(TokenLib,CrowdsaleLib);
+  deployer.deploy(CrowdsaleLib, {overwrite: false});
+  deployer.link(BasicMathLib,DirectCrowdsaleLib);
+  deployer.link(TokenLib,DirectCrowdsaleLib);
+  deployer.link(CrowdsaleLib,DirectCrowdsaleLib);
+  deployer.deploy(DirectCrowdsaleLib, {overwrite:false});
   deployer.link(TokenLib, YourStandardTokenContract);
-  deployer.deploy(YourStandardTokenContract, name, symbol, decimals, initialSupply);
+  deployer.link(CrowdsaleLib,YourStandardCrowdsaleContract);
+  deployer.link(DirectCrowdsaleLib, YourStandardCrowdsaleContract);
+  deployer.deploy(YourStandardTokenContract, name, symbol, decimals, initialSupply).then(function() {
+    deployer.deploy(YourStandardCrowdsaleContract, owner, tokenPrice, capAmount, minimumTargetRaise, startTime, endTime, periodicChange, timeInterval, increase,YourStandardTokenContract.address);
+  });
+   
 };
 ```
 
@@ -133,9 +159,9 @@ module.exports = function(deployer) {
 
 The following process will allow you to `truffle test` this library in your project.
 
-1. `git clone --recursive` or download the truffle directory.
-   Each folder in the truffle directory correlates to the folders in your truffle installation.
-2. Place each file in their respective directory in **your** truffle project.
+1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/TokenLib/truffle`.    
+   Each folder in the truffle directory correlates to the folders in your truffle project.   
+2. Go into the TokenLib truffle directory on your computer and place each file in their respective directory in **your** truffle project.
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
 3. [Start a testrpc node](https://github.com/ethereumjs/testrpc "testrpc's Github")
 4. In your terminal go to your truffle project directory and run `truffle test`.
@@ -224,13 +250,13 @@ var input = {
   "language": "Solidity",
   "sources":
   {
-    "YourTokenContract.sol": {
+    "YourCrowdsaleContract.sol": {
       "content": file
     },
     "BasicMathLib": {
       "content": basicMath
     },
-    "TokenLib.sol": {
+    "CrowdsaleLib.sol": {
       "content": lib
     }
   },
@@ -238,11 +264,11 @@ var input = {
   {
     ...
     "libraries": {
-      "TokenLib": {
+      "CrowdsaleLib": {
         "BasicMathLib": "0x74453cf53c97437066b1987e364e5d6b54bcaee6"
       },
       "YourContract.sol": {
-        "TokenLib": "0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"
+        "CrowdsaleLib": "0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"
       }
     }
     ...
@@ -259,7 +285,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'TokenLib': '0x71ecde7c4b184558e8dba60d9f323d7a87411946' });
+ bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0x71ecde7c4b184558e8dba60d9f323d7a87411946' });
  ```
 
 #### Solc-js documentation
@@ -275,9 +301,9 @@ For a detailed explanation on how libraries are used please read the following f
    * [Libraries](http://solidity.readthedocs.io/en/develop/contracts.html#libraries)
    * [Using For](http://solidity.readthedocs.io/en/develop/contracts.html#using-for)
 
-The TokenLib abstracts away all of the functions required for several token variations. Users will include this library in their token contract and use it to make state changes.
+The CrowdsaleLib abstracts away all of the functions required for several crowdsale variations. Users will include these libraries in their crowdsale contract and use it to make state changes.
 
-In order to use the TokenLib, import it into your token contract and then bind it as follows:
+In order to use the CrowdsaleLib, import it into your crowdsale contract and then bind it as follows:
 
 ### Usage Example
 
@@ -286,26 +312,41 @@ pragma solidity ^0.4.15;
 
 import "./DirectCrowdsaleLib.sol";
 
-contract CrowdsaleTestContract {
+contract DirectCrowdsaleTestContract {
   using DirectCrowdsaleLib for DirectCrowdsaleLib.DirectCrowdsaleStorage;
 
-  Lib.DirectCrowdsaleStorage sale;
+  DirectCrowdsaleLib.DirectCrowdsaleStorage sale;
 
-  function CrowdsaleLibTestContract(address owner,
-                                string name,           // Change arguments
-                                string symbol,
-                                uint8 decimals,
-                                uint256 initialSupply,
-                                bool allowMinting) {
-    sale.init(name, symbol, decimals, initialSupply, allowMinting);
+  function DirectCrowdsaleTestContract(
+                address owner,
+                uint256 tokenPrice,
+                uint256 capAmount,
+                uint256 minimumTargetRaise,
+                uint256 startTime,
+                uint256 endTime,
+                uint256 periodicChange,
+                uint256 timeInterval,
+                bool increase,
+                CrowdsaleToken token)
+  {
+    sale.init(owner, tokenPrice, capAmount, minimumTargetRaise, startTime, endTime, periodicChange, timeInterval, increase, token);
   }
 
-  function owner() constant returns (string) {
-    return sale.owner;
+  // fallback function can be used to buy tokens
+  function () payable {
+    receivePurchase();
   }
 
-  function name() constant returns (string) {
-    return sale.name;
+  function receivePurchase() payable returns (bool) {
+    return sale.receivePurchase(msg.value);
+  }
+
+  function owner() constant returns (address) {
+    return sale.base.owner;
+  }
+
+  function tokenPrice() constant returns (uint256) {
+    return sale.base.tokenPrice;
   }
 
   ...
@@ -314,165 +355,58 @@ contract CrowdsaleTestContract {
 
 Binding the library allows you to call the function in the format [firstParameter].function(secondParameter) . For a complete ERC20 standard token example, [please visit our Ethereum Contracts repository](https://www.github.com/Majoolr/ethereum-contracts "Majoolr contracts repo").
 
-## Functions
+## Function Descriptions
 
-The following is the list of functions available to use in your token contract.
+### Standard Crowdsale Library Functions
 
-###Standard Token Functions
+Init:
 
-   #### init(TokenLib.TokenStorage storage, address, string, string, uint8, uint256, bool)   
-   *(TokenLib.sol, line 63)*
+Initialize the crowdsale with owner, tokens per ether, raise cap, minimum raise target, startTime, endTime, and the address of the deployed token contract.  Only should be called by a different type of crowsale library because these only provide base functionality and no token purchasing ability.
 
-   Initialize token with owner address, token name, symbol, decimals, supply, and minting status. Standard decimals is 18, the decimals used for Ether. If no additional tokens will be minted _allowMinting should be false.
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self The storage token in the calling contract.   
-   **address** _owner Owning address of token contract.
-   **string** _name Name of the token.   
-   **string** _symbol Symbol of the token.   
-   **uint8** _decimals Decimal places for token represented.   
-   **uint256** _initial_supply Initial supply for the token.   
-   **bool** _allowMinting True if more tokens will be created, false otherwise.
+crowdsaleActive
 
-   ##### Returns
-   Nada
+Returns true if the crowdsale is currently active, or it it between the start and end times
 
-   #### transfer(TokenLib.TokenStorage storage, address, uint256)    
-                 returns (bool)   
-   *(TokenLib.sol, line 87)*
 
-   Transfer tokens from msg.sender to another account.
+crowdsaleEnded
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage variable** self   
-   **address** _to   
-   **uint256** _value   
+Returns true if the crowdsale is over, or after the endTime
 
-   ##### Returns
-   **bool** Returns true after successful transfer.     
 
-   #### transferFrom(TokenLib.TokenStorage storage, address, address, uint256)   
-                     returns (bool)   
-   *(TokenLib.sol, line 106)*
+validPurchase
 
-   Authorized spender, msg.sender, transfers tokens from one account to another.
+checks to see if a purchase is valid, by checking that it is during the active crowdsale and the amount of ether sent is more than 0.
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self   
-   **address** _from   
-   **address** _to   
-   **uint256** _value   
+withdrawTokens
 
-   ##### Returns
-   **bool**      
+allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some
 
-   #### balanceOf(TokenLib.TokenStorage storage, address)    
-                  constant returns (uint256)   
-   *(TokenLib.sol, line 135)*   
+changeTokenPrice
 
-   Retrieve the token balance of the given account.
+Internal function that is called when the time interval has passed and it is time for the price of tokens to change
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self   
-   **address** _owner   
+getContribution
 
-   ##### Returns
-   **uint256** balance    
+emits an event and returns the amount of wei that a specified buyer has contributed to the crowdsale
 
-   #### approve(TokenLib.TokenStorage storage, address, uint256)    
-                returns (bool)   
-   *(TokenLib.sol, line 144)*   
+getTokenPurchase
 
-   msg.sender approves a third party to spend up to _value in tokens.
+emits and event and returns the amount of tokens that a specified buyer has purchased in the crowdsale
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **address** _spender   
-   **uint256** _value   
 
-   ##### Returns
-   **bool**   
+### Direct Crowdsale Library Functions
 
-   #### allowance(TokenLib.TokenStorage storage, address, address)   
-                  constant returns (uint256)   
-   *(TokenLib.sol, line 155)*
+init
 
-   Check the remaining allowance spender has from owner.
+Initialize the crowdsale with owner, tokens per ether, raise cap, minimum raise target, startTime, endTime, periodic Change in ether price, time Interval between price changes, whether not the price is increasing or decreasing, and the address of the deployed token contract.
 
-   ##### Arguments
-   **TokenStorage storage** self   
-   **address** _owner   
-   **address** _spender   
+receivePurchase
 
-   ##### Returns
-   **uint256** remaining   
+accepts payment for tokens and transfers the tokens to the buyer's address.  Calls validPurchase.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  This also updates the token's price when the time interval passes. 
 
-### Enhanced Token Functions
+ownerWithdrawl
 
-These are additional functions beyond the standard that can enhance token functionality.   
+allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.
 
-   #### approveChange(TokenLib.TokenStorage storage, address, uint256, bool)   
-                     returns (bool)   
-   *(TokenLib.sol, line 165)*   
 
-   msg.sender approves a third party to spend tokens by increasing or decreasing the allowance by an amount equal to _valueChange. _increase should be true if increasing the approval amount and false if decreasing the approval amount. This is an enhancement to the `approve` function which subverts [the attack vector described here](https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit#heading=h.m9fhqynw2xvt "ERC20 approve attack vector") by acting on the allowance delta rather than the amount explicitly.   
-
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **address** _spender   
-   **uint256** _valueChange The amount to change approval by.   
-   **bool** _increase True if increasing approval, false if decreasing.      
-
-   ##### Returns
-   **bool**   
-
-   #### changeOwner(TokenLib.TokenStorage storage, address)   
-                     returns (bool)   
-   *(TokenLib.sol, line 193)*   
-
-   Changes the owning address of the token contract.   
-
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **address** _newOwner   
-
-   ##### Returns
-   **bool**   
-
-   #### mintToken(TokenLib.TokenStorage storage, uint256)   
-                     returns (bool)   
-   *(TokenLib.sol, line 205)*   
-
-   Mints new tokens if allowed, increases totalSupply. New tokens go to the token contract owner address.   
-
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **uint256** _value Amount of tokens to mint.   
-
-   ##### Returns
-   **bool**    
-
-   #### closeMint(TokenLib.TokenStorage storage)   
-                     returns (bool)   
-   *(TokenLib.sol, line 222)*   
-
-   Permanently closes minting capability.   
-
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-
-   ##### Returns
-   **bool**   
-
-   #### burnToken(TokenLib.TokenStorage storage, uint256)   
-                     returns (bool)   
-   *(TokenLib.sol, line 234)*   
-
-   Allows to permanently burn tokens, reduces totalSupply.   
-
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **uint256** _value Amount of tokens to burn.   
-
-   ##### Returns
-   **bool**   

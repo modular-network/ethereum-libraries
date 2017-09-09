@@ -12,6 +12,11 @@ pragma solidity ^0.4.13;
  * The Crowdsale Library provides basic functionality to create a initial coin offering
  * for different types of token sales. 
  *
+ * Test Crowdsale allows for testing in testrpc by allowing a paramater, currtime, to be passed
+ * to functions that would normally require a now variable.  This allows testrpc testing
+ * without having to add delays in the code to time it perfectly.  This also replaces some require() statements
+ * to regular conditional checks to allow for better testing.
+ *
  * See https://github.com/Majoolr/ethereum-contracts for an example of how to
  * create a basic ERC20 token.
  *
@@ -41,9 +46,8 @@ library TestCrowdsaleLib {
   struct CrowdsaleStorage {
   	address owner;     //owner of the crowdsale
 
-  	uint256 tokenPrice;  //number of tokens received per ether
+  	uint256 tokensPerEth;  //number of tokens received per ether
   	uint256 capAmount; //Maximum amount to be raised in wei
-  	uint256 auctionSupply; // number of tokens available in the sale
   	//uint8 decimals; //Number of zeros to add to token supply, usually 18
   	uint256 startTime; //ICO start time, timestamp
   	uint256 endTime; //ICO end time, timestamp automatically calculated
@@ -66,24 +70,23 @@ library TestCrowdsaleLib {
   function init(CrowdsaleStorage storage self, 
                 address _owner,
                 uint256 _currtime,
-                uint256 _tokenPrice,
+                uint256 _tokensPerEth,
                 uint256 _capAmount,
-                uint256 _auctionSupply,
                 uint256 _startTime,
                 uint256 _endTime,
                 CrowdsaleToken _token)
   {
-  	require(self.auctionSupply == 0);
+  	require(self.capAmount == 0);
   	require(self.owner == 0);
   	require(_startTime >= _currtime);
     require(_endTime > _startTime);
-    require(_tokenPrice > 0);
+    require(_tokensPerEth > 0);
     require(_capAmount > 0);
-    require(_auctionSupply > 0);
+    require(_owner > 0);
+    require(_startTime > _currtime);
     self.owner = _owner;
-    self.tokenPrice = _tokenPrice;
+    self.tokensPerEth = _tokensPerEth;
     self.capAmount = _capAmount;
-    self.auctionSupply = _auctionSupply;
     self.startTime = _startTime;
     self.endTime = _endTime;
     self.token = _token;
@@ -127,12 +130,9 @@ library TestCrowdsaleLib {
     var total = self.withdrawTokensMap[msg.sender];
     self.withdrawTokensMap[msg.sender] = 0;
     bool ok = self.token.transferFrom(self.owner, msg.sender, total);
-    if(ok) {
-      LogTokensWithdrawn(msg.sender, total);
-      return true;
-    } else {
-      return false;
-    }
+    require(ok);
+    LogTokensWithdrawn(msg.sender, total);
+    return true;
   }
 
   /// @dev Function to change the price of the token
@@ -142,7 +142,7 @@ library TestCrowdsaleLib {
     //require(msg.sender == self.owner);
   	require(_newPrice > 0);
 
-  	self.tokenPrice = _newPrice;
+  	self.tokensPerEth = _newPrice;
     return true;
   }
 

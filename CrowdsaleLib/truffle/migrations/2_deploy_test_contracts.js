@@ -4,9 +4,9 @@ var WalletMainLib = artifacts.require("./WalletMainLib.sol");
 var WalletAdminLib = artifacts.require("./WalletAdminLib.sol");
 var WalletGetterLib = artifacts.require("./WalletGetterLib.sol");
 var TokenLib = artifacts.require("./TokenLib.sol");
-var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol")
-var CrowdsaleLib = artifacts.require("./TestCrowdsaleLib.sol");
-var DirectCrowdsaleLib = artifacts.require("./TestDirectCrowdsaleLib.sol");
+var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
+var CrowdsaleLib = artifacts.require("./TestCrowdsaleLib.sol");   // ./TestCrowdsaleLib for testrpc testing, ./CrowdsaleLib for network testing
+var DirectCrowdsaleLib = artifacts.require("./TestDirectCrowdsaleLib.sol");  //  ./TestDirectCrowdsaleLib for testrpc testing, ./DirectCrowdsaleLib for network testing
 var TimeDirectCrowdsaleTestContract = artifacts.require("./TimeDirectCrowdsaleTestContract.sol");
 var WalletLibTestContract = artifacts.require("./WalletLibTestContract.sol");
 var walletAddress;
@@ -43,7 +43,7 @@ module.exports = function(deployer, network) {
    		return deployer.deploy(CrowdsaleToken, "0x36994c7cff11859ba8b9715120a68aa9499329ee", "Tester Token", "TST", 18, 1000000, true);
 	  }).then(function() {
       // right now it is configured to use accounts[5] as the owner and for the token price to increase periodically by 250 ether
-      return deployer.deploy(TimeDirectCrowdsaleTestContract, "0x36994c7cff11859ba8b9715120a68aa9499329ee", 100, 1000, 1000000000000000000000, 300000000000000000000, 1000000, 105, 110, 250,2,false,CrowdsaleToken.address);
+      return deployer.deploy(TimeDirectCrowdsaleTestContract, "0x36994c7cff11859ba8b9715120a68aa9499329ee", 100, 1000, 1000000000000000000000, 300000000000000000000, 105, 110, 250,2,false,CrowdsaleToken.address);
  	  });   
   }
 };

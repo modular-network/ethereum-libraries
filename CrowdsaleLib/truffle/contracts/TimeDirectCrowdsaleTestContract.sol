@@ -1,5 +1,14 @@
 pragma solidity ^0.4.13;
 
+/*****
+*
+*  Test contract for tesing the crowdsale libraries with testrpc
+*
+*  Uses currprice, a replacement for now in the library functions
+*
+******/
+
+
 import "./TestDirectCrowdsaleLib.sol";
 import "./CrowdsaleToken.sol";
 
@@ -11,18 +20,17 @@ contract TimeDirectCrowdsaleTestContract {
   function TimeDirectCrowdsaleTestContract(
                 address owner,
                 uint256 currtime,
-                uint256 tokenPrice,
+                uint256 tokensPerEth,
                 uint256 capAmount,
                 uint256 minimumTargetRaise,
-                uint256 auctionSupply,
                 uint256 startTime,
                 uint256 endTime,
                 uint256 periodicChange,
-                uint256 timeInterval,
+                uint256 changeInterval,
                 bool increase,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, currtime, tokenPrice, capAmount, minimumTargetRaise, auctionSupply, startTime, endTime, periodicChange, timeInterval, increase, token);
+  	sale.init(owner, currtime, tokensPerEth, capAmount, minimumTargetRaise, startTime, endTime, periodicChange, changeInterval, increase, token);
   }
 
   // fallback function can be used to buy tokens
@@ -38,8 +46,8 @@ contract TimeDirectCrowdsaleTestContract {
     return sale.base.owner;
   }
 
-  function tokenPrice() constant returns (uint256) {
-    return sale.base.tokenPrice;
+  function tokensPerEth() constant returns (uint256) {
+    return sale.base.tokensPerEth;
   }
 
   function capAmount() constant returns (uint256) {
@@ -48,10 +56,6 @@ contract TimeDirectCrowdsaleTestContract {
 
   function minimumTargetRaise() constant returns (uint256) {
     return sale.minimumTargetRaise;
-  }
-
-  function auctionSupply() constant returns (uint256) {
-    return sale.base.auctionSupply;
   }
 
   function startTime() constant returns (uint256) {
@@ -66,8 +70,8 @@ contract TimeDirectCrowdsaleTestContract {
     return sale.periodicChange;
   }
 
-  function timeInterval() constant returns (uint256) {
-    return sale.timeInterval;
+  function changeInterval() constant returns (uint256) {
+    return sale.changeInterval;
   }
 
   function increase() constant returns (bool) {
