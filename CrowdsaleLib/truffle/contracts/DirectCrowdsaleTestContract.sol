@@ -16,17 +16,15 @@ contract DirectCrowdsaleTestContract {
 
   function DirectCrowdsaleTestContract(
                 address owner,
-                uint256 tokensPerEth,
+                uint256 tokenPriceinCents,
                 uint256 capAmount,
-                uint256 minimumTargetRaise,
                 uint256 startTime,
                 uint256 endTime,
-                uint256 periodicChange,
+                uint256[] tokenPricePoints,
                 uint256 changeInterval,
-                bool increase,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, tokensPerEth, capAmount, minimumTargetRaise, startTime, endTime, periodicChange, changeInterval, increase, token);
+  	sale.init(owner, tokenPriceinCents, capAmount, startTime, endTime, tokenPricePoints, changeInterval, token);
   }
 
   // fallback function can be used to buy tokens
@@ -42,16 +40,16 @@ contract DirectCrowdsaleTestContract {
     return sale.base.owner;
   }
 
+  function tokenPriceinCents() constant returns (uint256) {
+    return sale.base.tokenPriceinCents;
+  }
+
   function tokensPerEth() constant returns (uint256) {
     return sale.base.tokensPerEth;
   }
 
   function capAmount() constant returns (uint256) {
     return sale.base.capAmount;
-  }
-
-  function minimumTargetRaise() constant returns (uint256) {
-    return sale.minimumTargetRaise;
   }
 
   function startTime() constant returns (uint256) {
@@ -62,16 +60,12 @@ contract DirectCrowdsaleTestContract {
     return sale.base.endTime;
   }
 
-  function periodicChange() constant returns (uint256) {
-    return sale.periodicChange;
-  }
-
   function changeInterval() constant returns (uint256) {
     return sale.changeInterval;
   }
 
-  function increase() constant returns (bool) {
-    return sale.increase;
+  function firstPriceChange() constant returns (uint256) {
+    return sale.tokenPricePoints[0];
   }
 
   function ownerBalance() constant returns (uint256) {
@@ -88,6 +82,10 @@ contract DirectCrowdsaleTestContract {
 
   function crowdsaleEnded() constant returns (bool) {
   	return sale.crowdsaleEnded();
+  }
+
+  function setExchangeRate(uint256 _exchangeRate) returns (bool) {
+    return sale.setExchangeRate(_exchangeRate);
   }
 
   function withdrawTokens() returns (bool) {

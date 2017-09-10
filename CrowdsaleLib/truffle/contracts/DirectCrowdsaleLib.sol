@@ -45,14 +45,13 @@ library DirectCrowdsaleLib {
 
   	CrowdsaleLib.CrowdsaleStorage base;
 
-    uint256 minimumTargetRaise; //Minimum amount acceptable for successful auction in wei
+    uint256[] tokenPricePoints;    // price points at each price change interval in cents/token.
 
-  	uint256 periodicChange;    // amount in ether that the token price changes after a specified interval
   	uint256 changeInterval;      // amount of time between changes in the price of the token
   	uint256 lastPriceChangeTime;          // current Day
+    uint256 changeIndex;         //index for the price points array
     uint256 ownerBalance;
 
-  	bool increase;             // true if the price of the token increases, false if it decreases
   }
 
   event LogTokensBought(address indexed buyer, uint256 amount);
@@ -66,30 +65,27 @@ library DirectCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
-                uint256 _tokensPerEth,
+                uint256 _tokenPriceinCents,
                 uint256 _capAmount,
-                uint256 _minimumTargetRaise,
                 uint256 _startTime,
                 uint256 _endTime,
-                uint256 _periodicChange,
+                uint256[] _tokenPricePoints,
                 uint256 _changeInterval,
-                bool _increase,
-                CrowdsaleToken _token)
+                CrowdsaleToken _token) internal
   {
   	self.base.init(_owner,
-                _tokensPerEth,
+                _tokenPriceinCents,
                 _capAmount,
                 _startTime,
                 _endTime,
                 _token);
 
-    if (_periodicChange == 0) {             // if there is no increase or decrease in price, the time interval should also be zero
+    if (_tokenPricePoints.length == 0) {             // if there is no increase or decrease in price, the time interval should also be zero
     	require(_changeInterval == 0);
     }
-    self.minimumTargetRaise = _minimumTargetRaise;
-  	self.periodicChange = _periodicChange;
+    self.tokenPricePoints = _tokenPricePoints;
   	self.changeInterval = _changeInterval; 
-  	self.increase = _increase;
+    self.changeIndex = 0;
   	self.lastPriceChangeTime = _startTime;
     self.ownerBalance = 0;
   }
@@ -106,13 +102,10 @@ library DirectCrowdsaleLib {
   	// if the token price increase interval has passed, update the current day and change the token price
   	if ((self.changeInterval > 0) && (now >= (self.lastPriceChangeTime + self.changeInterval))) {
   		self.lastPriceChangeTime = now;
-  		if (self.increase) { 
-        self.base.changeTokenPrice(self.base.tokensPerEth + self.periodicChange);
-        LogTokenPriceChange(self.periodicChange,"Token Price has increased!"); 
-      } else { 
-        self.base.changeTokenPrice(self.base.tokensPerEth - self.periodicChange); 
-        LogTokenPriceChange(self.periodicChange,"Token Price has decreased!");
-      }     
+
+      self.base.changeTokenPrice(self.tokenPricePoints[self.changeIndex]);
+      LogTokenPriceChange(self.tokenPricePoints[self.changeIndex],"Token Price has changed!");
+      self.changeIndex++;
   	}
 
   	uint256 numTokens;     //number of tokens that will be purchased
@@ -123,15 +116,12 @@ library DirectCrowdsaleLib {
 		self.base.hasContributed[msg.sender] += _amount;      // can't overflow because it is under the cap
     
     (err,weiTokens) = _amount.times(self.base.tokensPerEth);    // Find the number of tokens as a function in wei
-
     require(!err);
 
     (err,numTokens) = weiTokens.dividedBy(1000000000000000000);    // convert the wei tokens to the correct number of tokens per ether spent
-
 		require(!err);
 
     (err,newBalance) = self.ownerBalance.plus(_amount);      // calculate the amout of ether in the owners balance
-
     require(!err);
 
     self.ownerBalance = newBalance;   // "deposit" the amount
@@ -143,14 +133,14 @@ library DirectCrowdsaleLib {
     return true;
   }
 
-  /// @dev send ether from a purchase to the owners wallet address
+  /// @dev send ether from the completed crowdsale to the owners wallet address
   /// @param self Stored crowdsale from crowdsale contract
   function ownerWithdrawl(DirectCrowdsaleStorage storage self) returns (bool) {
     if (!self.base.crowdsaleEnded()) {
       LogErrorMsg(self.ownerBalance, "Cannot withdraw owner ether until after the sale!");
       return false;
     }
-    //require(self.base.crowdsaleEnded());
+
     require(msg.sender == self.base.owner);    
     require(self.ownerBalance > 0);
 
@@ -164,7 +154,9 @@ library DirectCrowdsaleLib {
  
 
   ///  Functions "inherited" from CrowdsaleLib library
-
+  function setExchangeRate(DirectCrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {
+    return self.base.setExchangeRate(_exchangeRate);
+  }
 
   function crowdsaleActive(DirectCrowdsaleStorage storage self) constant returns (bool) {
     return self.base.crowdsaleActive();

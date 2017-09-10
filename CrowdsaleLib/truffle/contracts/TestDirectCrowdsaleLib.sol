@@ -49,14 +49,13 @@ library TestDirectCrowdsaleLib {
 
   	TestCrowdsaleLib.CrowdsaleStorage base;
 
-    uint256 minimumTargetRaise; //Minimum amount acceptable for successful auction in wei
+    uint256[] tokenPricePoints;    // price points at each price change interval in cents/token.
 
-  	uint256 periodicChange;    // amount in ether that the token price changes after a specified interval
   	uint256 changeInterval;      // amount of time between changes in the price of the token
   	uint256 lastPriceChangeTime;          // time of the last change in token cost
+    uint256 changeIndex;         //index for the price points array
     uint256 ownerBalance;
 
-  	bool increase;             // true if the price of the token increases, false if it decreases
   }
 
   event LogTokensBought(address indexed buyer, uint256 amount);
@@ -71,32 +70,29 @@ library TestDirectCrowdsaleLib {
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
                 uint256 _currtime,
-                uint256 _tokensPerEth,
+                uint256 _tokenPriceinCents,
                 uint256 _capAmount,
-                uint256 _minimumTargetRaise,
                 uint256 _startTime,
                 uint256 _endTime,
-                uint256 _periodicChange,
+                uint256[] _tokenPricePoints,
                 uint256 _changeInterval,
-                bool _increase,
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
                 _currtime,
-                _tokensPerEth,
+                _tokenPriceinCents,
                 _capAmount,
                 _startTime,
                 _endTime,
                 _token);
 
-    if (_periodicChange == 0) {             // if there is no increase or decrease in price, the time interval should also be zero
-    	require(_changeInterval == 0);
+    if (_tokenPricePoints.length == 0) {             // if there is no increase or decrease in price, the time interval should also be zero
+      require(_changeInterval == 0);
     }
-    self.minimumTargetRaise = _minimumTargetRaise;
-  	self.periodicChange = _periodicChange;
-  	self.changeInterval = _changeInterval; 
-  	self.increase = _increase;
-  	self.lastPriceChangeTime = _startTime;
+  	self.tokenPricePoints = _tokenPricePoints;
+    self.changeInterval = _changeInterval; 
+    self.changeIndex = 0;
+    self.lastPriceChangeTime = _startTime;
     self.ownerBalance = 0;
   }
 
@@ -119,13 +115,9 @@ library TestDirectCrowdsaleLib {
   	// if the token price increase interval has passed, update the current day and change the token price
   	if ((self.changeInterval > 0) && (currtime >= (self.lastPriceChangeTime + self.changeInterval))) {
   		self.lastPriceChangeTime = currtime;
-  		if (self.increase) { 
-        self.base.changeTokenPrice(self.base.tokensPerEth + self.periodicChange);
-        LogTokenPriceChange(self.periodicChange,"Token Price has increased!"); 
-      } else { 
-        self.base.changeTokenPrice(self.base.tokensPerEth - self.periodicChange); 
-        LogTokenPriceChange(self.periodicChange,"Token Price has decreased!");
-      }   
+  		self.base.changeTokenPrice(self.tokenPricePoints[self.changeIndex]);
+      LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
+      self.changeIndex++;
   	}
 
   	uint256 numTokens;     //number of tokens that will be purchased
@@ -135,19 +127,16 @@ library TestDirectCrowdsaleLib {
 
     self.base.hasContributed[msg.sender] += _amount;      // can't overflow because it is under the cap
     
-    (err,weiTokens) = _amount.times(self.base.tokensPerEth);
-
+    (err,weiTokens) = _amount.times(self.base.tokensPerEth);   // Find the number of tokens as a function in wei
     require(!err);
 
-    (err,numTokens) = weiTokens.dividedBy(1000000000000000000);
-
+    (err,numTokens) = weiTokens.dividedBy(1000000000000000000);  // convert the wei tokens to the correct number of tokens per ether spent
     require(!err);
 
-    (err,newBalance) = self.ownerBalance.plus(_amount);
-
+    (err,newBalance) = self.ownerBalance.plus(_amount);   // calculate the amout of ether in the owners balance
     require(!err);
 
-    self.ownerBalance = newBalance;
+    self.ownerBalance = newBalance;   // "deposit" the amount
 	  
 	  self.base.withdrawTokensMap[msg.sender] += numTokens;    // can't overflow because it will be under the cap
 
@@ -176,7 +165,9 @@ library TestDirectCrowdsaleLib {
  
 
   ///  Functions "inherited" from CrowdsaleLib library
-
+  function setExchangeRate(DirectCrowdsaleStorage storage self, uint256 _exchangeRate, uint256 _currtime) returns (bool) {
+    return self.base.setExchangeRate(_exchangeRate, _currtime);
+  }
 
   function crowdsaleActive(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
     return self.base.crowdsaleActive(currtime);

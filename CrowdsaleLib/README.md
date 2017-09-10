@@ -6,6 +6,22 @@ CrowdsaleLib
 
 A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to abstract crowdsale creation. This library was inspired by [Aragon's blog post on library usage](https://blog.aragon.one/library-driven-development-in-solidity-2bebcaf88736 "Library blog post") .
 
+Developed as a way to standardize creation of ICOs.  All types of ICOs share a few common storage variables and functions, and the aim of these Libraries is to create a standard template that companies can follow in ICO creation that ensures a base level of security, documentation, cost, and performance.  Work is still ongoing and suggestions for improvement are welcome.  
+
+Structure of Libraries:
+
+## CrowdsaleLib.sol
+
+CrowdsaleLib.sol is the base library that all crowdsales will share.  It includes values like owner, number of tokens bought per Ether contributed, a cap for the amount of Ether that can be raised in the sale, the start time of the sale, and the end time of the sale.  There is also a mapping showing how much each address has contributed to the sale in ETH, and a mapping for the number of tokens an address has purchased and are available to withdraw.  Lastly, there is a storage value for the token contract that is used as the token template for this sale.  
+
+This library also includes a variety of functions that apply to all crowdsales.  Descriptions of each function can be seen below.  
+
+Take note that this library cannot be used as is for a crowdsale template, as there are no functions to handle transfer of ETH or purchase of tokens.  You can either include this library as a template for your crowdsale that you design, or you can use one of the other Crowdsale Libraries, which all include this library for a base layer of functionality underlying their distinct sale mechanisms.
+
+## DirectCrowdsaleLib.sol 
+
+DirectCrowdsaleLib.sol is the simplest implementation of a crowdsale, a direct ETH to token transfer with an optional periodic increase/decrease in token price.  In addition to the regular parameters that are needed by the base crowdsale template, owners provide a periodic change in price and the time interval between changes (both 0 if there is not price change) and a boolean showing if the price is increasing or decreasing.  There is a function that accepts payments and allocates tokens for addresses that have paid, while also changing the token price if the time interval as passed between purchases.  There is also a function which allows the owner of the crowdsale to withdraw all the ETH raised after the sale has ended.  See below for more detailed function descriptions. 
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -361,52 +377,56 @@ Binding the library allows you to call the function in the format [firstParamete
 
 Init:
 
-Initialize the crowdsale with owner, tokens per ether, raise cap, minimum raise target, startTime, endTime, and the address of the deployed token contract.  Only should be called by a different type of crowsale library because these only provide base functionality and no token purchasing ability.
+Initialize the crowdsale with owner, token price (in cents), raise cap, startTime, endTime, and the address of the deployed token contract.  Checks that the values have not already been initialized and that they are all valid before setting their corresponding storage values.
 
 
 crowdsaleActive
 
-Returns true if the crowdsale is currently active, or it it between the start and end times
-
+Returns true if the crowdsale is currently active. (If now is between the start and end time)
 
 crowdsaleEnded
 
-Returns true if the crowdsale is over, or after the endTime
-
+Returns true if the crowdsale is over. (now is after the end time)
 
 validPurchase
 
-checks to see if a purchase is valid, by checking that it is during the active crowdsale and the amount of ether sent is more than 0.
+Returns true if a purchase is valid, by checking that it is during the active crowdsale and the amount of ether sent is more than 0.
 
 withdrawTokens
 
-allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some
+Allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some.  The token's transferFrom function is called so that the token contract transfers tokens from the owners address to the buyer's address.
 
 changeTokenPrice
 
-Internal function that is called when the time interval has passed and it is time for the price of tokens to change
+Internal function that is called when the time interval has passed and it is time for the price of tokens to change.
+
+setExchangeRate
+
+Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Only the owner can call this function and it can only be called between 48 and 24 hours before the crowdsale officially starts to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
 
 getContribution
 
-emits an event and returns the amount of wei that a specified buyer has contributed to the crowdsale
+Emits an event and returns the amount of wei that a specified buyer has contributed to the crowdsale.
 
 getTokenPurchase
 
-emits and event and returns the amount of tokens that a specified buyer has purchased in the crowdsale
+Emits an event and returns the amount of tokens that a specified buyer has purchased in the crowdsale.
 
 
 ### Direct Crowdsale Library Functions
 
 init
 
-Initialize the crowdsale with owner, tokens per ether, raise cap, minimum raise target, startTime, endTime, periodic Change in ether price, time Interval between price changes, whether not the price is increasing or decreasing, and the address of the deployed token contract.
+Initialize the crowdsale with owner, token price (in cents), raise cap, startTime, endTime, an array of token price points (in cents) that will be used throughout the sale, time Interval between price changes, and the address of the deployed token contract.
 
 receivePurchase
 
-accepts payment for tokens and transfers the tokens to the buyer's address.  Calls validPurchase.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  This also updates the token's price when the time interval passes. 
+Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  This also updates the token's price when the time interval passes by checking an internal variable that keeps track of when the last change happened and checking to see if the time interval has passed since that change.  
+
+Tokens purchased are calculated by multiplying the wei contributed by the tokensPerEth value, then dividing it by 10^18 (wei to ETH conversion).  Mappings for buyer contribution and tokens purchased are updated, as well as total wei raised in the sale.
 
 ownerWithdrawl
 
-allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.
+Allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.  ETH must have been contributed in the sale.  It sets the owner's balance to 0 and transfers all the ETH. 
 
 

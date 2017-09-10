@@ -44,9 +44,11 @@ library CrowdsaleLib {
   	address owner;     //owner of the crowdsale
 
   	uint256 tokensPerEth;  //number of tokens received per ether
+    uint256 tokenPriceinCents;  // current price of token in cents (used to calculate token price from volatile price of ETH close to the sale)
   	uint256 capAmount; //Maximum amount to be raised in wei
   	uint256 startTime; //ICO start time, timestamp
   	uint256 endTime; //ICO end time, timestamp automatically calculated
+    uint256 exchangeRate;   //  cents/ETH exchange rate at the time of the sale 
 
 
   	mapping (address => uint256) hasContributed;  //shows how much wei an address has contributed
@@ -55,31 +57,30 @@ library CrowdsaleLib {
   	CrowdsaleToken token;
   }
 
-  event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);
-  event LogDepositWithdrawn(address indexed _bidder, uint256 Amount);
-  event LogNoticeMsg(address _buyer, uint256 value, string Msg);
-  event LogErrorMsg(string Msg);
+  event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of tokens
+  event LogNoticeMsg(address _buyer, uint256 value, string Msg);          // Generic Notice message that includes and address and number
+  event LogErrorMsg(string Msg);                                          // Indicates when an error has occurred in the execution of a function
 
 
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   function init(CrowdsaleStorage storage self, 
                 address _owner,
-                uint256 _tokensPerEth,
+                uint256 _tokenPriceinCents,
                 uint256 _capAmount,
                 uint256 _startTime,
                 uint256 _endTime,
-                CrowdsaleToken _token)
+                CrowdsaleToken _token) internal
   {
   	require(self.capAmount == 0);
   	require(self.owner == 0);
     require(_endTime > _startTime);
-    require(_tokensPerEth > 0);
+    require(_tokenPriceinCents > 0);
     require(_capAmount > 0);
     require(_owner > 0);
     require(_startTime > now);
     self.owner = _owner;
-    self.tokensPerEth = _tokensPerEth;
+    self.tokenPriceinCents = _tokenPriceinCents;
     self.capAmount = _capAmount;
     self.startTime = _startTime;
     self.endTime = _endTime;
@@ -134,7 +135,34 @@ library CrowdsaleLib {
   function changeTokenPrice(CrowdsaleStorage storage self,uint256 _newPrice) internal returns (bool) {
   	require(_newPrice > 0);
 
-  	self.tokensPerEth = _newPrice;
+    uint256 result;
+    bool err;
+
+    (err,result) = self.exchangeRate.dividedBy(_newPrice);
+    require(!err);
+
+  	self.tokensPerEth = result;
+    return true;
+  }
+
+  /// @dev function that is called two days before the sale to set the token price
+  /// @param self Stored Crowdsale from crowdsale contract
+  /// @param _exchangeRate  ETH exchange rate expressed in cents/ETH
+  function setExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {
+    require(msg.sender == self.owner);
+    require((now > (self.startTime - 2 days)) && (now < (self.startTime - 1 days)));
+    require(self.tokensPerEth == 0);   // the exchange rate can only be set once!
+
+    uint256 result;
+    bool err;
+
+    (err,result) = _exchangeRate.dividedBy(self.tokenPriceinCents);  // (cents/ETH)/(cents/token) = tokens/ETH
+    require(!err);
+
+    self.exchangeRate = _exchangeRate;
+    self.tokensPerEth = result;
+
+    LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");
     return true;
   }
 
