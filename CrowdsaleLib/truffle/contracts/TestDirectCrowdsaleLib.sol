@@ -115,9 +115,14 @@ library TestDirectCrowdsaleLib {
   	// if the token price increase interval has passed, update the current day and change the token price
   	if ((self.changeInterval > 0) && (currtime >= (self.lastPriceChangeTime + self.changeInterval))) {
   		self.lastPriceChangeTime = currtime;
-  		self.base.changeTokenPrice(self.tokenPricePoints[self.changeIndex]);
-      LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
-      self.changeIndex++;
+
+      if (self.changeIndex < self.tokenPricePoints.length) {   //prevents going out of bounds on the tokenPricePoints array
+      
+  		  self.base.changeTokenPrice(self.tokenPricePoints[self.changeIndex]);
+      
+        LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
+        self.changeIndex++;
+      }
   	}
 
   	uint256 numTokens;     //number of tokens that will be purchased

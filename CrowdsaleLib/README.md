@@ -12,15 +12,17 @@ Structure of Libraries:
 
 ## CrowdsaleLib.sol
 
-CrowdsaleLib.sol is the base library that all crowdsales will share.  It includes values like owner, number of tokens bought per Ether contributed, a cap for the amount of Ether that can be raised in the sale, the start time of the sale, and the end time of the sale.  There is also a mapping showing how much each address has contributed to the sale in ETH, and a mapping for the number of tokens an address has purchased and are available to withdraw.  Lastly, there is a storage value for the token contract that is used as the token template for this sale.  
+CrowdsaleLib.sol is the base library that all crowdsales will share.  It includes values like owner, number of tokens bought per Ether contributed, USD-ETH exchange rate, a cap for the amount of Ether that can be raised in the sale, the start time of the sale, and the end time of the sale.  There is also a mapping showing how much each address has contributed to the sale in ETH, and a mapping for the number of tokens an address has purchased and are available to withdraw.  Lastly, there is a storage value for the token contract that is used as the token template for this sale.  
 
 This library also includes a variety of functions that apply to all crowdsales.  Descriptions of each function can be seen below.  
 
 Take note that this library cannot be used as is for a crowdsale template, as there are no functions to handle transfer of ETH or purchase of tokens.  You can either include this library as a template for your crowdsale that you design, or you can use one of the other Crowdsale Libraries, which all include this library for a base layer of functionality underlying their distinct sale mechanisms.
 
+Before the crowdsale can start, the owner has to set the exchange rate between 48 and 24 hours before the sale, which calculates the ether token price.
+
 ## DirectCrowdsaleLib.sol 
 
-DirectCrowdsaleLib.sol is the simplest implementation of a crowdsale, a direct ETH to token transfer with an optional periodic increase/decrease in token price.  In addition to the regular parameters that are needed by the base crowdsale template, owners provide a periodic change in price and the time interval between changes (both 0 if there is not price change) and a boolean showing if the price is increasing or decreasing.  There is a function that accepts payments and allocates tokens for addresses that have paid, while also changing the token price if the time interval as passed between purchases.  There is also a function which allows the owner of the crowdsale to withdraw all the ETH raised after the sale has ended.  See below for more detailed function descriptions. 
+DirectCrowdsaleLib.sol is the simplest implementation of a crowdsale, a direct ETH to token transfer with an optional periodic increase/decrease in token price.  In addition to the regular parameters that are needed by the base crowdsale template, owners provide an array of price points (in cents) for the token and the time interval between changes (both 0 if there is not price change).  There is a function that accepts payments and allocates tokens for addresses that have paid, while also changing the token price if the time interval as passed between purchases.  There is also a function which allows the owner of the crowdsale to withdraw all the ETH raised after the sale has ended.  See below for more detailed function descriptions. 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

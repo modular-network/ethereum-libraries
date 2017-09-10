@@ -103,9 +103,13 @@ library DirectCrowdsaleLib {
   	if ((self.changeInterval > 0) && (now >= (self.lastPriceChangeTime + self.changeInterval))) {
   		self.lastPriceChangeTime = now;
 
-      self.base.changeTokenPrice(self.tokenPricePoints[self.changeIndex]);
-      LogTokenPriceChange(self.tokenPricePoints[self.changeIndex],"Token Price has changed!");
-      self.changeIndex++;
+      if (self.changeIndex < self.tokenPricePoints.length) {   //prevents going out of bounds on the tokenPricePoints array
+      
+        self.base.changeTokenPrice(self.tokenPricePoints[self.changeIndex]);
+      
+        LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
+        self.changeIndex++;
+      }
   	}
 
   	uint256 numTokens;     //number of tokens that will be purchased
