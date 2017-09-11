@@ -1,4 +1,4 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.15;
 
 /*****
 *
@@ -69,7 +69,7 @@ contract TimeDirectCrowdsaleTestContract {
   }
 
   function ownerBalance() constant returns (uint256) {
-  	return sale.ownerBalance;
+    return sale.ownerBalance;
   }
 
   function ownerWithdrawl(uint256 currtime) returns (bool) {

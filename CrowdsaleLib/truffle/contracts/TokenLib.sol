@@ -1,4 +1,4 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.15;
 
 /**
  * @title TokenLib
@@ -47,11 +47,11 @@ library TokenLib {
     bool stillMinting;
   }
 
-  event LogTransfer(address indexed from, address indexed to, uint256 value);
-  event LogApproval(address indexed owner, address indexed spender, uint256 value);
-  event LogOwnerChange(address from, address to);
-  event LogBurn(address indexed burner, uint256 value);
-  event LogMintingClosed(bool mintingClosed);
+  event Transfer(address indexed from, address indexed to, uint256 value);
+  event Approval(address indexed owner, address indexed spender, uint256 value);
+  event OwnerChange(address from, address to);
+  event Burn(address indexed burner, uint256 value);
+  event MintingClosed(bool mintingClosed);
 
   /// @dev Called by the Standard Token upon creation.
   /// @param self Stored token from token contract
@@ -76,7 +76,7 @@ library TokenLib {
     self.decimals = _decimals;
     self.owner = _owner;
     self.stillMinting = _allowMinting;
-    self.balances[_owner] = _initial_supply;
+    self.balances[msg.sender] = _initial_supply;
   }
 
   /// @dev Transfer tokens from caller's account to another account.
@@ -93,7 +93,7 @@ library TokenLib {
     self.balances[msg.sender] = balance;
     //It's not possible to overflow token supply
     self.balances[_to] = self.balances[_to] + _value;
-    LogTransfer(msg.sender, _to, _value);
+    Transfer(msg.sender, _to, _value);
     return true;
   }
 
@@ -109,7 +109,7 @@ library TokenLib {
                         uint256 _value)
                         returns (bool)
   {
-    var _allowance = self.allowed[_from][msg.sender];   //what is this?
+    var _allowance = self.allowed[_from][msg.sender];
     bool err;
     uint256 balanceOwner;
     uint256 balanceSpender;
@@ -124,7 +124,7 @@ library TokenLib {
     self.allowed[_from][msg.sender] = balanceSpender;
     self.balances[_to] = self.balances[_to] + _value;
 
-    LogTransfer(_from, _to, _value);
+    Transfer(_from, _to, _value);
     return true;
   }
 
@@ -143,7 +143,7 @@ library TokenLib {
   /// @return True if completed
   function approve(TokenStorage storage self, address _spender, uint256 _value) returns (bool) {
     self.allowed[msg.sender][_spender] = _value;
-    LogApproval(msg.sender, _spender, _value);
+    Approval(msg.sender, _spender, _value);
     return true;
   }
 
@@ -182,7 +182,7 @@ library TokenLib {
       }
     }
 
-    LogApproval(msg.sender, _spender, _newAllowed);
+    Approval(msg.sender, _spender, _newAllowed);
     return true;
   }
 
@@ -194,7 +194,7 @@ library TokenLib {
     require((self.owner == msg.sender) && (_newOwner > 0));
 
     self.owner = _newOwner;
-    LogOwnerChange(msg.sender, _newOwner);
+    OwnerChange(msg.sender, _newOwner);
     return true;
   }
 
@@ -212,7 +212,7 @@ library TokenLib {
 
     self.totalSupply =  _newAmount;
     self.balances[self.owner] = self.balances[self.owner] + _amount;
-    LogTransfer(0x0, self.owner, _amount);
+    Transfer(0x0, self.owner, _amount);
     return true;
   }
 
@@ -223,7 +223,7 @@ library TokenLib {
     require(self.owner == msg.sender);
 
     self.stillMinting = false;
-    LogMintingClosed(true);
+    MintingClosed(true);
     return true;
   }
 
@@ -240,7 +240,7 @@ library TokenLib {
 
       self.balances[msg.sender] = _newBalance;
       self.totalSupply = self.totalSupply - _amount;
-      LogBurn(msg.sender, _amount);
-      LogTransfer(msg.sender, 0x0, _amount);
+      Burn(msg.sender, _amount);
+      Transfer(msg.sender, 0x0, _amount);
   }
 }

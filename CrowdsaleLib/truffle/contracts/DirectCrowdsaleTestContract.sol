@@ -1,4 +1,4 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.15;
 
 /****************
 *
@@ -64,12 +64,8 @@ contract DirectCrowdsaleTestContract {
     return sale.changeInterval;
   }
 
-  function firstPriceChange() constant returns (uint256) {
-    return sale.tokenPricePoints[0];
-  }
-
   function ownerBalance() constant returns (uint256) {
-  	return sale.ownerBalance;
+    return sale.ownerBalance;
   }
 
   function ownerWithdrawl() returns (bool) {
@@ -78,6 +74,10 @@ contract DirectCrowdsaleTestContract {
 
   function crowdsaleActive() constant returns (bool) {
   	return sale.crowdsaleActive();
+  }
+
+  function firstPriceChange() constant returns (uint256) {
+    return sale.tokenPricePoints[0];
   }
 
   function crowdsaleEnded() constant returns (bool) {

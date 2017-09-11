@@ -1,4 +1,4 @@
-pragma solidity 0.4.13;
+pragma solidity ^0.4.15;
 
 /**
  * @title Wallet Admin Library
@@ -194,7 +194,7 @@ library WalletAdminLib {
     }
 
     return (true,_id);
-	}
+  }
 
   /// @dev Adds owner to wallet
   /// @param self Wallet in contract storage
@@ -264,7 +264,7 @@ library WalletAdminLib {
     }
 
     return (true,_id);
-	}
+  }
 
   /// @dev Removes owner from wallet
   /// @param self Wallet in contract storage
@@ -334,7 +334,7 @@ library WalletAdminLib {
     }
 
     return (true,_id);
-	}
+  }
 
   /// @dev Changes required sigs to change wallet parameters
   /// @param self Wallet in contract storage
@@ -400,7 +400,7 @@ library WalletAdminLib {
     }
 
     return (true,_id);
-	}
+  }
 
   /// @dev Changes required sigs for major transactions
   /// @param self Wallet in contract storage
@@ -466,7 +466,7 @@ library WalletAdminLib {
     }
 
     return (true,_id);
-	}
+  }
 
   /// @dev Changes required sigs for minor transactions
   /// @param self Wallet in contract storage
@@ -532,7 +532,7 @@ library WalletAdminLib {
     }
 
     return (true,_id);
-	}
+  }
 
   /// @dev Changes threshold for major transaction day spend per token
   /// @param self Wallet in contract storage
@@ -597,5 +597,5 @@ library WalletAdminLib {
     }
 
     return (true,_id);
-	}
+  }
 }
