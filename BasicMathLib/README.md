@@ -2,7 +2,8 @@ BasicMathLib
 =========================
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
+[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
 
 A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to protect math operations from overflow and invalid outputs.
 
@@ -101,9 +102,9 @@ module.exports = function(deployer) {
 
 The following process will allow you to `truffle test` this library in your project.
 
-1. `git clone --recursive` or download the truffle directory.   
-   Each folder in the truffle directory correlates to the folders in your truffle installation.
-2. Place each file in their respective directory in **your** truffle project.
+1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/BasicMathLib/truffle`.    
+   Each folder in the truffle directory correlates to the folders in your truffle project.   
+2. Go into the BasicMathLib truffle directory on your computer and place each file in their respective directory in **your** truffle project.
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
 3. [Start a testrpc node](https://github.com/ethereumjs/testrpc "testrpc's Github")
 4. In your terminal go to your truffle project directory and run `truffle migrate`.
