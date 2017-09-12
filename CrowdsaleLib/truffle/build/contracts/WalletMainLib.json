@@ -633,15 +633,133 @@
       "updated_at": 1503644546478
     },
     "4": {
-      "events": {},
+      "events": {
+        "0x94923fd75da430df607597cb52cdd78ed1ec9425b0428035662f4bdb982a69ee": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "txid",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "confirmsNeeded",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogRevokeNotice",
+          "type": "event"
+        },
+        "0x7eaa0c297dc19ad870ff21eac4263ebf4c3c98f752ae80f191b4247e61f9954a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "txid",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "sender",
+              "type": "address"
+            }
+          ],
+          "name": "LogTransactionFailed",
+          "type": "event"
+        },
+        "0xef8dcc2e6089d6cdaf4b9e4488d780383081d593a692f3f2a0a75b1b27be6191": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "txid",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "confirmsNeeded",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTransactionConfirmed",
+          "type": "event"
+        },
+        "0xec7f2ae735b970eb41ebb7346e62f63325f2bd5c97e001cb8028c88b79dc388c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "txid",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "target",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "name": "LogTransactionComplete",
+          "type": "event"
+        },
+        "0xe2e513482c0a3685f58d03709bd31102a8cc464077d2550c554d23291224d8c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "newContract",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogContractCreated",
+          "type": "event"
+        },
+        "0x2c2fba2b2b4d40767de579ee1ae9a1734036a39103bece60b03ab231a673fa81": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogErrMsg",
+          "type": "event"
+        }
+      },
       "links": {
         "BasicMathLib": "0x73c983f3b4cf4f06921b5f39291cb532fd5f548c",
         "Array256Lib": "0xbc3216a0a455a66acdfb5bb3394499ce91f922a0"
       },
       "address": "0xd6a1bbe5790f126bd7e793e48cb88d2514175bd1",
-      "updated_at": 1503642721983
+      "updated_at": 1505168500646
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1505160769375
+  "updated_at": 1505168500646
 }

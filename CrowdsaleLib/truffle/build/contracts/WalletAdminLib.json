@@ -794,14 +794,119 @@
       "updated_at": 1503644546485
     },
     "4": {
-      "events": {},
+      "events": {
+        "0xef8dcc2e6089d6cdaf4b9e4488d780383081d593a692f3f2a0a75b1b27be6191": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "txid",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "confirmsNeeded",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTransactionConfirmed",
+          "type": "event"
+        },
+        "0x5345c41500b4b3b852712efe48a8aca66a07e68dafe472cdf152bb1f8cf0dee7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerAdded",
+          "type": "event"
+        },
+        "0xcced2bb6be71c58ec6a1d84c3426108fe5d99c01bb4003687fb8edf6c1470433": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "ownerRemoved",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerRemoved",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "to",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        },
+        "0x4147060af8b8b6220461c8690de43689af801659131a4b237409cb624c335aec": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "newRequired",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogRequirementChange",
+          "type": "event"
+        },
+        "0x852263aabb70901bb9e3af9255bb21bccc915caa34e732a5adffb53f5102505f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "newThreshold",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogThresholdChange",
+          "type": "event"
+        },
+        "0x2c2fba2b2b4d40767de579ee1ae9a1734036a39103bece60b03ab231a673fa81": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogErrMsg",
+          "type": "event"
+        }
+      },
       "links": {
         "WalletMainLib": "0xd6a1bbe5790f126bd7e793e48cb88d2514175bd1"
       },
       "address": "0x8751e3c11e5074f7617fbc42c31cda60a1f06f12",
-      "updated_at": 1503642721995
+      "updated_at": 1505168500650
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1505160769375
+  "updated_at": 1505168500650
 }

@@ -56,14 +56,15 @@ library TestCrowdsaleLib {
 
   	mapping (address => uint256) hasContributed;  //shows how much wei an address has contributed
   	mapping (address => uint) withdrawTokensMap;  //For token withdraw function, maps a user address to the amount of tokens they can withdraw
+    mapping (address => uint256) leftoverWei;       // any leftover wei that buyers contributed that didn't add up to a whole token amount
 
   	CrowdsaleToken token;
   }
 
   event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of tokens
+  event LogWeiWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of extra wei
   event LogNoticeMsg(address _buyer, uint256 value, string Msg);          // Generic Notice message that includes and address and number
   event LogErrorMsg(string Msg);                                          // Indicates when an error has occurred in the execution of a function
-
 
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
@@ -71,6 +72,7 @@ library TestCrowdsaleLib {
                 address _owner,
                 uint256 _currtime,
                 uint256 _tokenPriceinCents,
+                uint256 _fallbackExchangeRate,
                 uint256 _capAmount,
                 uint256 _startTime,
                 uint256 _endTime,
@@ -83,12 +85,15 @@ library TestCrowdsaleLib {
     require(_capAmount > 0);
     require(_owner > 0);
     require(_startTime > _currtime);
+    require(_fallbackExchangeRate > 0);
     self.owner = _owner;
     self.tokenPriceinCents = _tokenPriceinCents;
     self.capAmount = _capAmount;
     self.startTime = _startTime;
     self.endTime = _endTime;
     self.token = _token;
+    self.exchangeRate = _fallbackExchangeRate;
+    //changeTokenPrice(self,_tokenPriceinCents);
   }  
 
   /// @dev function to check if the crowdsale is currently active
@@ -128,9 +133,24 @@ library TestCrowdsaleLib {
 
     var total = self.withdrawTokensMap[msg.sender];
     self.withdrawTokensMap[msg.sender] = 0;
-    bool ok = self.token.transferFrom(self.owner, msg.sender, total);
+    bool ok = self.token.transfer(msg.sender, total);
     require(ok);
     LogTokensWithdrawn(msg.sender, total);
+    return true;
+  }
+
+  /// @dev Function called by purchasers to pull leftover wei from their purchases
+  /// @param self Stored crowdsale from crowdsale contract
+  function withdrawLeftoverWei(CrowdsaleStorage storage self) returns (bool) {
+    if (self.leftoverWei[msg.sender] == 0) {
+      LogErrorMsg("Sender has no extra wei to withdraw!");
+      return false;
+    }
+
+    var total = self.leftoverWei[msg.sender];
+    self.leftoverWei[msg.sender] = 0;
+    msg.sender.transfer(total);
+    LogWeiWithdrawn(msg.sender, total);
     return true;
   }
 
@@ -152,7 +172,7 @@ library TestCrowdsaleLib {
   /// @dev function that is called two days before the sale to set the token price
   /// @param self Stored Crowdsale from crowdsale contract
   /// @param _exchangeRate  ETH exchange rate expressed in cents/ETH
-  function setExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate, uint256 _currtime) returns (bool) {
+  function setTokenExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate, uint256 _currtime) returns (bool) {
     require(msg.sender == self.owner);
     if ((_currtime >= (self.startTime - 2)) && (_currtime <= (self.startTime - 1))) {
       require(self.tokensPerEth == 0);
@@ -162,13 +182,8 @@ library TestCrowdsaleLib {
     }
     //require(self.tokensPerEth == 0);
 
-    uint256 result;
-    bool err;
-
-    (err,result) = _exchangeRate.dividedBy(self.tokenPriceinCents);
-    require(!err);
     self.exchangeRate = _exchangeRate;
-    self.tokensPerEth = result;
+    changeTokenPrice(self,self.tokenPriceinCents);
 
     LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");
     return true;
@@ -190,25 +205,11 @@ library TestCrowdsaleLib {
     return self.withdrawTokensMap[_buyer];
   }
 
+  /// @dev returns the number of tokens that an account has purchased
+  /// @param _buyer address to get the information for
+  /// @return number of tokens the account can withdraw 
+  function getLeftoverWei(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
+    LogNoticeMsg(_buyer, self.withdrawTokensMap[_buyer], "Users leftoverWei");
+    return self.leftoverWei[_buyer];
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

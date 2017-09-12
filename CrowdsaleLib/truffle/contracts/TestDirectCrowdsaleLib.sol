@@ -64,36 +64,37 @@ library TestDirectCrowdsaleLib {
   event LogErrorMsg(uint256 amount, string Msg);
   event LogTokenPriceChange(uint256 amount, string Msg);
 
-
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
                 uint256 _currtime,
-                uint256 _tokenPriceinCents,
                 uint256 _capAmount,
                 uint256 _startTime,
                 uint256 _endTime,
                 uint256[] _tokenPricePoints,
+                uint256 _fallbackExchangeRate,
                 uint256 _changeInterval,
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
                 _currtime,
-                _tokenPriceinCents,
+                50,
+                //_tokenPricePoints[0],
+                _fallbackExchangeRate,
                 _capAmount,
                 _startTime,
                 _endTime,
                 _token);
 
-    if (_tokenPricePoints.length == 0) {             // if there is no increase or decrease in price, the time interval should also be zero
+    //require(_tokenPricePoints.length > 0);
+    if (_tokenPricePoints.length == 1) {             // if there is no increase or decrease in price, the time interval should also be zero
       require(_changeInterval == 0);
     }
   	self.tokenPricePoints = _tokenPricePoints;
     self.changeInterval = _changeInterval; 
-    self.changeIndex = 0;
+    self.changeIndex = 1;
     self.lastPriceChangeTime = _startTime;
-    self.ownerBalance = 0;
   }
 
   /// @dev Called when an address wants to purchase tokens
@@ -129,20 +130,25 @@ library TestDirectCrowdsaleLib {
   	bool err;
     uint256 newBalance;    //the new balance of the owner of the crowdsale
     uint256 weiTokens;
-
-    self.base.hasContributed[msg.sender] += _amount;      // can't overflow because it is under the cap
+    uint256 remainder;
     
-    (err,weiTokens) = _amount.times(self.base.tokensPerEth);   // Find the number of tokens as a function in wei
+    (err,weiTokens) = _amount.times(self.base.tokensPerEth);    // Find the number of tokens as a function in wei
     require(!err);
 
-    (err,numTokens) = weiTokens.dividedBy(1000000000000000000);  // convert the wei tokens to the correct number of tokens per ether spent
+    (err,numTokens) = weiTokens.dividedBy(1000000000000000000);    // convert the wei tokens to the correct number of tokens per ether spent
     require(!err);
+    remainder = weiTokens % 1000000000000000000;
+    self.base.leftoverWei[msg.sender] += remainder / self.base.tokensPerEth;
 
-    (err,newBalance) = self.ownerBalance.plus(_amount);   // calculate the amout of ether in the owners balance
+    self.base.hasContributed[msg.sender] += _amount - self.base.leftoverWei[msg.sender];      // can't overflow because it is under the cap
+    
+    require(numTokens <= self.base.token.balanceOf(this));
+
+    (err,newBalance) = self.ownerBalance.plus(_amount-self.base.leftoverWei[msg.sender]);      // calculate the amout of ether in the owners balance
     require(!err);
 
     self.ownerBalance = newBalance;   // "deposit" the amount
-	  
+
 	  self.base.withdrawTokensMap[msg.sender] += numTokens;    // can't overflow because it will be under the cap
 
 	  LogTokensBought(msg.sender, numTokens);
@@ -168,10 +174,9 @@ library TestDirectCrowdsaleLib {
     return true;
   }
  
-
   ///  Functions "inherited" from CrowdsaleLib library
-  function setExchangeRate(DirectCrowdsaleStorage storage self, uint256 _exchangeRate, uint256 _currtime) returns (bool) {
-    return self.base.setExchangeRate(_exchangeRate, _currtime);
+  function setTokenExchangeRate(DirectCrowdsaleStorage storage self, uint256 _exchangeRate, uint256 _currtime) returns (bool) {
+    return self.base.setTokenExchangeRate(_exchangeRate, _currtime);
   }
 
   function crowdsaleActive(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
@@ -202,5 +207,8 @@ library TestDirectCrowdsaleLib {
     return self.base.getTokenPurchase(_buyer);
   }
 
+  function getLeftoverWei(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
+    return self.base.getLeftoverWei(_buyer);
+  }
 
 }

@@ -133,12 +133,25 @@
       "updated_at": 1502333423547
     },
     "4": {
-      "events": {},
+      "events": {
+        "0x4eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        }
+      },
       "links": {},
       "address": "0x73c983f3b4cf4f06921b5f39291cb532fd5f548c",
-      "updated_at": 1502334600458
+      "updated_at": 1505168500644
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1505160769373
+  "updated_at": 1505256797299
 }

@@ -9,13 +9,8 @@ pragma solidity ^0.4.15;
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
  *
- * The Crowdsale Library provides basic functionality to create a initial coin offering
+ * The Crowdsale Library provides basic functionality to create an initial coin offering
  * for different types of token sales. 
- *
- * See https://github.com/Majoolr/ethereum-contracts for an example of how to
- * create a basic ERC20 token.
- *
- * This is the library meant for testnets and the main net!
  *
  * Majoolr works on open source projects in the Ethereum community with the
  * purpose of testing, documenting, and deploying reusable code onto the
@@ -48,29 +43,32 @@ library CrowdsaleLib {
   	uint256 capAmount; //Maximum amount to be raised in wei
   	uint256 startTime; //ICO start time, timestamp
   	uint256 endTime; //ICO end time, timestamp automatically calculated
-    uint256 exchangeRate;   //  cents/ETH exchange rate at the time of the sale 
+    uint256 exchangeRate;   //  cents/ETH exchange rate at the time of the sale
+    bool rateSet;
 
 
   	mapping (address => uint256) hasContributed;  //shows how much wei an address has contributed
-  	mapping (address => uint) withdrawTokensMap;  //For token withdraw function, maps a user address to the amount of tokens they can withdraw
+  	mapping (address => uint256) withdrawTokensMap;  //For token withdraw function, maps a user address to the amount of tokens they can withdraw
+    mapping (address => uint256) leftoverWei;       // any leftover wei that buyers contributed that didn't add up to a whole token amount
 
   	CrowdsaleToken token;
   }
 
   event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of tokens
+  event LogWeiWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of extra wei
   event LogNoticeMsg(address _buyer, uint256 value, string Msg);          // Generic Notice message that includes and address and number
   event LogErrorMsg(string Msg);                                          // Indicates when an error has occurred in the execution of a function
-
 
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   function init(CrowdsaleStorage storage self, 
                 address _owner,
                 uint256 _tokenPriceinCents,
+                uint256 _fallbackExchangeRate,
                 uint256 _capAmount,
                 uint256 _startTime,
                 uint256 _endTime,
-                CrowdsaleToken _token) internal
+                CrowdsaleToken _token) 
   {
   	require(self.capAmount == 0);
   	require(self.owner == 0);
@@ -79,12 +77,15 @@ library CrowdsaleLib {
     require(_capAmount > 0);
     require(_owner > 0);
     require(_startTime > now);
+    require(_fallbackExchangeRate > 0);
     self.owner = _owner;
     self.tokenPriceinCents = _tokenPriceinCents;
     self.capAmount = _capAmount;
     self.startTime = _startTime;
     self.endTime = _endTime;
+    self.exchangeRate = _fallbackExchangeRate;
     self.token = _token;
+    changeTokenPrice(self,_tokenPriceinCents);
   }  
 
   /// @dev function to check if the crowdsale is currently active
@@ -124,9 +125,24 @@ library CrowdsaleLib {
 
     var total = self.withdrawTokensMap[msg.sender];
     self.withdrawTokensMap[msg.sender] = 0;
-    bool ok = self.token.transferFrom(self.owner, msg.sender, total);
+    bool ok = self.token.transfer(msg.sender, total);
     require(ok);
     LogTokensWithdrawn(msg.sender, total);
+    return true;
+  }
+
+  /// @dev Function called by purchasers to pull leftover wei from their purchases
+  /// @param self Stored crowdsale from crowdsale contract
+  function withdrawLeftoverWei(CrowdsaleStorage storage self) returns (bool) {
+    if (self.leftoverWei[msg.sender] == 0) {
+      LogErrorMsg("Sender has no extra wei to withdraw!");
+      return false;
+    }
+
+    var total = self.leftoverWei[msg.sender];
+    self.leftoverWei[msg.sender] = 0;
+    msg.sender.transfer(total);
+    LogWeiWithdrawn(msg.sender, total);
     return true;
   }
 
@@ -145,22 +161,17 @@ library CrowdsaleLib {
     return true;
   }
 
-  /// @dev function that is called two days before the sale to set the token price
+  /// @dev function that is called two days before the sale to set the token and price
   /// @param self Stored Crowdsale from crowdsale contract
   /// @param _exchangeRate  ETH exchange rate expressed in cents/ETH
-  function setExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {
+  function setTokenExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {
     require(msg.sender == self.owner);
-    require((now > (self.startTime - 2 days)) && (now < (self.startTime - 1 days)));
-    require(self.tokensPerEth == 0);   // the exchange rate can only be set once!
-
-    uint256 result;
-    bool err;
-
-    (err,result) = _exchangeRate.dividedBy(self.tokenPriceinCents);  // (cents/ETH)/(cents/token) = tokens/ETH
-    require(!err);
+    require((now > (self.startTime - 3 days)) && (now < (self.startTime)));
+    require(!self.rateSet);   // the exchange rate can only be set once!
 
     self.exchangeRate = _exchangeRate;
-    self.tokensPerEth = result;
+    changeTokenPrice(self,self.tokenPriceinCents);
+    self.rateSet = true;
 
     LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");
     return true;
@@ -182,25 +193,11 @@ library CrowdsaleLib {
     return self.withdrawTokensMap[_buyer];
   }
 
+  /// @dev returns the number of tokens that an account has purchased
+  /// @param _buyer address to get the information for
+  /// @return number of tokens the account can withdraw 
+  function getLeftoverWei(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
+    LogNoticeMsg(_buyer, self.withdrawTokensMap[_buyer], "Users leftoverWei");
+    return self.leftoverWei[_buyer];
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

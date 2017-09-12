@@ -20,15 +20,15 @@ contract TimeDirectCrowdsaleTestContract {
   function TimeDirectCrowdsaleTestContract(
                 address owner,
                 uint256 currtime,
-                uint256 tokenPriceinCents,
                 uint256 capAmount,
                 uint256 startTime,
                 uint256 endTime,
                 uint256[] tokenPricePoints,
+                uint256 fallbackExchangeRate,
                 uint256 changeInterval,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, currtime, tokenPriceinCents, capAmount, startTime, endTime, tokenPricePoints, changeInterval, token);
+  	sale.init(owner, currtime, capAmount, startTime, endTime, tokenPricePoints, fallbackExchangeRate, changeInterval, token);
   }
 
   // fallback function can be used to buy tokens
@@ -88,8 +88,8 @@ contract TimeDirectCrowdsaleTestContract {
   	return sale.crowdsaleEnded(currtime);
   }
 
-  function setExchangeRate(uint256 _exchangeRate, uint256 _currtime) returns (bool) {
-    return sale.setExchangeRate(_exchangeRate, _currtime);
+  function setTokenExchangeRate(uint256 _exchangeRate, uint256 _currtime) returns (bool) {
+    return sale.setTokenExchangeRate(_exchangeRate, _currtime);
   }
 
   function withdrawTokens() returns (bool) {
@@ -104,10 +104,7 @@ contract TimeDirectCrowdsaleTestContract {
   	return sale.getTokenPurchase(_buyer);
   }
 
+  function getLeftoverWei(address _buyer) constant returns (uint256) {
+    return sale.getLeftoverWei(_buyer);
+  }
 }
-
-
-
-
-
-

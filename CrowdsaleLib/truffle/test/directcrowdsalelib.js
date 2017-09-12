@@ -270,7 +270,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
 
       console.log(c.contract.address);
       return CrowdsaleToken.deployed().then(function(instance) {
-      return instance.approve(c.contract.address,10000000,{from:accounts[5]});
+      return instance.transfer(1000000,{from:accounts[5]});
     }).then(function(ret) {
       return c.changeInterval.call();
     }).then(function(ret) {
