@@ -52,6 +52,10 @@ contract TimeDirectCrowdsaleTestContract {
     return sale.base.tokensPerEth;
   }
 
+  function exchangeRate() constant returns (uint256) {
+    return sale.base.exchangeRate;
+  }
+
   function capAmount() constant returns (uint256) {
     return sale.base.capAmount;
   }
@@ -81,7 +85,7 @@ contract TimeDirectCrowdsaleTestContract {
   }
 
   function firstPriceChange() constant returns (uint256) {
-    return sale.tokenPricePoints[0];
+    return sale.tokenPricePoints[1];
   }
 
   function crowdsaleEnded(uint256 currtime) constant returns (bool) {
@@ -92,8 +96,12 @@ contract TimeDirectCrowdsaleTestContract {
     return sale.setTokenExchangeRate(_exchangeRate, _currtime);
   }
 
-  function withdrawTokens() returns (bool) {
-  	return sale.withdrawTokens();
+  function withdrawTokens(uint256 currtime) returns (bool) {
+  	return sale.withdrawTokens(currtime);
+  }
+
+  function withdrawLeftoverWei() returns (bool) {
+    return sale.withdrawLeftoverWei();
   }
 
   function getContribution(address _buyer) constant returns (uint256) {

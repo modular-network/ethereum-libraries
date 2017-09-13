@@ -79,15 +79,14 @@ library TestDirectCrowdsaleLib {
   {
   	self.base.init(_owner,
                 _currtime,
-                50,
-                //_tokenPricePoints[0],
+                _tokenPricePoints[0],
                 _fallbackExchangeRate,
                 _capAmount,
                 _startTime,
                 _endTime,
                 _token);
 
-    //require(_tokenPricePoints.length > 0);
+    require(_tokenPricePoints.length > 0);
     if (_tokenPricePoints.length == 1) {             // if there is no increase or decrease in price, the time interval should also be zero
       require(_changeInterval == 0);
     }
@@ -115,7 +114,7 @@ library TestDirectCrowdsaleLib {
 
   	// if the token price increase interval has passed, update the current day and change the token price
   	if ((self.changeInterval > 0) && (currtime >= (self.lastPriceChangeTime + self.changeInterval))) {
-  		self.lastPriceChangeTime = currtime;
+  		self.lastPriceChangeTime = self.lastPriceChangeTime + self.changeInterval;
 
       if (self.changeIndex < self.tokenPricePoints.length) {   //prevents going out of bounds on the tokenPricePoints array
       
@@ -150,6 +149,8 @@ library TestDirectCrowdsaleLib {
     self.ownerBalance = newBalance;   // "deposit" the amount
 
 	  self.base.withdrawTokensMap[msg.sender] += numTokens;    // can't overflow because it will be under the cap
+    (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);  //subtract tokens from owner's share
+    self.base.withdrawTokensMap[self.base.owner] = remainder;
 
 	  LogTokensBought(msg.sender, numTokens);
 
@@ -191,12 +192,12 @@ library TestDirectCrowdsaleLib {
     return self.base.validPurchase(currtime);
   }
 
-  function withdrawTokens(DirectCrowdsaleStorage storage self) returns (bool) {
-    return self.base.withdrawTokens();
+  function withdrawTokens(DirectCrowdsaleStorage storage self,uint256 currtime) returns (bool) {
+    return self.base.withdrawTokens(currtime);
   }
 
-  function changeTokenPrice(DirectCrowdsaleStorage storage self, uint256 _newPrice) returns (bool) {
-    return self.base.changeTokenPrice(_newPrice);
+  function withdrawLeftoverWei(DirectCrowdsaleStorage storage self) returns (bool) {
+    return self.base.withdrawLeftoverWei();
   }
 
   function getContribution(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {

@@ -44,7 +44,7 @@ module.exports = function(deployer, network) {
 	  }).then(function() {
       // right now it is configured to use accounts[5] as the owner and for the token price to increase periodically by 50 cents
       //return deployer.deploy(DirectCrowdsaleTestContract, "0x36994c7cff11859ba8b9715120a68aa9499329ee", 20000000000000000000000, 1505203200, 1505462400, [50,75,100], 86400, CrowdsaleToken.address);
- 	    return deployer.deploy(TimeDirectCrowdsaleTestContract, "0x36994c7cff11859ba8b9715120a68aa9499329ee", 100, 20000000000000000000000, 105, 120 [75,100], 300, 5, CrowdsaleToken.address);
+ 	    return deployer.deploy(TimeDirectCrowdsaleTestContract, "0x36994c7cff11859ba8b9715120a68aa9499329ee", 100, 20000000000000000000000, 105, 125, [50,75,100], 29000, 5, CrowdsaleToken.address);
     });   
   }
 };

@@ -105,7 +105,7 @@ library CrowdsaleLib {
   /// @dev function to check if a purchase is valid
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if the transaction can buy tokens
-  function validPurchase(CrowdsaleStorage storage self) constant returns (bool) {
+  function validPurchase(CrowdsaleStorage storage self) internal constant returns (bool) {
     bool nonZeroPurchase = msg.value != 0;
     if (crowdsaleActive(self) && nonZeroPurchase) {
       return true;
@@ -123,6 +123,11 @@ library CrowdsaleLib {
       return false;
     }
 
+    if ((msg.sender == self.owner) && (!crowdsaleEnded(self))) {
+      LogErrorMsg("Owner cannot withdraw extra tokens until after the sale!");
+      return false;
+    }
+
     var total = self.withdrawTokensMap[msg.sender];
     self.withdrawTokensMap[msg.sender] = 0;
     bool ok = self.token.transfer(msg.sender, total);
@@ -134,6 +139,7 @@ library CrowdsaleLib {
   /// @dev Function called by purchasers to pull leftover wei from their purchases
   /// @param self Stored crowdsale from crowdsale contract
   function withdrawLeftoverWei(CrowdsaleStorage storage self) returns (bool) {
+    require(self.hasContributed[msg.sender] > 0);
     if (self.leftoverWei[msg.sender] == 0) {
       LogErrorMsg("Sender has no extra wei to withdraw!");
       return false;
@@ -168,6 +174,9 @@ library CrowdsaleLib {
     require(msg.sender == self.owner);
     require((now > (self.startTime - 3 days)) && (now < (self.startTime)));
     require(!self.rateSet);   // the exchange rate can only be set once!
+    require(self.token.balanceOf(this) > 0);
+
+    self.withdrawTokensMap[msg.sender] = self.token.balanceOf(this);
 
     self.exchangeRate = _exchangeRate;
     changeTokenPrice(self,self.tokenPriceinCents);

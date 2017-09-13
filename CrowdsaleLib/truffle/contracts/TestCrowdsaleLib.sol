@@ -52,10 +52,10 @@ library TestCrowdsaleLib {
     uint256 startTime; //ICO start time, timestamp
     uint256 endTime; //ICO end time, timestamp automatically calculated
     uint256 exchangeRate;   //  cents/ETH exchange rate at the time of the sale 
-
+    bool rateSet;
 
   	mapping (address => uint256) hasContributed;  //shows how much wei an address has contributed
-  	mapping (address => uint) withdrawTokensMap;  //For token withdraw function, maps a user address to the amount of tokens they can withdraw
+  	mapping (address => uint256) withdrawTokensMap;  //For token withdraw function, maps a user address to the amount of tokens they can withdraw
     mapping (address => uint256) leftoverWei;       // any leftover wei that buyers contributed that didn't add up to a whole token amount
 
   	CrowdsaleToken token;
@@ -93,7 +93,7 @@ library TestCrowdsaleLib {
     self.endTime = _endTime;
     self.token = _token;
     self.exchangeRate = _fallbackExchangeRate;
-    //changeTokenPrice(self,_tokenPriceinCents);
+    changeTokenPrice(self,_tokenPriceinCents);
   }  
 
   /// @dev function to check if the crowdsale is currently active
@@ -113,7 +113,7 @@ library TestCrowdsaleLib {
   /// @dev function to check if a purchase is valid
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if the transaction can buy tokens
-  function validPurchase(CrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+  function validPurchase(CrowdsaleStorage storage self, uint256 currtime) internal constant returns (bool) {
     bool nonZeroPurchase = msg.value != 0;
     if (crowdsaleActive(self,currtime) && nonZeroPurchase) {
       return true;
@@ -125,9 +125,13 @@ library TestCrowdsaleLib {
 
   /// @dev Function called by purchasers to pull tokens
   /// @param self Stored crowdsale from crowdsale contract
-  function withdrawTokens(CrowdsaleStorage storage self) returns (bool) {
+  function withdrawTokens(CrowdsaleStorage storage self,uint256 currtime) returns (bool) {
     if (self.withdrawTokensMap[msg.sender] == 0) {
       LogErrorMsg("Sender has no tokens to withdraw!");
+      return false;
+    }
+    if ((msg.sender == self.owner) && (!crowdsaleEnded(self,currtime))) {
+      LogErrorMsg("Owner cannot withdraw extra tokens until after the sale!");
       return false;
     }
 
@@ -146,6 +150,7 @@ library TestCrowdsaleLib {
       LogErrorMsg("Sender has no extra wei to withdraw!");
       return false;
     }
+    require(self.hasContributed[msg.sender] > 0);
 
     var total = self.leftoverWei[msg.sender];
     self.leftoverWei[msg.sender] = 0;
@@ -166,6 +171,7 @@ library TestCrowdsaleLib {
     require(!err);
 
     self.tokensPerEth = result;
+    self.tokenPriceinCents = _newPrice;
     return true;
   }
 
@@ -173,17 +179,27 @@ library TestCrowdsaleLib {
   /// @param self Stored Crowdsale from crowdsale contract
   /// @param _exchangeRate  ETH exchange rate expressed in cents/ETH
   function setTokenExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate, uint256 _currtime) returns (bool) {
-    require(msg.sender == self.owner);
-    if ((_currtime >= (self.startTime - 2)) && (_currtime <= (self.startTime - 1))) {
-      require(self.tokensPerEth == 0);
-    } else {
-      LogErrorMsg("Owner can only set the exchange rate two days before the sale!");
+    if (msg.sender != self.owner) {
+      LogErrorMsg("Owner can only set the exchange rate!");
       return false;
     }
+    if ((_currtime >= (self.startTime - 3)) && (_currtime <= (self.startTime)) && (self.rateSet == false)) {
+      require(self.rateSet == false);
+    } else {
+      LogErrorMsg("Owner can only set the exchange rate once up to three days before the sale!");
+      return false;
+    }
+    if (self.token.balanceOf(this) == 0) {
+      LogErrorMsg("Crowdsale contract should have tokens in balance before sale starts");
+      return false;
+    }
+    self.withdrawTokensMap[msg.sender] = self.token.balanceOf(this);
     //require(self.tokensPerEth == 0);
 
     self.exchangeRate = _exchangeRate;
     changeTokenPrice(self,self.tokenPriceinCents);
+
+    self.rateSet = true;
 
     LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");
     return true;

@@ -48,7 +48,7 @@ library DirectCrowdsaleLib {
     uint256[] tokenPricePoints;    // price points at each price change interval in cents/token.
 
   	uint256 changeInterval;      // amount of time between changes in the price of the token
-  	uint256 lastPriceChangeTime;          // current Day
+  	uint256 lastPriceChangeTime;  // time of the last change in token cost
     uint256 changeIndex;         //index for the price points array
     uint256 ownerBalance;
 
@@ -82,7 +82,7 @@ library DirectCrowdsaleLib {
                 _token);
 
     require(_tokenPricePoints.length > 0);
-    if (_tokenPricePoints.length == 0) {             // if there is no increase or decrease in price, the time interval should also be zero
+    if (_tokenPricePoints.length == 1) {             // if there is no increase or decrease in price, the time interval should also be zero
     	require(_changeInterval == 0);
     }
     self.tokenPricePoints = _tokenPricePoints;
@@ -137,6 +137,8 @@ library DirectCrowdsaleLib {
     self.ownerBalance = newBalance;   // "deposit" the amount
 	  
 	  self.base.withdrawTokensMap[msg.sender] += numTokens;    // can't overflow because it will be under the cap
+    (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);  //subtract tokens from owner's share
+    self.base.withdrawTokensMap[self.base.owner] = remainder;
 
 	  LogTokensBought(msg.sender, numTokens);
 
@@ -183,6 +185,10 @@ library DirectCrowdsaleLib {
 
   function withdrawTokens(DirectCrowdsaleStorage storage self) returns (bool) {
     return self.base.withdrawTokens();
+  }
+
+  function withdrawLeftoverWei(DirectCrowdsaleStorage storage self) returns (bool) {
+    return self.base.withdrawLeftoverWei();
   }
 
   function getContribution(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {

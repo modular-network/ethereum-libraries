@@ -12,17 +12,17 @@ Structure of Libraries:
 
 ## CrowdsaleLib.sol
 
-CrowdsaleLib.sol is the base library that all crowdsales will share.  It includes values like owner, number of tokens bought per Ether contributed, USD-ETH exchange rate, a cap for the amount of Ether that can be raised in the sale, the start time of the sale, and the end time of the sale.  There is also a mapping showing how much each address has contributed to the sale in ETH, and a mapping for the number of tokens an address has purchased and are available to withdraw.  Lastly, there is a storage value for the token contract that is used as the token template for this sale.  
+CrowdsaleLib.sol is the base library that all crowdsales will share.  It includes values like owner, number of tokens bought per Ether contributed, token price in cents, USD-ETH exchange rate, a cap for the amount of Ether that can be raised in the sale, the start time of the sale, and the end time of the sale.  There is also a mapping showing how much each address has contributed to the sale in ETH, and a mapping for the number of tokens an address has purchased and are available to withdraw.  Lastly, there is a storage value for the token contract that is used as the token template for this sale.  
 
 This library also includes a variety of functions that apply to all crowdsales.  Descriptions of each function can be seen below.  
 
 Take note that this library cannot be used as is for a crowdsale template, as there are no functions to handle transfer of ETH or purchase of tokens.  You can either include this library as a template for your crowdsale that you design, or you can use one of the other Crowdsale Libraries, which all include this library for a base layer of functionality underlying their distinct sale mechanisms.
 
-Before the crowdsale can start, the owner has to set the exchange rate between 48 and 24 hours before the sale, which calculates the ether token price.
+Before the crowdsale can start, the owner has to send all the tokens for sale to the contract and set the exchange rate within 3 days of the sale, which calculates the ether token price.
 
 ## DirectCrowdsaleLib.sol 
 
-DirectCrowdsaleLib.sol is the simplest implementation of a crowdsale, a direct ETH to token transfer with an optional periodic increase/decrease in token price.  In addition to the regular parameters that are needed by the base crowdsale template, owners provide an array of price points (in cents) for the token and the time interval between changes (both 0 if there is not price change).  There is a function that accepts payments and allocates tokens for addresses that have paid, while also changing the token price if the time interval as passed between purchases.  There is also a function which allows the owner of the crowdsale to withdraw all the ETH raised after the sale has ended.  See below for more detailed function descriptions. 
+DirectCrowdsaleLib.sol is the simplest implementation of a crowdsale, a direct ETH to token transfer with an optional periodic increase/decrease in token price.  In addition to the regular parameters that are needed by the base crowdsale template, owners provide an array of price points (in cents) for the token and the time interval between changes (time interval of 0 if there is no change).  There is a function that accepts payments and allocates tokens for addresses that have paid, while also changing the token price if the time interval as passed between purchases.  There is also a function which allows the owner of the crowdsale to withdraw all the ETH raised after the sale has ended.  See below for more detailed function descriptions. 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -398,13 +398,17 @@ withdrawTokens
 
 Allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some.  The token's transferFrom function is called so that the token contract transfers tokens from the owners address to the buyer's address.
 
+withdrawLeftoverWei
+
+If a user had sent wei that didn't add up exactly to a whole number of tokens, the leftover wei will be recorded in the leftoverWei mapping for that user.  This function allows the user to withdraw the excess.  
+
 changeTokenPrice
 
 Internal function that is called when the time interval has passed and it is time for the price of tokens to change.
 
 setExchangeRate
 
-Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Only the owner can call this function and it can only be called between 48 and 24 hours before the crowdsale officially starts to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
+Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
 
 getContribution
 
@@ -413,6 +417,10 @@ Emits an event and returns the amount of wei that a specified buyer has contribu
 getTokenPurchase
 
 Emits an event and returns the amount of tokens that a specified buyer has purchased in the crowdsale.
+
+getLeftoverWei
+
+Emits an event and returns the amount of leftover wei that a specified buyer has to withdraw from the crowdsale.
 
 
 ### Direct Crowdsale Library Functions
