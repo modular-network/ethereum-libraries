@@ -12,6 +12,8 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 
 - [Library Address](#library-address)
+  - [v1.1.0](#v110)
+  - [v1.0.0](#v100)
 - [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
   - [Truffle Installation](#truffle-installation)
@@ -26,6 +28,8 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
     - [Solc-js documentation](#solc-js-documentation)
 - [Basic Usage](#basic-usage)
   - [Usage Example](#usage-example)
+- [Change Log](#change-log)
+  - [v1.1.0](#v110-1)
 - [Functions](#functions)
     - [init(TokenLib.TokenStorage storage, address, string, string, uint8, uint256, bool)](#inittokenlibtokenstorage-storage-address-string-string-uint8-uint256-bool)
       - [Arguments](#arguments)
@@ -66,7 +70,15 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 ## Library Address
 
+### v1.1.0
+
 **ENS**: TokenLib.majoolr.eth   
+**Main Ethereum Network**: 0x02d509d0af485c8da54d8aeb42c624e7d9e2eeb6   
+**Rinkeby Test Network**: 0xae5222aa5112673a77f29a80b6659d9be8b674a4   
+**Ropsten Test Network**: 0xae1e80c332f78df321e72bd3c5aafc55766d83cc  
+
+### v1.0.0
+*Note: No ENS address is provided for older versions at this time. (We're still thinking about how to design and integrate the system.)*
 **Main Ethereum Network**: 0x0aa4e6e25a76f81f079aa300c33621e20c632e6a   
 **Rinkeby Test Network**: 0x4efd23da884251417907a6526b0241595cd3449a   
 **Ropsten Test Network**: 0x0f1064372d2c28c06f04279116e48e7a4d1c45f9   
@@ -311,6 +323,12 @@ contract TokenLibTestContract {
 ```
 
 Binding the library allows you to call the function in the format [firstParameter].function(secondParameter) . For a complete ERC20 standard token example, [please visit our Ethereum Contracts repository](https://www.github.com/Majoolr/ethereum-contracts "Majoolr contracts repo").
+
+## Change Log
+
+### v1.1.0
+
+* Changed the `init()` function to set the balance of the `_owner` as the initial supply. It was previously the `msg.sender`.
 
 ## Functions
 
