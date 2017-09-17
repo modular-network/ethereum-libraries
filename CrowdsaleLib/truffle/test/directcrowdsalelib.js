@@ -1,47 +1,47 @@
-var WalletLibTestContract = artifacts.require("WalletLibTestContract");
+//var WalletLibTestContract = artifacts.require("WalletLibTestContract");
 var TimeDirectCrowdsaleTestContract = artifacts.require("TimeDirectCrowdsaleTestContract");
 var CrowdsaleToken = artifacts.require("CrowdsaleToken");
 
-var WalletAddress;
+//var WalletAddress;
 var TokenInstance;
 
-contract('WalletLibTestContract', function(accounts) {
-  it("should properly initialize wallet data", function() {
-    var returnObj = {};
-    var c;
+// contract('WalletLibTestContract', function(accounts) {
+//   it("should properly initialize wallet data", function() {
+//     var returnObj = {};
+//     var c;
 
-    return WalletLibTestContract.deployed().then(function(instance) {
-      c = instance;
-      return c.maxOwners.call();
-    }).then(function(mo){
-      returnObj.mo = mo;
-      return c.ownerCount.call();
-    }).then(function(oc){
-      returnObj.oc = oc;
-      return c.requiredAdmin.call();
-    }).then(function(ra){
-      returnObj.ra = ra;
-      return c.requiredMinor.call();
-    }).then(function(rmi){
-      returnObj.rmi = rmi;
-      return c.requiredMajor.call();
-    }).then(function(rma){
-      returnObj.rma = rma;
-      return c.owners.call();
-    }).then(function(o){
-      returnObj.o = o;
-      return c.majorThreshold.call(0);
-    }).then(function(mt){
-      returnObj.mt = mt;
-      assert.equal(returnObj.mo.valueOf(), 50, "Max owners should be set to 50.");
-      assert.equal(returnObj.oc.valueOf(), 5, "Owner count should reflect 5.");
-      assert.equal(returnObj.ra.valueOf(), 4, "Required sigs for admin should reflect 4.");
-      assert.equal(returnObj.rmi.valueOf(), 1, "Required sigs for minor tx should show 1.");
-      assert.equal(returnObj.rma.valueOf(), 3, "Required sigs for major tx should show 3.");
-      assert.equal(returnObj.mt.valueOf(), 100000000000000000000, "Max threshold should reflect 100 ether.");
-    });
-  });
-});
+//     return WalletLibTestContract.deployed().then(function(instance) {
+//       c = instance;
+//       return c.maxOwners.call();
+//     }).then(function(mo){
+//       returnObj.mo = mo;
+//       return c.ownerCount.call();
+//     }).then(function(oc){
+//       returnObj.oc = oc;
+//       return c.requiredAdmin.call();
+//     }).then(function(ra){
+//       returnObj.ra = ra;
+//       return c.requiredMinor.call();
+//     }).then(function(rmi){
+//       returnObj.rmi = rmi;
+//       return c.requiredMajor.call();
+//     }).then(function(rma){
+//       returnObj.rma = rma;
+//       return c.owners.call();
+//     }).then(function(o){
+//       returnObj.o = o;
+//       return c.majorThreshold.call(0);
+//     }).then(function(mt){
+//       returnObj.mt = mt;
+//       assert.equal(returnObj.mo.valueOf(), 50, "Max owners should be set to 50.");
+//       assert.equal(returnObj.oc.valueOf(), 5, "Owner count should reflect 5.");
+//       assert.equal(returnObj.ra.valueOf(), 4, "Required sigs for admin should reflect 4.");
+//       assert.equal(returnObj.rmi.valueOf(), 1, "Required sigs for minor tx should show 1.");
+//       assert.equal(returnObj.rma.valueOf(), 3, "Required sigs for major tx should show 3.");
+//       assert.equal(returnObj.mt.valueOf(), 100000000000000000000, "Max threshold should reflect 100 ether.");
+//     });
+//   });
+// });
 
 contract('CrowdsaleToken', function(accounts) {
   it("should properly initialize token data", function() {
@@ -80,8 +80,8 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
 
       return c.owner.call();
     }).then(function(o){
-      WalletAddress = o.valueOf();
-      console.log(WalletAddress);
+      //WalletAddress = o.valueOf();
+      //console.log(WalletAddress);
       returnObj.owner = o;
       return c.tokensPerEth.call();
     }).then(function(tpe) {

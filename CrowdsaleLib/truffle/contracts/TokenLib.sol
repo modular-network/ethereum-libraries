@@ -76,7 +76,7 @@ library TokenLib {
     self.decimals = _decimals;
     self.owner = _owner;
     self.stillMinting = _allowMinting;
-    self.balances[_owner] = _initial_supply;
+    self.balances[msg.sender] = _initial_supply;
   }
 
   /// @dev Transfer tokens from caller's account to another account.
