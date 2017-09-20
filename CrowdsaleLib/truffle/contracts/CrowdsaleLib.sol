@@ -9,8 +9,16 @@ pragma solidity ^0.4.15;
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
  *
- * The Crowdsale Library provides basic functionality to create an initial coin offering
- * for different types of token sales. 
+ * The Crowdsale Library provides basic functionality to create a initial coin offering
+ * for different types of token sales.
+ *
+ * Test Crowdsale allows for testing in testrpc by allowing a paramater, currtime, to be passed
+ * to functions that would normally require a now variable.  This allows testrpc testing
+ * without having to add delays in the code to time it perfectly.  This also replaces some require() statements
+ * to regular conditional checks to allow for better testing.
+ *
+ * See https://github.com/Majoolr/ethereum-contracts for an example of how to
+ * create a basic ERC20 token.
  *
  * Majoolr works on open source projects in the Ethereum community with the
  * purpose of testing, documenting, and deploying reusable code onto the
@@ -39,13 +47,14 @@ library CrowdsaleLib {
   	address owner;     //owner of the crowdsale
 
   	uint256 tokensPerEth;  //number of tokens received per ether
-    uint256 tokenPriceinCents;  // current price of token in cents (used to calculate token price from volatile price of ETH close to the sale)
   	uint256 capAmount; //Maximum amount to be raised in wei
   	uint256 startTime; //ICO start time, timestamp
   	uint256 endTime; //ICO end time, timestamp automatically calculated
     uint256 exchangeRate;   //  cents/ETH exchange rate at the time of the sale
+    uint8 tokenDecimals;
+    uint8 percentBurn;
+    bool tokensSet;
     bool rateSet;
-
 
   	mapping (address => uint256) hasContributed;  //shows how much wei an address has contributed
   	mapping (address => uint256) withdrawTokensMap;  //For token withdraw function, maps a user address to the amount of tokens they can withdraw
@@ -61,32 +70,34 @@ library CrowdsaleLib {
 
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
-  function init(CrowdsaleStorage storage self, 
+  function init(CrowdsaleStorage storage self,
                 address _owner,
-                uint256 _tokenPriceinCents,
+                uint256 _tokenPriceInCents,
                 uint256 _fallbackExchangeRate,
-                uint256 _capAmount,
+                uint256 _capAmountInCents,
                 uint256 _startTime,
                 uint256 _endTime,
-                CrowdsaleToken _token) 
+                uint8 _percentBurn,
+                CrowdsaleToken _token)
   {
   	require(self.capAmount == 0);
   	require(self.owner == 0);
     require(_endTime > _startTime);
-    require(_tokenPriceinCents > 0);
-    require(_capAmount > 0);
+    require(_tokenPriceInCents > 0);
+    require(_capAmountInCents > 0);
     require(_owner > 0);
-    require(_startTime > now);
     require(_fallbackExchangeRate > 0);
+    require(_percentBurn <= 100);
     self.owner = _owner;
-    self.tokenPriceinCents = _tokenPriceinCents;
-    self.capAmount = _capAmount;
+    self.capAmount = _capAmountInCents/_fallbackExchangeRate;
     self.startTime = _startTime;
     self.endTime = _endTime;
-    self.exchangeRate = _fallbackExchangeRate;
     self.token = _token;
-    changeTokenPrice(self,_tokenPriceinCents);
-  }  
+    self.tokenDecimals = _token.decimals();
+    self.percentBurn = _percentBurn;
+    self.exchangeRate = _fallbackExchangeRate;
+    changeTokenPrice(self,_tokenPriceInCents);
+  }
 
   /// @dev function to check if the crowdsale is currently active
   /// @param self Stored crowdsale from crowdsale contract
@@ -118,19 +129,30 @@ library CrowdsaleLib {
   /// @dev Function called by purchasers to pull tokens
   /// @param self Stored crowdsale from crowdsale contract
   function withdrawTokens(CrowdsaleStorage storage self) returns (bool) {
+    bool ok;
+
     if (self.withdrawTokensMap[msg.sender] == 0) {
       LogErrorMsg("Sender has no tokens to withdraw!");
       return false;
     }
 
-    if ((msg.sender == self.owner) && (!crowdsaleEnded(self))) {
-      LogErrorMsg("Owner cannot withdraw extra tokens until after the sale!");
-      return false;
+    if (msg.sender == self.owner) {
+      if((!crowdsaleEnded(self))){
+        LogErrorMsg("Owner cannot withdraw extra tokens until after the sale!");
+        return false;
+      } else {
+        if(self.percentBurn > 0){
+          uint256 _burnAmount = (self.withdrawTokensMap[msg.sender] * self.percentBurn)/100;
+          self.withdrawTokensMap[msg.sender] = self.withdrawTokensMap[msg.sender] - _burnAmount;
+          ok = self.token.burnToken(_burnAmount);
+          require(ok);
+        }
+      }
     }
 
     var total = self.withdrawTokensMap[msg.sender];
     self.withdrawTokensMap[msg.sender] = 0;
-    bool ok = self.token.transfer(msg.sender, total);
+    ok = self.token.transfer(msg.sender, total);
     require(ok);
     LogTokensWithdrawn(msg.sender, total);
     return true;
@@ -167,7 +189,7 @@ library CrowdsaleLib {
     return true;
   }
 
-  /// @dev function that is called two days before the sale to set the token and price
+  /// @dev function that is called three days before the sale to set the token and price
   /// @param self Stored Crowdsale from crowdsale contract
   /// @param _exchangeRate  ETH exchange rate expressed in cents/ETH
   function setTokenExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {
@@ -175,20 +197,43 @@ library CrowdsaleLib {
     require((now > (self.startTime - 3 days)) && (now < (self.startTime)));
     require(!self.rateSet);   // the exchange rate can only be set once!
     require(self.token.balanceOf(this) > 0);
+    require(_exchangeRate > 0);
+
+    uint256 _capAmountInCents;
+    uint256 _tokenPriceInCents;
+    bool err;
+
+    (err, _capAmountInCents) = self.exchangeRate.times(self.capAmount);
+    require(!err);
+
+    (err, _tokenPriceInCents) = self.exchangeRate.dividedBy(self.tokensPerEth);
+    require(!err);
 
     self.withdrawTokensMap[msg.sender] = self.token.balanceOf(this);
+    self.tokensSet = true;
 
     self.exchangeRate = _exchangeRate;
-    changeTokenPrice(self,self.tokenPriceinCents);
+    self.capAmount = _capAmountInCents/_exchangeRate;
+    changeTokenPrice(self,_tokenPriceInCents);
     self.rateSet = true;
 
     LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");
     return true;
   }
 
-  /// @dev Gets the amount of ether that an account has contributed
+  function setTokens(CrowdsaleStorage storage self) returns (bool) {
+    require(msg.sender == self.owner);
+    require(!self.tokensSet);
+
+    self.withdrawTokensMap[msg.sender] = self.token.balanceOf(this);
+    self.tokensSet = true;
+
+    return true;
+  }
+
+  /// @dev Gets the amount of wei that an account has contributed
   /// @param _buyer address to get the information for
-  /// @return amount of ether 
+  /// @return amount of wei
   function getContribution(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
     LogNoticeMsg(_buyer, self.hasContributed[_buyer], "Users ether contribution");
     return self.hasContributed[_buyer];
@@ -196,7 +241,7 @@ library CrowdsaleLib {
 
   /// @dev returns the number of tokens that an account has purchased
   /// @param _buyer address to get the information for
-  /// @return number of tokens the account can withdraw 
+  /// @return number of tokens the account can withdraw
   function getTokenPurchase(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
     LogNoticeMsg(_buyer, self.withdrawTokensMap[_buyer], "Users token purchase");
     return self.withdrawTokensMap[_buyer];
@@ -204,7 +249,7 @@ library CrowdsaleLib {
 
   /// @dev returns the number of tokens that an account has purchased
   /// @param _buyer address to get the information for
-  /// @return number of tokens the account can withdraw 
+  /// @return number of tokens the account can withdraw
   function getLeftoverWei(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
     LogNoticeMsg(_buyer, self.withdrawTokensMap[_buyer], "Users leftoverWei");
     return self.leftoverWei[_buyer];

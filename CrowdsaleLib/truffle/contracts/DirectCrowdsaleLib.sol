@@ -11,7 +11,7 @@ pragma solidity ^0.4.15;
  *
  * The DirectCrowdsale Library provides functionality to create a initial coin offering
  * for a standard token sale with high supply where there is a direct ether to
- * token transfer.  
+ * token transfer.
  * See https://github.com/Majoolr/ethereum-contracts for an example of how to
  * create a basic ERC20 token.
  *
@@ -56,7 +56,7 @@ library DirectCrowdsaleLib {
 
   event LogTokensBought(address indexed buyer, uint256 amount);
   event LogAddressCapExceeded(address indexed buyer, uint256 amount, string Msg);
-  event LogOwnerWithdrawl(address indexed owner, uint256 amount, string Msg);
+  event LogOwnerEthWithdrawn(address indexed owner, uint256 amount, string Msg);
   event LogErrorMsg(uint256 amount, string Msg);
   event LogTokenPriceChange(uint256 amount, string Msg);
 
@@ -65,20 +65,22 @@ library DirectCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
-                uint256 _capAmount,
+                uint256 _capAmountInCents,
                 uint256 _startTime,
                 uint256 _endTime,
                 uint256[] _tokenPricePoints,
                 uint256 _fallbackExchangeRate,
                 uint256 _changeInterval,
+                uint8 _percentBurn,
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
                 _tokenPricePoints[0],
                 _fallbackExchangeRate,
-                _capAmount,
+                _capAmountInCents,
                 _startTime,
                 _endTime,
+                _percentBurn,
                 _token);
 
     require(_tokenPricePoints.length > 0);
@@ -86,7 +88,7 @@ library DirectCrowdsaleLib {
     	require(_changeInterval == 0);
     }
     self.tokenPricePoints = _tokenPricePoints;
-  	self.changeInterval = _changeInterval; 
+  	self.changeInterval = _changeInterval;
   	self.lastPriceChangeTime = _startTime;
     self.changeIndex = 1;
   }
@@ -98,16 +100,16 @@ library DirectCrowdsaleLib {
     require(msg.sender != self.base.owner);
   	require(self.base.validPurchase());
 
-    require((self.ownerBalance + _amount) <= self.base.capAmount);  
+    require((self.ownerBalance + _amount) <= self.base.capAmount);
 
   	// if the token price increase interval has passed, update the current day and change the token price
   	if ((self.changeInterval > 0) && (now >= (self.lastPriceChangeTime + self.changeInterval))) {
   		self.lastPriceChangeTime = self.lastPriceChangeTime + self.changeInterval;
 
       if (self.changeIndex < self.tokenPricePoints.length) {   //prevents going out of bounds on the tokenPricePoints array
-      
+
         self.base.changeTokenPrice(self.tokenPricePoints[self.changeIndex]);
-      
+
         LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
         self.changeIndex++;
       }
@@ -118,7 +120,7 @@ library DirectCrowdsaleLib {
     uint256 newBalance;    //the new balance of the owner of the crowdsale
     uint256 weiTokens;
     uint256 remainder;
-		
+
     (err,weiTokens) = _amount.times(self.base.tokensPerEth);    // Find the number of tokens as a function in wei
     require(!err);
 
@@ -128,14 +130,18 @@ library DirectCrowdsaleLib {
     self.base.leftoverWei[msg.sender] += remainder / self.base.tokensPerEth;
 
     self.base.hasContributed[msg.sender] += _amount - self.base.leftoverWei[msg.sender];      // can't overflow because it is under the cap
-    
+
+    if(self.base.tokenDecimals > 0){
+      uint256 _decimals = 10**uint256(self.base.tokenDecimals);
+      numTokens = numTokens * _decimals;
+    }
     require(numTokens <= self.base.token.balanceOf(this));
 
     (err,newBalance) = self.ownerBalance.plus(_amount-self.base.leftoverWei[msg.sender]);      // calculate the amout of ether in the owners balance
     require(!err);
 
     self.ownerBalance = newBalance;   // "deposit" the amount
-	  
+
 	  self.base.withdrawTokensMap[msg.sender] += numTokens;    // can't overflow because it will be under the cap
     (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);  //subtract tokens from owner's share
     self.base.withdrawTokensMap[self.base.owner] = remainder;
@@ -148,23 +154,23 @@ library DirectCrowdsaleLib {
 
   /// @dev send ether from the completed crowdsale to the owners wallet address
   /// @param self Stored crowdsale from crowdsale contract
-  function ownerWithdrawl(DirectCrowdsaleStorage storage self) returns (bool) {
+  function withdrawOwnerEth(DirectCrowdsaleStorage storage self) returns (bool) {
     if (!self.base.crowdsaleEnded()) {
       LogErrorMsg(self.ownerBalance, "Cannot withdraw owner ether until after the sale!");
       return false;
     }
 
-    require(msg.sender == self.base.owner);    
+    require(msg.sender == self.base.owner);
     require(self.ownerBalance > 0);
 
     uint256 amount = self.ownerBalance;
     self.ownerBalance = 0;
     self.base.owner.transfer(amount);
-    LogOwnerWithdrawl(msg.sender,amount,"Crowdsale owner has withdrawn all funds!");
+    LogOwnerEthWithdrawn(msg.sender,amount,"Crowdsale owner has withdrawn all funds!");
 
     return true;
   }
- 
+
 
   ///  Functions "inherited" from CrowdsaleLib library
   function setTokenExchangeRate(DirectCrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {

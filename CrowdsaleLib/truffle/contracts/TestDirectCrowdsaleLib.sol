@@ -11,7 +11,7 @@ pragma solidity ^0.4.15;
  *
  * The DirectCrowdsale Library provides functionality to create a initial coin offering
  * for a standard token sale with high supply where there is a direct ether to
- * token transfer.  
+ * token transfer.
  *
  * Test Crowdsale allows for testing in testrpc by allowing a paramater, currtime, to be passed
  * to functions that would normally require a now variable.  This allows testrpc testing
@@ -60,7 +60,7 @@ library TestDirectCrowdsaleLib {
 
   event LogTokensBought(address indexed buyer, uint256 amount);
   event LogAddressCapExceeded(address indexed buyer, uint256 amount, string Msg);
-  event LogOwnerWithdrawl(address indexed owner, uint256 amount, string Msg);
+  event LogOwnerEthWithdrawn(address indexed owner, uint256 amount, string Msg);
   event LogErrorMsg(uint256 amount, string Msg);
   event LogTokenPriceChange(uint256 amount, string Msg);
 
@@ -69,7 +69,7 @@ library TestDirectCrowdsaleLib {
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
                 uint256 _currtime,
-                uint256 _capAmount,
+                uint256 _capAmountInCents,
                 uint256 _startTime,
                 uint256 _endTime,
                 uint256[] _tokenPricePoints,
@@ -81,7 +81,7 @@ library TestDirectCrowdsaleLib {
                 _currtime,
                 _tokenPricePoints[0],
                 _fallbackExchangeRate,
-                _capAmount,
+                _capAmountInCents,
                 _startTime,
                 _endTime,
                 _token);
@@ -91,7 +91,7 @@ library TestDirectCrowdsaleLib {
       require(_changeInterval == 0);
     }
   	self.tokenPricePoints = _tokenPricePoints;
-    self.changeInterval = _changeInterval; 
+    self.changeInterval = _changeInterval;
     self.changeIndex = 1;
     self.lastPriceChangeTime = _startTime;
   }
@@ -117,9 +117,9 @@ library TestDirectCrowdsaleLib {
   		self.lastPriceChangeTime = self.lastPriceChangeTime + self.changeInterval;
 
       if (self.changeIndex < self.tokenPricePoints.length) {   //prevents going out of bounds on the tokenPricePoints array
-      
+
   		  self.base.changeTokenPrice(self.tokenPricePoints[self.changeIndex]);
-      
+
         LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
         self.changeIndex++;
       }
@@ -130,7 +130,7 @@ library TestDirectCrowdsaleLib {
     uint256 newBalance;    //the new balance of the owner of the crowdsale
     uint256 weiTokens;
     uint256 remainder;
-    
+
     (err,weiTokens) = _amount.times(self.base.tokensPerEth);    // Find the number of tokens as a function in wei
     require(!err);
 
@@ -140,7 +140,11 @@ library TestDirectCrowdsaleLib {
     self.base.leftoverWei[msg.sender] += remainder / self.base.tokensPerEth;
 
     self.base.hasContributed[msg.sender] += _amount - self.base.leftoverWei[msg.sender];      // can't overflow because it is under the cap
-    
+
+    if(self.base.tokenDecimals > 0){
+      uint256 _decimals = 10**uint256(self.base.tokenDecimals);
+      numTokens = numTokens * _decimals;
+    }
     require(numTokens <= self.base.token.balanceOf(this));
 
     (err,newBalance) = self.ownerBalance.plus(_amount-self.base.leftoverWei[msg.sender]);      // calculate the amout of ether in the owners balance
@@ -158,23 +162,23 @@ library TestDirectCrowdsaleLib {
   }
 
   /// @dev send ether from a purchase to the owners wallet address
-  function ownerWithdrawl(DirectCrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
+  function withdrawOwnerEth(DirectCrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
     if (!self.base.crowdsaleEnded(currtime)) {
       LogErrorMsg(self.ownerBalance, "Cannot withdraw owner ether until after the sale");
       return false;
     }
     //require(self.base.crowdsaleEnded(currtime));
-    require(msg.sender == self.base.owner);    
+    require(msg.sender == self.base.owner);
     require(self.ownerBalance > 0);
 
     uint256 amount = self.ownerBalance;
     self.ownerBalance = 0;
     self.base.owner.transfer(amount);
-    LogOwnerWithdrawl(msg.sender,amount,"crowdsale owner has withdrawn all funds");
+    LogOwnerEthWithdrawn(msg.sender,amount,"crowdsale owner has withdrawn all funds");
 
     return true;
   }
- 
+
   ///  Functions "inherited" from CrowdsaleLib library
   function setTokenExchangeRate(DirectCrowdsaleStorage storage self, uint256 _exchangeRate, uint256 _currtime) returns (bool) {
     return self.base.setTokenExchangeRate(_exchangeRate, _currtime);

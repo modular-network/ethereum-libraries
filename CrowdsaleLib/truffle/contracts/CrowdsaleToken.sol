@@ -79,4 +79,8 @@ contract CrowdsaleToken {
   function approve(address spender, uint value) returns (bool ok) {
     return token.approve(spender, value);
   }
+
+  function burnToken(uint256 amount) returns (bool ok) {
+    return token.burnToken(amount);
+  }
 }

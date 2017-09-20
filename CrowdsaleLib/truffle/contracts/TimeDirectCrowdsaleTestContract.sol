@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
 *
 *  Test contract for tesing the crowdsale libraries with testrpc
 *
-*  Uses currprice, a replacement for now in the library functions
+*  Uses currtime, a replacement for now in the library functions
 *
 ******/
 
@@ -20,15 +20,16 @@ contract TimeDirectCrowdsaleTestContract {
   function TimeDirectCrowdsaleTestContract(
                 address owner,
                 uint256 currtime,
-                uint256 capAmount,
+                uint256 capAmountInCents,
                 uint256 startTime,
                 uint256 endTime,
                 uint256[] tokenPricePoints,
                 uint256 fallbackExchangeRate,
                 uint256 changeInterval,
+                uint8 percentBurn,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, currtime, capAmount, startTime, endTime, tokenPricePoints, fallbackExchangeRate, changeInterval, token);
+  	sale.init(owner, currtime, capAmountInCents, startTime, endTime, tokenPricePoints, fallbackExchangeRate, changeInterval, percentBurn, token);
   }
 
   // fallback function can be used to buy tokens
@@ -42,10 +43,6 @@ contract TimeDirectCrowdsaleTestContract {
 
   function owner() constant returns (address) {
     return sale.base.owner;
-  }
-
-  function tokenPriceinCents() constant returns (uint256) {
-    return sale.base.tokenPriceinCents;
   }
 
   function tokensPerEth() constant returns (uint256) {
@@ -76,8 +73,8 @@ contract TimeDirectCrowdsaleTestContract {
     return sale.ownerBalance;
   }
 
-  function ownerWithdrawl(uint256 currtime) returns (bool) {
-  	return sale.ownerWithdrawl(currtime);
+  function withdrawOwnerEth(uint256 currtime) returns (bool) {
+  	return sale.withdrawOwnerEth(currtime);
   }
 
   function crowdsaleActive(uint256 currtime) constant returns (bool) {
