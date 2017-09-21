@@ -51,7 +51,9 @@ library TestCrowdsaleLib {
     uint256 startTime; //ICO start time, timestamp
     uint256 endTime; //ICO end time, timestamp automatically calculated
     uint256 exchangeRate;   //  cents/ETH exchange rate at the time of the sale
+    uint256 ownerBalance;
     uint8 tokenDecimals;
+    uint8 percentBurn;
     bool tokensSet;
     bool rateSet;
 
@@ -64,6 +66,7 @@ library TestCrowdsaleLib {
 
   event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of tokens
   event LogWeiWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of extra wei
+  event LogOwnerEthWithdrawn(address indexed owner, uint256 amount, string Msg);
   event LogNoticeMsg(address _buyer, uint256 value, string Msg);          // Generic Notice message that includes and address and number
   event LogErrorMsg(string Msg);                                          // Indicates when an error has occurred in the execution of a function
 
@@ -77,6 +80,7 @@ library TestCrowdsaleLib {
                 uint256 _capAmountInCents,
                 uint256 _startTime,
                 uint256 _endTime,
+                uint8 _percentBurn,
                 CrowdsaleToken _token)
   {
   	require(self.capAmount == 0);
@@ -87,12 +91,14 @@ library TestCrowdsaleLib {
     require(_owner > 0);
     require(_startTime > _currtime);
     require(_fallbackExchangeRate > 0);
+    require(_percentBurn <= 100);
     self.owner = _owner;
-    self.capAmount = _capAmountInCents/_fallbackExchangeRate;
+    self.capAmount = ((_capAmountInCents/_fallbackExchangeRate) + 1)*(10**18);
     self.startTime = _startTime;
     self.endTime = _endTime;
     self.token = _token;
     self.tokenDecimals = _token.decimals();
+    self.percentBurn = _percentBurn;
     self.exchangeRate = _fallbackExchangeRate;
     changeTokenPrice(self,_tokenPriceInCents);
   }
@@ -131,9 +137,18 @@ library TestCrowdsaleLib {
       LogErrorMsg("Sender has no tokens to withdraw!");
       return false;
     }
-    if ((msg.sender == self.owner) && (!crowdsaleEnded(self,currtime))) {
-      LogErrorMsg("Owner cannot withdraw extra tokens until after the sale!");
-      return false;
+    if (msg.sender == self.owner) {
+      if (!crowdsaleEnded(self,currtime)){
+        LogErrorMsg("Owner cannot withdraw extra tokens until after the sale!");
+        return false;
+      } else {
+        if(self.percentBurn > 0){
+          uint256 _burnAmount = (self.withdrawTokensMap[msg.sender] * self.percentBurn)/100;
+          self.withdrawTokensMap[msg.sender] = self.withdrawTokensMap[msg.sender] - _burnAmount;
+          ok = self.token.burnToken(_burnAmount);
+          require(ok);
+        }
+      }
     }
 
     var total = self.withdrawTokensMap[msg.sender];
@@ -160,6 +175,24 @@ library TestCrowdsaleLib {
     return true;
   }
 
+  /// @dev send ether from a purchase to the owners wallet address
+  function withdrawOwnerEth(CrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
+    if (!crowdsaleEnded(self, currtime)) {
+      LogErrorMsg("Cannot withdraw owner ether until after the sale");
+      return false;
+    }
+
+    require(msg.sender == self.owner);
+    require(self.ownerBalance > 0);
+
+    uint256 amount = self.ownerBalance;
+    self.ownerBalance = 0;
+    self.owner.transfer(amount);
+    LogOwnerEthWithdrawn(msg.sender,amount,"crowdsale owner has withdrawn all funds");
+
+    return true;
+  }
+
   /// @dev Function to change the price of the token
   /// @param _newPrice new token price (amount of tokens per ether)
   function changeTokenPrice(CrowdsaleStorage storage self,uint256 _newPrice) internal returns (bool) {
@@ -171,7 +204,7 @@ library TestCrowdsaleLib {
     (err,result) = self.exchangeRate.dividedBy(_newPrice);
     require(!err);
 
-    self.tokensPerEth = result;
+    self.tokensPerEth = result + 1;
     return true;
   }
 
@@ -183,7 +216,7 @@ library TestCrowdsaleLib {
       LogErrorMsg("Owner can only set the exchange rate!");
       return false;
     }
-    if ((_currtime >= (self.startTime - 3 days)) && (_currtime <= (self.startTime)) && (self.rateSet == false)) {
+    if ((_currtime >= (self.startTime - 3)) && (_currtime <= (self.startTime)) && (self.rateSet == false)) {
       require(self.rateSet == false);
     } else {
       LogErrorMsg("Owner can only set the exchange rate once up to three days before the sale!");
@@ -210,8 +243,8 @@ library TestCrowdsaleLib {
     self.withdrawTokensMap[msg.sender] = self.token.balanceOf(this);
 
     self.exchangeRate = _exchangeRate;
-    self.capAmount = _capAmountInCents/_exchangeRate;
-    changeTokenPrice(self,_tokenPriceInCents);
+    self.capAmount = (_capAmountInCents/_exchangeRate) + 1;
+    changeTokenPrice(self,_tokenPriceInCents + 1);
     self.rateSet = true;
 
     LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");

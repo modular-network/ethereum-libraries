@@ -70,7 +70,7 @@ contract TimeDirectCrowdsaleTestContract {
   }
 
   function ownerBalance() constant returns (uint256) {
-    return sale.ownerBalance;
+    return sale.base.ownerBalance;
   }
 
   function withdrawOwnerEth(uint256 currtime) returns (bool) {

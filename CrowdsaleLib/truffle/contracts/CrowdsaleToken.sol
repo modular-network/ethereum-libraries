@@ -60,6 +60,10 @@ contract CrowdsaleToken {
     return token.totalSupply;
   }
 
+  function initialSupply() constant returns (uint256) {
+    return token.INITIAL_SUPPLY;
+  }
+
   function balanceOf(address who) constant returns (uint256) {
     return token.balanceOf(who);
   }

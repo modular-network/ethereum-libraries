@@ -51,6 +51,7 @@ library CrowdsaleLib {
   	uint256 startTime; //ICO start time, timestamp
   	uint256 endTime; //ICO end time, timestamp automatically calculated
     uint256 exchangeRate;   //  cents/ETH exchange rate at the time of the sale
+    uint256 ownerBalance;
     uint8 tokenDecimals;
     uint8 percentBurn;
     bool tokensSet;
@@ -65,6 +66,7 @@ library CrowdsaleLib {
 
   event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of tokens
   event LogWeiWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of extra wei
+  event LogOwnerEthWithdrawn(address indexed owner, uint256 amount, string Msg);
   event LogNoticeMsg(address _buyer, uint256 value, string Msg);          // Generic Notice message that includes and address and number
   event LogErrorMsg(string Msg);                                          // Indicates when an error has occurred in the execution of a function
 
@@ -89,7 +91,7 @@ library CrowdsaleLib {
     require(_fallbackExchangeRate > 0);
     require(_percentBurn <= 100);
     self.owner = _owner;
-    self.capAmount = _capAmountInCents/_fallbackExchangeRate;
+    self.capAmount = ((_capAmountInCents/_fallbackExchangeRate) + 1)*(10**18);
     self.startTime = _startTime;
     self.endTime = _endTime;
     self.token = _token;
@@ -174,6 +176,25 @@ library CrowdsaleLib {
     return true;
   }
 
+  /// @dev send ether from the completed crowdsale to the owners wallet address
+  /// @param self Stored crowdsale from crowdsale contract
+  function withdrawOwnerEth(CrowdsaleStorage storage self) returns (bool) {
+    if (!crowdsaleEnded(self)) {
+      LogErrorMsg("Cannot withdraw owner ether until after the sale!");
+      return false;
+    }
+
+    require(msg.sender == self.owner);
+    require(self.ownerBalance > 0);
+
+    uint256 amount = self.ownerBalance;
+    self.ownerBalance = 0;
+    self.owner.transfer(amount);
+    LogOwnerEthWithdrawn(msg.sender,amount,"Crowdsale owner has withdrawn all funds!");
+
+    return true;
+  }
+
   /// @dev Function to change the price of the token
   /// @param _newPrice new token price (amount of tokens per ether)
   function changeTokenPrice(CrowdsaleStorage storage self,uint256 _newPrice) internal returns (bool) {
@@ -185,7 +206,7 @@ library CrowdsaleLib {
     (err,result) = self.exchangeRate.dividedBy(_newPrice);
     require(!err);
 
-  	self.tokensPerEth = result;
+  	self.tokensPerEth = result + 1;
     return true;
   }
 
@@ -213,8 +234,8 @@ library CrowdsaleLib {
     self.tokensSet = true;
 
     self.exchangeRate = _exchangeRate;
-    self.capAmount = _capAmountInCents/_exchangeRate;
-    changeTokenPrice(self,_tokenPriceInCents);
+    self.capAmount = (_capAmountInCents/_exchangeRate) + 1;
+    changeTokenPrice(self,_tokenPriceInCents + 1);
     self.rateSet = true;
 
     LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");

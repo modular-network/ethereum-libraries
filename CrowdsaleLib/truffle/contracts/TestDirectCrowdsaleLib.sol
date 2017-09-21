@@ -54,13 +54,10 @@ library TestDirectCrowdsaleLib {
   	uint256 changeInterval;      // amount of time between changes in the price of the token
   	uint256 lastPriceChangeTime;          // time of the last change in token cost
     uint256 changeIndex;         //index for the price points array
-    uint256 ownerBalance;
-
   }
 
   event LogTokensBought(address indexed buyer, uint256 amount);
   event LogAddressCapExceeded(address indexed buyer, uint256 amount, string Msg);
-  event LogOwnerEthWithdrawn(address indexed owner, uint256 amount, string Msg);
   event LogErrorMsg(uint256 amount, string Msg);
   event LogTokenPriceChange(uint256 amount, string Msg);
 
@@ -75,6 +72,7 @@ library TestDirectCrowdsaleLib {
                 uint256[] _tokenPricePoints,
                 uint256 _fallbackExchangeRate,
                 uint256 _changeInterval,
+                uint8 _percentBurn,
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
@@ -84,6 +82,7 @@ library TestDirectCrowdsaleLib {
                 _capAmountInCents,
                 _startTime,
                 _endTime,
+                _percentBurn,
                 _token);
 
     require(_tokenPricePoints.length > 0);
@@ -107,7 +106,7 @@ library TestDirectCrowdsaleLib {
     if (!self.base.validPurchase(currtime)) {   //NEEDS TO BE A REQUIRE
       return false;
     }
-    if ((self.ownerBalance + _amount) > self.base.capAmount) {
+    if ((self.base.ownerBalance + _amount) > self.base.capAmount) {
       LogErrorMsg(msg.value, "buyer ether sent exceeds cap of ether to be raised!");
       return false;
     }
@@ -130,6 +129,7 @@ library TestDirectCrowdsaleLib {
     uint256 newBalance;    //the new balance of the owner of the crowdsale
     uint256 weiTokens;
     uint256 remainder;
+    uint256 leftovers;
 
     (err,weiTokens) = _amount.times(self.base.tokensPerEth);    // Find the number of tokens as a function in wei
     require(!err);
@@ -137,9 +137,11 @@ library TestDirectCrowdsaleLib {
     (err,numTokens) = weiTokens.dividedBy(1000000000000000000);    // convert the wei tokens to the correct number of tokens per ether spent
     require(!err);
     remainder = weiTokens % 1000000000000000000;
-    self.base.leftoverWei[msg.sender] += remainder / self.base.tokensPerEth;
+    leftovers = remainder / self.base.tokensPerEth;
 
-    self.base.hasContributed[msg.sender] += _amount - self.base.leftoverWei[msg.sender];      // can't overflow because it is under the cap
+    self.base.leftoverWei[msg.sender] += leftovers;
+
+    self.base.hasContributed[msg.sender] += _amount - leftovers;      // can't overflow because it is under the cap
 
     if(self.base.tokenDecimals > 0){
       uint256 _decimals = 10**uint256(self.base.tokenDecimals);
@@ -147,34 +149,16 @@ library TestDirectCrowdsaleLib {
     }
     require(numTokens <= self.base.token.balanceOf(this));
 
-    (err,newBalance) = self.ownerBalance.plus(_amount-self.base.leftoverWei[msg.sender]);      // calculate the amout of ether in the owners balance
+    (err,newBalance) = self.base.ownerBalance.plus(_amount-self.base.leftoverWei[msg.sender]);      // calculate the amout of ether in the owners balance
     require(!err);
 
-    self.ownerBalance = newBalance;   // "deposit" the amount
+    self.base.ownerBalance = newBalance;   // "deposit" the amount
 
 	  self.base.withdrawTokensMap[msg.sender] += numTokens;    // can't overflow because it will be under the cap
     (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);  //subtract tokens from owner's share
     self.base.withdrawTokensMap[self.base.owner] = remainder;
 
 	  LogTokensBought(msg.sender, numTokens);
-
-    return true;
-  }
-
-  /// @dev send ether from a purchase to the owners wallet address
-  function withdrawOwnerEth(DirectCrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
-    if (!self.base.crowdsaleEnded(currtime)) {
-      LogErrorMsg(self.ownerBalance, "Cannot withdraw owner ether until after the sale");
-      return false;
-    }
-    //require(self.base.crowdsaleEnded(currtime));
-    require(msg.sender == self.base.owner);
-    require(self.ownerBalance > 0);
-
-    uint256 amount = self.ownerBalance;
-    self.ownerBalance = 0;
-    self.base.owner.transfer(amount);
-    LogOwnerEthWithdrawn(msg.sender,amount,"crowdsale owner has withdrawn all funds");
 
     return true;
   }
@@ -202,6 +186,10 @@ library TestDirectCrowdsaleLib {
 
   function withdrawLeftoverWei(DirectCrowdsaleStorage storage self) returns (bool) {
     return self.base.withdrawLeftoverWei();
+  }
+
+  function withdrawOwnerEth(DirectCrowdsaleStorage storage self,uint256 currtime) returns (bool) {
+    return self.base.withdrawOwnerEth(currtime);
   }
 
   function getContribution(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {

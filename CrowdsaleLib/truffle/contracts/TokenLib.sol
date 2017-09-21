@@ -242,5 +242,7 @@ library TokenLib {
       self.totalSupply = self.totalSupply - _amount;
       Burn(msg.sender, _amount);
       Transfer(msg.sender, 0x0, _amount);
+
+      return true;
   }
 }

@@ -16,15 +16,16 @@ contract DirectCrowdsaleTestContract {
 
   function DirectCrowdsaleTestContract(
                 address owner,
-                uint256 capAmount,
+                uint256 capAmountInCents,
                 uint256 startTime,
                 uint256 endTime,
                 uint256[] tokenPricePoints,
                 uint256 fallbackExchangeRate,
                 uint256 changeInterval,
+                uint8 percentBurn,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, capAmount, startTime, endTime, tokenPricePoints, fallbackExchangeRate, changeInterval, token);
+  	sale.init(owner, capAmountInCents, startTime, endTime, tokenPricePoints, fallbackExchangeRate, changeInterval, percentBurn, token);
   }
 
   // fallback function can be used to buy tokens
@@ -38,10 +39,6 @@ contract DirectCrowdsaleTestContract {
 
   function owner() constant returns (address) {
     return sale.base.owner;
-  }
-
-  function tokenPriceinCents() constant returns (uint256) {
-    return sale.base.tokenPriceinCents;
   }
 
   function tokensPerEth() constant returns (uint256) {
@@ -69,11 +66,11 @@ contract DirectCrowdsaleTestContract {
   }
 
   function ownerBalance() constant returns (uint256) {
-    return sale.ownerBalance;
+    return sale.base.ownerBalance;
   }
 
-  function ownerWithdrawl() returns (bool) {
-  	return sale.ownerWithdrawl();
+  function withdrawOwnerEth() returns (bool) {
+  	return sale.withdrawOwnerEth();
   }
 
   function crowdsaleActive() constant returns (bool) {
