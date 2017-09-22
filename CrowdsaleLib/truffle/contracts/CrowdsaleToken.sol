@@ -14,11 +14,12 @@ import "./TokenLib.sol";
  * example does not use all of the functionality available, it is only
  * a barebones example of a basic ERC20 token contract.
  *
- * Majoolr works on open source projects in the Ethereum community with the
- * purpose of testing, documenting, and deploying reusable code onto the
- * blockchain to improve security and usability of smart contracts. Majoolr also
- * strives to educate non-profits, schools, and other community members about the
- * application of blockchain technology. For further information: majoolr.io
+ * Majoolr provides smart contract services and security reviews for contract
+ * deployments in addition to working on open source projects in the Ethereum
+ * community. Our purpose is to test, document, and deploy reusable code onto the
+ * blockchain and improve both security and usability. We also educate non-profits,
+ * schools, and other community members about the application of blockchain
+ * technology. For further information: majoolr.io
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -82,6 +83,10 @@ contract CrowdsaleToken {
 
   function approve(address spender, uint value) returns (bool ok) {
     return token.approve(spender, value);
+  }
+
+  function changeOwner(address newOwner) returns (bool ok) {
+    return token.changeOwner(newOwner);
   }
 
   function burnToken(uint256 amount) returns (bool ok) {

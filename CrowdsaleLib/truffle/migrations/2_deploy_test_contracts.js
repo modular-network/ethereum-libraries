@@ -40,15 +40,4 @@ module.exports = function(deployer, network, accounts) {
  	    return deployer.deploy(TimeDirectCrowdsaleTestContract, accounts[5], 100, 1700000000, 105, 125, [141,155,165], 29000, 5, 50, CrowdsaleToken.address,{from:accounts[5]});
     });
   }
-
-  if(network == "rinkeby") {
-    deployer.link(TokenLib,CrowdsaleToken);
-    deployer.link(CrowdsaleLib,DirectCrowdsaleTestContract);
-    deployer.link(DirectCrowdsaleLib, DirectCrowdsaleTestContract);
-    /*deployer.deploy(CrowdsaleToken, "0x3f33c3d3ae37fdd0e1227a424add8b67f49232c0", "Tester Token", "TST", 18, 1000000, true,{from:"0x3f33c3d3ae37fdd0e1227a424add8b67f49232c0"}).then(function() {
-      // right now it is configured to use accounts[5] as the owner and for the token price to increase periodically by 50 cents
-      //return deployer.deploy(DirectCrowdsaleTestContract, "0x36994c7cff11859ba8b9715120a68aa9499329ee", 20000000000000000000000, 1505203200, 1505462400, [50,75,100], 86400, CrowdsaleToken.address);
-      return deployer.deploy(DirectCrowdsaleTestContract, "0x3f33c3d3ae37fdd0e1227a424add8b67f49232c0", 20000000000000000000000, 1505664000, 1505923200, [50,75,100], 29000, 86400, CrowdsaleToken.address,{from:"0x3f33c3d3ae37fdd0e1227a424add8b67f49232c0"});
-    });*/
-  }
 };

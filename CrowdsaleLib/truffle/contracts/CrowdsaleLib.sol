@@ -9,23 +9,15 @@ pragma solidity ^0.4.15;
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
  *
- * The Crowdsale Library provides basic functionality to create a initial coin offering
- * for different types of token sales.
+ * The Crowdsale Library provides basic functionality to create an initial coin
+ * offering for different types of token sales.
  *
- * Test Crowdsale allows for testing in testrpc by allowing a paramater, currtime, to be passed
- * to functions that would normally require a now variable.  This allows testrpc testing
- * without having to add delays in the code to time it perfectly.  This also replaces some require() statements
- * to regular conditional checks to allow for better testing.
- *
- * See https://github.com/Majoolr/ethereum-contracts for an example of how to
- * create a basic ERC20 token.
- *
- * Majoolr works on open source projects in the Ethereum community with the
- * purpose of testing, documenting, and deploying reusable code onto the
- * blockchain to improve security and usability of smart contracts. Majoolr
- * also strives to educate non-profits, schools, and other community members
- * about the application of blockchain technology.
- * For further information: majoolr.io
+ * Majoolr provides smart contract services and security reviews for contract
+ * deployments in addition to working on open source projects in the Ethereum
+ * community. Our purpose is to test, document, and deploy reusable code onto the
+ * blockchain and improve both security and usability. We also educate non-profits,
+ * schools, and other community members about the application of blockchain
+ * technology. For further information: majoolr.io
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -50,28 +42,50 @@ library CrowdsaleLib {
   	uint256 capAmount; //Maximum amount to be raised in wei
   	uint256 startTime; //ICO start time, timestamp
   	uint256 endTime; //ICO end time, timestamp automatically calculated
-    uint256 exchangeRate;   //  cents/ETH exchange rate at the time of the sale
-    uint256 ownerBalance;
-    uint8 tokenDecimals;
-    uint8 percentBurn;
-    bool tokensSet;
-    bool rateSet;
+    uint256 exchangeRate; //cents/ETH exchange rate at the time of the sale
+    uint256 ownerBalance; //owner wei Balance
+    uint8 tokenDecimals; //stored token decimals for calculation later
+    uint8 percentBurn; //percentage of extra tokens to burn
+    bool tokensSet; //true if tokens have been prepared for crowdsale
+    bool rateSet; //true if exchange rate has been set
 
-  	mapping (address => uint256) hasContributed;  //shows how much wei an address has contributed
-  	mapping (address => uint256) withdrawTokensMap;  //For token withdraw function, maps a user address to the amount of tokens they can withdraw
-    mapping (address => uint256) leftoverWei;       // any leftover wei that buyers contributed that didn't add up to a whole token amount
+    //shows how much wei an address has contributed
+  	mapping (address => uint256) hasContributed;
 
-  	CrowdsaleToken token;
+    //For token withdraw function, maps a user address to the amount of tokens they can withdraw
+  	mapping (address => uint256) withdrawTokensMap;
+
+    // any leftover wei that buyers contributed that didn't add up to a whole token amount
+    mapping (address => uint256) leftoverWei;
+
+  	CrowdsaleToken token; //token being sold
   }
 
-  event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of tokens
-  event LogWeiWithdrawn(address indexed _bidder, uint256 Amount);      // Indicates when an address has withdrawn their supply of extra wei
+  // Indicates when an address has withdrawn their supply of tokens
+  event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);
+
+  // Indicates when an address has withdrawn their supply of extra wei
+  event LogWeiWithdrawn(address indexed _bidder, uint256 Amount);
+
+  // Logs when owner has pulled eth
   event LogOwnerEthWithdrawn(address indexed owner, uint256 amount, string Msg);
-  event LogNoticeMsg(address _buyer, uint256 value, string Msg);          // Generic Notice message that includes and address and number
-  event LogErrorMsg(string Msg);                                          // Indicates when an error has occurred in the execution of a function
+
+  // Generic Notice message that includes and address and number
+  event LogNoticeMsg(address _buyer, uint256 value, string Msg);
+
+  // Indicates when an error has occurred in the execution of a function
+  event LogErrorMsg(string Msg);
 
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
+  /// @param _owner Address of crowdsale owner
+  /// @param _tokenPriceInCents Price of tokens in cents
+  /// @param _fallbackExchangeRate Exchange rate of cents/ETH
+  /// @param _capAmountInCents Total to be raised in cents
+  /// @param _startTime Timestamp of sale start time
+  /// @param _endTime Timestamp of sale end time
+  /// @param _percentBurn Percentage of extra tokens to burn
+  /// @param _token Token being sold
   function init(CrowdsaleStorage storage self,
                 address _owner,
                 uint256 _tokenPriceInCents,
@@ -130,6 +144,7 @@ library CrowdsaleLib {
 
   /// @dev Function called by purchasers to pull tokens
   /// @param self Stored crowdsale from crowdsale contract
+  /// @return true if tokens were withdrawn
   function withdrawTokens(CrowdsaleStorage storage self) returns (bool) {
     bool ok;
 
@@ -162,6 +177,7 @@ library CrowdsaleLib {
 
   /// @dev Function called by purchasers to pull leftover wei from their purchases
   /// @param self Stored crowdsale from crowdsale contract
+  /// @return true if wei was withdrawn
   function withdrawLeftoverWei(CrowdsaleStorage storage self) returns (bool) {
     require(self.hasContributed[msg.sender] > 0);
     if (self.leftoverWei[msg.sender] == 0) {
@@ -178,6 +194,7 @@ library CrowdsaleLib {
 
   /// @dev send ether from the completed crowdsale to the owners wallet address
   /// @param self Stored crowdsale from crowdsale contract
+  /// @return true if owner withdrew eth
   function withdrawOwnerEth(CrowdsaleStorage storage self) returns (bool) {
     if (!crowdsaleEnded(self)) {
       LogErrorMsg("Cannot withdraw owner ether until after the sale!");
@@ -196,7 +213,9 @@ library CrowdsaleLib {
   }
 
   /// @dev Function to change the price of the token
+  /// @param self Stored crowdsale from crowdsale contract
   /// @param _newPrice new token price (amount of tokens per ether)
+  /// @return true if the token price changed successfully
   function changeTokenPrice(CrowdsaleStorage storage self,uint256 _newPrice) internal returns (bool) {
   	require(_newPrice > 0);
 
@@ -213,6 +232,7 @@ library CrowdsaleLib {
   /// @dev function that is called three days before the sale to set the token and price
   /// @param self Stored Crowdsale from crowdsale contract
   /// @param _exchangeRate  ETH exchange rate expressed in cents/ETH
+  /// @return true if the exchange rate has been set
   function setTokenExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {
     require(msg.sender == self.owner);
     require((now > (self.startTime - 3 days)) && (now < (self.startTime)));
@@ -242,6 +262,9 @@ library CrowdsaleLib {
     return true;
   }
 
+  /// @dev fallback function to set tokens if the exchange rate function was not called
+  /// @param self Stored Crowdsale from crowdsale contract
+  /// @return true if tokens set successfully
   function setTokens(CrowdsaleStorage storage self) returns (bool) {
     require(msg.sender == self.owner);
     require(!self.tokensSet);
@@ -250,29 +273,5 @@ library CrowdsaleLib {
     self.tokensSet = true;
 
     return true;
-  }
-
-  /// @dev Gets the amount of wei that an account has contributed
-  /// @param _buyer address to get the information for
-  /// @return amount of wei
-  function getContribution(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
-    LogNoticeMsg(_buyer, self.hasContributed[_buyer], "Users ether contribution");
-    return self.hasContributed[_buyer];
-  }
-
-  /// @dev returns the number of tokens that an account has purchased
-  /// @param _buyer address to get the information for
-  /// @return number of tokens the account can withdraw
-  function getTokenPurchase(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
-    LogNoticeMsg(_buyer, self.withdrawTokensMap[_buyer], "Users token purchase");
-    return self.withdrawTokensMap[_buyer];
-  }
-
-  /// @dev returns the number of tokens that an account has purchased
-  /// @param _buyer address to get the information for
-  /// @return number of tokens the account can withdraw
-  function getLeftoverWei(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
-    LogNoticeMsg(_buyer, self.withdrawTokensMap[_buyer], "Users leftoverWei");
-    return self.leftoverWei[_buyer];
   }
 }

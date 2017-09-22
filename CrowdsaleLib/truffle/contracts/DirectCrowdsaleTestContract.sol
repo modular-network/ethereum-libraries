@@ -37,6 +37,38 @@ contract DirectCrowdsaleTestContract {
   	return sale.receivePurchase(msg.value);
   }
 
+  function withdrawOwnerEth() returns (bool) {
+  	return sale.withdrawOwnerEth();
+  }
+
+  function crowdsaleActive() constant returns (bool) {
+  	return sale.crowdsaleActive();
+  }
+
+  function firstPriceChange() constant returns (uint256) {
+    return sale.tokenPricePoints[1];
+  }
+
+  function crowdsaleEnded() constant returns (bool) {
+  	return sale.crowdsaleEnded();
+  }
+
+  function setTokenExchangeRate(uint256 _exchangeRate) returns (bool) {
+    return sale.setTokenExchangeRate(_exchangeRate);
+  }
+
+  function setTokens() returns (bool) {
+    return sale.setTokens();
+  }
+
+  function withdrawTokens() returns (bool) {
+  	return sale.withdrawTokens();
+  }
+
+  function withdrawLeftoverWei() returns (bool) {
+    return sale.withdrawLeftoverWei();
+  }
+
   function owner() constant returns (address) {
     return sale.base.owner;
   }
@@ -69,43 +101,15 @@ contract DirectCrowdsaleTestContract {
     return sale.base.ownerBalance;
   }
 
-  function withdrawOwnerEth() returns (bool) {
-  	return sale.withdrawOwnerEth();
-  }
-
-  function crowdsaleActive() constant returns (bool) {
-  	return sale.crowdsaleActive();
-  }
-
-  function firstPriceChange() constant returns (uint256) {
-    return sale.tokenPricePoints[1];
-  }
-
-  function crowdsaleEnded() constant returns (bool) {
-  	return sale.crowdsaleEnded();
-  }
-
-  function setTokenExchangeRate(uint256 _exchangeRate) returns (bool) {
-    return sale.setTokenExchangeRate(_exchangeRate);
-  }
-
-  function withdrawTokens() returns (bool) {
-  	return sale.withdrawTokens();
-  }
-
-  function withdrawLeftoverWei() returns (bool) {
-    return sale.withdrawLeftoverWei();
-  }
-
   function getContribution(address _buyer) constant returns (uint256) {
-  	return sale.getContribution(_buyer);
+  	return sale.base.hasContributed[_buyer];
   }
 
   function getTokenPurchase(address _buyer) constant returns (uint256) {
-  	return sale.getTokenPurchase(_buyer);
+  	return sale.base.withdrawTokensMap[_buyer];
   }
 
   function getLeftoverWei(address _buyer) constant returns (uint256) {
-    return sale.getLeftoverWei(_buyer);
+    return sale.base.leftoverWei[_buyer];
   }
 }
