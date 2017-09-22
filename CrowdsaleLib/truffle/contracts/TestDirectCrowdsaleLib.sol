@@ -53,7 +53,6 @@ library TestDirectCrowdsaleLib {
 
   	uint256 changeInterval;      // amount of time between changes in the price of the token
   	uint256 lastPriceChangeTime;          // time of the last change in token cost
-    uint256 changeIndex;         //index for the price points array
   }
 
   event LogTokensBought(address indexed buyer, uint256 amount);
@@ -91,7 +90,6 @@ library TestDirectCrowdsaleLib {
     }
   	self.tokenPricePoints = _tokenPricePoints;
     self.changeInterval = _changeInterval;
-    self.changeIndex = 1;
     self.lastPriceChangeTime = _startTime;
   }
 
@@ -112,44 +110,44 @@ library TestDirectCrowdsaleLib {
     }
 
   	// if the token price increase interval has passed, update the current day and change the token price
-  	if ((self.changeInterval > 0) && (currtime >= (self.lastPriceChangeTime + self.changeInterval))) {
+    if ((self.changeInterval > 0) && (currtime >= (self.lastPriceChangeTime + self.changeInterval))) {
   		self.lastPriceChangeTime = self.lastPriceChangeTime + self.changeInterval;
+      uint256 index = (currtime-self.base.startTime)/self.changeInterval;
 
-      if (self.changeIndex < self.tokenPricePoints.length) {   //prevents going out of bounds on the tokenPricePoints array
+      if (self.tokenPricePoints.length <= index) //prevents going out of bounds on the tokenPricePoints array
+        index = self.tokenPricePoints.length - 1;
 
-  		  self.base.changeTokenPrice(self.tokenPricePoints[self.changeIndex]);
+      self.base.changeTokenPrice(self.tokenPricePoints[index]);
 
-        LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
-        self.changeIndex++;
-      }
+      LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
   	}
 
   	uint256 numTokens;     //number of tokens that will be purchased
   	bool err;
     uint256 newBalance;    //the new balance of the owner of the crowdsale
     uint256 weiTokens;
+    uint256 zeros;
+    uint256 leftoverWei;
     uint256 remainder;
-    uint256 leftovers;
 
     (err,weiTokens) = _amount.times(self.base.tokensPerEth);    // Find the number of tokens as a function in wei
     require(!err);
 
-    (err,numTokens) = weiTokens.dividedBy(1000000000000000000);    // convert the wei tokens to the correct number of tokens per ether spent
-    require(!err);
-    remainder = weiTokens % 1000000000000000000;
-    leftovers = remainder / self.base.tokensPerEth;
-
-    self.base.leftoverWei[msg.sender] += leftovers;
-
-    self.base.hasContributed[msg.sender] += _amount - leftovers;      // can't overflow because it is under the cap
-
-    if(self.base.tokenDecimals > 0){
-      uint256 _decimals = 10**uint256(self.base.tokenDecimals);
-      numTokens = numTokens * _decimals;
+    if(self.base.tokenDecimals <= 18){
+      zeros = 10**(18-uint256(self.base.tokenDecimals));
+      numTokens = weiTokens/zeros;
+      leftoverWei = weiTokens % zeros;
+      self.base.leftoverWei[msg.sender] += leftoverWei;
+    } else {
+      zeros = 10**(uint256(self.base.tokenDecimals)-18);
+      numTokens = weiTokens*zeros;
     }
+
+    self.base.hasContributed[msg.sender] += _amount - leftoverWei;      // can't overflow because it is under the cap
+
     require(numTokens <= self.base.token.balanceOf(this));
 
-    (err,newBalance) = self.base.ownerBalance.plus(_amount-self.base.leftoverWei[msg.sender]);      // calculate the amout of ether in the owners balance
+    (err,newBalance) = self.base.ownerBalance.plus(_amount-leftoverWei);      // calculate the amout of ether in the owners balance
     require(!err);
 
     self.base.ownerBalance = newBalance;   // "deposit" the amount

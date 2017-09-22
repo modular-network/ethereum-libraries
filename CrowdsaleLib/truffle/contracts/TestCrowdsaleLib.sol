@@ -133,6 +133,8 @@ library TestCrowdsaleLib {
   /// @dev Function called by purchasers to pull tokens
   /// @param self Stored crowdsale from crowdsale contract
   function withdrawTokens(CrowdsaleStorage storage self,uint256 currtime) returns (bool) {
+    bool ok;
+
     if (self.withdrawTokensMap[msg.sender] == 0) {
       LogErrorMsg("Sender has no tokens to withdraw!");
       return false;
@@ -153,7 +155,7 @@ library TestCrowdsaleLib {
 
     var total = self.withdrawTokensMap[msg.sender];
     self.withdrawTokensMap[msg.sender] = 0;
-    bool ok = self.token.transfer(msg.sender, total);
+    ok = self.token.transfer(msg.sender, total);
     require(ok);
     LogTokensWithdrawn(msg.sender, total);
     return true;
@@ -241,6 +243,7 @@ library TestCrowdsaleLib {
     require(!err);
 
     self.withdrawTokensMap[msg.sender] = self.token.balanceOf(this);
+    self.tokensSet = true;
 
     self.exchangeRate = _exchangeRate;
     self.capAmount = (_capAmountInCents/_exchangeRate) + 1;

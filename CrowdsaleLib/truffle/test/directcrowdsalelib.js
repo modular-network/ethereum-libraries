@@ -293,14 +293,14 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
     }).then(function(ret) {
       return c.getLeftoverWei.call(accounts[0]);
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),4694835680751173, "should show that accounts0 has 4694835680751173 leftover wei");
+      assert.equal(ret.valueOf(),0, "should show that accounts0 has 0 leftover wei");
       //assert.equal(ret.logs[0].args.Msg, 'Sender has no extra wei to withdraw!', "should give message that the sender cannot withdraw any wei");
       return c.getContribution.call(accounts[0], {from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),39995305164319248827, "accounts[0] amount of wei contributed should be 39995305164319248827 wei");
+      assert.equal(ret.valueOf(),40000000000000000000, "accounts[0] amount of wei contributed should be 40000000000000000000 wei");
       return c.getTokenPurchase.call(accounts[0]);
     }).then(function(ret) {
-      assert.equal(ret.valueOf(), 8519000000000000000000, "accounts[0] tokens purchased should be 8519000000000000000151");
+      assert.equal(ret.valueOf(), 8520000000000000000000, "accounts[0] tokens purchased should be 8520000000000000000000");
       return c.receivePurchase(111,{value: 40000000000000000000, from:accounts[0]});
     }).then(function(ret) {
       return c.tokensPerEth.call();
@@ -308,25 +308,25 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.valueOf(), 194, "tokensPerEth should have been set to 194!");
       return c.getContribution.call(accounts[0], {from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),79995305164319248827, "accounts[0] amount of wei contributed should be 79991132075471698114 wei");
+      assert.equal(ret.valueOf(),80000000000000000000, "accounts[0] amount of wei contributed should be 80000000000000000000 wei");
       return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),16279000000000000000000, "accounts[0] amount of tokens purchased should be 7760000000000000000000 tokens");
+      assert.equal(ret.valueOf(),16280000000000000000000, "accounts[0] amount of tokens purchased should be 16280000000000000000000 tokens");
       return c.receivePurchase(111, {value: 40000000000000000000, from:accounts[0]});
     }).then(function(ret) {
       return c.getContribution.call(accounts[0],{from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),119995305164319248827, "accounts[0] amount of wei contributed should be 120000000000000000000 wei");
+      assert.equal(ret.valueOf(),120000000000000000000, "accounts[0] amount of wei contributed should be 120000000000000000000 wei");
       return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),24039000000000000000000, "accounts[0] amount of tokens purchased should be 23999000000000000000000 tokens");
+      assert.equal(ret.valueOf(),24040000000000000000000, "accounts[0] amount of tokens purchased should be 24040000000000000000000 tokens");
       return c.setTokenExchangeRate(30000,112, {from:accounts[5]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, 'Owner can only set the exchange rate once up to three days before the sale!', "Should give an error message that timing for setting the exchange rate is wrong.");
       return c.setTokenExchangeRate(30000,112, {from:accounts[4]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, 'Owner can only set the exchange rate!', "Should give an error message that timing for setting the exchange rate is wrong.");
-      return c.receivePurchase(1112,{value: 120000000000000000000, from: accounts[5]});
+      return c.receivePurchase(112,{value: 120000000000000000000, from: accounts[5]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, 'Owner cannot send ether to contract', "should give an error message since the owner cannot donate to its own contract");
       return c.withdrawOwnerEth(112,{from: accounts[5]});
@@ -339,10 +339,10 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
     }).then(function(ret) {
       return c.getContribution.call(accounts[3],{from:accounts[3]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),500000000000000000000, "accounts[3] amount of wei contributed should be 50000000000000000000 wei");
+      assert.equal(ret.valueOf(),500000000000000111111, "accounts[3] amount of wei contributed should be 50000000000000111111 wei");
       return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),91000000000000000000000, "accounts[3] amount of tokens purchased should be 9100000000000000000000 tokens");
+      assert.equal(ret.valueOf(),91000000000000018200000, "accounts[3] amount of tokens purchased should be 9100000000000018200000 tokens");
       return c.tokensPerEth.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(),182, "New token price should be 182 tokens per ether!");
@@ -367,13 +367,13 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
     }).then(function(ret) {
       return c.getContribution.call(accounts[4],{from:accounts[4]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),500000000000000000000, "accounts[4] amount of wei contributed should be 500000000000000000000 wei");
+      assert.equal(ret.valueOf(),500000000000000100000, "accounts[4] amount of wei contributed should be 500000000000000100000 wei");
       return c.getTokenPurchase.call(accounts[4],{from:accounts[4]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),91000000000000000000000, "accounts[4] amount of tokens purchased should be 91000000000000000000000 tokens");
+      assert.equal(ret.valueOf(),91000000000000018200000, "accounts[4] amount of tokens purchased should be 91000000000000018200000 tokens");
       return c.getLeftoverWei.call(accounts[4],{from:accounts[4]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),100000, "accounts[4] leftover wei should be 111111");
+      assert.equal(ret.valueOf(),0, "accounts[4] leftover wei should be 0");
       return c.withdrawLeftoverWei({from:accounts[4]});
     }).then(function(ret) {
       return c.getLeftoverWei.call(accounts[4],{from:accounts[4]});
@@ -409,7 +409,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.logs[0].args.Msg, "Sender has no tokens to withdraw!", "Accounts[0] alread withdrew all tokens. should be error");
       return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),91000000000000000000000, "accounts[3] amount of tokens purchased should be 9100000000000000000000 tokens");
+      assert.equal(ret.valueOf(),91000000000000018200000, "accounts[3] amount of tokens purchased should be 9100000000000018200000 tokens");
       return c.withdrawTokens(126,{from:accounts[3]});
     }).then(function(ret) {
       return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
@@ -449,7 +449,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       t = instance;
       return t.balanceOf.call(accounts[0],{from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(), 24039000000000000000000, "accounts0 token balance should be 24000000000000000000000");
+      assert.equal(ret.valueOf(), 24040000000000000000000, "accounts0 token balance should be 24040000000000000000000");
       return t.balanceOf.call(accounts[1],{from:accounts[1]});
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 0, "accounts1 token balance should be 0");
@@ -458,16 +458,16 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.valueOf(), 0, "accounts2 token balance should be 0");
       return t.balanceOf.call(accounts[3],{from:accounts[3]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(), 91000000000000000000000, "accounts3 token balance should be 9100000000000000000000");
+      assert.equal(ret.valueOf(), 91000000000000018200000, "accounts3 token balance should be 91000000000000018200000");
       return t.balanceOf.call(accounts[4],{from:accounts[4]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(), 91000000000000000000000, "accounts4 token balance should be 91000000000000000000000");
+      assert.equal(ret.valueOf(), 91000000000000018200000, "accounts4 token balance should be 91000000000000018200000");
       return t.balanceOf.call(accounts[5],{from:accounts[5]});
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 8000000000000000000000000, "accounts5 token balance should be 8000000000000000000000000");
       return t.balanceOf.call(c.contract.address);
     }).then(function(ret) {
-      assert.equal(ret.valueOf(), 11793961000000000000000000,  "crowdsale's token balance should be 11875900000000000000000000!");
+      assert.equal(ret.valueOf(), 11793959999999999963600000,  "crowdsale's token balance should be 11793959999999999963600000!");
 
       return c.withdrawTokens(128,{from:accounts[5]});
     }).then(function(ret) {
@@ -476,7 +476,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.valueOf(),0, "Owner should have withdrawn all the leftover tokens from the sale!");
       return t.balanceOf.call(accounts[5],{from:accounts[5]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(), 13896980500000000000000000, "accounts5 token balance should be 13896980000000000000000000");
+      assert.equal(ret.valueOf(), 13896979999999999981800000, "accounts5 token balance should be 13896979999999999981800000");
       return t.balanceOf.call(c.contract.address);
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 0,  "crowdsale's token balance should be 0!");
@@ -485,7 +485,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.valueOf(), 20000000000000000000000000,  "The token's initial supply was 20M");
       return t.totalSupply();
     }).then(function(ret){
-      assert.equal(ret.valueOf(), 14103019500000000000000000,  "The token's new supply is 14103019500000000000000000");
+      assert.equal(ret.valueOf(), 14103020000000000018200000,  "The token's new supply is 14103020000000000018200000");
     });
   });
   });
