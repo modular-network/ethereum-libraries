@@ -33,18 +33,18 @@ library Array128Lib {
   /// @return sum The sum of all elements, does not check for overflow
   function sumElements(uint128[] storage self) constant returns(uint128 sum) {
     uint256 term;
+    uint8 remainder;
+
     assembly {
       mstore(0x60,self_slot)
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         term := sload(add(sha3(0x60,0x20),div(i,2)))
 
-        switch mod(i,2)
-        case 1 {
-          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
+        remainder := mod(i,2)
 
+        for { let j := 0 } lt(j, mul(remainder, 4)) { j := add(j, 1) } {
+          term := div(term,4294967296)
         }
 
         term := and(0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff,term)
@@ -59,6 +59,8 @@ library Array128Lib {
   /// @return maxValue The highest value in the array
   function getMax(uint128[] storage self) constant returns(uint128 maxValue) {
     uint256 term;
+    uint8 remainder;
+
     assembly {
       mstore(0x60,self_slot)
       maxValue := 0
@@ -66,11 +68,10 @@ library Array128Lib {
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         term := sload(add(sha3(0x60,0x20),div(i,2)))
 
-        switch mod(i,2)
-        case 1 {
-          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
+        remainder := mod(i,2)
+
+        for { let j := 0 } lt(j, mul(remainder, 4)) { j := add(j, 1) } {
+          term := div(term,4294967296)
         }
 
         term := and(0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff,term)
@@ -87,17 +88,18 @@ library Array128Lib {
   /// @return minValue The highest value in the array
   function getMin(uint128[] storage self) constant returns(uint128 minValue) {
     uint256 term;
+    uint8 remainder;
+    
     assembly {
       mstore(0x60,self_slot)
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         term := sload(add(sha3(0x60,0x20),div(i,2)))
 
-        switch mod(i,2)
-        case 1 {
-          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
+        remainder := mod(i,2)
+
+        for { let j := 0 } lt(j, mul(remainder, 4)) { j := add(j, 1) } {
+          term := div(term,4294967296)
         }
 
         term := and(0x00000000000000000000000000000000ffffffffffffffffffffffffffffffff,term)
