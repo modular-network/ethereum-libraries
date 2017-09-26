@@ -33,27 +33,18 @@ library Array64Lib {
   /// @return sum The sum of all elements, does not check for overflow
   function sumElements(uint64[] storage self) constant returns(uint64 sum) {
     uint256 term;
+    uint8 remainder;
+
     assembly {
       mstore(0x60,self_slot)
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         term := sload(add(sha3(0x60,0x20),div(i,4)))
 
-        switch mod(i,4)
-        case 1 {
-          for { let j := 0 } lt(j, 2) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 2 {
-          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 3 {
-          for { let j := 0 } lt(j, 6) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
+        remainder := mod(i,4)
+
+        for { let j := 0 } lt(j, mul(remainder, 2)) { j := add(j, 1) } {
+          term := div(term,4294967296)
         }
 
         term := and(0x000000000000000000000000000000000000000000000000ffffffffffffffff,term)
@@ -68,6 +59,8 @@ library Array64Lib {
   /// @return maxValue The highest value in the array
   function getMax(uint64[] storage self) constant returns(uint64 maxValue) {
     uint256 term;
+    uint8 remainder;
+
     assembly {
       mstore(0x60,self_slot)
       maxValue := 0
@@ -75,21 +68,10 @@ library Array64Lib {
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         term := sload(add(sha3(0x60,0x20),div(i,4)))
 
-        switch mod(i,4)
-        case 1 {
-          for { let j := 0 } lt(j, 2) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 2 {
-          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 3 {
-          for { let j := 0 } lt(j, 6) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
+        remainder := mod(i,4)
+
+        for { let j := 0 } lt(j, mul(remainder, 2)) { j := add(j, 1) } {
+          term := div(term,4294967296)
         }
 
         term := and(0x000000000000000000000000000000000000000000000000ffffffffffffffff,term)
@@ -106,27 +88,18 @@ library Array64Lib {
   /// @return minValue The highest value in the array
   function getMin(uint64[] storage self) constant returns(uint64 minValue) {
     uint256 term;
+    uint8 remainder;
+
     assembly {
       mstore(0x60,self_slot)
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         term := sload(add(sha3(0x60,0x20),div(i,4)))
 
-        switch mod(i,4)
-        case 1 {
-          for { let j := 0 } lt(j, 2) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 2 {
-          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 3 {
-          for { let j := 0 } lt(j, 6) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
+        remainder := mod(i,4)
+
+        for { let j := 0 } lt(j, mul(remainder, 2)) { j := add(j, 1) } {
+          term := div(term,4294967296)
         }
 
         term := and(0x000000000000000000000000000000000000000000000000ffffffffffffffff,term)
