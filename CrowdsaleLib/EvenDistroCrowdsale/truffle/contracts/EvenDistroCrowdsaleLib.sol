@@ -96,6 +96,7 @@ library EvenDistroCrowdsaleLib {
                 uint256 _changeInterval,
                 uint8 _percentBurn,
                 uint256 _capPercentMultiplier,
+                uint256 _fallbackAddressCap,
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
@@ -108,11 +109,17 @@ library EvenDistroCrowdsaleLib {
                 _token);
 
 
-    require(_capPercentMultiplier > 0);
+    if(_changeInterval == 0) {
+      require(_capPercentMultiplier == 0);
+    } else {
+      require(_capPercentMultiplier > 0);
+    }
+    require(_fallbackAddressCap > 0);
     require(_capPercentMultiplier < 10000);
     self.capPercentMultiplier = _capPercentMultiplier;
   	self.changeInterval = _changeInterval;
   	self.lastCapChangeTime = _startTime;
+    self.addressCap = _fallbackAddressCap;
   }
 
   /// @dev register user function. can only be called by the owner when a user registers on the web app.
@@ -162,7 +169,7 @@ library EvenDistroCrowdsaleLib {
   function calculateAddressCap(EvenDistroCrowdsaleStorage storage self) internal returns (bool) {
     require(self.numRegistered > 0);
     require((now < self.base.startTime) && (now > self.base.startTime - 3));
-    require(self.addressCap == 0);
+    require(!self.base.rateSet);  // makes sure this can only be called once
 
     uint256 result;
     bool err;

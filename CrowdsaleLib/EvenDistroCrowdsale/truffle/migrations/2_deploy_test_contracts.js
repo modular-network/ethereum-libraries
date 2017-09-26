@@ -37,7 +37,7 @@ module.exports = function(deployer, network, accounts) {
     deployer.link(TestEvenDistroCrowdsaleLib, TimeEvenDistroCrowdsaleTestContract);
     deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]}).then(function() {
       // right now it is configured to use accounts[5] as the owner and for the token price to increase periodically by 50 cents
- 	    return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 100, 1700000000, 105, 125, 141, 29000, 250, 5, 50, CrowdsaleToken.address,{from:accounts[5]});
+ 	    return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 1700000000, 105, 125, 141, 29000, 250, 100000000000000000000, 5, 50, CrowdsaleToken.address,{from:accounts[5]});
     });
   }
 };

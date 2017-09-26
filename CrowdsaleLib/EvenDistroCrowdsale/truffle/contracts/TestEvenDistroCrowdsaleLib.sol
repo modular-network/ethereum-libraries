@@ -97,7 +97,6 @@ library TestEvenDistroCrowdsaleLib {
   /// @param _token Token being sold
   function init(EvenDistroCrowdsaleStorage storage self,
                 address _owner,
-                uint256 _currtime,
                 uint256 _capAmountInCents,
                 uint256 _startTime,
                 uint256 _endTime,
@@ -106,10 +105,10 @@ library TestEvenDistroCrowdsaleLib {
                 uint256 _changeInterval,
                 uint8 _percentBurn,
                 uint256 _capPercentMultiplier,
+                uint256 _fallbackAddressCap,
                 CrowdsaleToken _token)
   {
     self.base.init(_owner,
-                _currtime,
                 _tokenPriceinCents,
                 _fallbackExchangeRate,
                 _capAmountInCents,
@@ -119,11 +118,17 @@ library TestEvenDistroCrowdsaleLib {
                 _token);
 
 
-    require(_capPercentMultiplier > 0);
+    if(_changeInterval == 0) {
+      require(_capPercentMultiplier == 0);
+    } else {
+      require(_capPercentMultiplier > 0);
+    }
+    require(_fallbackAddressCap > 0);
     require(_capPercentMultiplier < 10000);
     self.capPercentMultiplier = _capPercentMultiplier;
     self.changeInterval = _changeInterval;
     self.lastCapChangeTime = _startTime;
+    self.addressCap = _fallbackAddressCap;
   }
 
   /// @dev register user function. can only be called by the owner when a user registers on the web app.
@@ -191,8 +196,7 @@ library TestEvenDistroCrowdsaleLib {
     if ((currtime > self.base.startTime) || (currtime < (self.base.startTime - 3))) {
       return false;
     }
-    if(self.addressCap != 0) { return false; }
-    //require((currtime < self.base.startTime) && (currtime > (self.base.startTime - 3)));
+    if(self.base.rateSet) { return false; }  //make's sure this can only be called once
 
     uint256 result;
     bool err;

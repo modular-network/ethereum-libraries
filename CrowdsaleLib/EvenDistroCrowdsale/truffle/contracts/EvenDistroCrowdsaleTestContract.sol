@@ -22,11 +22,12 @@ contract EvenDistroCrowdsaleTestContract {
                 uint256 tokenPriceinCents,
                 uint256 fallbackExchangeRate,
                 uint256 capPercentMultiplier,
+                uint256 fallbackAddressCap,
                 uint256 changeInterval,
                 uint8 percentBurn,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, capAmountInCents, startTime, endTime, tokenPriceinCents, fallbackExchangeRate, changeInterval, percentBurn, capPercentMultiplier, token);
+  	sale.init(owner, capAmountInCents, startTime, endTime, tokenPriceinCents, fallbackExchangeRate, changeInterval, percentBurn, capPercentMultiplier, fallbackAddressCap, token);
   }
 
   // fallback function can be used to buy tokens
