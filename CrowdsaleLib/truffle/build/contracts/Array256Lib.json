@@ -105,21 +105,21 @@
       "events": {},
       "links": {},
       "address": "0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247",
-      "updated_at": 1502341279152
+      "updated_at": 1506179814760
     },
     "3": {
       "links": {},
       "events": {},
       "address": "0x7424a30199a76d085277c58e38b5b5375fb9bff8",
-      "updated_at": 1506058833284
+      "updated_at": 1506109680306
     },
     "4": {
       "events": {},
       "links": {},
       "address": "0xbc3216a0a455a66acdfb5bb3394499ce91f922a0",
-      "updated_at": 1506056682039
+      "updated_at": 1506108731767
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1506058833284
+  "updated_at": 1506179814760
 }
