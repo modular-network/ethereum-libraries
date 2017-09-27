@@ -33,47 +33,18 @@ library Array32Lib {
   /// @return sum The sum of all elements, does not check for overflow
   function sumElements(uint32[] storage self) constant returns(uint32 sum) {
     uint256 term;
+    uint8 remainder;
+
     assembly {
       mstore(0x60,self_slot)
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         term := sload(add(sha3(0x60,0x20),div(i,8)))
 
-        switch mod(i,8)
-        case 1 {
-          for { let j := 0 } lt(j, 1) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 2 {
-          for { let j := 0 } lt(j, 2) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 3 {
-          for { let j := 0 } lt(j, 3) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 4 {
-          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 5 {
-          for { let j := 0 } lt(j, 5) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 6 {
-          for { let j := 0 } lt(j, 6) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 7 {
-          for { let j := 0 } lt(j, 7) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
+        remainder := mod(i,8)
+
+        for { let j := 0 } lt(j, remainder) { j := add(j, 1) } {
+          term := div(term,4294967296)
         }
 
         term := and(0x00000000000000000000000000000000000000000000000000000000ffffffff,term)
@@ -88,6 +59,8 @@ library Array32Lib {
   /// @return maxValue The highest value in the array
   function getMax(uint32[] storage self) constant returns(uint32 maxValue) {
     uint256 term;
+    uint8 remainder;
+
     assembly {
       mstore(0x60,self_slot)
       maxValue := 0
@@ -95,41 +68,10 @@ library Array32Lib {
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         term := sload(add(sha3(0x60,0x20),div(i,8)))
 
-        switch mod(i,8)
-        case 1 {
-          for { let j := 0 } lt(j, 1) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 2 {
-          for { let j := 0 } lt(j, 2) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 3 {
-          for { let j := 0 } lt(j, 3) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 4 {
-          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 5 {
-          for { let j := 0 } lt(j, 5) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 6 {
-          for { let j := 0 } lt(j, 6) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 7 {
-          for { let j := 0 } lt(j, 7) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
+        remainder := mod(i,8)
+
+        for { let j := 0 } lt(j, remainder) { j := add(j, 1) } {
+          term := div(term,4294967296)
         }
 
         term := and(0x00000000000000000000000000000000000000000000000000000000ffffffff,term)
@@ -146,47 +88,18 @@ library Array32Lib {
   /// @return minValue The highest value in the array
   function getMin(uint32[] storage self) constant returns(uint32 minValue) {
     uint256 term;
+    uint8 remainder;
+
     assembly {
       mstore(0x60,self_slot)
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
         term := sload(add(sha3(0x60,0x20),div(i,8)))
 
-        switch mod(i,8)
-        case 1 {
-          for { let j := 0 } lt(j, 1) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 2 {
-          for { let j := 0 } lt(j, 2) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 3 {
-          for { let j := 0 } lt(j, 3) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 4 {
-          for { let j := 0 } lt(j, 4) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 5 {
-          for { let j := 0 } lt(j, 5) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 6 {
-          for { let j := 0 } lt(j, 6) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
-        }
-        case 7 {
-          for { let j := 0 } lt(j, 7) { j := add(j, 1) } {
-            term := div(term,4294967296)
-          }
+        remainder := mod(i,8)
+
+        for { let j := 0 } lt(j, remainder) { j := add(j, 1) } {
+          term := div(term,4294967296)
         }
 
         term := and(0x00000000000000000000000000000000000000000000000000000000ffffffff,term)

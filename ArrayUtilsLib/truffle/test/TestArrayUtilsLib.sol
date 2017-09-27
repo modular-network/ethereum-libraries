@@ -99,7 +99,7 @@ contract TestArrayUtilsLib{
 
 
 
-    /*for (uint128 i = 0; i < 4; i++) {
+    for (uint128 i = 0; i < 4; i++) {
       expected = i;
       (bResult, result) = instance.getSortedIndexOf128(i);
 
@@ -107,7 +107,7 @@ contract TestArrayUtilsLib{
       Assert.equal(result,expected,"The indexOf128 function should return the index 4 of the given value");
     }
 
-    expected = 4;
+    /*expected = 4;
     (bResult, result) = instance.getSortedIndexOf64(4);
 
     Assert.isTrue(bResult,"The indexOf64 function should return true if array contains value");
@@ -173,7 +173,7 @@ contract TestArrayUtilsLib{
     r1 = instance.getHeapSort256();
     resultArray = r1;
     Assert.equal(resultArray, expectedArray, "heapSort");
-  
+
     uint64[10] memory r2;
     r2 = instance.getHeapSort64();
     resultArray = r2;
