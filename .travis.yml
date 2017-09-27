@@ -9,6 +9,7 @@ env:
   - TEST_DIR=TokenLib/truffle
   - TEST_DIR=StringUtilsLib/truffle
   - TEST_DIR=WalletLib/truffle
+  - TEST_DIR=CrowdsaleLib/truffle
 
 script:
   - 'cd $TEST_DIR && npm install'
