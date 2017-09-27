@@ -1,7 +1,7 @@
 pragma solidity ^0.4.13;
 
 /**
- * @title Array64 Library
+ * @title Array256 Library
  * @author Majoolr.io
  *
  * version 1.0.0
@@ -9,8 +9,8 @@ pragma solidity ^0.4.13;
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
  *
- * The Array64 Library provides a few utility functions to work with
- * storage uint64[] types in place. Majoolr works on open source projects in
+ * The Array256 Library provides a few utility functions to work with
+ * storage uint256[] types in place. Majoolr works on open source projects in
  * the Ethereum community with the purpose of testing, documenting, and deploying
  * reusable code onto the blockchain to improve security and usability of smart
  * contracts. Majoolr also strives to educate non-profits, schools, and other
@@ -26,30 +26,17 @@ pragma solidity ^0.4.13;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-library Array64Lib {
+library Array256Lib {
 
   /// @dev Sum vector
   /// @param self Storage array containing uint256 type variables
   /// @return sum The sum of all elements, does not check for overflow
-  function sumElements(uint64[] storage self) constant returns(uint64 sum) {
-    uint256 term;
-    uint8 remainder;
-
+  function sumElements(uint256[] storage self) constant returns(uint256 sum) {
     assembly {
       mstore(0x60,self_slot)
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
-        term := sload(add(sha3(0x60,0x20),div(i,4)))
-
-        remainder := mod(i,4)
-
-        for { let j := 0 } lt(j, mul(remainder, 2)) { j := add(j, 1) } {
-          term := div(term,4294967296)
-        }
-
-        term := and(0x000000000000000000000000000000000000000000000000ffffffffffffffff,term)
-        sum := add(term,sum)
-
+        sum := add(sload(add(sha3(0x60,0x20),i)),sum)
       }
     }
   }
@@ -57,27 +44,15 @@ library Array64Lib {
   /// @dev Returns the max value in an array.
   /// @param self Storage array containing uint256 type variables
   /// @return maxValue The highest value in the array
-  function getMax(uint64[] storage self) constant returns(uint64 maxValue) {
-    uint256 term;
-    uint8 remainder;
-
+  function getMax(uint256[] storage self) constant returns(uint256 maxValue) {
     assembly {
       mstore(0x60,self_slot)
-      maxValue := 0
+      maxValue := sload(sha3(0x60,0x20))
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
-        term := sload(add(sha3(0x60,0x20),div(i,4)))
-
-        remainder := mod(i,4)
-
-        for { let j := 0 } lt(j, mul(remainder, 2)) { j := add(j, 1) } {
-          term := div(term,4294967296)
-        }
-
-        term := and(0x000000000000000000000000000000000000000000000000ffffffffffffffff,term)
-        switch lt(maxValue, term)
+        switch gt(sload(add(sha3(0x60,0x20),i)), maxValue)
         case 1 {
-          maxValue := term
+          maxValue := sload(add(sha3(0x60,0x20),i))
         }
       }
     }
@@ -86,31 +61,15 @@ library Array64Lib {
   /// @dev Returns the minimum value in an array.
   /// @param self Storage array containing uint256 type variables
   /// @return minValue The highest value in the array
-  function getMin(uint64[] storage self) constant returns(uint64 minValue) {
-    uint256 term;
-    uint8 remainder;
-
+  function getMin(uint256[] storage self) constant returns(uint256 minValue) {
     assembly {
       mstore(0x60,self_slot)
+      minValue := sload(sha3(0x60,0x20))
 
       for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
-        term := sload(add(sha3(0x60,0x20),div(i,4)))
-
-        remainder := mod(i,4)
-
-        for { let j := 0 } lt(j, mul(remainder, 2)) { j := add(j, 1) } {
-          term := div(term,4294967296)
-        }
-
-        term := and(0x000000000000000000000000000000000000000000000000ffffffffffffffff,term)
-
-        switch eq(i,0)
-        case 1 {
-          minValue := term
-        }
-        switch gt(minValue, term)
-        case 1 {
-          minValue := term
+        switch gt(sload(add(sha3(0x60,0x20),i)), minValue)
+        case 0 {
+          minValue := sload(add(sha3(0x60,0x20),i))
         }
       }
     }
@@ -122,30 +81,43 @@ library Array64Lib {
   /// @param isSorted True if the array is sorted, false otherwise
   /// @return found True if the value was found, false otherwise
   /// @return index The index of the given value, returns 0 if found is false
-  function indexOf(uint64[] storage self, uint64 value, bool isSorted) constant
+  function indexOf(uint256[] storage self, uint256 value, bool isSorted) constant
            returns(bool found, uint256 index) {
-    if (isSorted) {
-        uint256 high = self.length - 1;
-        uint256 mid = 0;
-        uint256 low = 0;
-        while (low <= high) {
-          mid = (low+high)/2;
-          if (self[mid] == value) {
-            found = true;
-            index = mid;
-            low = high + 1;
-          } else if (self[mid] < value) {
-            low = mid + 1;
-          } else {
-            high = mid - 1;
+    assembly{
+      mstore(0x60,self_slot)
+      switch isSorted
+      case 1 {
+        let high := sub(sload(self_slot),1)
+        let mid := 0
+        let low := 0
+        for { } iszero(gt(low, high)) { } {
+          mid := div(add(low,high),2)
+
+          switch lt(sload(add(sha3(0x60,0x20),mid)),value)
+          case 1 {
+             low := add(mid,1)
+          }
+          case 0 {
+            switch gt(sload(add(sha3(0x60,0x20),mid)),value)
+            case 1 {
+              high := sub(mid,1)
+            }
+            case 0 {
+              found := 1
+              index := mid
+              low := add(high,1)
+            }
           }
         }
-    } else {
-      for (uint256 i = 0; i<self.length; i++) {
-        if (self[i] == value) {
-          found = true;
-          index = i;
-          i = self.length;
+      }
+      case 0 {
+        for { let low := 0 } lt(low, sload(self_slot)) { low := add(low, 1) } {
+          switch eq(sload(add(sha3(0x60,0x20),low)), value)
+          case 1 {
+            found := 1
+            index := low
+            low := sload(self_slot)
+          }
         }
       }
     }
@@ -169,14 +141,14 @@ library Array64Lib {
 
   /// @dev Sorts given array in place
   /// @param self Storage array containing uint256 type variables
-  function heapSort(uint64[] storage self) {
+  function heapSort(uint256[] storage self) {
     uint256 end = self.length - 1;
     uint256 start = getParentI(end);
     uint256 root = start;
     uint256 lChild;
     uint256 rChild;
     uint256 swap;
-    uint64 temp;
+    uint256 temp;
     while(start >= 0){
       root = start;
       lChild = getLeftChildI(start);
