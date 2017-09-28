@@ -55,7 +55,7 @@ library TestEvenDistroCrowdsaleLib {
     mapping (address => bool) isRegistered;
 
     uint256 numRegistered;   // records how many addresses have registered
-    uint256 addressCap;           // cap on how much we an address can contribute in the sale
+    uint256 addressCap;           // cap on how much wei an address can contribute in the sale
     uint256 capPercentMultiplier;  // percent of the address cap that we multiply to increase every time interval
 
     uint256 changeInterval;      // amount of time between changes in the purchase cap for each address
@@ -134,10 +134,11 @@ library TestEvenDistroCrowdsaleLib {
   /// @dev register user function. can only be called by the owner when a user registers on the web app.
   /// puts their address in the registered mapping and increments the numRegistered
   /// @param self Stored crowdsale from crowdsale contract
+  /// @param _registrant address to register for the sale
   function registerUser(EvenDistroCrowdsaleStorage storage self, address _registrant, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if (currtime > self.base.startTime - 3) {
-      LogErrorMsg(self.base.startTime-3, "Cannot register users within 3 days of the sale!");
+    if ((self.changeInterval > 0) && (currtime >= self.base.startTime - 1)) {
+      LogErrorMsg(self.base.startTime-1, "Cannot register users within 1 days of the sale!");
       return false;
     }
     //require(currtime < self.base.startTime - 3);
@@ -160,13 +161,27 @@ library TestEvenDistroCrowdsaleLib {
     return true;
   }
 
+  /// @dev registers multiple users at the same time
+  /// @param self Stored crowdsale from crowdsale contract
+  /// @param _registrants addresses to register for the sale
+  function registerUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants, uint256 currtime) returns (bool) {
+    require(msg.sender == self.base.owner);
+    if (self.changeInterval > 0) { require(currtime < self.base.startTime - 1); }
+    bool ok;
+
+    for (uint256 i = 0; i < _registrants.length; i++) {
+      ok = registerUser(self,_registrants[i],currtime);
+    }
+  }
+
   /// @dev Cancels a user's registration status can only be called by the owner when a user cancels their registration.
   /// sets their address field in the registered mapping to false and decrements the numRegistered
   /// @param self Stored crowdsale from crowdsale contract
+  /// @param _registrant address to unregister from the sale
   function unregisterUser(EvenDistroCrowdsaleStorage storage self, address _registrant, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if (currtime > self.base.startTime - 3) {
-      LogErrorMsg(self.base.startTime-3, "Cannot unregister users within 3 days of the sale!");
+    if ((self.changeInterval > 0) && (currtime >= self.base.startTime - 1)) {
+      LogErrorMsg(self.base.startTime-1, "Cannot unregister users within 1 days of the sale!");
       return false;
     }
     //require(currtime < self.base.startTime - 3);
@@ -189,11 +204,25 @@ library TestEvenDistroCrowdsaleLib {
     return true;
   }
 
+  /// @dev unregisters multiple users at the same time
+  /// @param self Stored crowdsale from crowdsale contract
+  /// @param _registrants addresses to unregister for the sale
+  function unregisterUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants, uint256 currtime) returns (bool) {
+    require(msg.sender == self.base.owner);
+    if (self.changeInterval > 0) { require(currtime < self.base.startTime - 1); }
+
+    bool ok;
+
+    for (uint256 i = 0; i < _registrants.length; i++) {
+      ok = unregisterUser(self,_registrants[i],currtime);
+    }
+  }
+
   /// @dev function that calculates address cap from the number of users registered 
   /// @param self Stored crowdsale from crowdsale contract
   function calculateAddressCap(EvenDistroCrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
     require(self.numRegistered > 0);
-    if ((currtime > self.base.startTime) || (currtime < (self.base.startTime - 3))) {
+    if ((currtime > self.base.startTime) || (currtime < (self.base.startTime - 1)) || (self.changeInterval == 0))  {
       return false;
     }
     if(self.base.rateSet) { return false; }  //make's sure this can only be called once

@@ -46,8 +46,16 @@ contract TimeEvenDistroCrowdsaleTestContract {
     return sale.registerUser(_registrant, _currtime);
   }
 
+  function registerUsers(address[] _registrants, uint256 _currtime) returns (bool) {
+    return sale.registerUsers(_registrants, _currtime);
+  }
+
   function unregisterUser(address _registrant, uint256 _currtime) returns (bool) {
     return sale.unregisterUser(_registrant, _currtime);
+  }
+
+  function unregisterUsers(address[] _registrants, uint256 _currtime) returns (bool) {
+    return sale.unregisterUsers(_registrants, _currtime);
   }
 
   function isRegistered(address _registrant) constant returns (bool) {

@@ -1,0 +1,504 @@
+{
+  "contract_name": "TimeEvenDistroCrowdsaleTestContract",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "crowdsaleEnded",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "percentBurn",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_buyer",
+          "type": "address"
+        }
+      ],
+      "name": "getContribution",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "addressCap",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "capPercentMultiplier",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "endTime",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "exchangeRate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_buyer",
+          "type": "address"
+        }
+      ],
+      "name": "getLeftoverWei",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "startTime",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawOwnerEth",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdrawLeftoverWei",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_registrants",
+          "type": "address[]"
+        },
+        {
+          "name": "_currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "registerUsers",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_registrant",
+          "type": "address"
+        },
+        {
+          "name": "_currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "unregisterUser",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "ownerBalance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_exchangeRate",
+          "type": "uint256"
+        },
+        {
+          "name": "_currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "setTokenExchangeRate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_registrant",
+          "type": "address"
+        }
+      ],
+      "name": "isRegistered",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "numRegistered",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "tokensPerEth",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "changeInterval",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "crowdsaleActive",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "capAmount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_registrants",
+          "type": "address[]"
+        },
+        {
+          "name": "_currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "unregisterUsers",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_buyer",
+          "type": "address"
+        }
+      ],
+      "name": "getTokenPurchase",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_registrant",
+          "type": "address"
+        },
+        {
+          "name": "_currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "registerUser",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "currtime",
+          "type": "uint256"
+        }
+      ],
+      "name": "receivePurchase",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": true,
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "name": "capAmountInCents",
+          "type": "uint256"
+        },
+        {
+          "name": "startTime",
+          "type": "uint256"
+        },
+        {
+          "name": "endTime",
+          "type": "uint256"
+        },
+        {
+          "name": "tokenPriceinCents",
+          "type": "uint256"
+        },
+        {
+          "name": "fallbackExchangeRate",
+          "type": "uint256"
+        },
+        {
+          "name": "capPercentMultiplier",
+          "type": "uint256"
+        },
+        {
+          "name": "fallbackAddressCap",
+          "type": "uint256"
+        },
+        {
+          "name": "changeInterval",
+          "type": "uint256"
+        },
+        {
+          "name": "percentBurn",
+          "type": "uint8"
+        },
+        {
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "payable": true,
+      "type": "fallback"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b60405161016080610ef183398101604052808051919060200180519190602001805191906020018051919060200180519190602001805191906020018051919060200180519190602001805191906020018051919060200180519150505b73__TestEvenDistroCrowdsaleLib____________631b6f841060008d8d8d8d8d8d8b8b8f8f8d6040517c010000000000000000000000000000000000000000000000000000000063ffffffff8f16028152600481019c909c52600160a060020a039a8b1660248d015260448c019990995260648b019790975260848a019590955260a489019390935260c488019190915260e487015260ff16610104860152610124850152610144840152166101648201526101840160006040518083038186803b151561013b57600080fd5b6102c65a03f4151561014c57600080fd5b5050505b50505050505050505050505b610d868061016b6000396000f300606060405236156101435763ffffffff60e060020a6000350416631052f0f581146101475780631dade7821461017157806321eff7fc146101965780632a72743d146101c75780632cadf402146101ec578063315a095d146102115780633197cbb61461023b5780633ba0b9a914610260578063413100e01461028557806378e97925146102b65780638da5cb5b146102db5780639c700b701461030a5780639fac6ddc14610334578063b0bf40161461035b578063b46e27c5146103c0578063bedcf003146103f6578063c36d9e831461041b578063c3c5a54714610448578063c96e56271461047b578063cbdd69b5146104a0578063e20acc79146104c5578063e4051779146104ea578063e93f57b914610514578063eab83e2a14610539578063f59ae82c1461059e578063fa0b5e55146105cf578063fca495f014610605575b5b5b005b341561015257600080fd5b61015d600435610624565b604051901515815260200160405180910390f35b341561017c57600080fd5b6101846106a5565b60405190815260200160405180910390f35b34156101a157600080fd5b610184600160a060020a03600435166106b4565b60405190815260200160405180910390f35b34156101d257600080fd5b6101846106d3565b60405190815260200160405180910390f35b34156101f757600080fd5b6101846106da565b60405190815260200160405180910390f35b341561021c57600080fd5b61015d6004356106e1565b604051901515815260200160405180910390f35b341561024657600080fd5b610184610762565b60405190815260200160405180910390f35b341561026b57600080fd5b610184610769565b60405190815260200160405180910390f35b341561029057600080fd5b610184600160a060020a0360043516610770565b60405190815260200160405180910390f35b34156102c157600080fd5b61018461078f565b60405190815260200160405180910390f35b34156102e657600080fd5b6102ee610796565b604051600160a060020a03909116815260200160405180910390f35b341561031557600080fd5b61015d6004356107a6565b604051901515815260200160405180910390f35b341561033f57600080fd5b61015d610827565b604051901515815260200160405180910390f35b341561036657600080fd5b61015d600460248135818101908301358060208181020160405190810160405280939291908181526020018383602002808284375094965050933593506108a092505050565b604051901515815260200160405180910390f35b34156103cb57600080fd5b61015d600160a060020a036004351660243561096d565b604051901515815260200160405180910390f35b341561040157600080fd5b610184610a00565b60405190815260200160405180910390f35b341561042657600080fd5b61015d600435602435610a07565b604051901515815260200160405180910390f35b341561045357600080fd5b61015d600160a060020a0360043516610a92565b604051901515815260200160405180910390f35b341561048657600080fd5b610184610ab4565b60405190815260200160405180910390f35b34156104ab57600080fd5b610184610abb565b60405190815260200160405180910390f35b34156104d057600080fd5b610184610ac2565b60405190815260200160405180910390f35b34156104f557600080fd5b61015d600435610ac9565b604051901515815260200160405180910390f35b341561051f57600080fd5b610184610b4a565b60405190815260200160405180910390f35b341561054457600080fd5b61015d60046024813581810190830135806020818102016040519081016040528093929190818152602001838360200280828437509496505093359350610b5192505050565b604051901515815260200160405180910390f35b34156105a957600080fd5b610184600160a060020a0360043516610c1e565b60405190815260200160405180910390f35b34156105da57600080fd5b61015d600160a060020a0360043516602435610c3d565b604051901515815260200160405180910390f35b61015d600435610cd0565b604051901515815260200160405180910390f35b600073__TestEvenDistroCrowdsaleLib____________63938e02808284816040516020015260405160e060020a63ffffffff85160281526004810192909252602482015260440160206040518083038186803b151561068357600080fd5b6102c65a03f4151561069457600080fd5b50505060405180519150505b919050565b600754610100900460ff165b90565b600160a060020a0381166000908152600860205260409020545b919050565b600e545b90565b600f545b90565b600073__TestEvenDistroCrowdsaleLib____________63c6818c658284816040516020015260405160e060020a63ffffffff85160281526004810192909252602482015260440160206040518083038186803b151561068357600080fd5b6102c65a03f4151561069457600080fd5b50505060405180519150505b919050565b6004545b90565b6005545b90565b600160a060020a0381166000908152600a60205260409020545b919050565b6003545b90565b600054600160a060020a03165b90565b600073__TestEvenDistroCrowdsaleLib____________63b906ffab8284816040516020015260405160e060020a63ffffffff85160281526004810192909252602482015260440160206040518083038186803b151561068357600080fd5b6102c65a03f4151561069457600080fd5b50505060405180519150505b919050565b600073__TestEvenDistroCrowdsaleLib____________636e04356582806040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b151561088057600080fd5b6102c65a03f4151561089157600080fd5b50505060405180519150505b90565b600073__TestEvenDistroCrowdsaleLib____________63d57de86782858582604051602001526040518463ffffffff1660e060020a0281526004018084815260200180602001838152602001828103825284818151815260200191508051906020019060200280838360005b838110156109265780820151818401525b60200161090d565b5050505090500194505050505060206040518083038186803b151561094a57600080fd5b6102c65a03f4151561095b57600080fd5b50505060405180519150505b92915050565b600073__TestEvenDistroCrowdsaleLib____________63e2bd4a83828585826040516020015260405160e060020a63ffffffff86160281526004810193909352600160a060020a039091166024830152604482015260640160206040518083038186803b151561094a57600080fd5b6102c65a03f4151561095b57600080fd5b50505060405180519150505b92915050565b6006545b90565b600073__TestEvenDistroCrowdsaleLib____________636dfcf292828585826040516020015260405160e060020a63ffffffff861602815260048101939093526024830191909152604482015260640160206040518083038186803b151561094a57600080fd5b6102c65a03f4151561095b57600080fd5b50505060405180519150505b92915050565b600160a060020a0381166000908152600c602052604090205460ff165b919050565b600d545b90565b6001545b90565b6010545b90565b600073__TestEvenDistroCrowdsaleLib____________639e6151e28284816040516020015260405160e060020a63ffffffff85160281526004810192909252602482015260440160206040518083038186803b151561068357600080fd5b6102c65a03f4151561069457600080fd5b50505060405180519150505b919050565b6002545b90565b600073__TestEvenDistroCrowdsaleLib____________630d60ee0382858582604051602001526040518463ffffffff1660e060020a0281526004018084815260200180602001838152602001828103825284818151815260200191508051906020019060200280838360005b838110156109265780820151818401525b60200161090d565b5050505090500194505050505060206040518083038186803b151561094a57600080fd5b6102c65a03f4151561095b57600080fd5b50505060405180519150505b92915050565b600160a060020a0381166000908152600960205260409020545b919050565b600073__TestEvenDistroCrowdsaleLib____________63bcb718a4828585826040516020015260405160e060020a63ffffffff86160281526004810193909352600160a060020a039091166024830152604482015260640160206040518083038186803b151561094a57600080fd5b6102c65a03f4151561095b57600080fd5b50505060405180519150505b92915050565b600073__TestEvenDistroCrowdsaleLib____________638f3d0bde823485826040516020015260405160e060020a63ffffffff861602815260048101939093526024830191909152604482015260640160206040518083038186803b151561068357600080fd5b6102c65a03f4151561069457600080fd5b50505060405180519150505b9190505600a165627a7a72305820d424d921fad51002475b7b497a45bcd574c2fac48752d690b59c992bf4085c930029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1506612389032
+}

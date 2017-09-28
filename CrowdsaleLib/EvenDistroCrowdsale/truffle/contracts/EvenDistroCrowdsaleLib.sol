@@ -46,10 +46,10 @@ library EvenDistroCrowdsaleLib {
     mapping (address => bool) isRegistered;
 
     uint256 numRegistered;   // records how many addresses have registered
-    uint256 addressCap;           // cap on how much we an address can contribute in the sale
-    uint256 capPercentMultiplier;  // percent of the address cap that we multiply to increase every time interval
+    uint256 addressCap;           // cap on how much wei an address can contribute in the sale
+    uint256 capPercentMultiplier;  // percent of the address cap that we multiply to increase every time interval. 0 if there is a static cap
 
-  	uint256 changeInterval;      // amount of time between changes in the purchase cap for each address
+  	uint256 changeInterval;      // amount of time between changes in the purchase cap for each address. 0 if there is a static cap
   	uint256 lastCapChangeTime;  // time of the last change in token cost
   }
 
@@ -67,7 +67,7 @@ library EvenDistroCrowdsaleLib {
   event LogUserUnRegistered(address registrant);
 
   // Logs when there is an error
-  event LogErrorMsg(uint256 amount, string Msg);
+  event LogErrorMsg(string Msg);
 
   // Logs when there is an increase in the contribution cap per address
   event LogAddressCapChange(uint256 amount, string Msg);
@@ -85,6 +85,7 @@ library EvenDistroCrowdsaleLib {
   /// @param _changeInterval The number of seconds between each step
   /// @param _percentBurn Percentage of extra tokens to burn
   /// @param _capPercentMultiplier percent of the address cap that we multiply to increase every time interval
+  /// @param _fallbackAddressCap cap of wei allowed for each address to spend
   /// @param _token Token being sold
   function init(EvenDistroCrowdsaleStorage storage self,
                 address _owner,
@@ -125,10 +126,18 @@ library EvenDistroCrowdsaleLib {
   /// @dev register user function. can only be called by the owner when a user registers on the web app.
   /// puts their address in the registered mapping and increments the numRegistered
   /// @param self Stored crowdsale from crowdsale contract
+  /// @param _registrant address to be registered for the sale
   function registerUser(EvenDistroCrowdsaleStorage storage self, address _registrant) returns (bool) {
     require(msg.sender == self.base.owner);
-    require(now < self.base.startTime - 3);
-    require(!self.isRegistered[_registrant]);
+    // if the change interval is 0, then registration is allowed throughout the sale since a cap doesn't need to be calculated
+    if ((self.changeInterval > 0) && (now >= self.base.startTime - 1)) {
+      LogErrorMsg("Can only register users earlier than a day before the sale!");
+      return false;
+    }
+    if(self.isRegistered[_registrant]) { 
+      LogErrorMsg("Registrant address is already registered for the sale!");
+      return false;
+    }
 
     uint256 result;
     bool err;
@@ -143,13 +152,33 @@ library EvenDistroCrowdsaleLib {
     return true;
   }
 
+  /// @dev registers multiple users at the same time
+  /// @param self Stored crowdsale from crowdsale contract
+  /// @param _registrants addresses to register for the sale
+  function registerUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants) returns (bool) {
+    require(msg.sender == self.base.owner);
+    // if the change interval is 0, then registration is allowed throughout the sale since a cap doesn't need to be calculated
+    if (self.changeInterval > 0) { require(now < self.base.startTime - 1); }
+    bool ok;
+
+    for (uint256 i = 0; i < _registrants.length; i++) {
+      ok = registerUser(self,_registrants[i]);
+    }
+  }
+
   /// @dev Cancels a user's registration status can only be called by the owner when a user cancels their registration.
   /// sets their address field in the registered mapping to false and decrements the numRegistered
   /// @param self Stored crowdsale from crowdsale contract
   function unregisterUser(EvenDistroCrowdsaleStorage storage self, address _registrant) returns (bool) {
     require(msg.sender == self.base.owner);
-    require(now < self.base.startTime - 3);
-    require(self.isRegistered[_registrant]);
+    if ((self.changeInterval > 0) && (now >= self.base.startTime - 1)) {
+      LogErrorMsg("Can only register and unregister users earlier than a day before the sale!");
+      return false;
+    }
+    if(!self.isRegistered[_registrant]) {
+      LogErrorMsg("Registrant address not registered for the sale!");
+      return false;
+    }
 
     uint256 result;
     bool err;
@@ -164,11 +193,29 @@ library EvenDistroCrowdsaleLib {
     return true;
   }
 
+  /// @dev unregisters multiple users at the same time
+  /// @param self Stored crowdsale from crowdsale contract
+  /// @param _registrants addresses to unregister for the sale
+  function unregisterUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants) returns (bool) {
+    require(msg.sender == self.base.owner);
+    if (self.changeInterval > 0) { require(now < self.base.startTime - 1); }
+    bool ok;
+
+    for (uint256 i = 0; i < _registrants.length; i++) {
+      ok = unregisterUser(self,_registrants[i]);
+    }
+  }
+
   /// @dev function that calculates address cap from the number of users registered 
   /// @param self Stored crowdsale from crowdsale contract
   function calculateAddressCap(EvenDistroCrowdsaleStorage storage self) internal returns (bool) {
     require(self.numRegistered > 0);
-    require((now < self.base.startTime) && (now > self.base.startTime - 3));
+
+    // can only calculate the address cap during the day before the sale starts.
+    // Also, if the change interval is 0, the address cap should not be calculated because there is a static cap
+    if ((now > self.base.startTime) || (now < (self.base.startTime - 1)) || (self.changeInterval == 0))  {
+      return false;
+    }
     require(!self.base.rateSet);  // makes sure this can only be called once
 
     uint256 result;
@@ -206,14 +253,14 @@ library EvenDistroCrowdsaleLib {
 
   	// if the address cap increase interval has passed, update the current day and change the address cap
   	if ((self.changeInterval > 0) && (now >= (self.lastCapChangeTime + self.changeInterval))) {
-  		// calculate the number of change intervals that have passed since the last change
+  		// calculate the number of change intervals that have passed since the last change in cap
       uint256 numIntervals = (((now-(now%self.changeInterval))-self.lastCapChangeTime)/self.changeInterval);
       
       // multiply by the percentage multiplier for each interval that has passed  
       (err,result) = self.addressCap.times(self.capPercentMultiplier ** (numIntervals));
       require(!err);
 
-      // fix the decimal point
+      // fix the decimal point since it was a percentage
       (err,result) = result.dividedBy(100**numIntervals);
       require(!err);
       self.addressCap = result;
@@ -227,7 +274,7 @@ library EvenDistroCrowdsaleLib {
     uint256 numTokens; //number of tokens that will be purchased
     uint256 zeros; //for calculating token
     uint256 leftoverWei; //wei change for purchaser if they went over the address cap
-    uint256 remainder = 0; //temp calc holder for division remainder and then tokens remaining for the owner
+    uint256 remainder = 0; //temp calc holder for division remainder for leftover wei and then later for tokens remaining for the owner
 
     uint256 allowedWei;  // tells how much more the buyer can contribute up to their cap
     (err,allowedWei) = self.addressCap.minus(self.base.hasContributed[msg.sender]);
