@@ -34,9 +34,10 @@ contract('CrowdsaleToken', function(accounts) {
 
 This version is testing the even distribution version of the sale where 
 the cap per address is calculated after all the addresses have registered
+and no more registration is allowed
 
-**/
-/*
+**************************************************************************/
+
 contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
   it("should initialize the even crowdsale contract data", function() {
     var returnObj = {};
@@ -166,7 +167,7 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       return c.numRegistered.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(),4,"Four Users should be registered!");
-      return c.unregisterUsers([accounts[0],accounts[1],accounts[2]],103,{from:accounts[5]});
+      return c.unregisterUsers([accounts[0],accounts[1],accounts[2]],101,{from:accounts[5]});
     }).then(function(ret) {
       return c.isRegistered(accounts[1]);
     }).then(function(ret) {
@@ -174,7 +175,7 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       return c.numRegistered.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(),1,"One User should be registered!");
-      return c.registerUsers([accounts[0],accounts[1],accounts[2]],103,{from:accounts[5]});
+      return c.registerUsers([accounts[0],accounts[1],accounts[2]],101,{from:accounts[5]});
     }).then(function(ret) {
       return c.isRegistered(accounts[1]);
     }).then(function(ret) {
@@ -373,9 +374,9 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
 
 
 
-  /********************************************************
-    AFTER SALE
-  /******************************************************
+  ///********************************************************
+  //  AFTER SALE
+  //******************************************************
   it("should deny payments after the sale and allow users to withdraw their tokens/owner to withdraw ether", function() {
     var c;
 
@@ -442,9 +443,9 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 0, "Owner's ether balance in the contract should be zero!");
 
-      /******************
-      * TOKEN CONTRACT BALANCE CHECKS
-      ******************
+      //******************
+      //* TOKEN CONTRACT BALANCE CHECKS
+      //******************
       return CrowdsaleToken.deployed().then(function(instance) {
       t = instance;
       return t.balanceOf.call(accounts[0],{from:accounts[0]});
@@ -492,9 +493,16 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
   });
   });
 });
-*/
 
-contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
+
+
+/******************************************************************************
+*
+*  This version is for testing when the contract is deployed with a static address
+*  cap and allows buyer registration before and during the sale
+*
+*******************************************************************************/
+/*contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
   it("should initialize the even crowdsale contract data", function() {
     var returnObj = {};
     var c;
@@ -535,7 +543,7 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       assert.equal(returnObj.owner.valueOf(), accounts[5], "Owner should be set to the account5");
       assert.equal(returnObj.tokensPerEth.valueOf(), 206, "Tokens per ETH should be 205");
       assert.equal(returnObj.capAmount.valueOf(), 58621000000000000000000, "capAmount should be set to 56821000000000000000000 wei");
-      assert.equal(returnObj.pm.valueOf(), 0, "Address Cap percentage multiplier should be 250!");
+      assert.equal(returnObj.pm.valueOf(), 100, "Address Cap percentage multiplier should be 250!");
       assert.equal(returnObj.startTime.valueOf(),105, "start time should be 105");
       assert.equal(returnObj.endTime.valueOf(),125, "end time should be 125");
       assert.equal(returnObj.exchangeRate.valueOf(),29000, "exchangeRate should be 29000");
@@ -614,12 +622,6 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
     }).then(function(ret) {
       return c.registerUser(accounts[3],99,{from:accounts[5]});
     }).then(function(ret) {
-    //   return c.registerUser(accounts[4],104,{from:accounts[5]});
-    // }).then(function(ret) {
-    //   assert.equal(ret.logs[0].args.Msg, 'Cannot register users within 1 days of the sale!', "Should give an error that users cannot be registered close to the sale");
-    //   return c.unregisterUser(accounts[1],104,{from:accounts[5]});
-    // }).then(function(ret) {
-    //   assert.equal(ret.logs[0].args.Msg, 'Cannot unregister users within 1 days of the sale!', "Should give an error that users cannot be unregistered close to the sale");
       return c.numRegistered.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(),4,"Four Users should be registered!");
@@ -645,7 +647,6 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       return c.setTokenExchangeRate(30000,104, {from:accounts[5]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, "Owner has sent the exchange Rate and tokens bought per ETH!", "Should give success message that the exchange rate was set.");
-      //assert.equal(ret.logs[0].args.Msg, "Address cap was Calculated!", "Should give success message that the address cap was calculated");
       return c.setTokenExchangeRate(30000,101, {from:accounts[5]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, 'Owner can only set the exchange rate once up to three days before the sale!', "Should give an error message that timing for setting the exchange rate is wrong.");
@@ -762,8 +763,7 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.valueOf(),2.542475E22,"accounts0 LeftoverWei should be 2.542475E22");
       return c.getContribution.call(accounts[0], {from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),14655250000000000000000, "accounts[0] amount of wei contributed should be 14655250000000000000000 wei");
-      
+      assert.equal(ret.valueOf(),14655250000000000000000, "accounts[0] amount of wei contributed should be 14655250000000000000000 wei");     
       return c.addressCap.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(),1.465525e+22, "Address cap should not have changed!");
@@ -835,9 +835,9 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
 
 
 
-  /********************************************************
-    AFTER SALE
-  /*******************************************************/
+  //********************************************************
+  //  AFTER SALE
+  //*******************************************************
   it("should deny payments after the sale and allow users to withdraw their tokens/owner to withdraw ether", function() {
     var c;
 
@@ -898,9 +898,9 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 0, "Owner's ether balance in the contract should be zero!");
 
-      /******************
-      * TOKEN CONTRACT BALANCE CHECKS
-      *******************/
+      //******************
+      // TOKEN CONTRACT BALANCE CHECKS
+      //*******************
       return CrowdsaleToken.deployed().then(function(instance) {
       t = instance;
       return t.balanceOf.call(accounts[0],{from:accounts[0]});
@@ -947,7 +947,7 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
     });
   });
   });
-});
+});*/
 
 
 

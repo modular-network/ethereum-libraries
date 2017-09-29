@@ -42,8 +42,8 @@ module.exports = function(deployer, network, accounts) {
     // deployer.link(TestEvenDistroCrowdsaleLib, TimeEvenDistroCTCnoChangeFullRegistration);
     deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]}).then(function() {
       // configured to set the token price to $1.41, with a periodic increase in the address cap by 250%
- 	    // return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 1700000000, 105, 125, 141, 29000, 250, 100000000000000000000, 5, 50, CrowdsaleToken.address,{from:accounts[5]});
-      return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 1700000000, 105, 125, 141, 29000, 0, 1.465525e+22, 0, 50, CrowdsaleToken2.address,{from:accounts[5]});
+ 	    return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 1700000000, 105, 125, 141, 29000, 250, 100000000000000000000, 5, 50, CrowdsaleToken.address,{from:accounts[5]});
+      //return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 1700000000, 105, 125, 141, 29000, 100, 1.465525e+22, 0, 50, CrowdsaleToken.address,{from:accounts[5]});
     });
     // deployer.deploy(CrowdsaleToken2, accounts[5], "Tester Toke", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]}).then(function() {
     //   // configured to set the token price to $1.41, which a static address cap for the entire sale

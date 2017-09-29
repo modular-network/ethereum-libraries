@@ -110,10 +110,10 @@ library EvenDistroCrowdsaleLib {
                 _token);
 
 
-    if(_changeInterval == 0) {
-      require(_capPercentMultiplier == 0);
+    if(_changeInterval == 0) {   // means there should be no change in the address cap
+      require(_capPercentMultiplier == 100);  
     } else {
-      require(_capPercentMultiplier > 0);
+      require(_capPercentMultiplier > 100);  // multiplier should be 100 or greater because we don't want cap to decrease
     }
     require(_fallbackAddressCap > 0);
     require(_capPercentMultiplier < 10000);
@@ -130,7 +130,7 @@ library EvenDistroCrowdsaleLib {
   function registerUser(EvenDistroCrowdsaleStorage storage self, address _registrant) returns (bool) {
     require(msg.sender == self.base.owner);
     // if the change interval is 0, then registration is allowed throughout the sale since a cap doesn't need to be calculated
-    if ((self.changeInterval > 0) && (now >= self.base.startTime - 1)) {
+    if ((self.changeInterval > 0) && (now >= self.base.startTime - 3 days)) {
       LogErrorMsg("Can only register users earlier than a day before the sale!");
       return false;
     }
@@ -158,7 +158,7 @@ library EvenDistroCrowdsaleLib {
   function registerUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants) returns (bool) {
     require(msg.sender == self.base.owner);
     // if the change interval is 0, then registration is allowed throughout the sale since a cap doesn't need to be calculated
-    if (self.changeInterval > 0) { require(now < self.base.startTime - 1); }
+    if (self.changeInterval > 0) { require(now < self.base.startTime - 3 days); }
     bool ok;
 
     for (uint256 i = 0; i < _registrants.length; i++) {
@@ -171,7 +171,7 @@ library EvenDistroCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   function unregisterUser(EvenDistroCrowdsaleStorage storage self, address _registrant) returns (bool) {
     require(msg.sender == self.base.owner);
-    if ((self.changeInterval > 0) && (now >= self.base.startTime - 1)) {
+    if ((self.changeInterval > 0) && (now >= self.base.startTime - 3 days)) {
       LogErrorMsg("Can only register and unregister users earlier than a day before the sale!");
       return false;
     }
@@ -198,7 +198,7 @@ library EvenDistroCrowdsaleLib {
   /// @param _registrants addresses to unregister for the sale
   function unregisterUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants) returns (bool) {
     require(msg.sender == self.base.owner);
-    if (self.changeInterval > 0) { require(now < self.base.startTime - 1); }
+    if (self.changeInterval > 0) { require(now < self.base.startTime - 3 days); }
     bool ok;
 
     for (uint256 i = 0; i < _registrants.length; i++) {
@@ -213,7 +213,7 @@ library EvenDistroCrowdsaleLib {
 
     // can only calculate the address cap during the day before the sale starts.
     // Also, if the change interval is 0, the address cap should not be calculated because there is a static cap
-    if ((now > self.base.startTime) || (now < (self.base.startTime - 1)) || (self.changeInterval == 0))  {
+    if ((now > self.base.startTime) || (now < (self.base.startTime - 3 days)) || (self.changeInterval == 0))  {
       return false;
     }
     require(!self.base.rateSet);  // makes sure this can only be called once

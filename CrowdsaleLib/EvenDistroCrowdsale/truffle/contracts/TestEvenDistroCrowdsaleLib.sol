@@ -119,9 +119,9 @@ library TestEvenDistroCrowdsaleLib {
 
 
     if(_changeInterval == 0) {
-      require(_capPercentMultiplier == 0);
+      require(_capPercentMultiplier == 100);
     } else {
-      require(_capPercentMultiplier > 0);
+      require(_capPercentMultiplier > 100);
     }
     require(_fallbackAddressCap > 0);
     require(_capPercentMultiplier < 10000);
@@ -137,16 +137,14 @@ library TestEvenDistroCrowdsaleLib {
   /// @param _registrant address to register for the sale
   function registerUser(EvenDistroCrowdsaleStorage storage self, address _registrant, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if ((self.changeInterval > 0) && (currtime >= self.base.startTime - 1)) {
+    if ((self.changeInterval > 0) && (currtime >= self.base.startTime - 3)) {
       LogErrorMsg(self.base.startTime-1, "Cannot register users within 1 days of the sale!");
       return false;
     }
-    //require(currtime < self.base.startTime - 3);
     if(self.isRegistered[_registrant]) {
       LogErrorMsg(currtime, "Registrant address is already registered for the sale!");
       return false;
     }
-    //require(!self.isRegistered[_registrant]);
 
     uint256 result;
     bool err;
@@ -166,7 +164,7 @@ library TestEvenDistroCrowdsaleLib {
   /// @param _registrants addresses to register for the sale
   function registerUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if (self.changeInterval > 0) { require(currtime < self.base.startTime - 1); }
+    if (self.changeInterval > 0) { require(currtime < self.base.startTime - 3); }
     bool ok;
 
     for (uint256 i = 0; i < _registrants.length; i++) {
@@ -180,16 +178,14 @@ library TestEvenDistroCrowdsaleLib {
   /// @param _registrant address to unregister from the sale
   function unregisterUser(EvenDistroCrowdsaleStorage storage self, address _registrant, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if ((self.changeInterval > 0) && (currtime >= self.base.startTime - 1)) {
+    if ((self.changeInterval > 0) && (currtime >= self.base.startTime - 3)) {
       LogErrorMsg(self.base.startTime-1, "Cannot unregister users within 1 days of the sale!");
       return false;
     }
-    //require(currtime < self.base.startTime - 3);
     if(!self.isRegistered[_registrant]) {
       LogErrorMsg(currtime, "Registrant address not registered for the sale!");
       return false;
     }
-    //require(self.isRegistered[_registrant]);
 
     uint256 result;
     bool err;
@@ -209,7 +205,7 @@ library TestEvenDistroCrowdsaleLib {
   /// @param _registrants addresses to unregister for the sale
   function unregisterUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if (self.changeInterval > 0) { require(currtime < self.base.startTime - 1); }
+    if (self.changeInterval > 0) { require(currtime < self.base.startTime - 3); }
 
     bool ok;
 
@@ -222,7 +218,7 @@ library TestEvenDistroCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   function calculateAddressCap(EvenDistroCrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
     require(self.numRegistered > 0);
-    if ((currtime > self.base.startTime) || (currtime < (self.base.startTime - 1)) || (self.changeInterval == 0))  {
+    if ((currtime > self.base.startTime) || (currtime < (self.base.startTime - 3)) || (self.changeInterval == 0))  {
       return false;
     }
     if(self.base.rateSet) { return false; }  //make's sure this can only be called once
@@ -252,8 +248,8 @@ library TestEvenDistroCrowdsaleLib {
     if(msg.sender == self.base.owner) {
       LogErrorMsg(msg.value, "Owner cannot send ether to contract");
       return false;
-    }        //NEEDS a REQUIRE
-    if (!self.base.validPurchase(currtime)) {   //NEEDS TO BE A REQUIRE
+    }      
+    if (!self.base.validPurchase(currtime)) {
       return false;
     }
     if ((self.base.ownerBalance + _amount) > self.base.capAmount) {
