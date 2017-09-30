@@ -111,7 +111,7 @@ A wallet library family [provided by Majoolr](https://github.com/Majoolr "Majool
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Libraray Addresses   
+## Library Addresses   
 
 ### WalletMainLib
 **ENS**: WalletMainLib.majoolr.eth    

@@ -1,26 +1,27 @@
-EvenDistroCrowdsaleLib 
+EvenDistroCrowdsaleLib
 =========================   
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries) 
+[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
 [![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
 
-A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for crowdsale contract deployment.   
+A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for pre-registered, even token distribution crowdsale contract deployment.   
 
 <!-- START doctoc -->
 <!-- END doctoc -->
 
 ## Library Address   
 
-**ENS**: EvenDistroCrowdsaleLib.majoolr.eth   
-**Main Ethereum Network**:    
-**Ropsten Test Network**:    
-**Rinkeby Test Network**:    
+**ENS**: TBD   
+**Main Ethereum Network**: TBD   
+**Ropsten Test Network**: TBD   
+**Rinkeby Test Network**: 0xd0c49af4e8b8abadc0803899f1fb5203f4b4a6c2   
 
 ## License and Warranty   
 
 Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:   
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 ## How to install
 
 ### Truffle Installation
@@ -35,20 +36,23 @@ Please [visit Truffle's installation guide](http://truffleframework.com/docs/get
 
 This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development.   
 
-1. Place the EvenDistroCrowdsaleLib.sol file in your truffle `contracts/` directory.
-2. Place the EvenDistroCrowdsaleLib.json file in your truffle `build/contracts/` directory.
+1. Place the CrowdsaleLib.sol (from the root CrowdsaleLib directory) and EvenDistroCrowdsaleLib.sol file in your truffle `contracts/` directory.
+2. Place the CrowdsaleLib.json and EvenDistroCrowdsaleLib.json file in your truffle `build/contracts/` directory.
 3. Amend the deployment .js file in your truffle `migrations/` directory as follows:
 
 ```js
+var CrowdsaleLib = artifacts.require("./CrowdsaleLib.sol")
 var EvenDistroCrowdsaleLib = artifacts.require("./EvenDistroCrowdsaleLib.sol");
 var OtherLibs = artifacts.require("./OtherLibs.sol");
-var YourOtherContract = artifacts.require("./YourOtherContract.sol");
+var YourCrowdsaleContract = artifacts.require("./YourCrowdsaleContract.sol");
 ...
 
 module.exports = function(deployer) {
+  deployer.deploy(CrowdsaleLib, {overwrite: false});
   deployer.deploy(EvenDistroCrowdsaleLib, {overwrite: false});
-  deployer.link(EvenDistroCrowdsaleLib, YourOtherContract);
-  deployer.deploy(YourOtherContract);
+  deployer.link(CrowdsaleLib, YourCrowdsaleContract)
+  deployer.link(EvenDistroCrowdsaleLib, YourCrowdsaleContract);
+  deployer.deploy(YourCrowdsaleContract, arg1, arg2,...);
 };
 ```
 
@@ -83,9 +87,12 @@ For direction and instructions on how the Solidity command line compiler works [
   "language": "Solidity",
   "sources":
   {
-    "YourContract.sol": {
+    "YourCrowdsaleContract.sol": {
       ...
       ...
+    },
+    "CrowdsaleLib.sol": {
+      "content": "[Contents of CrowdsaleLib.sol]"
     },
     "EvenDistroCrowdsaleLib.sol": {
       "content": "[Contents of EvenDistroCrowdsaleLib.sol]"
@@ -95,7 +102,8 @@ For direction and instructions on how the Solidity command line compiler works [
   {
     ...
     "libraries": {
-      "YourContract.sol": {
+      "YourCrowdsaleContract.sol": {
+        "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
         "EvenDistroCrowdsaleLib": ""
       }
     }
@@ -105,13 +113,12 @@ For direction and instructions on how the Solidity command line compiler works [
 
 #### solc without standard JSON input
 
-When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:   
+When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include both deployed libraries in your bytecode create a file with one library string per line  as follows:    
 
-`--libraries "EvenDistroCrowdsaleLib:"`
-
-Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:   
-
-`--libraries "EvenDistroCrowdsaleLib:"`
+```
+"CrowdsaleLib:0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1"
+"EvenDistroCrowdsaleLib:"
+```
 
 then add the following flag to your command:
 
@@ -119,7 +126,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "EvenDistroCrowdsaleLib:"`
+`--libraries filename`
 
 #### solc documentation
 
@@ -137,25 +144,30 @@ This version of Solc-js also uses the [standard JSON input](#with-standard-json-
 var solc = require('solc');
 var fs = require('fs');
 
-var file = fs.readFileSync('/path/to/YourContract.sol','utf8');
+var file = fs.readFileSync('/path/to/YourCrowdsaleContract.sol','utf8');
+var crowdsaleLib = fs.readFileSync('./path/to/CrowdsaleLib.sol','utf8');
 var lib = fs.readFileSync('./path/to/EvenDistroCrowdsaleLib.sol','utf8');
 
 var input = {
   "language": "Solidity",
   "sources":
   {
-    "YourContract.sol": {
+    "YourCrowdsaleContract.sol": {
       "content": file
     },
     "EvenDistroCrowdsaleLib.sol": {
       "content": lib
+    },
+    "CrowdsaleLib.sol": {
+      "content": crowdsaleLib
     }
   },
   "settings":
   {
     ...
     "libraries": {
-      "YourContract.sol": {
+      "YourCrowdsaleContract.sol": {
+        "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
         "EvenDistroCrowdsaleLib": ""
       }
     }
@@ -173,7 +185,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
 ```js
-bytecode = solc.linkBytecode(bytecode, { 'EvenDistroCrowdsaleLib': '' });
+bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1' });
 ```
 
 #### Solc-js documentation
@@ -200,7 +212,7 @@ The crowdsale contract should put the `init` function in the constructor with th
 The following is the list of functions available to use in your smart contract.
 
 #### init(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address, uint256, uint256, uint256,uint256[], uint256, uint256, uint8, CrowdsaleToken)   
-*(EvenDistroCrowdsaleLib.sol, line 67)*
+*(EvenDistroCrowdsaleLib.sol, line 90)*
 
 Constructor. Initialize the crowdsale with owner, raise cap (in cents), startTime, endTime, token price (in cents), fall back exchange rate, a time interval between address cap changes, burn percentage, a multiplier that will be used to increase the address cap, a fallback address cap, and the address of the deployed token contract.  Passes some values to the base constructor then sets the direct crowdsale specific storage variables.
 
@@ -220,55 +232,55 @@ Constructor. Initialize the crowdsale with owner, raise cap (in cents), startTim
 No return   
 
 #### registerUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)   
-*(EvenDistroCrowdsaleLib.sol, line 67)*
+*(EvenDistroCrowdsaleLib.sol, line 130)*
 
 Registers an individual user for the crowdsale.  Only the owner can call this function.  If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
 ##### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
-**address** _registrant Address of a buyer who is registering for the sale. 
+**address** _registrant Address of a buyer who is registering for the sale.
 
 ##### Returns
 **bool**   
 
 #### registerUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])   
-*(EvenDistroCrowdsaleLib.sol, line 67)*
+*(EvenDistroCrowdsaleLib.sol, line 158)*
 
 Registers a group of users for the crowdsale.  Only the owner can call this function. If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
 ##### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
-**address[]** _registrants Addresses of buyers who are registering for the sale. 
+**address[]** _registrants Addresses of buyers who are registering for the sale.
 
 ##### Returns
 **bool**   
 
 #### unregisterUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)   
-*(EvenDistroCrowdsaleLib.sol, line 67)*
+*(EvenDistroCrowdsaleLib.sol, line 172)*
 
 Registers an individual user for the crowdsale.  Only the owner can call this function. If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
 ##### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
-**address** _registrant Address of a buyer who is unregistering for the sale. 
+**address** _registrant Address of a buyer who is unregistering for the sale.
 
 ##### Returns
 **bool**   
 
 #### unregisterUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])   
-*(EvenDistroCrowdsaleLib.sol, line 67)*
+*(EvenDistroCrowdsaleLib.sol, line 199)*
 
 UnRegisters a group of users for the crowdsale.  Only the owner can call this function.  If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
 ##### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
-**address[]** _registrants Addresses of buyers who are unregistering for the sale. 
+**address[]** _registrants Addresses of buyers who are unregistering for the sale.
 
 ##### Returns
 **bool**   
 
 #### calculateAddressCap(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 67)*
+*(EvenDistroCrowdsaleLib.sol, line 211)*
 
 Internal function used for calculating the puchase cap per address.  It divides the total Ether raise cap by the total number of registrants to find the cap and emits an event.
 
@@ -279,7 +291,7 @@ Internal function used for calculating the puchase cap per address.  It divides 
 **bool**   
 
 #### receivePurchase(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)   
-*(EvenDistroCrowdsaleLib.sol, line 102)*
+*(EvenDistroCrowdsaleLib.sol, line 244)*
 
 Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  If the payment exceeds the address cap, the tokens are still credited to the buyer and the leftover wei is indicated in the leftoverWei mapping. If the time interval for cap changes has passed, it also calculates the new address cap by multiplying the old cap by the percentage multiplier.  
 
@@ -293,7 +305,7 @@ Tokens purchased are calculated by multiplying the wei contributed by the tokens
 **bool** True if transaction confirmed or revoked successfully.   
 
 #### setTokenExchangeRate(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)   
-*(EvenDistroCrowdsaleLib.sol, line 169)*
+*(EvenDistroCrowdsaleLib.sol, line 327)*
 
 Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Calling this will also call the calculateAddressCap function.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
 
@@ -303,4 +315,3 @@ Function that is called by the owner to set the exhange rate (cents/ETH).  In ad
 
 ##### Returns
 **bool**   
-

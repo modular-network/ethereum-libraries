@@ -4,7 +4,7 @@ DirectCrowdsaleLib
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
 [![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
 
-A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for crowdsale contract deployment.   
+A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for direct token/eth crowdsale contract deployment.   
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -60,12 +60,7 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 
 ## Library Address   
 
-**ENS**: CrowdsaleLib.majoolr.eth   
-**Main Ethereum Network**: 0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1   
-**Ropsten Test Network**: 0x37ea7b78992192ebbbf848294f6af338ae7ea1c5   
-**Rinkeby Test Network**: 0x33a5bb89721af20d992732bf16f7f17e7553f3ff   
-
-**ENS**: DirectCrowdsaleLib.majoolr.eth   
+**ENS**: TBD   
 **Main Ethereum Network**: 0x49a4dfad9797a1726da60098a1c06616cacfc1ec   
 **Ropsten Test Network**: 0xbcaa0de389454de19ae7692e0832a116bc5b44ea   
 **Rinkeby Test Network**: 0xc1593efa265ae1a01672f344de8fcaca21946db5   
@@ -90,8 +85,8 @@ Please [visit Truffle's installation guide](http://truffleframework.com/docs/get
 
 This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development.   
 
-1. Place the CrowdsaleLib.sol and DirectCrowdsaleLib.sol file in your truffle `contracts/` directory.
-2. Place the CrowdsaleLib.sol and DirectCrowdsaleLib.json file in your truffle `build/contracts/` directory.
+1. Place the CrowdsaleLib.sol (from the root CrowdsaleLib directory) and DirectCrowdsaleLib.sol file in your truffle `contracts/` directory.
+2. Place the CrowdsaleLib.json and DirectCrowdsaleLib.json file in your truffle `build/contracts/` directory.
 3. Amend the deployment .js file in your truffle `migrations/` directory as follows:
 
 ```js
@@ -116,9 +111,9 @@ module.exports = function(deployer) {
 
 The following process will allow you to `truffle test` this library in your project.
 
-1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/DirectCrowdsaleLib/truffle`.    
+1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/CrowdsaleLib/DirectCrowdsaleLib/truffle`.    
    Each folder in the truffle directory correlates to the folders in your truffle project.    
-2. Place each file in their respective directory in **your** truffle project.   
+2. Place each file in their respective directory in **your** truffle project. Be sure to grab the base CrowdsaleLib.sol and CrowdsaleLib.json files from the root CrowdsaleLib directory and put them in the appropriate directories as well.   
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
 3. [Start a testrpc node](https://github.com/ethereumjs/testrpc \"testrpc's Github\")   
    This particular library needs specific flags set due to gas requirements. Use the following string when starting the testrpc:   
