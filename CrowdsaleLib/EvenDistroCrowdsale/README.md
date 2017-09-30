@@ -6,8 +6,51 @@ EvenDistroCrowdsaleLib
 
 A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for pre-registered, even token distribution crowdsale contract deployment.   
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Library Address](#library-address)
+- [License and Warranty](#license-and-warranty)
+- [How to install](#how-to-install)
+  - [Truffle Installation](#truffle-installation)
+    - [Manual Install](#manual-install)
+    - [Testing the library in truffle](#testing-the-library-in-truffle)
+  - [solc Installation](#solc-installation)
+    - [With standard JSON input](#with-standard-json-input)
+    - [solc without standard JSON input](#solc-without-standard-json-input)
+    - [solc documentation](#solc-documentation)
+  - [solc-js Installation](#solc-js-installation)
+    - [Solc-js Installation via Linking](#solc-js-installation-via-linking)
+    - [Solc-js documentation](#solc-js-documentation)
+  - [Basic Usage](#basic-usage)
+- [Functions](#functions)
+    - [init(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address, uint256, uint256, uint256,uint256[], uint256, uint256, uint8, CrowdsaleToken)](#initevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address-uint256-uint256-uint256uint256-uint256-uint256-uint8-crowdsaletoken)
+      - [Arguments](#arguments)
+      - [Returns](#returns)
+    - [registerUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)](#registeruserevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
+      - [Arguments](#arguments-1)
+      - [Returns](#returns-1)
+    - [registerUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])](#registerusersevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
+      - [Arguments](#arguments-2)
+      - [Returns](#returns-2)
+    - [unregisterUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)](#unregisteruserevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
+      - [Arguments](#arguments-3)
+      - [Returns](#returns-3)
+    - [unregisterUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])](#unregisterusersevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
+      - [Arguments](#arguments-4)
+      - [Returns](#returns-4)
+    - [calculateAddressCap(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#calculateaddresscapevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+      - [Arguments](#arguments-5)
+      - [Returns](#returns-5)
+    - [receivePurchase(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)](#receivepurchaseevendistrocrowdsalelibevendistrocrowdsalestorage-storage-uint256)
+      - [Arguments](#arguments-6)
+      - [Returns](#returns-6)
+    - [setTokenExchangeRate(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)](#settokenexchangerateevendistrocrowdsalelibevendistrocrowdsalestorage-storage-uint256)
+      - [Arguments](#arguments-7)
+      - [Returns](#returns-7)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address   
 
