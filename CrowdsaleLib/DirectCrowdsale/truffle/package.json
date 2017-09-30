@@ -1,0 +1,9 @@
+{
+  "name": "DirectCrowdsaleLib",
+  "version": "1.0.0",
+  "description": "Direct crowdsale library used by crowdsale contracts",
+  "devDependencies": {
+    "truffle": "3.4.9",
+    "ethereumjs-testrpc": "4.1.1"
+  }
+}
