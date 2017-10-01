@@ -41,10 +41,6 @@ library DirectCrowdsaleLib {
 
   	CrowdsaleLib.CrowdsaleStorage base; // base storage from CrowdsaleLib
 
-    uint256[] tokenPricePoints;    // price points at each price change interval in cents/token.
-
-  	uint256 changeInterval;      // amount of time between changes in the price of the token
-  	uint256 lastPriceChangeTime;  // time of the last change in token cost
   }
 
   event LogTokensBought(address indexed buyer, uint256 amount);
@@ -56,43 +52,30 @@ library DirectCrowdsaleLib {
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
-  /// @param _capAmountInCents Total to be raised in cents
-  /// @param _startTime Timestamp of sale start time
-  /// @param _endTime Timestamp of sale end time
-  /// @param _tokenPricePoints Array of each price point during sale cents/token
+  /// @param _purchaseData Array of 3 item arrays such that, in each 3 element
+  /// array index-0 is timestamp, index-1 is price in cents at that time,
+  /// index-2 is address purchase cap at that time, 0 if no address cap
   /// @param _fallbackExchangeRate Exchange rate of cents/ETH
-  /// @param _changeInterval The number of seconds between each step
+  /// @param _capAmountInCents Total to be raised in cents
+  /// @param _endTime Timestamp of sale end time
   /// @param _percentBurn Percentage of extra tokens to burn
   /// @param _token Token being sold
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
-                uint256 _capAmountInCents,
-                uint256 _startTime,
-                uint256 _endTime,
-                uint256[] _tokenPricePoints,
+                uint256[] _purchaseData,
                 uint256 _fallbackExchangeRate,
-                uint256 _changeInterval,
+                uint256 _capAmountInCents,
+                uint256 _endTime,
                 uint8 _percentBurn,
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
-                _tokenPricePoints[0],
+                _purchaseData,
                 _fallbackExchangeRate,
                 _capAmountInCents,
-                _startTime,
                 _endTime,
                 _percentBurn,
                 _token);
-
-    require(_tokenPricePoints.length > 0);
-
-    // if there is no increase or decrease in price, the time interval should also be zero
-    if (_tokenPricePoints.length == 1) {
-    	require(_changeInterval == 0);
-    }
-    self.tokenPricePoints = _tokenPricePoints;
-  	self.changeInterval = _changeInterval;
-  	self.lastPriceChangeTime = _startTime;
   }
 
   /// @dev Called when an address wants to purchase tokens
@@ -106,18 +89,18 @@ library DirectCrowdsaleLib {
     require((self.base.ownerBalance + _amount) <= self.base.capAmount);
 
   	// if the token price increase interval has passed, update the current day and change the token price
-  	if ((self.changeInterval > 0) && (now >= (self.lastPriceChangeTime + self.changeInterval))) {
-  		self.lastPriceChangeTime = self.lastPriceChangeTime + self.changeInterval;
-      uint256 index = (now-self.base.startTime)/self.changeInterval;
+  	if ((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
+        (now > self.base.milestoneTimes[self.base.currentMilestone + 1]))
+    {
+        while((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
+              (now > self.base.milestoneTimes[self.base.currentMilestone + 1]))
+        {
+          self.base.currentMilestone += 1;
+        }
 
-      //prevents going out of bounds on the tokenPricePoints array
-      if (self.tokenPricePoints.length <= index)
-        index = self.tokenPricePoints.length - 1;
-
-      self.base.changeTokenPrice(self.tokenPricePoints[index]);
-
-      LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
-  	}
+        self.base.changeTokenPrice(self.base.purchaseData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
+        LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
+    }
 
   	uint256 numTokens; //number of tokens that will be purchased
   	bool err;
@@ -172,6 +155,14 @@ library DirectCrowdsaleLib {
 
   function setTokens(DirectCrowdsaleStorage storage self) returns (bool) {
     return self.base.setTokens();
+  }
+
+  function getPurchaseData(DirectCrowdsaleStorage storage self, uint256 index) returns (uint256[3]) {
+    return self.base.getPurchaseData(index);
+  }
+
+  function getTokensSold(DirectCrowdsaleStorage storage self) constant returns (uint256) {
+    return self.base.getTokensSold();
   }
 
   function withdrawTokens(DirectCrowdsaleStorage storage self) returns (bool) {
