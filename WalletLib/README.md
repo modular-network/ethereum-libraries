@@ -11,7 +11,7 @@ A wallet library family [provided by Majoolr](https://github.com/Majoolr "Majool
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Libraray Addresses](#libraray-addresses)
+- [Library Addresses](#library-addresses)
   - [WalletMainLib](#walletmainlib)
   - [WalletAdminLib](#walletadminlib)
   - [WalletGetterLib](#walletgetterlib)
@@ -111,7 +111,7 @@ A wallet library family [provided by Majoolr](https://github.com/Majoolr "Majool
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Libraray Addresses   
+## Library Addresses   
 
 ### WalletMainLib
 **ENS**: WalletMainLib.majoolr.eth    

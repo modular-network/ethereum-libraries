@@ -64,33 +64,33 @@ An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoo
 
 ### Array128Lib   
 **ENS**: Array128Lib.majoolr.eth   
-**Main Ethereum Network**: 0xc78c0c443c84518ec6a14e63a994b329ac19024d   
-**Rinkeby Test Network**: 0x3992e42d28f407e0447fc072d61a18d985f9d7f6   
-**Ropsten Test Network**: 0xcb4092d7c9e942511b9f4ec508ffccc5018775a5    
+**Main Ethereum Network**: 0x8d51d7c60cd8f9101b209449a1ae96685e74c659   
+**Rinkeby Test Network**: 0x60e9e02d130497ab9b8b1d03707384561dcc921f   
+**Ropsten Test Network**: 0xf5a7a818389396ad2b2f44204e3bb637359e6b67    
 
 ### Array64Lib   
 **ENS**: Array64Lib.majoolr.eth   
-**Main Ethereum Network**: 0x5aceb3732891236fa650f6ac0fc54ad6a62721d7   
-**Rinkeby Test Network**: 0x76eaa211356fccfb7d4145655871ba7e9ea09d18   
-**Ropsten Test Network**: 0x5cc626a7beee0ab35ebdf3a5b03f0b0a996aa981    
+**Main Ethereum Network**: 0xe64072d8252806e7b122758a9407c609ceda4891   
+**Rinkeby Test Network**: 0xa0b1c46934b27188778e7d6eaa5babae3845a8b9   
+**Ropsten Test Network**: 0x388994a141ee357d26c1709a26ee4fe473c7f5c1    
 
 ### Array32Lib   
 **ENS**: Array32Lib.majoolr.eth   
-**Main Ethereum Network**: 0xd013b100aa17fbc70be8ced563a49feaacc5fd1d   
-**Rinkeby Test Network**: 0x60b46cf2b2f4eab3bc62b2a1bf32f2e0bddd026e   
-**Ropsten Test Network**: 0x1252909f34f6d947f065f43c2cdd562c94ce876c    
+**Main Ethereum Network**: 0x9a958b5935e7a9011cc0780022b0ed48d06d73d9   
+**Rinkeby Test Network**: 0xb42c3f58fedd844a69d4813fe7e9f40a9c08f7dc   
+**Ropsten Test Network**: 0x9a2d52346d47e1dafd1249d336e0a39032517443    
 
 ### Array16Lib   
 **ENS**: Array16Lib.majoolr.eth   
-**Main Ethereum Network**: 0x2c61c117b2fb8a481a6936ad7015717b6a9c6ba1   
-**Rinkeby Test Network**: 0xe883e1ce1ca062d81697a10f9bb1b880c3e5563c   
-**Ropsten Test Network**: 0xfb82af7c5c72a412990ed3cff53fa3b3fdc68db5    
+**Main Ethereum Network**: 0xeb01ce41580fb3fc6765b72cdded74fcd9fcc894   
+**Rinkeby Test Network**: 0x3823391981ed462e352b2c36d648117b55806b40   
+**Ropsten Test Network**: 0xd85b49c5fde28b11173e1ac4dd4095710f5570e8    
 
 ### Array8Lib   
 **ENS**: Array8Lib.majoolr.eth   
-**Main Ethereum Network**: 0xf1da7827c3bb76e9cddfa2d6077695e550f121d7   
-**Rinkeby Test Network**: 0xb01497c19cfcae1b30e7dbcd820f9e278eb9a639   
-**Ropsten Test Network**: 0xb16d12469c89aaccaea09bc28160ab80674d575a    
+**Main Ethereum Network**: 0xa3e7fd8cda44a122c8a4ffcc8bd5bb6c97ef47d2   
+**Rinkeby Test Network**: 0x34e4140e79e78ce51bfb89b6ee9204e5c9035d07   
+**Ropsten Test Network**: 0x6eeb68eb37363e61ecfae9eef1c892cda64ecc37   
 
 ## License and Warranty
 
