@@ -41,9 +41,26 @@ Majoolr Libraries has been packaged such that each library is available independ
 
 The README in each library contains the Rinkeby, Ropsten, and Mainnet address of the deployed library to link in your contract. You will find documentation for the functions and installation instructions for development and deployment use as well. Additionally, each library has as an ENS domain which is not of much use now but will provide a better experience as development proceeds. All deployed source code has been verified on etherscan.io for your viewing pleasure.   
 
-If you do not find what you are looking for here please let us know and be sure check out more mature libraries such as [Open-Zeppelin](https://github.com/OpenZeppelin/ "Zeppelin github") and see what they have.
+## How to Contribute
 
-Feedback, bug reports, library submissions, collaborations, and contributions are all welcome! We will be rewarding contributions and please do not hesitate to reach out to us.  
+Feedback, bug reports, library submissions, collaborations, and contributions are all welcome! We will be rewarding contributions so please do not hesitate to reach out to us.
+
+### Feedback and Bug Reports
+If you have feedback about our libraries or questions about our documentation, or find a bug in our code, please contact us as soon as possible at contact@majoolr.io or reach out to us on on Gitter or Discord channel.  Significant contributions will be rewarded.
+
+### Collaborations
+As part of the global Ethereum/Blockchain community, we at Majoolr want to do our part in supporting fellow projects and enthusiasts in the community.  If you need an audit, advice, help building a secure ICO or Ethereum Dapp, or any other type of collaboration, please get in touch at contact@majoolr.io where we can discuss the collaboration. 
+
+### Code Contributions
+If you see an issue in our repo or a piece of code in our Libraries you want to improve, please don't hesitate to dive in.  We welcome help in any form and are more than willing to offer our assistance to developers who want to contribute to documentation, code fixes, or even new libraries or functionality!  We ask that you follow a few guidelines when making changes to the repo:
+
+1. Create a branch separate from master for any changes.
+2. Create separate branches and submissions for unrelated changes.
+3. Please adhere to [Ethereum Natural Specification Format Guidelines](https://github.com/ethereum/wiki/wiki/Ethereum-Natural-Specification-Format) for function documentation.  Also, leave comments on functional blocks in the code so that any functionality is easy to understand by any moderately competent developer reading the code.
+5. If you are making significant changes, include a README with function signatures, inputs, outputs, and a detailed description of the functionality.
+6. Include the description of the changes on the Pull Request.
+7. When creating a pull request on the main repo, do not submit it to master.  Either submit it to an existing branch that was allocated for the changes, or submit it to a new branch you create with the PR.
+
 
 ## Why Libraries?
 
