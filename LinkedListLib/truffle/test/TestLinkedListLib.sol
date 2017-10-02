@@ -50,22 +50,28 @@ contract TestLinkedListLib{
     result = instance.sizeOf();
     Assert.equal(result,2, "The size of the linked list should be two!");
 
-    (resultPrev,resultNext) = instance.getNode(1000);
+    (bResult,resultPrev,resultNext) = instance.getNode(1000);
+    Assert.isTrue(bResult, "The node should exist!");
     Assert.equal(resultPrev,0,"The previous node should be HEAD!");
     Assert.equal(resultNext,2000, "The next node should be 2000!");
 
-    (resultPrev,resultNext) = instance.getNode(2000);
+    (bResult,resultPrev,resultNext) = instance.getNode(1504);
+    Assert.isFalse(bResult, "The node shouldnt exist!");
+    Assert.equal(resultPrev,0,"The previous node should be HEAD!");
+    Assert.equal(resultNext,0, "The next node should be HEAD!");
+
+    (bResult,resultPrev,resultNext) = instance.getNode(2000);
     Assert.equal(resultPrev,1000,"The previous node should be 1000!");
     Assert.equal(resultNext,0, "The next node should be HEAD!");
 
-    result = instance.getSortedSpot(HEAD,3000,NEXT);
-    Assert.equal(result,0,"Spot to place new value should be 0!");
+    result = instance.getSortedSpot(HEAD,3000,PREV);
+    Assert.equal(result,2000,"Spot to place new value should be 2000!");
 
-    instance.insert(result,3000,PREV);
+    instance.insert(result,3000,NEXT);
     result = instance.sizeOf();
     Assert.equal(result,3, "The size of the linked list should be three!");
 
-    (resultPrev,resultNext) = instance.getNode(3000);
+    (bResult,resultPrev,resultNext) = instance.getNode(3000);
     Assert.equal(resultPrev,2000,"The previous node should be 2000!");
     Assert.equal(resultNext,0, "The next node should be HEAD!");
   }
@@ -79,7 +85,7 @@ contract TestLinkedListLib{
     result = instance.sizeOf();
     Assert.equal(result,2, "The size of the linked list should be two!");
 
-    (resultPrev,resultNext) = instance.getNode(1000);
+    (bResult,resultPrev,resultNext) = instance.getNode(1000);
     Assert.equal(resultPrev,0,"The previous node should be HEAD!");
     Assert.equal(resultNext,3000, "The next node should be 3000!");
 
@@ -88,7 +94,7 @@ contract TestLinkedListLib{
     result = instance.sizeOf();
     Assert.equal(result,1, "The size of the linked list should be one!");
 
-    (resultPrev,resultNext) = instance.getNode(1000);
+    (bResult,resultPrev,resultNext) = instance.getNode(1000);
     Assert.equal(resultPrev,0,"The previous node should be HEAD!");
     Assert.equal(resultNext,0, "The next node should be HEAD!");
 
@@ -97,7 +103,7 @@ contract TestLinkedListLib{
     result = instance.sizeOf();
     Assert.equal(result,0, "The size of the linked list should be zero!");
 
-    (resultPrev,resultNext) = instance.getNode(0);
+    (bResult,resultPrev,resultNext) = instance.getNode(0);
     Assert.equal(resultPrev,0,"The previous node should be HEAD!");
     Assert.equal(resultNext,0, "The next node should be HEAD!");
   }
@@ -109,11 +115,11 @@ contract TestLinkedListLib{
     result = instance.sizeOf();
     Assert.equal(result,3, "The size of the linked list should be three!");
 
-    (resultPrev,resultNext) = instance.getNode(3000);
+    (bResult,resultPrev,resultNext) = instance.getNode(3000);
     Assert.equal(resultPrev,2000,"The previous node should be 2000!");
     Assert.equal(resultNext,0, "The next node should be HEAD!");
 
-    (resultPrev,resultNext) = instance.getNode(1000);
+    (bResult,resultPrev,resultNext) = instance.getNode(1000);
     Assert.equal(resultPrev,0,"The previous node should be HEAD!");
     Assert.equal(resultNext,2000, "The next node should be 2000!");
 
@@ -125,7 +131,7 @@ contract TestLinkedListLib{
     result = instance.sizeOf();
     Assert.equal(result,1, "The size of the linked list should be one!");
 
-    (resultPrev,resultNext) = instance.getNode(2000);
+    (bResult,resultPrev,resultNext) = instance.getNode(2000);
     Assert.equal(resultPrev,0,"The previous node should be HEAD!");
     Assert.equal(resultNext,0, "The next node should be HEAD!");
   }

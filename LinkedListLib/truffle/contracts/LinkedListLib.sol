@@ -71,16 +71,20 @@ library LinkedListLib {
         return;
     }
 
-    /// @dev Returns the links of a node as an array
+    /// @dev Returns the links of a node as a tuple
     /// @param self stored linked list from contract
     /// @param _node id of the node to get
     function getNode(LinkedList storage self, uint256 _node)
-        internal  constant returns (uint256,uint256)
+        internal  constant returns (bool,uint256,uint256)
     {
-        return (self.list[_node][PREV], self.list[_node][NEXT]);
+        if ((self.list[_node][NEXT] == 0) && (self.list[_node][PREV] == 0) && (self.list[self.list[_node][PREV]][NEXT] != _node)) {
+            return (false,0,0);
+        } else {
+            return (true,self.list[_node][PREV], self.list[_node][NEXT]);
+        }
     }
 
-    /// @dev Returns the link of a node `n` in direction `d`.
+    /// @dev Returns the link of a node `_node` in direction `_direction`.
     /// @param self stored linked list from contract
     /// @param _node id of the node to step from
     /// @param _direction direction to step in

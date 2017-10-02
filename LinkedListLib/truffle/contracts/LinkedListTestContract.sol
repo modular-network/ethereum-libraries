@@ -32,7 +32,7 @@ contract LinkedListTestContract {
     /// @dev Returns the links of a node as and array
     /// @param _node id of the node to get
     function getNode(uint256 _node)
-		constant returns (uint256,uint256)
+		constant returns (bool,uint256,uint256)
     {
         return list.getNode(_node);
     }
