@@ -1,0 +1,9 @@
+{
+  "name": "BasicMathLib",
+  "version": "1.0.0",
+  "description": "Basic math operations on Ethereum with overflow protection",
+  "devDependencies": {
+    "truffle": "^3.4.5",
+    "ethereumjs-testrpc": "^4.0.0"
+  }
+}
