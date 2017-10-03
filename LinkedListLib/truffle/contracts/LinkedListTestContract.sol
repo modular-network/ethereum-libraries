@@ -23,7 +23,7 @@ contract LinkedListTestContract {
     {
         return list.exists();
     }
-    
+
     /// @dev Returns the number of elements in the list
     function sizeOf() constant returns (uint256 numElements) {
         return list.sizeOf();
@@ -32,7 +32,7 @@ contract LinkedListTestContract {
     /// @dev Returns the links of a node as and array
     /// @param _node id of the node to get
     function getNode(uint256 _node)
-		constant returns (uint256,uint256)
+		constant returns (bool,uint256,uint256)
     {
         return list.getNode(_node);
     }
@@ -65,13 +65,13 @@ contract LinkedListTestContract {
     }
 
     /// @dev Insert node `_new` beside existing node `_node` in direction `_direction`.
-    /// @param _node existing node 
+    /// @param _node existing node
     /// @param _new  new node to insert
     /// @param _direction direction to insert node in
     function insert(uint256 _node, uint256 _new, bool _direction) {
         list.insert(_node,_new,_direction);
     }
-    
+
     /// @dev removes an entry from the linked list
     /// @param _node node to remove from the list
     function remove(uint256 _node) returns (uint256) {
@@ -84,7 +84,7 @@ contract LinkedListTestContract {
     function push(uint256 _node, bool _direction) {
         list.push(_node,_direction);
     }
-    
+
     /// @dev pops the first entry from the linked list
     /// @param _direction pop from the head (NEXT) or the tail (PREV)
     function pop(bool _direction) returns (uint256) {
