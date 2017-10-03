@@ -82,22 +82,52 @@ contract TestLinkedListLib{
     (resultPrev,resultNext) = instance.getNode(1000);
     Assert.equal(resultPrev,0,"The previous node should be HEAD!");
     Assert.equal(resultNext,3000, "The next node should be 3000!");
+
+    result = instance.remove(3000);
+    Assert.equal(result,3000, "3000 should have been deleted");
+    result = instance.sizeOf();
+    Assert.equal(result,1, "The size of the linked list should be one!");
+
+    (resultPrev,resultNext) = instance.getNode(1000);
+    Assert.equal(resultPrev,0,"The previous node should be HEAD!");
+    Assert.equal(resultNext,0, "The next node should be HEAD!");
+
+    result = instance.remove(1000);
+    Assert.equal(result,1000, "1000 should have been deleted");
+    result = instance.sizeOf();
+    Assert.equal(result,0, "The size of the linked list should be zero!");
+
+    (resultPrev,resultNext) = instance.getNode(0);
+    Assert.equal(resultPrev,0,"The previous node should be HEAD!");
+    Assert.equal(resultNext,0, "The next node should be HEAD!");
   }
 
-  // function testTimesFunction(){
-  //   for(uint256 i = 0; i<5; i++){
-  //     f = first[i];
-  //     s = second[i];
-  //     (bResult,result) = instance.getTimes(f,s);
-  //     if(s < 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd){
-  //       expected = f * s;
-  //       Assert.isFalse(bResult,"The err boolean variable should return false.");
-  //       Assert.equal(result,expected,"The times function should multiply the inputs and return the result.");
-  //     } else {
-  //       Assert.isTrue(bResult,"The err boolean variable should return true if there is overflow.");
-  //       Assert.equal(result,0,"The times function should return 0 as the result if there is overflow.");
-  //     }
-  //   }
-  // }
+  function testPushPop(){
+    instance.push(2000,NEXT);
+    instance.push(3000,PREV);
+    instance.push(1000,NEXT);
+    result = instance.sizeOf();
+    Assert.equal(result,3, "The size of the linked list should be three!");
+
+    (resultPrev,resultNext) = instance.getNode(3000);
+    Assert.equal(resultPrev,2000,"The previous node should be 2000!");
+    Assert.equal(resultNext,0, "The next node should be HEAD!");
+
+    (resultPrev,resultNext) = instance.getNode(1000);
+    Assert.equal(resultPrev,0,"The previous node should be HEAD!");
+    Assert.equal(resultNext,2000, "The next node should be 2000!");
+
+    result = instance.pop(NEXT);
+    Assert.equal(result,1000, "popped value should be 1000!");
+    result = instance.pop(PREV);
+    Assert.equal(result,3000, "popped value should be 3000!");
+
+    result = instance.sizeOf();
+    Assert.equal(result,1, "The size of the linked list should be one!");
+
+    (resultPrev,resultNext) = instance.getNode(2000);
+    Assert.equal(resultPrev,0,"The previous node should be HEAD!");
+    Assert.equal(resultNext,0, "The next node should be HEAD!");
+  }
 
 }
