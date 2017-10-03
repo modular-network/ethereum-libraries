@@ -1,9 +1,9 @@
 {
-  "name": "BasicMathLib",
+  "name": "LinkedListLib",
   "version": "1.0.0",
-  "description": "Basic math operations on Ethereum with overflow protection",
+  "description": "A linked list library for using linked list data structures in your project.",
   "devDependencies": {
-    "truffle": "^3.4.5",
-    "ethereumjs-testrpc": "^4.0.0"
+    "truffle": "3.4.9",
+    "ethereumjs-testrpc": "4.1.1"
   }
 }

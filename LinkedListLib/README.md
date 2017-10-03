@@ -1,7 +1,3 @@
-=========================
-
-Work in Progress
-=======
 LinkedListLib
 =========================   
 
@@ -10,15 +6,62 @@ LinkedListLib
 
 A linked list library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") for using linked list data structures in your project.   
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Library Address](#library-address)
+- [License and Warranty](#license-and-warranty)
+- [How to install](#how-to-install)
+  - [Truffle Installation](#truffle-installation)
+    - [Manual Install](#manual-install)
+    - [Testing the library in truffle](#testing-the-library-in-truffle)
+  - [solc Installation](#solc-installation)
+    - [With standard JSON input](#with-standard-json-input)
+    - [solc documentation](#solc-documentation)
+  - [solc-js Installation](#solc-js-installation)
+    - [Solc-js documentation](#solc-js-documentation)
+- [Overview](#overview)
+  - [Basic Usage](#basic-usage)
+  - [Mutations to State](#mutations-to-state)
+- [Functions](#functions)
+    - [exists(LinkedListLib.LinkedList storage)](#existslinkedlistliblinkedlist-storage)
+      - [Arguments](#arguments)
+      - [Returns](#returns)
+    - [sizeOf(LinkedListLib.LinkedList storage)](#sizeoflinkedlistliblinkedlist-storage)
+      - [Arguments](#arguments-1)
+      - [Returns](#returns-1)
+    - [getNode(LinkedListLib.LinkedList storage, uint256)](#getnodelinkedlistliblinkedlist-storage-uint256)
+      - [Arguments](#arguments-2)
+      - [Returns](#returns-2)
+    - [getAdjacent(LinkedListLib.LinkedList storage, uint256, bool)](#getadjacentlinkedlistliblinkedlist-storage-uint256-bool)
+      - [Arguments](#arguments-3)
+      - [Returns](#returns-3)
+    - [getSortedSpot(LinkedListLib.LinkedList storage, uint256, uint256, bool)](#getsortedspotlinkedlistliblinkedlist-storage-uint256-uint256-bool)
+      - [Arguments](#arguments-4)
+      - [Returns](#returns-4)
+    - [createLink(LinkedListLib.LinkedList storage, uint256, uint256, bool)](#createlinklinkedlistliblinkedlist-storage-uint256-uint256-bool)
+      - [Arguments](#arguments-5)
+      - [Returns](#returns-5)
+    - [insert(LinkedListLib.LinkedList storage, uint256, uint256, bool)](#insertlinkedlistliblinkedlist-storage-uint256-uint256-bool)
+      - [Arguments](#arguments-6)
+      - [Returns](#returns-6)
+    - [remove(LinkedListLib.LinkedList storage, uint256)](#removelinkedlistliblinkedlist-storage-uint256)
+      - [Arguments](#arguments-7)
+      - [Returns](#returns-7)
+    - [push(LinkedListLib.LinkedList storage, uint256, bool)](#pushlinkedlistliblinkedlist-storage-uint256-bool)
+      - [Arguments](#arguments-8)
+      - [Returns](#returns-8)
+    - [pop(LinkedListLib.LinkedList storage, bool)](#poplinkedlistliblinkedlist-storage-bool)
+      - [Arguments](#arguments-9)
+      - [Returns](#returns-9)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address   
 
-**ENS**: LinkedListLib.majoolr.eth   
-**Main Ethereum Network**:    
-**Ropsten Test Network**:    
-**Rinkeby Test Network**:    
+This library includes only internal functions at this time and therefore does not
+need to be deployed for use.  
 
 ## License and Warranty   
 
@@ -45,18 +88,13 @@ This process will allow you to both link your contract to the current on-chain l
 
 ```js
 var LinkedListLib = artifacts.require("./LinkedListLib.sol");
-var OtherLibs = artifacts.require("./OtherLibs.sol");
 var YourOtherContract = artifacts.require("./YourOtherContract.sol");
 ...
 
 module.exports = function(deployer) {
-  deployer.deploy(LinkedListLib, {overwrite: false});
-  deployer.link(LinkedListLib, YourOtherContract);
   deployer.deploy(YourOtherContract);
 };
 ```
-
-**Note**: The `.link()` function should be called *before* you `.deploy(YourOtherContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(LinkedListLib, {overwrite: false})`. This prevents deploying the library onto the main network at your cost and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
 
 #### Testing the library in truffle
 
@@ -66,10 +104,6 @@ The following process will allow you to `truffle test` this library in your proj
 2. Place each file in their respective directory in **your** truffle project.   
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
 3. [Start a testrpc node](https://github.com/ethereumjs/testrpc \"testrpc's Github\")   
-   This particular library needs specific flags set due to gas requirements. Use the following string when starting the testrpc:   
-
-   `testrpc`
-
 4. In your terminal go to your truffle project directory and run `truffle test`.   
 
 ### solc Installation
@@ -91,39 +125,19 @@ For direction and instructions on how the Solidity command line compiler works [
       ...
       ...
     },
-    "LinkedListLib.sol": {
+    "StringUtilsLib.sol": {
       "content": "[Contents of LinkedListLib.sol]"
     }
   },
   "settings":
   {
     ...
-    "libraries": {
-      "YourContract.sol": {
-        "LinkedListLib": ""
-      }
-    }
+    "libraries": {}
   }
 }
 ```
-
-#### solc without standard JSON input
-
-When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:   
-
-`--libraries "LinkedListLib:"`
-
-Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:   
-
-`--libraries "LinkedListLib:"`
-
-then add the following flag to your command:
-
-`--libraries filename`
-
-Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
-
-`--libraries "LinkedListLib:"`
+**Note**: Since this library currently uses all internal or private functions
+the compiler will not create unlinked binary.
 
 #### solc documentation
 
@@ -142,7 +156,7 @@ var solc = require('solc');
 var fs = require('fs');
 
 var file = fs.readFileSync('/path/to/YourContract.sol','utf8');
-var lib = fs.readFileSync('./path/to/LinkedListLib.sol','utf8');
+var StringUtilsLib = fs.readFileSync('./path/to/LinkedListLib.sol','utf8');
 
 var input = {
   "language": "Solidity",
@@ -151,18 +165,14 @@ var input = {
     "YourContract.sol": {
       "content": file
     },
-    "LinkedListLib.sol": {
-      "content": lib
+    "StringUtilsLib.sol": {
+      "content": LinkedListLib
     }
   },
   "settings":
   {
     ...
-    "libraries": {
-      "YourContract.sol": {
-        "LinkedListLib": ""
-      }
-    }
+    "libraries": {}
     ...
   }
 }
@@ -171,18 +181,11 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 
 //Where the output variable is a standard JSON output object.
 ```
-
-#### Solc-js Installation via Linking
-
-Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
-
-```js
-bytecode = solc.linkBytecode(bytecode, { 'LinkedListLib': '' });
-```
-
 #### Solc-js documentation
 
 [See the Solc-js documentation for further information](https://github.com/ethereum/solc-js "Solc-js compiler").
+
+## Overview
 
 ### Basic Usage
 
@@ -194,7 +197,7 @@ The Linked List library provides functionality needed to create and manipulate a
    * Insert nodes and create links between nodes.
    * Remove, push, and pop nodes from the list.
 
-LinkedList is a nested mapping with the first key being the node index (uint256) and the second being the bidirectional link (bool) to a neighbouring node. Key 0 implies the head so writes to LinkedList.list[0] or manually linking to Linkedlist.list[0] (e.g. list[var1][false] = 0;) are to be avoided by the calling contract.
+LinkedList is a nested mapping with the first key being the node index (uint256) and the second being the bidirectional link (bool) to a neighboring node. Key 0 implies the head so writes to LinkedList.list[0] or manually linking to Linkedlist.list[0] (e.g. `list[var1][false] = 0;`) are to be avoided by the calling contract.
 
 ```
     struct LinkedList{
