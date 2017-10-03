@@ -52,7 +52,7 @@ library DirectCrowdsaleLib {
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
-  /// @param _purchaseData Array of 3 item arrays such that, in each 3 element
+  /// @param _saleData Array of 3 item arrays such that, in each 3 element
   /// array index-0 is timestamp, index-1 is price in cents at that time,
   /// index-2 is address purchase cap at that time, 0 if no address cap
   /// @param _fallbackExchangeRate Exchange rate of cents/ETH
@@ -62,7 +62,7 @@ library DirectCrowdsaleLib {
   /// @param _token Token being sold
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
-                uint256[] _purchaseData,
+                uint256[] _saleData,
                 uint256 _fallbackExchangeRate,
                 uint256 _capAmountInCents,
                 uint256 _endTime,
@@ -70,7 +70,7 @@ library DirectCrowdsaleLib {
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
-                _purchaseData,
+                _saleData,
                 _fallbackExchangeRate,
                 _capAmountInCents,
                 _endTime,
@@ -98,7 +98,7 @@ library DirectCrowdsaleLib {
           self.base.currentMilestone += 1;
         }
 
-        self.base.changeTokenPrice(self.base.purchaseData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
+        self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
         LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
     }
 
@@ -157,8 +157,8 @@ library DirectCrowdsaleLib {
     return self.base.setTokens();
   }
 
-  function getPurchaseData(DirectCrowdsaleStorage storage self, uint256 index) returns (uint256[3]) {
-    return self.base.getPurchaseData(index);
+  function getSaleData(DirectCrowdsaleStorage storage self, uint256 timestamp) returns (uint256[3]) {
+    return self.base.getSaleData(timestamp);
   }
 
   function getTokensSold(DirectCrowdsaleStorage storage self) constant returns (uint256) {

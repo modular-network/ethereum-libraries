@@ -20,7 +20,7 @@ contract TimeEvenDistroCrowdsaleTestContract {
   function TimeEvenDistroCrowdsaleTestContract(
                 address owner,
                 uint256 currtime,
-                uint256[] purchaseData,
+                uint256[] saleData,
                 uint256 fallbackExchangeRate,
                 uint256 capAmountInCents,
                 uint256 endTime,
@@ -29,7 +29,7 @@ contract TimeEvenDistroCrowdsaleTestContract {
                 bool staticCap,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, currtime, purchaseData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressCap, staticCap, token);
+  	sale.init(owner, currtime, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressCap, staticCap, token);
   }
 
   // fallback function can be used to buy tokens
@@ -129,8 +129,8 @@ contract TimeEvenDistroCrowdsaleTestContract {
     return sale.base.leftoverWei[_buyer];
   }
 
-  function getPurchaseData(uint256 index) constant returns (uint256[3]) {
-    return sale.getPurchaseData(index);
+  function getSaleData(uint256 timestamp) constant returns (uint256[3]) {
+    return sale.getSaleData(timestamp);
   }
 
   function getTokensSold() constant returns (uint256) {

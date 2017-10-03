@@ -61,7 +61,7 @@ library TestDirectCrowdsaleLib {
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
                 uint256 _currtime,
-                uint256[] _purchaseData,
+                uint256[] _saleData,
                 uint256 _fallbackExchangeRate,
                 uint256 _capAmountInCents,
                 uint256 _endTime,
@@ -70,7 +70,7 @@ library TestDirectCrowdsaleLib {
   {
   	self.base.init(_owner,
                 _currtime,
-                _purchaseData,
+                _saleData,
                 _fallbackExchangeRate,
                 _capAmountInCents,
                 _endTime,
@@ -104,7 +104,7 @@ library TestDirectCrowdsaleLib {
           self.base.currentMilestone += 1;
         }
 
-        self.base.changeTokenPrice(self.base.purchaseData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
+        self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
         LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
     }
 
@@ -156,8 +156,8 @@ library TestDirectCrowdsaleLib {
     return self.base.setTokens();
   }
 
-  function getPurchaseData(DirectCrowdsaleStorage storage self, uint256 index) returns (uint256[3]) {
-    return self.base.getPurchaseData(index);
+  function getSaleData(DirectCrowdsaleStorage storage self, uint256 timestamp) returns (uint256[3]) {
+    return self.base.getSaleData(timestamp);
   }
 
   function getTokensSold(DirectCrowdsaleStorage storage self) constant returns (uint256) {

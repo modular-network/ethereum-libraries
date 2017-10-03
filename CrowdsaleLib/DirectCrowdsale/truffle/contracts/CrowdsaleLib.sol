@@ -53,7 +53,7 @@ library CrowdsaleLib {
     bool rateSet; //true if exchange rate has been set
 
     //Maps timestamp to token price and address purchase cap starting at that time
-    mapping (uint256 => uint256[2]) purchaseData;
+    mapping (uint256 => uint256[2]) saleData;
 
     //shows how much wei an address has contributed
   	mapping (address => uint256) hasContributed;
@@ -85,7 +85,7 @@ library CrowdsaleLib {
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
-  /// @param _purchaseData Array of 3 item arrays such that, in each 3 element
+  /// @param _saleData Array of 3 item arrays such that, in each 3 element
   /// array index-0 is timestamp, index-1 is price in cents at that time,
   /// index-2 is address purchase cap at that time, 0 if no address cap
   /// @param _fallbackExchangeRate Exchange rate of cents/ETH
@@ -95,7 +95,7 @@ library CrowdsaleLib {
   /// @param _token Token being sold
   function init(CrowdsaleStorage storage self,
                 address _owner,
-                uint256[] _purchaseData,
+                uint256[] _saleData,
                 uint256 _fallbackExchangeRate,
                 uint256 _capAmountInCents,
                 uint256 _endTime,
@@ -104,17 +104,17 @@ library CrowdsaleLib {
   {
   	require(self.capAmount == 0);
   	require(self.owner == 0);
-    require(_purchaseData.length > 0);
-    require((_purchaseData.length%3) == 0);
-    require(_purchaseData[0] > (now + 3 days));
-    require(_endTime > _purchaseData[0]);
+    require(_saleData.length > 0);
+    require((_saleData.length%3) == 0);
+    require(_saleData[0] > (now + 3 days));
+    require(_endTime > _saleData[0]);
     require(_capAmountInCents > 0);
     require(_owner > 0);
     require(_fallbackExchangeRate > 0);
     require(_percentBurn <= 100);
     self.owner = _owner;
     self.capAmount = ((_capAmountInCents/_fallbackExchangeRate) + 1)*(10**18);
-    self.startTime = _purchaseData[0];
+    self.startTime = _saleData[0];
     self.endTime = _endTime;
     self.token = _token;
     self.tokenDecimals = _token.decimals();
@@ -122,16 +122,16 @@ library CrowdsaleLib {
     self.exchangeRate = _fallbackExchangeRate;
 
     uint256 _tempTime;
-    for(uint256 i = 0; i < _purchaseData.length; i += 3){
-      require(_purchaseData[i] > _tempTime);
-      require(_purchaseData[i + 1] > 0);
-      require((_purchaseData[i + 2] == 0) || (_purchaseData[i + 2] >= 100));
-      self.milestoneTimes.push(_purchaseData[i]);
-      self.purchaseData[_purchaseData[i]][0] = _purchaseData[i + 1];
-      self.purchaseData[_purchaseData[i]][1] = _purchaseData[i + 2];
-      _tempTime = _purchaseData[i];
+    for(uint256 i = 0; i < _saleData.length; i += 3){
+      require(_saleData[i] > _tempTime);
+      require(_saleData[i + 1] > 0);
+      require((_saleData[i + 2] == 0) || (_saleData[i + 2] >= 100));
+      self.milestoneTimes.push(_saleData[i]);
+      self.saleData[_saleData[i]][0] = _saleData[i + 1];
+      self.saleData[_saleData[i]][1] = _saleData[i + 2];
+      _tempTime = _saleData[i];
     }
-    changeTokenPrice(self, _purchaseData[1]);
+    changeTokenPrice(self, _saleData[1]);
   }
 
   /// @dev function to check if the crowdsale is currently active
@@ -303,13 +303,21 @@ library CrowdsaleLib {
 
   /// @dev Gets the price and buy cap for individual addresses at the given milestone index
   /// @param self Stored Crowdsale from crowdsale contract
-  /// @param index Milestone index
+  /// @param timestamp Time during sale for which data is requested
   /// @return A 3-element array with 0 the timestamp, 1 the price in cents, 2 the address cap
-  function getPurchaseData(CrowdsaleStorage storage self, uint256 index) constant returns (uint256[3]) {
+  function getSaleData(CrowdsaleStorage storage self, uint256 timestamp) constant returns (uint256[3]) {
     uint256[3] memory _thisData;
-    _thisData[0] = self.milestoneTimes[index];
-    _thisData[1] = self.purchaseData[_thisData[0]][0];
-    _thisData[2] = self.purchaseData[_thisData[0]][1];
+    uint256 index = 0;
+    for(uint256 i = 0; i<self.milestoneTimes.length; i++){
+      if (self.milestoneTimes[i] < timestamp) {
+        index++;
+      } else {
+        break;
+      }
+    }
+    _thisData[0] = self.milestoneTimes[index - 1];
+    _thisData[1] = self.saleData[_thisData[0]][0];
+    _thisData[2] = self.saleData[_thisData[0]][1];
     return _thisData;
   }
 

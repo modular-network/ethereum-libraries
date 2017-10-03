@@ -88,7 +88,7 @@ library TestEvenDistroCrowdsaleLib {
   function init(EvenDistroCrowdsaleStorage storage self,
                 address _owner,
                 uint256 _currtime,
-                uint256[] _purchaseData,
+                uint256[] _saleData,
                 uint256 _fallbackExchangeRate,
                 uint256 _capAmountInCents,
                 uint256 _endTime,
@@ -99,7 +99,7 @@ library TestEvenDistroCrowdsaleLib {
   {
     self.base.init(_owner,
                    _currtime,
-                   _purchaseData,
+                   _saleData,
                    _fallbackExchangeRate,
                    _capAmountInCents,
                    _endTime,
@@ -212,12 +212,12 @@ library TestEvenDistroCrowdsaleLib {
     require(!err);
 
     for(uint256 i = 0; i < self.base.milestoneTimes.length; i++){
-      (err,calcCap) = self.base.purchaseData[self.base.milestoneTimes[i]][1].times(baseCap);
+      (err,calcCap) = self.base.saleData[self.base.milestoneTimes[i]][1].times(baseCap);
       require(!err);
-      self.base.purchaseData[self.base.milestoneTimes[i]][1] = calcCap/100;
+      self.base.saleData[self.base.milestoneTimes[i]][1] = calcCap/100;
     }
 
-    self.addressCap = self.base.purchaseData[self.base.milestoneTimes[0]][1];
+    self.addressCap = self.base.saleData[self.base.milestoneTimes[0]][1];
     LogAddressCapCalculated(self.base.capAmount, self.numRegistered, self.addressCap, "Address cap was Calculated!");
   }
 
@@ -261,8 +261,8 @@ library TestEvenDistroCrowdsaleLib {
         self.base.currentMilestone += 1;
       }
 
-      self.addressCap = self.base.purchaseData[self.base.milestoneTimes[self.base.currentMilestone]][1];
-      self.base.changeTokenPrice(self.base.purchaseData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
+      self.addressCap = self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][1];
+      self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
 
       LogAddressCapChange(result, "Address cap has increased!");
       LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
@@ -330,8 +330,8 @@ library TestEvenDistroCrowdsaleLib {
     return self.base.setTokens();
   }
 
-  function getPurchaseData(EvenDistroCrowdsaleStorage storage self, uint256 index) returns (uint256[3]) {
-    return self.base.getPurchaseData(index);
+  function getSaleData(EvenDistroCrowdsaleStorage storage self, uint256 timestamp) returns (uint256[3]) {
+    return self.base.getSaleData(timestamp);
   }
 
   function getTokensSold(EvenDistroCrowdsaleStorage storage self) constant returns (uint256) {
