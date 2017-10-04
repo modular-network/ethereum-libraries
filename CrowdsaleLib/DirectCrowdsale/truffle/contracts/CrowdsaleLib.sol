@@ -85,9 +85,9 @@ library CrowdsaleLib {
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
-  /// @param _saleData Array of 3 item arrays such that, in each 3 element
-  /// array index-0 is timestamp, index-1 is price in cents at that time,
-  /// index-2 is address purchase cap at that time, 0 if no address cap
+  /// @param _saleData Array of 3 item sets such that, in each 3 element
+  /// set, 1 is timestamp, 2 is price in cents at that time,
+  /// 3 is address purchase cap at that time, 0 if no address cap
   /// @param _fallbackExchangeRate Exchange rate of cents/ETH
   /// @param _capAmountInCents Total to be raised in cents
   /// @param _endTime Timestamp of sale end time
@@ -112,6 +112,7 @@ library CrowdsaleLib {
     require(_owner > 0);
     require(_fallbackExchangeRate > 0);
     require(_percentBurn <= 100);
+    require(_token > 0);
     self.owner = _owner;
     self.capAmount = ((_capAmountInCents/_fallbackExchangeRate) + 1)*(10**18);
     self.startTime = _saleData[0];

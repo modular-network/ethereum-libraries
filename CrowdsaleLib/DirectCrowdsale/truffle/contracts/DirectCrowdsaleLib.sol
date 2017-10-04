@@ -52,9 +52,9 @@ library DirectCrowdsaleLib {
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
-  /// @param _saleData Array of 3 item arrays such that, in each 3 element
-  /// array index-0 is timestamp, index-1 is price in cents at that time,
-  /// index-2 is address purchase cap at that time, 0 if no address cap
+  /// @param _saleData Array of 3 item sets such that, in each 3 element
+  /// set, 1 is timestamp, 2 is price in cents at that time,
+  /// 3 is address purchase cap at that time, 0 if no address cap
   /// @param _fallbackExchangeRate Exchange rate of cents/ETH
   /// @param _capAmountInCents Total to be raised in cents
   /// @param _endTime Timestamp of sale end time
@@ -80,7 +80,7 @@ library DirectCrowdsaleLib {
 
   /// @dev Called when an address wants to purchase tokens
   /// @param self Stored crowdsale from crowdsale contract
-  /// @param _amount amound of wei that the buyer is sending
+  /// @param _amount amount of wei that the buyer is sending
   /// @return true on succesful purchase
   function receivePurchase(DirectCrowdsaleStorage storage self, uint256 _amount) returns (bool) {
     require(msg.sender != self.base.owner);
@@ -102,47 +102,47 @@ library DirectCrowdsaleLib {
         LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
     }
 
-  	uint256 numTokens; //number of tokens that will be purchased
-  	bool err;
-    uint256 newBalance; //the new balance of the owner of the crowdsale
-    uint256 weiTokens; //temp calc holder
-    uint256 zeros; //for calculating token
-    uint256 leftoverWei; //wei change for purchaser
-    uint256 remainder; //temp calc holder
+  	uint256 _numTokens; //number of tokens that will be purchased
+    uint256 _newBalance; //the new balance of the owner of the crowdsale
+    uint256 _weiTokens; //temp calc holder
+    uint256 _zeros; //for calculating token
+    uint256 _leftoverWei; //wei change for purchaser
+    uint256 _remainder; //temp calc holder
+    bool err;
 
     // Find the number of tokens as a function in wei
-    (err,weiTokens) = _amount.times(self.base.tokensPerEth);
+    (err,_weiTokens) = _amount.times(self.base.tokensPerEth);
     require(!err);
 
     if(self.base.tokenDecimals <= 18){
-      zeros = 10**(18-uint256(self.base.tokenDecimals));
-      numTokens = weiTokens/zeros;
-      leftoverWei = weiTokens % zeros;
-      self.base.leftoverWei[msg.sender] += leftoverWei;
+      _zeros = 10**(18-uint256(self.base.tokenDecimals));
+      _numTokens = weiTokens/zeros;
+      _leftoverWei = _weiTokens % _zeros;
+      self.base.leftoverWei[msg.sender] += _leftoverWei;
     } else {
-      zeros = 10**(uint256(self.base.tokenDecimals)-18);
-      numTokens = weiTokens*zeros;
+      _zeros = 10**(uint256(self.base.tokenDecimals)-18);
+      _numTokens = _weiTokens*_zeros;
     }
 
     // can't overflow because it is under the cap
-    self.base.hasContributed[msg.sender] += _amount - leftoverWei;
+    self.base.hasContributed[msg.sender] += _amount - _leftoverWei;
 
-    require(numTokens <= self.base.token.balanceOf(this));
+    require(_numTokens <= self.base.token.balanceOf(this));
 
-    // calculate the amout of ether in the owners balance
-    (err,newBalance) = self.base.ownerBalance.plus(_amount-leftoverWei);
+    // calculate the amount of ether in the owners balance
+    (err,_newBalance) = self.base.ownerBalance.plus(_amount-_leftoverWei);
     require(!err);
 
-    self.base.ownerBalance = newBalance;   // "deposit" the amount
+    self.base.ownerBalance = _newBalance;   // "deposit" the amount
 
     // can't overflow because it will be under the cap
-	  self.base.withdrawTokensMap[msg.sender] += numTokens;
+	  self.base.withdrawTokensMap[msg.sender] += _numTokens;
 
     //subtract tokens from owner's share
-    (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);
-    self.base.withdrawTokensMap[self.base.owner] = remainder;
+    (err,_remainder) = self.base.withdrawTokensMap[self.base.owner].minus(_numTokens);
+    self.base.withdrawTokensMap[self.base.owner] = _remainder;
 
-	  LogTokensBought(msg.sender, numTokens);
+	  LogTokensBought(msg.sender, _numTokens);
 
     return true;
   }

@@ -96,6 +96,7 @@ library TestCrowdsaleLib {
     require(_owner > 0);
     require(_fallbackExchangeRate > 0);
     require(_percentBurn <= 100);
+    require(_token > 0);
     self.owner = _owner;
     self.capAmount = ((_capAmountInCents/_fallbackExchangeRate) + 1)*(10**18);
     self.startTime = _saleData[0];

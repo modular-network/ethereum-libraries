@@ -78,9 +78,9 @@ library EvenDistroCrowdsaleLib {
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
-  /// @param _saleData Array of 3 item arrays such that, in each 3 element
-  /// array index-0 is timestamp, index-1 is price in cents at that time,
-  /// index-2 is address purchase cap at that time, 0 if no address cap
+  /// @param _saleData Array of 3 item sets such that, in each 3 element
+  /// set, 1 is timestamp, 2 is price in cents at that time,
+  /// 3 is address purchase cap at that time, 0 if no address cap
   /// @param _fallbackExchangeRate Exchange rate of cents/ETH
   /// @param _capAmountInCents Total to be raised in cents
   /// @param _endTime Timestamp of sale end time
@@ -106,8 +106,9 @@ library EvenDistroCrowdsaleLib {
                    _percentBurn,
                    _token);
 
-    self.staticCap = _staticCap;
+    require(_initialAddressCap > 0);
     self.addressCap = _initialAddressCap;
+    self.staticCap = _staticCap;
   }
 
   /// @dev register user function. can only be called by the owner when a user registers on the web app.
@@ -206,17 +207,17 @@ library EvenDistroCrowdsaleLib {
     }
     require(!self.base.rateSet);  // makes sure this can only be called once
 
-    uint256 baseCap;
-    uint256 calcCap;
+    uint256 _baseCap;
+    uint256 _calcCap;
     bool err;
 
-    (err,baseCap) = self.base.capAmount.dividedBy(self.numRegistered);
+    (err,_baseCap) = self.base.capAmount.dividedBy(self.numRegistered);
     require(!err);
 
     for(uint256 i = 0; i < self.base.milestoneTimes.length; i++){
-      (err,calcCap) = self.base.saleData[self.base.milestoneTimes[i]][1].times(baseCap);
+      (err,_calcCap) = self.base.saleData[self.base.milestoneTimes[i]][1].times(_baseCap);
       require(!err);
-      self.base.saleData[self.base.milestoneTimes[i]][1] = calcCap/100;
+      self.base.saleData[self.base.milestoneTimes[i]][1] = _calcCap/100;
     }
 
     self.addressCap = self.base.saleData[self.base.milestoneTimes[0]][1];
@@ -255,59 +256,69 @@ library EvenDistroCrowdsaleLib {
       }
 
       self.addressCap = self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][1];
+
+      uint256 _tempPriceHolder = self.base.tokensPerEth;
       self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
 
       LogAddressCapChange(result, "Address cap has increased!");
-      LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
+
+      if(self.base.tokensPerEth != _tempPriceHolder)
+        LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
   	}
 
-    uint256 numTokens; //number of tokens that will be purchased
-    uint256 zeros; //for calculating token
-    uint256 leftoverWei; //wei change for purchaser if they went over the address cap
-    uint256 remainder = 0; //temp calc holder for division remainder for leftover wei and then later for tokens remaining for the owner
+    uint256 _numTokens; //number of tokens that will be purchased
+    uint256 _zeros; //for calculating token
+    uint256 _leftoverWei; //wei change for purchaser if they went over the address cap
+    uint256 _remainder; //temp calc holder for division remainder for leftover wei and then later for tokens remaining for the owner
+    uint256 _allowedWei;  // tells how much more the buyer can contribute up to their cap
 
-    uint256 allowedWei;  // tells how much more the buyer can contribute up to their cap
-    (err,allowedWei) = self.addressCap.minus(self.base.hasContributed[msg.sender]);
+    if(self.addressCap > 0) {
+      (err,_allowedWei) = self.addressCap.minus(self.base.hasContributed[msg.sender]);
+    } else {
+      // if addressCap is zero then there is no cap
+      _allowedWei = _amount;
+    }
+
     require(!err);
 
-    allowedWei = getMin(_amount,allowedWei);
-    leftoverWei = _amount - allowedWei;
+    _allowedWei = getMin(_amount,_allowedWei);
+    _leftoverWei = _amount - _allowedWei;
 
     // Find the number of tokens as a function in wei
-    (err,result) = allowedWei.times(self.base.tokensPerEth);
+    (err,result) = _allowedWei.times(self.base.tokensPerEth);
     require(!err);
 
     if(self.base.tokenDecimals <= 18){
-      zeros = 10**(18-uint256(self.base.tokenDecimals));
-      numTokens = result/zeros;
-      remainder = result % zeros;
+      _zeros = 10**(18-uint256(self.base.tokenDecimals));
+      _numTokens = result/_zeros;
+      _remainder = result % _zeros;
     } else {
-      zeros = 10**(uint256(self.base.tokenDecimals)-18);
-      numTokens = result*zeros;
+      _zeros = 10**(uint256(self.base.tokenDecimals)-18);
+      _numTokens = result*_zeros;
     }
 
-    self.base.leftoverWei[msg.sender] += leftoverWei+remainder;
+    self.base.leftoverWei[msg.sender] += _leftoverWei + _remainder;
     if(((self.base.hasContributed[msg.sender] + _amount)) > self.addressCap) {
       LogAddressCapExceeded(msg.sender,self.base.leftoverWei[msg.sender],"Cap Per Address has been exceeded! Please withdraw leftover Wei!");
     }
 
     // can't overflow because it is under the cap
-    self.base.hasContributed[msg.sender] += allowedWei - remainder;
+    self.base.hasContributed[msg.sender] += _allowedWei - _remainder;
 
-    require(numTokens <= self.base.token.balanceOf(this));
+    require(_numTokens <= self.base.token.balanceOf(this));
 
     // calculate the amout of ether in the owners balance and "deposit" it
-    self.base.ownerBalance = self.base.ownerBalance + (allowedWei - remainder);
+    self.base.ownerBalance = self.base.ownerBalance + (_allowedWei - _remainder);
 
     // can't overflow because it will be under the cap
-    self.base.withdrawTokensMap[msg.sender] += numTokens;
+    self.base.withdrawTokensMap[msg.sender] += _numTokens;
 
     //subtract tokens from owner's share
-    (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);
+    (err,_remainder) = self.base.withdrawTokensMap[self.base.owner].minus(_numTokens);
     require(!err);
-    self.base.withdrawTokensMap[self.base.owner] = remainder;
+    self.base.withdrawTokensMap[self.base.owner] = _remainder;
 
-    LogTokensBought(msg.sender, numTokens);
+    LogTokensBought(msg.sender, _numTokens);
 
     return true;
   }
