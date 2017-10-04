@@ -262,19 +262,29 @@ library TestEvenDistroCrowdsaleLib {
       }
 
       self.addressCap = self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][1];
+
+      uint256 _tempPriceHolder = self.base.tokensPerEth;
       self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
 
       LogAddressCapChange(result, "Address cap has increased!");
-      LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
+
+      if(self.base.tokensPerEth != _tempPriceHolder)
+        LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
   	}
 
   	uint256 numTokens; //number of tokens that will be purchased
     uint256 zeros; //for calculating token
     uint256 leftoverWei; //wei change for purchaser if they went over the address cap
     uint256 remainder = 0; //temp calc holder for division remainder and then tokens remaining for the owner
-
     uint256 allowedWei;  // tells how much more the buyer can contribute up to their cap
-    (err,allowedWei) = self.addressCap.minus(self.base.hasContributed[msg.sender]);
+
+    if(self.addressCap > 0) {
+      (err,allowedWei) = self.addressCap.minus(self.base.hasContributed[msg.sender]);
+    } else {
+      // if addressCap is zero then there is no cap
+      allowedWei = _amount;
+    }
+
     require(!err);
 
     allowedWei = getMin(_amount,allowedWei);
