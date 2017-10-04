@@ -1,0 +1,9 @@
+{
+  "name": "LinkedListLib",
+  "version": "1.0.0",
+  "description": "A linked list library for using linked list data structures in your project.",
+  "devDependencies": {
+    "truffle": "3.4.9",
+    "ethereumjs-testrpc": "4.1.1"
+  }
+}
