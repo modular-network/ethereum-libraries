@@ -12,6 +12,8 @@ contract TestArrayUtilsLib{
   uint expected;
   uint result;
 
+  event print(string name, uint[] array);
+
   function beforeAll(){
     instance = ArrayUtilsTestContract(DeployedAddresses.ArrayUtilsTestContract());
   }
@@ -169,6 +171,7 @@ contract TestArrayUtilsLib{
     expectedArray.push(9);
     expectedArray.push(1095);
     expectedArray.push(0xff3);
+
     uint[10] memory r1;
     r1 = instance.getHeapSort256();
     resultArray = r1;
@@ -178,6 +181,27 @@ contract TestArrayUtilsLib{
     r2 = instance.getHeapSort64();
     resultArray = r2;
     Assert.equal(resultArray, expectedArray, "heapSort");
+  }
+
+  function testUniqFunction(){
+    delete expectedArray;
+
+    expectedArray.push(1);
+    expectedArray.push(2);
+    expectedArray.push(7);
+    expectedArray.push(4);
+    expectedArray.push(0xff3);
+    expectedArray.push(0);
+    expectedArray.push(1095);
+
+    uint[10] memory r1;
+    r1 = instance.getUniq256();
+    resultArray = r1;
+
+    print('resultArray', resultArray);
+    print('expectedArray', expectedArray);
+
+    Assert.equal(resultArray, expectedArray, "uniq");
   }
 
 }

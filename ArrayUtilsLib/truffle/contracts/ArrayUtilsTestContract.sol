@@ -414,4 +414,25 @@ contract ArrayUtilsTestContract {
     }
   }
 
+  function getUniq256() returns (uint256[10] memory r) {
+    delete array256;
+
+    array256.push(1);
+    array256.push(1);
+    array256.push(2);
+    array256.push(7);
+    array256.push(4);
+    array256.push(4);
+    array256.push(0xff3);
+    array256.push(0);
+    array256.push(1095);
+    array256.push(1);
+
+    array256.uniq();
+
+    for (uint256 i = 0; i < array256.length; i++) {
+      r[i] = array256[i];
+    }
+  }
+
 }
