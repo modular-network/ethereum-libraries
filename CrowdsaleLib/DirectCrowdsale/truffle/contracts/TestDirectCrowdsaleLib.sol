@@ -49,10 +49,6 @@ library TestDirectCrowdsaleLib {
 
   	TestCrowdsaleLib.CrowdsaleStorage base;
 
-    uint256[] tokenPricePoints;    // price points at each price change interval in cents/token.
-
-  	uint256 changeInterval;      // amount of time between changes in the price of the token
-  	uint256 lastPriceChangeTime;          // time of the last change in token cost
   }
 
   event LogTokensBought(address indexed buyer, uint256 amount);
@@ -65,32 +61,21 @@ library TestDirectCrowdsaleLib {
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
                 uint256 _currtime,
-                uint256 _capAmountInCents,
-                uint256 _startTime,
-                uint256 _endTime,
-                uint256[] _tokenPricePoints,
+                uint256[] _saleData,
                 uint256 _fallbackExchangeRate,
-                uint256 _changeInterval,
+                uint256 _capAmountInCents,
+                uint256 _endTime,
                 uint8 _percentBurn,
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
                 _currtime,
-                _tokenPricePoints[0],
+                _saleData,
                 _fallbackExchangeRate,
                 _capAmountInCents,
-                _startTime,
                 _endTime,
                 _percentBurn,
                 _token);
-
-    require(_tokenPricePoints.length > 0);
-    if (_tokenPricePoints.length == 1) {             // if there is no increase or decrease in price, the time interval should also be zero
-      require(_changeInterval == 0);
-    }
-  	self.tokenPricePoints = _tokenPricePoints;
-    self.changeInterval = _changeInterval;
-    self.lastPriceChangeTime = _startTime;
   }
 
   /// @dev Called when an address wants to purchase tokens
@@ -110,17 +95,18 @@ library TestDirectCrowdsaleLib {
     }
 
   	// if the token price increase interval has passed, update the current day and change the token price
-    if ((self.changeInterval > 0) && (currtime >= (self.lastPriceChangeTime + self.changeInterval))) {
-  		self.lastPriceChangeTime = self.lastPriceChangeTime + self.changeInterval;
-      uint256 index = (currtime-self.base.startTime)/self.changeInterval;
+    if ((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
+        (currtime > self.base.milestoneTimes[self.base.currentMilestone + 1]))
+    {
+        while((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
+              (currtime > self.base.milestoneTimes[self.base.currentMilestone + 1]))
+        {
+          self.base.currentMilestone += 1;
+        }
 
-      if (self.tokenPricePoints.length <= index) //prevents going out of bounds on the tokenPricePoints array
-        index = self.tokenPricePoints.length - 1;
-
-      self.base.changeTokenPrice(self.tokenPricePoints[index]);
-
-      LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
-  	}
+        self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
+        LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
+    }
 
   	uint256 numTokens;     //number of tokens that will be purchased
   	bool err;
@@ -166,16 +152,16 @@ library TestDirectCrowdsaleLib {
     return self.base.setTokenExchangeRate(_exchangeRate, _currtime);
   }
 
-  function crowdsaleActive(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
-    return self.base.crowdsaleActive(currtime);
+  function setTokens(DirectCrowdsaleStorage storage self) returns (bool) {
+    return self.base.setTokens();
   }
 
-  function crowdsaleEnded(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
-    return self.base.crowdsaleEnded(currtime);
+  function getSaleData(DirectCrowdsaleStorage storage self, uint256 timestamp) returns (uint256[3]) {
+    return self.base.getSaleData(timestamp);
   }
 
-  function validPurchase(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
-    return self.base.validPurchase(currtime);
+  function getTokensSold(DirectCrowdsaleStorage storage self) constant returns (uint256) {
+    return self.base.getTokensSold();
   }
 
   function withdrawTokens(DirectCrowdsaleStorage storage self,uint256 currtime) returns (bool) {
@@ -190,16 +176,15 @@ library TestDirectCrowdsaleLib {
     return self.base.withdrawOwnerEth(currtime);
   }
 
-  function getContribution(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
-    return self.base.getContribution(_buyer);
+  function crowdsaleActive(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+    return self.base.crowdsaleActive(currtime);
   }
 
-  function getTokenPurchase(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
-    return self.base.getTokenPurchase(_buyer);
+  function crowdsaleEnded(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+    return self.base.crowdsaleEnded(currtime);
   }
 
-  function getLeftoverWei(DirectCrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
-    return self.base.getLeftoverWei(_buyer);
+  function validPurchase(DirectCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+    return self.base.validPurchase(currtime);
   }
-
 }

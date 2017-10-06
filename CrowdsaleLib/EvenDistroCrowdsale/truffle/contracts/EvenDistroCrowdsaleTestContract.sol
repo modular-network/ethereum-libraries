@@ -15,19 +15,17 @@ contract EvenDistroCrowdsaleTestContract {
   EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage sale;
 
   function EvenDistroCrowdsaleTestContract(
-                address owner,
-                uint256 capAmountInCents,
-                uint256 startTime,
-                uint256 endTime,
-                uint256 tokenPriceinCents,
-                uint256 fallbackExchangeRate,
-                uint256 capPercentMultiplier,
-                uint256 fallbackAddressCap,
-                uint256 changeInterval,
-                uint8 percentBurn,
-                CrowdsaleToken token)
+    address owner,
+    uint256[] saleData,
+    uint256 fallbackExchangeRate,
+    uint256 capAmountInCents,
+    uint256 endTime,
+    uint8 percentBurn,
+    uint256 initialAddressCap,
+    bool staticCap,
+    CrowdsaleToken token)
   {
-  	sale.init(owner, capAmountInCents, startTime, endTime, tokenPriceinCents, fallbackExchangeRate, changeInterval, percentBurn, capPercentMultiplier, fallbackAddressCap, token);
+  	sale.init(owner, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressCap, staticCap, token);
   }
 
   // fallback function can be used to buy tokens
@@ -43,12 +41,28 @@ contract EvenDistroCrowdsaleTestContract {
     return sale.registerUser(_registrant);
   }
 
+  function registerUsers(address[] _registrants) returns (bool) {
+    return sale.registerUsers(_registrants);
+  }
+
   function unregisterUser(address _registrant) returns (bool) {
     return sale.unregisterUser(_registrant);
   }
 
+  function unregisterUsers(address _registrants) returns (bool) {
+    return sale.unregisterUser(_registrants);
+  }
+
   function isRegistered(address _registrant) constant returns (bool) {
     return sale.isRegistered[_registrant];
+  }
+
+  function withdrawTokens() returns (bool) {
+    return sale.withdrawTokens();
+  }
+
+  function withdrawLeftoverWei() returns (bool) {
+    return sale.withdrawLeftoverWei();
   }
 
   function withdrawOwnerEth() returns (bool) {
@@ -71,71 +85,63 @@ contract EvenDistroCrowdsaleTestContract {
     return sale.setTokens();
   }
 
-  function withdrawTokens() returns (bool) {
-  	return sale.withdrawTokens();
-  }
-
-  function withdrawLeftoverWei() returns (bool) {
-    return sale.withdrawLeftoverWei();
-  }
-
-  function owner() constant returns (address) {
+  function getOwner() constant returns (address) {
     return sale.base.owner;
   }
 
-  function tokensPerEth() constant returns (uint256) {
+  function getTokensPerEth() constant returns (uint256) {
     return sale.base.tokensPerEth;
   }
 
-  function exchangeRate() constant returns (uint256) {
+  function getExchangeRate() constant returns (uint256) {
     return sale.base.exchangeRate;
   }
 
-  function capAmount() constant returns (uint256) {
+  function getCapAmount() constant returns (uint256) {
     return sale.base.capAmount;
   }
 
-  function startTime() constant returns (uint256) {
+  function getStartTime() constant returns (uint256) {
     return sale.base.startTime;
   }
 
-  function endTime() constant returns (uint256) {
+  function getEndTime() constant returns (uint256) {
     return sale.base.endTime;
   }
 
-  function changeInterval() constant returns (uint256) {
-    return sale.changeInterval;
-  }
-
-  function addressCap() constant returns (uint256) {
-    return sale.addressCap;
-  }
-
-  function numRegistered() constant returns (uint256) {
-    return sale.numRegistered;
-  }
-
-  function capPercentMultiplier() constant returns (uint256) {
-    return sale.capPercentMultiplier;
-  }
-
-  function ownerBalance() constant returns (uint256) {
+  function getEthRaised() constant returns (uint256) {
     return sale.base.ownerBalance;
   }
 
-  function percentBurn() constant returns (uint256) {
-    return sale.base.percentBurn;
-  }
-
   function getContribution(address _buyer) constant returns (uint256) {
-  	return sale.base.hasContributed[_buyer];
+    return sale.base.hasContributed[_buyer];
   }
 
   function getTokenPurchase(address _buyer) constant returns (uint256) {
-  	return sale.base.withdrawTokensMap[_buyer];
+    return sale.base.withdrawTokensMap[_buyer];
   }
 
   function getLeftoverWei(address _buyer) constant returns (uint256) {
     return sale.base.leftoverWei[_buyer];
+  }
+
+  function getSaleData(uint256 timestamp) constant returns (uint256[3]) {
+    return sale.getSaleData(timestamp);
+  }
+
+  function getTokensSold() constant returns (uint256) {
+    return sale.getTokensSold();
+  }
+
+  function getPercentBurn() constant returns (uint256) {
+    return sale.base.percentBurn;
+  }
+
+  function getAddressCap() constant returns (uint256) {
+    return sale.addressCap;
+  }
+
+  function getNumRegistered() constant returns (uint256) {
+    return sale.numRegistered;
   }
 }

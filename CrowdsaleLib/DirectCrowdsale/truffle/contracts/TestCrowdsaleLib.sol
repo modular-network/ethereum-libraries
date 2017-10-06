@@ -51,12 +51,16 @@ library TestCrowdsaleLib {
     uint256 startTime; //ICO start time, timestamp
     uint256 endTime; //ICO end time, timestamp automatically calculated
     uint256 exchangeRate;   //  cents/ETH exchange rate at the time of the sale
-    uint256 ownerBalance;
+    uint256 ownerBalance; //owner wei Balance
+    uint256 startingTokenBalance; //initial amount of tokens for sale
+    uint256[] milestoneTimes; //Array of timestamps when token price and address cap changes
+    uint8 currentMilestone; //Pointer to the current milestone
     uint8 tokenDecimals;
     uint8 percentBurn;
     bool tokensSet;
     bool rateSet;
 
+    mapping (uint256 => uint256[2]) saleData;
   	mapping (address => uint256) hasContributed;  //shows how much wei an address has contributed
   	mapping (address => uint256) withdrawTokensMap;  //For token withdraw function, maps a user address to the amount of tokens they can withdraw
     mapping (address => uint256) leftoverWei;       // any leftover wei that buyers contributed that didn't add up to a whole token amount
@@ -75,32 +79,43 @@ library TestCrowdsaleLib {
   function init(CrowdsaleStorage storage self,
                 address _owner,
                 uint256 _currtime,
-                uint256 _tokenPriceInCents,
+                uint256[] _saleData,
                 uint256 _fallbackExchangeRate,
                 uint256 _capAmountInCents,
-                uint256 _startTime,
                 uint256 _endTime,
                 uint8 _percentBurn,
                 CrowdsaleToken _token)
   {
   	require(self.capAmount == 0);
   	require(self.owner == 0);
-    require(_endTime > _startTime);
-    require(_tokenPriceInCents > 0);
+    require(_saleData.length > 0);
+    require((_saleData.length%3) == 0);
+    require(_saleData[0] > (_currtime + 3));
+    require(_endTime > _saleData[0]);
     require(_capAmountInCents > 0);
     require(_owner > 0);
-    require(_startTime > _currtime);
     require(_fallbackExchangeRate > 0);
     require(_percentBurn <= 100);
     self.owner = _owner;
     self.capAmount = ((_capAmountInCents/_fallbackExchangeRate) + 1)*(10**18);
-    self.startTime = _startTime;
+    self.startTime = _saleData[0];
     self.endTime = _endTime;
     self.token = _token;
     self.tokenDecimals = _token.decimals();
     self.percentBurn = _percentBurn;
     self.exchangeRate = _fallbackExchangeRate;
-    changeTokenPrice(self,_tokenPriceInCents);
+
+    uint256 _tempTime;
+    for(uint256 i = 0; i < _saleData.length; i += 3){
+      require(_saleData[i] > _tempTime);
+      require(_saleData[i + 1] > 0);
+      require((_saleData[i + 2] == 0) || (_saleData[i + 2] >= 100));
+      self.milestoneTimes.push(_saleData[i]);
+      self.saleData[_saleData[i]][0] = _saleData[i + 1];
+      self.saleData[_saleData[i]][1] = _saleData[i + 2];
+      _tempTime = _saleData[i];
+    }
+    changeTokenPrice(self, _saleData[1]);
   }
 
   /// @dev function to check if the crowdsale is currently active
@@ -264,27 +279,30 @@ library TestCrowdsaleLib {
     return true;
   }
 
-  /// @dev Gets the amount of ether that an account has contributed
-  /// @param _buyer address to get the information for
-  /// @return amount of ether
-  function getContribution(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
-    LogNoticeMsg(_buyer, self.hasContributed[_buyer], "Users ether contribution");
-    return self.hasContributed[_buyer];
+  /// @dev Gets the price and buy cap for individual addresses at the given milestone index
+  /// @param self Stored Crowdsale from crowdsale contract
+  /// @param timestamp Time during sale for which data is requested
+  /// @return A 3-element array with 0 the timestamp, 1 the price in cents, 2 the address cap
+  function getSaleData(CrowdsaleStorage storage self, uint256 timestamp) constant returns (uint256[3]) {
+    uint256[3] memory _thisData;
+    uint256 index = 0;
+    for(uint256 i = 0; i<self.milestoneTimes.length; i++){
+      if (self.milestoneTimes[i] < timestamp) {
+        index++;
+      } else {
+        break;
+      }
+    }
+    _thisData[0] = self.milestoneTimes[index - 1];
+    _thisData[1] = self.saleData[_thisData[0]][0];
+    _thisData[2] = self.saleData[_thisData[0]][1];
+    return _thisData;
   }
 
-  /// @dev returns the number of tokens that an account has purchased
-  /// @param _buyer address to get the information for
-  /// @return number of tokens the account can withdraw
-  function getTokenPurchase(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
-    LogNoticeMsg(_buyer, self.withdrawTokensMap[_buyer], "Users token purchase");
-    return self.withdrawTokensMap[_buyer];
-  }
-
-  /// @dev returns the number of tokens that an account has purchased
-  /// @param _buyer address to get the information for
-  /// @return number of tokens the account can withdraw
-  function getLeftoverWei(CrowdsaleStorage storage self, address _buyer) constant returns (uint256) {
-    LogNoticeMsg(_buyer, self.withdrawTokensMap[_buyer], "Users leftoverWei");
-    return self.leftoverWei[_buyer];
+  /// @dev Gets the number of tokens sold thus far
+  /// @param self Stored Crowdsale from crowdsale contract
+  /// @return Number of tokens sold
+  function getTokensSold(CrowdsaleStorage storage self) constant returns (uint256) {
+    return self.startingTokenBalance - self.token.balanceOf(this);
   }
 }

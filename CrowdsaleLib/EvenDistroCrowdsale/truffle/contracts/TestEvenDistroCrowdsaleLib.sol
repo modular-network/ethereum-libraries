@@ -11,7 +11,7 @@ pragma solidity ^0.4.15;
  *
  * The EvenDistroCrowdsale Library provides functionality to create a initial coin offering
  * for a standard token sale with high demand where the amount of ether a single address
- * can contribute is calculated by dividing the sale's contribution cap by the number 
+ * can contribute is calculated by dividing the sale's contribution cap by the number
  * of addresses who register before the sale starts
  *
  *
@@ -56,15 +56,12 @@ library TestEvenDistroCrowdsaleLib {
 
     uint256 numRegistered;   // records how many addresses have registered
     uint256 addressCap;           // cap on how much wei an address can contribute in the sale
-    uint256 capPercentMultiplier;  // percent of the address cap that we multiply to increase every time interval
-
-    uint256 changeInterval;      // amount of time between changes in the purchase cap for each address
-    uint256 lastCapChangeTime;  // time of the last change in token cost
+    bool staticCap;
   }
 
   // Indicates when tokens are bought during the sale
   event LogTokensBought(address indexed buyer, uint256 amount);
-  
+
   // Logs when a buyer has exceeded the address cap and tells them to withdraw their leftover wei
   event LogAddressCapExceeded(address indexed buyer, uint256 amount, string Msg);
 
@@ -80,55 +77,38 @@ library TestEvenDistroCrowdsaleLib {
   // Logs when there is an increase in the contribution cap per address
   event LogAddressCapChange(uint256 amount, string Msg);
 
+  // Logs when there is a change in price
+  event LogTokenPriceChange(uint256 amount, string Msg);
+
   // Logs when the address cap is initially calculated
   event LogAddressCapCalculated(uint256 saleCap, uint256 numRegistered, uint256 cap, string Msg);
 
 
   /// @dev Called by a crowdsale contract upon creation.
-  /// @param self Stored crowdsale from crowdsale contract
-  /// @param _owner Address of crowdsale owner
-  /// @param _capAmountInCents Total to be raised in cents
-  /// @param _startTime Timestamp of sale start time
-  /// @param _endTime Timestamp of sale end time
-  /// @param _fallbackExchangeRate Exchange rate of cents/ETH
-  /// @param _changeInterval The number of seconds between each step
-  /// @param _percentBurn Percentage of extra tokens to burn
-  /// @param _capPercentMultiplier percent of the address cap that we multiply to increase every time interval
-  /// @param _token Token being sold
   function init(EvenDistroCrowdsaleStorage storage self,
                 address _owner,
-                uint256 _capAmountInCents,
-                uint256 _startTime,
-                uint256 _endTime,
-                uint256 _tokenPriceinCents,
+                uint256 _currtime,
+                uint256[] _saleData,
                 uint256 _fallbackExchangeRate,
-                uint256 _changeInterval,
+                uint256 _capAmountInCents,
+                uint256 _endTime,
                 uint8 _percentBurn,
-                uint256 _capPercentMultiplier,
-                uint256 _fallbackAddressCap,
+                uint256 _initialAddressCap,
+                bool _staticCap,
                 CrowdsaleToken _token)
   {
     self.base.init(_owner,
-                _tokenPriceinCents,
-                _fallbackExchangeRate,
-                _capAmountInCents,
-                _startTime,
-                _endTime,
-                _percentBurn,
-                _token);
+                   _currtime,
+                   _saleData,
+                   _fallbackExchangeRate,
+                   _capAmountInCents,
+                   _endTime,
+                   _percentBurn,
+                   _token);
 
 
-    if(_changeInterval == 0) {
-      require(_capPercentMultiplier == 100);
-    } else {
-      require(_capPercentMultiplier > 100);
-    }
-    require(_fallbackAddressCap > 0);
-    require(_capPercentMultiplier < 10000);
-    self.capPercentMultiplier = _capPercentMultiplier;
-    self.changeInterval = _changeInterval;
-    self.lastCapChangeTime = _startTime;
-    self.addressCap = _fallbackAddressCap;
+    self.staticCap = _staticCap;
+    self.addressCap = _initialAddressCap;
   }
 
   /// @dev register user function. can only be called by the owner when a user registers on the web app.
@@ -137,8 +117,8 @@ library TestEvenDistroCrowdsaleLib {
   /// @param _registrant address to register for the sale
   function registerUser(EvenDistroCrowdsaleStorage storage self, address _registrant, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if ((self.changeInterval > 0) && (currtime >= self.base.startTime - 3)) {
-      LogErrorMsg(self.base.startTime-1, "Cannot register users within 1 days of the sale!");
+    if ((!self.staticCap) && (currtime >= self.base.startTime - 3)) {
+      LogErrorMsg(self.base.startTime-1, "Cannot register users within 3 days of the sale!");
       return false;
     }
     if(self.isRegistered[_registrant]) {
@@ -164,12 +144,13 @@ library TestEvenDistroCrowdsaleLib {
   /// @param _registrants addresses to register for the sale
   function registerUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if (self.changeInterval > 0) { require(currtime < self.base.startTime - 3); }
     bool ok;
 
     for (uint256 i = 0; i < _registrants.length; i++) {
       ok = registerUser(self,_registrants[i],currtime);
+      if(!ok){ LogErrorMsg(currtime, "Multi registration failed"); return false;}
     }
+    return true;
   }
 
   /// @dev Cancels a user's registration status can only be called by the owner when a user cancels their registration.
@@ -178,8 +159,8 @@ library TestEvenDistroCrowdsaleLib {
   /// @param _registrant address to unregister from the sale
   function unregisterUser(EvenDistroCrowdsaleStorage storage self, address _registrant, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if ((self.changeInterval > 0) && (currtime >= self.base.startTime - 3)) {
-      LogErrorMsg(self.base.startTime-1, "Cannot unregister users within 1 days of the sale!");
+    if ((!self.staticCap) && (currtime >= self.base.startTime - 3)) {
+      LogErrorMsg(self.base.startTime-1, "Cannot unregister users within 3 days of the sale!");
       return false;
     }
     if(!self.isRegistered[_registrant]) {
@@ -205,33 +186,39 @@ library TestEvenDistroCrowdsaleLib {
   /// @param _registrants addresses to unregister for the sale
   function unregisterUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants, uint256 currtime) returns (bool) {
     require(msg.sender == self.base.owner);
-    if (self.changeInterval > 0) { require(currtime < self.base.startTime - 3); }
-
     bool ok;
 
     for (uint256 i = 0; i < _registrants.length; i++) {
       ok = unregisterUser(self,_registrants[i],currtime);
+      if(!ok){ LogErrorMsg(currtime, "Multi registration failed"); return false;}
     }
+    return true;
   }
 
-  /// @dev function that calculates address cap from the number of users registered 
+  /// @dev function that calculates address cap from the number of users registered
   /// @param self Stored crowdsale from crowdsale contract
   function calculateAddressCap(EvenDistroCrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
     require(self.numRegistered > 0);
-    if ((currtime > self.base.startTime) || (currtime < (self.base.startTime - 3)) || (self.changeInterval == 0))  {
+    if ((currtime > self.base.startTime) || (currtime < (self.base.startTime - 3)) || (self.staticCap))  {
       return false;
     }
     if(self.base.rateSet) { return false; }  //make's sure this can only be called once
 
-    uint256 result;
+    uint256 baseCap;
+    uint256 calcCap;
     bool err;
 
-    (err,result) = self.base.capAmount.dividedBy(self.numRegistered);
+    (err,baseCap) = self.base.capAmount.dividedBy(self.numRegistered);
     require(!err);
 
-    self.addressCap = result;
+    for(uint256 i = 0; i < self.base.milestoneTimes.length; i++){
+      (err,calcCap) = self.base.saleData[self.base.milestoneTimes[i]][1].times(baseCap);
+      require(!err);
+      self.base.saleData[self.base.milestoneTimes[i]][1] = calcCap/100;
+    }
 
-    LogAddressCapCalculated(self.base.capAmount,self.numRegistered,result,"Address cap was Calculated!");
+    self.addressCap = self.base.saleData[self.base.milestoneTimes[0]][1];
+    LogAddressCapCalculated(self.base.capAmount, self.numRegistered, self.addressCap, "Address cap was Calculated!");
   }
 
   /// @dev utility function for the receivePurchase function. returns the lower number
@@ -248,7 +235,7 @@ library TestEvenDistroCrowdsaleLib {
     if(msg.sender == self.base.owner) {
       LogErrorMsg(msg.value, "Owner cannot send ether to contract");
       return false;
-    }      
+    }
     if (!self.base.validPurchase(currtime)) {
       return false;
     }
@@ -265,24 +252,21 @@ library TestEvenDistroCrowdsaleLib {
     uint256 result;
 
     // if the address cap increase interval has passed, update the current day and change the address cap
-    if ((self.changeInterval > 0) && (currtime >= (self.lastCapChangeTime + self.changeInterval))) {
-      // calculate the number of change intervals that have passed since the last change
-      uint256 numIntervals = (((currtime-(currtime%self.changeInterval))-self.lastCapChangeTime)/self.changeInterval);
+    if ((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
+        (currtime > self.base.milestoneTimes[self.base.currentMilestone + 1]))
+    {
+      while((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
+            (currtime > self.base.milestoneTimes[self.base.currentMilestone + 1]))
+      {
+        self.base.currentMilestone += 1;
+      }
 
-      // multiply by the percentage multiplier for each interval that has passed  
-      (err,result) = self.addressCap.times(self.capPercentMultiplier ** (numIntervals));
-      require(!err);
-
-      // fix the decimal point
-      (err,result) = result.dividedBy(100**numIntervals);
-      require(!err);
-      self.addressCap = result;
-
-      // set the new change time
-      self.lastCapChangeTime = self.lastCapChangeTime + (self.changeInterval*numIntervals);
+      self.addressCap = self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][1];
+      self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
 
       LogAddressCapChange(result, "Address cap has increased!");
-    }
+      LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
+  	}
 
   	uint256 numTokens; //number of tokens that will be purchased
     uint256 zeros; //for calculating token
@@ -342,16 +326,16 @@ library TestEvenDistroCrowdsaleLib {
     return self.base.setTokenExchangeRate(_exchangeRate, _currtime) && ok;
   }
 
-  function crowdsaleActive(EvenDistroCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
-    return self.base.crowdsaleActive(currtime);
+  function setTokens(EvenDistroCrowdsaleStorage storage self) returns (bool) {
+    return self.base.setTokens();
   }
 
-  function crowdsaleEnded(EvenDistroCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
-    return self.base.crowdsaleEnded(currtime);
+  function getSaleData(EvenDistroCrowdsaleStorage storage self, uint256 timestamp) returns (uint256[3]) {
+    return self.base.getSaleData(timestamp);
   }
 
-  function validPurchase(EvenDistroCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
-    return self.base.validPurchase(currtime);
+  function getTokensSold(EvenDistroCrowdsaleStorage storage self) constant returns (uint256) {
+    return self.base.getTokensSold();
   }
 
   function withdrawTokens(EvenDistroCrowdsaleStorage storage self,uint256 currtime) returns (bool) {
@@ -366,4 +350,15 @@ library TestEvenDistroCrowdsaleLib {
     return self.base.withdrawOwnerEth(currtime);
   }
 
+  function crowdsaleActive(EvenDistroCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+    return self.base.crowdsaleActive(currtime);
+  }
+
+  function crowdsaleEnded(EvenDistroCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+    return self.base.crowdsaleEnded(currtime);
+  }
+
+  function validPurchase(EvenDistroCrowdsaleStorage storage self, uint256 currtime) constant returns (bool) {
+    return self.base.validPurchase(currtime);
+  }
 }

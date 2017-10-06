@@ -19,18 +19,17 @@ contract TimeEvenDistroCrowdsaleTestContract {
 
   function TimeEvenDistroCrowdsaleTestContract(
                 address owner,
-                uint256 capAmountInCents,
-                uint256 startTime,
-                uint256 endTime,
-                uint256 tokenPriceinCents,
+                uint256 currtime,
+                uint256[] saleData,
                 uint256 fallbackExchangeRate,
-                uint256 capPercentMultiplier,
-                uint256 fallbackAddressCap,
-                uint256 changeInterval,
+                uint256 capAmountInCents,
+                uint256 endTime,
                 uint8 percentBurn,
+                uint256 initialAddressCap,
+                bool staticCap,
                 CrowdsaleToken token)
   {
-  	sale.init(owner, capAmountInCents, startTime, endTime, tokenPriceinCents, fallbackExchangeRate, changeInterval, percentBurn, capPercentMultiplier, fallbackAddressCap, token);
+  	sale.init(owner, currtime, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressCap, staticCap, token);
   }
 
   // fallback function can be used to buy tokens
@@ -62,52 +61,12 @@ contract TimeEvenDistroCrowdsaleTestContract {
     return sale.isRegistered[_registrant];
   }
 
-  function owner() constant returns (address) {
-    return sale.base.owner;
+  function withdrawTokens(uint256 currtime) returns (bool) {
+  	return sale.withdrawTokens(currtime);
   }
 
-  function tokensPerEth() constant returns (uint256) {
-    return sale.base.tokensPerEth;
-  }
-
-  function exchangeRate() constant returns (uint256) {
-    return sale.base.exchangeRate;
-  }
-
-  function capAmount() constant returns (uint256) {
-    return sale.base.capAmount;
-  }
-
-  function startTime() constant returns (uint256) {
-    return sale.base.startTime;
-  }
-
-  function endTime() constant returns (uint256) {
-    return sale.base.endTime;
-  }
-
-  function changeInterval() constant returns (uint256) {
-    return sale.changeInterval;
-  }
-
-  function addressCap() constant returns (uint256) {
-    return sale.addressCap;
-  }
-
-  function numRegistered() constant returns (uint256) {
-    return sale.numRegistered;
-  }
-
-  function capPercentMultiplier() constant returns (uint256) {
-    return sale.capPercentMultiplier;
-  }
-
-  function ownerBalance() constant returns (uint256) {
-    return sale.base.ownerBalance;
-  }
-
-  function percentBurn() constant returns (uint256) {
-    return sale.base.percentBurn;
+  function withdrawLeftoverWei() returns (bool) {
+    return sale.withdrawLeftoverWei();
   }
 
   function withdrawOwnerEth(uint256 currtime) returns (bool) {
@@ -126,12 +85,36 @@ contract TimeEvenDistroCrowdsaleTestContract {
     return sale.setTokenExchangeRate(_exchangeRate, _currtime);
   }
 
-  function withdrawTokens(uint256 currtime) returns (bool) {
-  	return sale.withdrawTokens(currtime);
+  function setTokens() returns (bool) {
+    return sale.setTokens();
   }
 
-  function withdrawLeftoverWei() returns (bool) {
-    return sale.withdrawLeftoverWei();
+  function getOwner() constant returns (address) {
+    return sale.base.owner;
+  }
+
+  function getTokensPerEth() constant returns (uint256) {
+    return sale.base.tokensPerEth;
+  }
+
+  function getExchangeRate() constant returns (uint256) {
+    return sale.base.exchangeRate;
+  }
+
+  function getCapAmount() constant returns (uint256) {
+    return sale.base.capAmount;
+  }
+
+  function getStartTime() constant returns (uint256) {
+    return sale.base.startTime;
+  }
+
+  function getEndTime() constant returns (uint256) {
+    return sale.base.endTime;
+  }
+
+  function getEthRaised() constant returns (uint256) {
+    return sale.base.ownerBalance;
   }
 
   function getContribution(address _buyer) constant returns (uint256) {
@@ -144,5 +127,25 @@ contract TimeEvenDistroCrowdsaleTestContract {
 
   function getLeftoverWei(address _buyer) constant returns (uint256) {
     return sale.base.leftoverWei[_buyer];
+  }
+
+  function getSaleData(uint256 timestamp) constant returns (uint256[3]) {
+    return sale.getSaleData(timestamp);
+  }
+
+  function getTokensSold() constant returns (uint256) {
+    return sale.getTokensSold();
+  }
+
+  function getPercentBurn() constant returns (uint256) {
+    return sale.base.percentBurn;
+  }
+
+  function getAddressCap() constant returns (uint256) {
+    return sale.addressCap;
+  }
+
+  function getNumRegistered() constant returns (uint256) {
+    return sale.numRegistered;
   }
 }
