@@ -140,7 +140,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### Truffle Installation
 
-**version 3.4.6**   
+**version 3.4.11**   
 
 First install truffle via npm using `npm install -g truffle` .   
 
@@ -206,7 +206,7 @@ The following process will allow you to `truffle test` this library in your proj
 
 ### solc Installation
 
-**version 0.4.13**
+**version 0.4.15**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").   
 
@@ -271,7 +271,7 @@ Finally, if you have an unlinked binary already stored with the '____LibraryName
 
 ### solc-js Installation
 
-**version 0.4.13**
+**version 0.4.15**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.   
 
@@ -366,7 +366,7 @@ Most functions return two parameters, a `bool` and a `bytes32`. The transaction 
 ### Usage Example
 
 ```
-pragma solidity ^"+sver+";
+pragma solidity ^0.4.15;
 
 import "./WalletMainLib.sol";
 import "./WalletAdminLib.sol";
