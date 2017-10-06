@@ -1,7 +1,6 @@
 var BasicMathLib = artifacts.require("./BasicMathLib.sol");
 var Array256Lib = artifacts.require("./Array256Lib.sol");
 var TokenLib = artifacts.require("./TokenLib.sol");
-var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
 var CrowdsaleLib = artifacts.require("./CrowdsaleLib.sol");
 var EvenDistroCrowdsaleLib = artifacts.require("./EvenDistroCrowdsaleLib.sol");
 var EvenDistroCrowdsaleTestContract = artifacts.require("./EvenDistroCrowdsaleTestContract.sol");
@@ -9,7 +8,12 @@ var EvenDistroCrowdsaleTestContract = artifacts.require("./EvenDistroCrowdsaleTe
 //testrpc contracts
 var TestCrowdsaleLib = artifacts.require("./TestCrowdsaleLib.sol");
 var TestEvenDistroCrowdsaleLib = artifacts.require("./TestEvenDistroCrowdsaleLib.sol");
+
+var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
 var TimeEvenDistroCrowdsaleTestContract = artifacts.require("./TimeEvenDistroCrowdsaleTestContract.sol");
+
+var CrowdsaleToken2 = artifacts.require("./CrowdsaleToken.sol");
+var TimeEvenDistroCrowdsaleTestContract2 = artifacts.require("./TimeEvenDistroCrowdsaleTestContract.sol");
 
 module.exports = function(deployer, network, accounts) {
   deployer.deploy(BasicMathLib,{overwrite: false});
@@ -41,6 +45,12 @@ module.exports = function(deployer, network, accounts) {
                          110,141,250,
                          115,141,625];
       return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 100, purchaseData, 29000, 1700000000, 125, 50, 50000, false, CrowdsaleToken.address,{from:accounts[5]});
+    });
+    deployer.deploy(CrowdsaleToken2, accounts[5], "Tester Token", "TST", 0, 500000000, false, {from:accounts[5]}).then(function() {
+      // configured to set the token price to $1.41, with a periodic increase in the address cap by 250%
+      var purchaseData2 =[105,50,50000,
+                         135,75,50000];
+      return deployer.deploy(TimeEvenDistroCrowdsaleTestContract2, accounts[5], 100, purchaseData2, 29000, 40000000000, 165, 100, 50000, true, CrowdsaleToken.address,{from:accounts[5]});
     });
   }
 };

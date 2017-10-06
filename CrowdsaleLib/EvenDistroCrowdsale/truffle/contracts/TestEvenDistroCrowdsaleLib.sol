@@ -279,7 +279,8 @@ library TestEvenDistroCrowdsaleLib {
     uint256 allowedWei;  // tells how much more the buyer can contribute up to their cap
 
     if(self.addressCap > 0) {
-      (err,allowedWei) = self.addressCap.minus(self.base.hasContributed[msg.sender]);
+      allowedWei = (self.addressCap * (10**18))/self.base.tokensPerEth;
+      (err,allowedWei) = allowedWei.minus(self.base.hasContributed[msg.sender]);
     } else {
       // if addressCap is zero then there is no cap
       allowedWei = _amount;
@@ -304,7 +305,7 @@ library TestEvenDistroCrowdsaleLib {
     }
 
     self.base.leftoverWei[msg.sender] += leftoverWei+remainder;
-    if(((self.base.hasContributed[msg.sender] + _amount)) > self.addressCap) {
+    if(((self.base.hasContributed[msg.sender] + _amount)) > allowedWei) {
       LogAddressCapExceeded(msg.sender,self.base.leftoverWei[msg.sender],"Cap Per Address has been exceeded! Please withdraw leftover Wei!");
     }
 

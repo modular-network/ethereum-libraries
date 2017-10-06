@@ -45,6 +45,9 @@ library EvenDistroCrowdsaleLib {
     // mapping showing which addresses have registered for the sale. can only be changed by the owner
     mapping (address => bool) isRegistered;
 
+    // tracks the total number of tokens bought for each address
+    mapping(address => uint256) tokensBought;
+
     uint256 numRegistered; // records how many addresses have registered
     uint256 addressCap; // cap on how much wei an address can contribute in the sale
     bool staticCap; // true if the given address cap amounts are set on initialization
@@ -271,9 +274,11 @@ library EvenDistroCrowdsaleLib {
     uint256 _leftoverWei; //wei change for purchaser if they went over the address cap
     uint256 _remainder; //temp calc holder for division remainder for leftover wei and then later for tokens remaining for the owner
     uint256 _allowedWei;  // tells how much more the buyer can contribute up to their cap
+    uint256 _allowedTokens; // number of tokens the buyer is allowed to purchase
 
     if(self.addressCap > 0) {
-      (err,_allowedWei) = self.addressCap.minus(self.base.hasContributed[msg.sender]);
+      _allowedWei = (self.addressCap * (10**18))/self.base.tokensPerEth;
+      (err,_allowedWei) = _allowedWei.minus(self.base.hasContributed[msg.sender]);
     } else {
       // if addressCap is zero then there is no cap
       _allowedWei = _amount;
@@ -294,11 +299,11 @@ library EvenDistroCrowdsaleLib {
       _remainder = result % _zeros;
     } else {
       _zeros = 10**(uint256(self.base.tokenDecimals)-18);
-      _numTokens = result*_zeros;
+      _numTokens = result * _zeros;
     }
 
     self.base.leftoverWei[msg.sender] += _leftoverWei + _remainder;
-    if(((self.base.hasContributed[msg.sender] + _amount)) > self.addressCap) {
+    if(((self.base.hasContributed[msg.sender] + _amount)) > _allowedWei) {
       LogAddressCapExceeded(msg.sender,self.base.leftoverWei[msg.sender],"Cap Per Address has been exceeded! Please withdraw leftover Wei!");
     }
 
@@ -312,6 +317,7 @@ library EvenDistroCrowdsaleLib {
 
     // can't overflow because it will be under the cap
     self.base.withdrawTokensMap[msg.sender] += _numTokens;
+    self.tokensBought[msg.sender] += _numTokens;
 
     //subtract tokens from owner's share
     (err,_remainder) = self.base.withdrawTokensMap[self.base.owner].minus(_numTokens);
