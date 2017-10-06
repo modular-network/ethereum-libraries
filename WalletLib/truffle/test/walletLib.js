@@ -1,47 +1,34 @@
-var WalletLibTestContract = artifacts.require("WalletLibTestContract");
-var TestToken = artifacts.require("TestToken");
+const WalletLibTestContract = artifacts.require("WalletLibTestContract");
+const TestToken = artifacts.require("TestToken");
 
 contract('WalletLibTestContract', function(accounts) {
-  it("should properly initialize wallet data", function() {
-    var returnObj = {};
-    var c;
+  it("should properly initialize wallet data", async function() {
+    
 
-    return WalletLibTestContract.deployed().then(function(instance) {
-      c = instance;
-      return c.maxOwners.call();
-    }).then(function(mo){
-      returnObj.mo = mo;
-      return c.ownerCount.call();
-    }).then(function(oc){
-      returnObj.oc = oc;
-      return c.requiredAdmin.call();
-    }).then(function(ra){
-      returnObj.ra = ra;
-      return c.requiredMinor.call();
-    }).then(function(rmi){
-      returnObj.rmi = rmi;
-      return c.requiredMajor.call();
-    }).then(function(rma){
-      returnObj.rma = rma;
-      return c.owners.call();
-    }).then(function(o){
-      returnObj.o = o;
-      console.log(returnObj.o);
-      return c.majorThreshold.call(0);
-    }).then(function(mt){
-      returnObj.mt = mt;
-      assert.equal(returnObj.mo.valueOf(), 50, "Max owners should be set to 50.");
-      assert.equal(returnObj.oc.valueOf(), 5, "Owner count should reflect 5.");
-      assert.equal(returnObj.ra.valueOf(), 4, "Required sigs for admin should reflect 4.");
-      assert.equal(returnObj.rmi.valueOf(), 1, "Required sigs for minor tx should show 1.");
-      assert.equal(returnObj.rma.valueOf(), 3, "Required sigs for major tx should show 3.");
-      assert.equal(returnObj.mt.valueOf(), 100000000000000000000, "Max threshold should reflect 100 ether.");
-    });
+    const c = await WalletLibTestContract.deployed();
+    const mo = await c.maxOwners.call();
+    const oc = await c.ownerCount.call();
+    const ra = await c.requiredAdmin.call();
+    const rmi = await c.requiredMinor.call();
+    const rma = await c.requiredMajor.call();
+    const o = await c.owners.call();
+    const mt = await c.majorThreshold.call(0);
+  
+    const returnObj = { mo, oc, ra, rmi, rma, o, mt };
+    
+    assert.equal(returnObj.mo.valueOf(), 50, "Max owners should be set to 50.");
+    assert.equal(returnObj.oc.valueOf(), 5, "Owner count should reflect 5.");
+    assert.equal(returnObj.ra.valueOf(), 4, "Required sigs for admin should reflect 4.");
+    assert.equal(returnObj.rmi.valueOf(), 1, "Required sigs for minor tx should show 1.");
+    assert.equal(returnObj.rma.valueOf(), 3, "Required sigs for major tx should show 3.");
+    assert.equal(returnObj.mt.valueOf(), 100000000000000000000, "Max threshold should reflect 100 ether.");
+
   });
+  
   it("should change owner after requiredAdmin number of confirmations and deny illegal requests", function() {
-    var c;
-    var id;
-    var ownerIndex;
+    let c;
+    let id;
+    let ownerIndex;
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
@@ -120,9 +107,9 @@ contract('WalletLibTestContract', function(accounts) {
     });
   });
   it("should add owner after requiredAdmin number of confirmations and deny illegal requests", function() {
-    var c;
-    var id;
-    var ownerIndex;
+    let c;
+    let id;
+    let ownerIndex;
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
@@ -184,9 +171,9 @@ contract('WalletLibTestContract', function(accounts) {
     });
   });
   it("should remove owner after requiredAdmin number of confirmations and deny illegal requests", function() {
-    var c;
-    var id;
-    var ownerIndex;
+    let c;
+    let id;
+    let ownerIndex;
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
@@ -238,8 +225,8 @@ contract('WalletLibTestContract', function(accounts) {
     });
   });
   it("should change requiredAdmin after requiredAdmin number of confirmations and deny illegal requests", function() {
-    var c;
-    var id;
+    let c;
+    let id;
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
@@ -299,8 +286,8 @@ contract('WalletLibTestContract', function(accounts) {
     });
   });
   it("should change requiredMajor after requiredAdmin number of confirmations and deny illegal requests", function() {
-    var c;
-    var id;
+    let c;
+    let id;
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
@@ -344,8 +331,8 @@ contract('WalletLibTestContract', function(accounts) {
     });
   });
   it("should change requiredMinor after requiredAdmin number of confirmations and deny illegal requests", function() {
-    var c;
-    var id;
+    let c;
+    let id;
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
@@ -389,10 +376,10 @@ contract('WalletLibTestContract', function(accounts) {
     });
   });
   it("should change majorThreshold after requiredAdmin number of confirmations and deny illegal requests", function() {
-    var c;
-    var tc;
-    var tcAdd;
-    var id;
+    let c;
+    let tc;
+    let tcAdd;
+    let id;
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
@@ -455,12 +442,12 @@ contract('WalletLibTestContract', function(accounts) {
     });
   });
   it("should execute minor tx after requiredMinor number of confirmations and deny illegal requests", function() {
-    var c;
-    var tc;
-    var tcAdd;
-    var id;
-    var initialBalance;
-    var data;
+    let c;
+    let tc;
+    let tcAdd;
+    let id;
+    let initialBalance;
+    let data;
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
@@ -525,12 +512,12 @@ contract('WalletLibTestContract', function(accounts) {
     });
   });
   it("should execute major tx after requiredMajor number of confirmations and deny illegal requests", function() {
-    var c;
-    var tc;
-    var tcAdd;
-    var id;
-    var initialBalance;
-    var data;
+    let c;
+    let tc;
+    let tcAdd;
+    let id;
+    let initialBalance;
+    let data;
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
@@ -607,9 +594,9 @@ contract('WalletLibTestContract', function(accounts) {
     });
   });
   it("should create contract after appropriate number of sigs, no target, and proper data", function() {
-    var c;
-    var id;
-    var data  = "0x6060604052341561000f57600080fd5b5b6103108061001f6000396000f300606060405263ffffffff60e060020a6000350416631d3b9edf811461004557806366098d4f1461006d578063e39bbf6814610095578063f4f3bdc1146100bd575b600080fd5b6100536004356024356100e5565b604051911515825260208201526040908101905180910390f35b610053600435602435610159565b604051911515825260208201526040908101905180910390f35b6100536004356024356101cd565b604051911515825260208201526040908101905180910390f35b610053600435602435610247565b604051911515825260208201526040908101905180910390f35b600082820282158382048514176100fe57506001905060005b8115610151576000805160206102c58339815191526040516020808252601390820152606860020a7274696d65732066756e63206f766572666c6f77026040808301919091526060909101905180910390a15b5b9250929050565b600082820182810384148382111661017357506001905060005b8115610151576000805160206102c58339815191526040516020808252601290820152607060020a71706c75732066756e63206f766572666c6f77026040808301919091526060909101905180910390a15b5b9250929050565b60008082156101e85750818304806020604051015260408051f35b6000805160206102c58339815191526040516020808252601790820152604860020a76747269656420746f20646976696465206279207a65726f026040808301919091526060909101905180910390a1506001905060005b9250929050565b60008183038083018414848210828614171660011461026857506001905060005b8115610151576000805160206102c58339815191526040516020808252601490820152606060020a736d696e75732066756e6320756e646572666c6f77026040808301919091526060909101905180910390a15b5b925092905056004eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7a165627a7a72305820816921a222288d2b0efcc39a7dfdda6552de32e026d6a7f8b9e335dab1871dcb0029";
+    let c;
+    let id;
+    let data  = "0x6060604052341561000f57600080fd5b5b6103108061001f6000396000f300606060405263ffffffff60e060020a6000350416631d3b9edf811461004557806366098d4f1461006d578063e39bbf6814610095578063f4f3bdc1146100bd575b600080fd5b6100536004356024356100e5565b604051911515825260208201526040908101905180910390f35b610053600435602435610159565b604051911515825260208201526040908101905180910390f35b6100536004356024356101cd565b604051911515825260208201526040908101905180910390f35b610053600435602435610247565b604051911515825260208201526040908101905180910390f35b600082820282158382048514176100fe57506001905060005b8115610151576000805160206102c58339815191526040516020808252601390820152606860020a7274696d65732066756e63206f766572666c6f77026040808301919091526060909101905180910390a15b5b9250929050565b600082820182810384148382111661017357506001905060005b8115610151576000805160206102c58339815191526040516020808252601290820152607060020a71706c75732066756e63206f766572666c6f77026040808301919091526060909101905180910390a15b5b9250929050565b60008082156101e85750818304806020604051015260408051f35b6000805160206102c58339815191526040516020808252601790820152604860020a76747269656420746f20646976696465206279207a65726f026040808301919091526060909101905180910390a1506001905060005b9250929050565b60008183038083018414848210828614171660011461026857506001905060005b8115610151576000805160206102c58339815191526040516020808252601490820152606060020a736d696e75732066756e6320756e646572666c6f77026040808301919091526060909101905180910390a15b5b925092905056004eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7a165627a7a72305820816921a222288d2b0efcc39a7dfdda6552de32e026d6a7f8b9e335dab1871dcb0029";
 
     return WalletLibTestContract.deployed().then(function(instance){
       c = instance;
