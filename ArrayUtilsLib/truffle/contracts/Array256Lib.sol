@@ -28,6 +28,10 @@ pragma solidity ^0.4.13;
 
 library Array256Lib {
 
+  event printBool(string name, bool boolean);
+  event printUint(string name, uint integer);
+  event printArray(string name, uint256[] arr);
+
   /// @dev Sum vector
   /// @param self Storage array containing uint256 type variables
   /// @return sum The sum of all elements, does not check for overflow
@@ -197,6 +201,27 @@ library Array256Lib {
           root = swap;
           lChild = getLeftChildI(root);
         }
+      }
+    }
+  }
+
+  /// @dev Removes duplicates from a given array.
+  /// @param self Storage array containing uint256 type variables
+  function uniq(uint256[] storage self) {
+    bool contains;
+    uint index;
+
+    for (uint i = 0; i < self.length; i++) {
+      (contains, index) = indexOf(self, self[i], false);
+
+      if (i > index) {
+        for (uint j = i; j < self.length - 1; j++){
+          self[j] = self[j + 1];
+        }
+
+        delete self[self.length - 1];
+        self.length--;
+        i--;
       }
     }
   }
