@@ -54,6 +54,9 @@ library TestEvenDistroCrowdsaleLib {
     // mapping showing which addresses have registered for the sale. can only be changed by the owner
     mapping (address => bool) isRegistered;
 
+    // mapping to track number of tokens bought
+    mapping (address => uint256) tokensBought;
+
     uint256 numRegistered;   // records how many addresses have registered
     uint256 addressCap;           // cap on how much wei an address can contribute in the sale
     bool staticCap;
@@ -279,14 +282,15 @@ library TestEvenDistroCrowdsaleLib {
     uint256 allowedWei;  // tells how much more the buyer can contribute up to their cap
 
     if(self.addressCap > 0) {
-      allowedWei = (self.addressCap * (10**18))/self.base.tokensPerEth;
-      (err,allowedWei) = allowedWei.minus(self.base.hasContributed[msg.sender]);
+      allowedWei = self.addressCap - self.tokensBought[msg.sender];
+      if(allowedWei == 0)
+        LogErrorMsg(msg.value,"Cannot but anymore tokens!");
+
+      allowedWei = (allowedWei * (10**18))/self.base.tokensPerEth;
     } else {
       // if addressCap is zero then there is no cap
       allowedWei = _amount;
     }
-
-    require(!err);
 
     allowedWei = getMin(_amount,allowedWei);
     leftoverWei = _amount - allowedWei;
@@ -298,14 +302,16 @@ library TestEvenDistroCrowdsaleLib {
     if(self.base.tokenDecimals <= 18){
       zeros = 10**(18-uint256(self.base.tokenDecimals));
       numTokens = result/zeros;
-      remainder = result % zeros;
+      if((result % zeros) > 0){
+        remainder = allowedWei - ((result-(result%zeros))/self.base.tokensPerEth);
+      }
     } else {
       zeros = 10**(uint256(self.base.tokenDecimals)-18);
       numTokens = result*zeros;
     }
 
     self.base.leftoverWei[msg.sender] += leftoverWei+remainder;
-    if(((self.base.hasContributed[msg.sender] + _amount)) > allowedWei) {
+    if(leftoverWei > 0) {
       LogAddressCapExceeded(msg.sender,self.base.leftoverWei[msg.sender],"Cap Per Address has been exceeded! Please withdraw leftover Wei!");
     }
 
@@ -319,6 +325,7 @@ library TestEvenDistroCrowdsaleLib {
 
     // can't overflow because it will be under the cap
     self.base.withdrawTokensMap[msg.sender] += numTokens;
+    self.tokensBought[msg.sender] += numTokens;
 
     //subtract tokens from owner's share
     (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);

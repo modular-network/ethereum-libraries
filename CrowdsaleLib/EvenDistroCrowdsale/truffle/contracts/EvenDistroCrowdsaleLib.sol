@@ -263,7 +263,7 @@ library EvenDistroCrowdsaleLib {
       uint256 _tempPriceHolder = self.base.tokensPerEth;
       self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
 
-      LogAddressCapChange(result, "Address cap has increased!");
+      LogAddressCapChange(self.addressCap, "Address cap has increased!");
 
       if(self.base.tokensPerEth != _tempPriceHolder)
         LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
