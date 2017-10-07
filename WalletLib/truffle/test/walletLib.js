@@ -38,25 +38,21 @@ contract('WalletLibTestContract', (accounts) => {
     assert.equal(rc.logs[0].args.msg, 'Owner has not confirmed tx', "should give message that the owner hasn't confirmed the transaction yet");
 
     let len = await c.transactionLength(id);
-    let length = len.valueOf();
-    assert.equal(length, 1, 'Should have 1 transaction with this ID');
+    assert.equal(len.valueOf(), 1, 'Should have 1 transaction with this ID');
 
-    const cnc = await c.checkNotConfirmed('0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57', length - 1, {from:accounts[1]});
+    const cnc = await c.checkNotConfirmed('0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57', len.valueOf() - 1, {from:accounts[1]});
     assert.equal(cnc.logs[0].args.msg,'Tx not initiated', "should return msg that the tx hasn't been initiated");
 
-    let tcount = await c.transactionConfirmCount(id, length - 1);
-    let count = tcount.valueOf();
-    assert.equal(count, 1, "Confirmation count should still be one b/c accounts[1] has not confirmed");
+    let tcount = await c.transactionConfirmCount(id, len.valueOf() - 1);
+    assert.equal(tcount.valueOf(), 1, "Confirmation count should still be one b/c accounts[1] has not confirmed");
     
     await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[2]});
     await c.revokeConfirm(id, {from:accounts[2]});
     let len0 = await c.transactionLength(id);
-    const vlen = len0.valueOf();
     const ccount = await c.transactionConfirmCount(id, len0 - 1);
-    const vccount = ccount.valueOf();
-    assert.equal(vccount, 1, "Confirmation count should still be one b/c accounts[2] has revoked");
+    assert.equal(ccount.valueOf(), 1, "Confirmation count should still be one b/c accounts[2] has revoked");
 
     let ret0 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
@@ -75,13 +71,11 @@ contract('WalletLibTestContract', (accounts) => {
     assert.equal(ret2.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
 
     let len1 = await c.transactionLength(id);
-    let length1 = len1.valueOf();
-    let ret3 = await c.checkNotConfirmed(id, length1 - 1, {from:accounts[1]});
+    let ret3 = await c.checkNotConfirmed(id,  len1.valueOf() - 1, {from:accounts[1]});
     assert.equal(ret3.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
 
-    let count1 = await c.transactionConfirmCount(id, length1 - 1);
-    let tcount1 = count1.valueOf();
-    assert.equal(tcount1, 3, "Confirmation count should still be three b/c accounts[1] has already confirmed");
+    let count1 = await c.transactionConfirmCount(id,  len1.valueOf() - 1);
+    assert.equal(count1.valueOf(), 3, "Confirmation count should still be three b/c accounts[1] has already confirmed");
 
     await c.confirmTx(id, {from:accounts[3]});
     let oi = await c.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
