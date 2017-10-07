@@ -28,10 +28,6 @@ pragma solidity ^0.4.13;
 
 library Array256Lib {
 
-  event printBool(string name, bool boolean);
-  event printUint(string name, uint integer);
-  event printArray(string name, uint256[] arr);
-
   /// @dev Sum vector
   /// @param self Storage array containing uint256 type variables
   /// @return sum The sum of all elements, does not check for overflow
