@@ -12,9 +12,6 @@ contract TestArrayUtilsLib{
   uint expected;
   uint result;
 
-  event printUint(string name, uint integer);
-  event printArray(string name, uint[] arr);
-
   function beforeAll(){
     instance = ArrayUtilsTestContract(DeployedAddresses.ArrayUtilsTestContract());
   }
@@ -209,10 +206,6 @@ contract TestArrayUtilsLib{
     uint[10] memory r1;
     r1 = instance.getUniq256();
     resultArray = r1;
-
-    printArray('resultArray', resultArray);
-    printArray('expectedArray', expectedArray);
-    printUint('resultArray length', resultArray.length);
 
     Assert.equal(resultArray, expectedArray, "uniq");
   }
