@@ -1,8 +1,8 @@
 const WalletLibTestContract = artifacts.require("WalletLibTestContract");
 const TestToken = artifacts.require("TestToken");
 
-contract('WalletLibTestContract', function(accounts) {
-  it("should properly initialize wallet data", async function() {
+contract('WalletLibTestContract', (accounts) => {
+  it("should properly initialize wallet data", async () => {
     
 
     const c = await WalletLibTestContract.deployed();
@@ -25,87 +25,73 @@ contract('WalletLibTestContract', function(accounts) {
 
   });
   
-  it("should change owner after requiredAdmin number of confirmations and deny illegal requests", function() {
-    let c;
-    let id;
-    let ownerIndex;
+  it("should change owner after requiredAdmin number of confirmations and deny illegal requests", async () => {
+    
+    const c = await WalletLibTestContract.deployed();
+    const ownerIndex = await c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
 
-    return WalletLibTestContract.deployed().then(function(instance){
-      c = instance;
-      return c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
-    }).then(function(oi){
-      ownerIndex = oi;
-      return c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    let ret = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[0]});
-    }).then(function(ret){
-      id = ""+ret.logs[0].args.txid+"";
-      return c.revokeConfirm(id, {from:accounts[1]});
-    }).then(function(ret){
-      assert.equal(ret.logs[0].args.msg, 'Owner has not confirmed tx', "should give message that the owner hasn't confirmed the transaction yet");
-      return c.transactionLength(id);
-    }).then(function(len){
-      length = len.valueOf();
-      assert.equal(length, 1, 'Should have 1 transaction with this ID');
-      return c.checkNotConfirmed('0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57', length - 1, {from:accounts[1]});
-    }).then(function(ret){
-      assert.equal(ret.logs[0].args.msg,'Tx not initiated', "should return msg that the tx hasn't been initiated");
+    const id = ""+ret.logs[0].args.txid+"";
+    const rc = await c.revokeConfirm(id, {from:accounts[1]});
+    assert.equal(rc.logs[0].args.msg, 'Owner has not confirmed tx', "should give message that the owner hasn't confirmed the transaction yet");
 
-      return c.transactionConfirmCount(id, length - 1);
-    }).then(function(count){
-      count = count.valueOf();
-      assert.equal(count, 1, "Confirmation count should still be one b/c accounts[1] has not confirmed");
-    }).then(function(){
-      return c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    let len = await c.transactionLength(id);
+    let length = len.valueOf();
+    assert.equal(length, 1, 'Should have 1 transaction with this ID');
+
+    const cnc = await c.checkNotConfirmed('0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57', length - 1, {from:accounts[1]});
+    assert.equal(cnc.logs[0].args.msg,'Tx not initiated', "should return msg that the tx hasn't been initiated");
+
+    let tcount = await c.transactionConfirmCount(id, length - 1);
+    let count = tcount.valueOf();
+    assert.equal(count, 1, "Confirmation count should still be one b/c accounts[1] has not confirmed");
+    
+    await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[2]});
-    }).then(function(ret){
-      return c.revokeConfirm(id, {from:accounts[2]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      return c.transactionConfirmCount(id, len - 1);
-    }).then(function(count){
-      count = count.valueOf();
-      assert.equal(count, 1, "Confirmation count should still be one b/c accounts[2] has revoked");
-    }).then(function(){
-      return c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    await c.revokeConfirm(id, {from:accounts[2]});
+    let len0 = await c.transactionLength(id);
+    const vlen = len0.valueOf();
+    const ccount = await c.transactionConfirmCount(id, len0 - 1);
+    const vccount = ccount.valueOf();
+    assert.equal(vccount, 1, "Confirmation count should still be one b/c accounts[2] has revoked");
+
+    let ret0 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[2]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    
+    console.log(ret0.logs[0].args);
+
+    let ret1 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    console.log(ret1.logs[0].args);
+
+    let ret2 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[1]});
-    }).then(function(ret){
-      assert.equal(ret.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
-      return c.transactionLength(id);
-    }).then(function(len){
-      length = len.valueOf();
-      return c.checkNotConfirmed(id, length - 1, {from:accounts[1]});
-    }).then(function(ret){
-      assert.equal(ret.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
-      return c.transactionConfirmCount(id, length - 1);
-    }).then(function(count){
-      count = count.valueOf();
-      assert.equal(count, 3, "Confirmation count should still be three b/c accounts[1] has already confirmed");
-    }).then(function(ret){
-      return c.confirmTx(id, {from:accounts[3]});
-    }).then(function(ret){
-      return c.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
-    }).then(function(oi){
-      assert.equal(oi.valueOf(), ownerIndex, "The index for the new owner should be the same as the old owner");
-      return c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
-    }).then(function(oi){
-      assert.equal(oi.valueOf(), 0, "The index of the old owner should be 0");
-    });
+    assert.equal(ret2.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
+
+    let len1 = await c.transactionLength(id);
+    let length1 = len1.valueOf();
+    let ret3 = await c.checkNotConfirmed(id, length1 - 1, {from:accounts[1]});
+    assert.equal(ret3.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
+
+    let count1 = await c.transactionConfirmCount(id, length1 - 1);
+    let tcount1 = count1.valueOf();
+    assert.equal(tcount1, 3, "Confirmation count should still be three b/c accounts[1] has already confirmed");
+
+    await c.confirmTx(id, {from:accounts[3]});
+    let oi = await c.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
+    assert.equal(oi.valueOf(), ownerIndex, "The index for the new owner should be the same as the old owner");
+
+    let oi1 = await c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
+    assert.equal(oi1.valueOf(), 0, "The index of the old owner should be 0");
+
   });
+
   it("should add owner after requiredAdmin number of confirmations and deny illegal requests", function() {
     let c;
     let id;
