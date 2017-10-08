@@ -189,9 +189,9 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       return c.getTokensPerEth.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 213, "tokensPerEth should have been set to 213!");
-      return c.getAddressCap.call();
+      return c.getAddressTokenCap.call();
     }).then(function(ret) {
-      assert.equal(ret.valueOf(), 14655250000000000000000, "Address cap should have been calculated to correct number!");
+      assert.equal(ret.valueOf(), 3000000000000000000000000, "Address token cap should have been calculated to correct number!");
       return c.withdrawOwnerEth(104, {from:accounts[5]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, "Cannot withdraw owner ether until after the sale", "Should give error message that the owner cannot withdraw any ETH yet");
@@ -256,13 +256,13 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.valueOf(), 8520000000000000000000, "accounts[0] tokens purchased should be 8520000000000000000000");
       return c.receivePurchase(108,{value: 40000000000000000000000, from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressCap was exceeded");
+      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressTokenCap was exceeded");
       return c.receivePurchase(108,{value: 40000000000000000000, from:accounts[4]});
-    }).then(function(ret) {
+    })/*.then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, "Buyer is not registered for the sale!", "should give error message that the buyer is not registered for the sale");
       return c.receivePurchase(108,{value: 40000000000000000000000, from:accounts[1]});
     }).then(function(ret) {
-      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressCap was exceeded");
+      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressTokenCap was exceeded");
       return c.getLeftoverWei.call(accounts[0]);
     }).then(function(ret) {
       assert.equal(ret.valueOf(),2.538475E22,"accounts0 LeftoverWei should be 2.538475E22");
@@ -287,7 +287,7 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       return c.receivePurchase(111, {value: 40000000000000000000, from:accounts[0]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, "Address cap has increased!", "Should give message the the address cap has increased!");
-      return c.getAddressCap.call();
+      return c.getaddressTokenCap.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(),3.6638125E22, "Address cap should be 250% of what is what before. now 3.6638125E22");
       return c.getContribution.call(accounts[0],{from:accounts[0]});
@@ -338,10 +338,10 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.logs[0].args.Msg, 'buyer ether sent exceeds cap of ether to be raised!', "should give error message that the raise cap has been exceeded");
       return c.receivePurchase(122, {value: 500000000000000100000, from:accounts[1]});
     }).then(function(ret) {
-      return c.getAddressCap.call();
+      return c.getaddressTokenCap.call();
     }).then(function(ret) {
       console.log(ret.valueOf());
-      //assert.equal(ret.valueOf(),2.2898828125E23, "new addressCap should be 2.2898828125E23");
+      //assert.equal(ret.valueOf(),2.2898828125E23, "new addressTokenCap should be 2.2898828125E23");
       return c.getContribution.call(accounts[1],{from:accounts[4]});
     }).then(function(ret) {
       assert.equal(ret.valueOf(),1.515525E22, "accounts[1] amount of wei contributed should be 1.515525E22 wei");
@@ -356,11 +356,10 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       return c.getLeftoverWei.call(accounts[1],{from:accounts[4]});
     }).then(function(ret) {
       assert.equal(ret.valueOf(),0, "accounts[4] should have no leftover wei because it was just withdrawn");
-    });
+    })*/;
   });
-//});
 
-
+/*
 
   ///********************************************************
   //  AFTER SALE
@@ -644,7 +643,7 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       return c.tokensPerEth.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 213, "tokensPerEth should have been set to 213!");
-      return c.addressCap.call();
+      return c.addressTokenCap.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 1.465525e+22, "Address cap should have been calculated to correct number!");
       return c.withdrawOwnerEth(104, {from:accounts[5]});
@@ -715,13 +714,13 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.valueOf(), 8520000000000000000000, "accounts[0] tokens purchased should be 8520000000000000000000");
       return c.receivePurchase(108,{value: 40000000000000000000000, from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressCap was exceeded");
+      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressTokenCap was exceeded");
       return c.receivePurchase(108,{value: 40000000000000000000, from:accounts[4]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, "Buyer is not registered for the sale!", "should give error message that the buyer is not registered for the sale");
       return c.receivePurchase(108,{value: 40000000000000000000000, from:accounts[1]});
     }).then(function(ret) {
-      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressCap was exceeded");
+      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressTokenCap was exceeded");
       return c.getLeftoverWei.call(accounts[0]);
     }).then(function(ret) {
       assert.equal(ret.valueOf(),2.538475E22,"accounts0 LeftoverWei should be 2.538475E22");
@@ -752,7 +751,7 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       return c.getContribution.call(accounts[0], {from:accounts[0]});
     }).then(function(ret) {
       assert.equal(ret.valueOf(),14655250000000000000000, "accounts[0] amount of wei contributed should be 14655250000000000000000 wei");
-      return c.addressCap.call();
+      return c.addressTokenCap.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(),1.465525e+22, "Address cap should not have changed!");
       return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
@@ -800,9 +799,9 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.logs[0].args.Msg, 'buyer ether sent exceeds cap of ether to be raised!', "should give error message that the raise cap has been exceeded");
       return c.receivePurchase(122, {value: 50000000000000010000, from:accounts[1]});
     }).then(function(ret) {
-      return c.addressCap.call();
+      return c.addressTokenCap.call();
     }).then(function(ret) {
-      assert.equal(ret.valueOf(),1.465525e+22, "addressCap should not have changed!");
+      assert.equal(ret.valueOf(),1.465525e+22, "addressTokenCap should not have changed!");
       return c.getContribution.call(accounts[1],{from:accounts[4]});
     }).then(function(ret) {
       assert.equal(ret.valueOf(),1.465525e+22, "accounts[1] amount of wei contributed should be 1.465525e+22 wei");
@@ -934,5 +933,5 @@ contract('TimeEvenDistroCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.valueOf(), 1.717481825E25,  "The token's new supply is 1.723232825E25");
     });
   });
-  });
 });*/
+});

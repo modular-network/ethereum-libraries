@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title DirectCrowdsaleLib
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 2.0.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -116,7 +116,7 @@ library DirectCrowdsaleLib {
 
     if(self.base.tokenDecimals <= 18){
       _zeros = 10**(18-uint256(self.base.tokenDecimals));
-      _numTokens = weiTokens/zeros;
+      _numTokens = _weiTokens/_zeros;
       _leftoverWei = _weiTokens % _zeros;
       self.base.leftoverWei[msg.sender] += _leftoverWei;
     } else {

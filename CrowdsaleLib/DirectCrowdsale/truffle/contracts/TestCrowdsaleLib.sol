@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title CrowdsaleLib
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 2.0.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -194,7 +194,7 @@ library TestCrowdsaleLib {
 
   /// @dev send ether from a purchase to the owners wallet address
   function withdrawOwnerEth(CrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
-    if (!crowdsaleEnded(self, currtime)) {
+    if ((!crowdsaleEnded(self,currtime)) && (self.token.balanceOf(this)>0)) {
       LogErrorMsg("Cannot withdraw owner ether until after the sale");
       return false;
     }
@@ -236,9 +236,7 @@ library TestCrowdsaleLib {
       LogErrorMsg("Owner can only set the exchange rate!");
       return false;
     }
-    if ((_currtime >= (self.startTime - 3)) && (_currtime <= (self.startTime)) && (self.rateSet == false)) {
-      require(self.rateSet == false);
-    } else {
+    if (!((_currtime >= (self.startTime - 3)) && (_currtime <= (self.startTime)) && (self.rateSet == false))) {
       LogErrorMsg("Owner can only set the exchange rate once up to three days before the sale!");
       return false;
     }
@@ -275,7 +273,11 @@ library TestCrowdsaleLib {
     require(msg.sender == self.owner);
     require(!self.tokensSet);
 
-    self.withdrawTokensMap[msg.sender] = self.token.balanceOf(this);
+    uint256 _tokenBalance;
+
+    _tokenBalance = self.token.balanceOf(this);
+    self.withdrawTokensMap[msg.sender] = _tokenBalance;
+    self.startingTokenBalance = _tokenBalance;
     self.tokensSet = true;
 
     return true;

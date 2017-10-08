@@ -1,5 +1,5 @@
-var TimeEvenDistroCrowdsaleTestContract2 = artifacts.require("TimeEvenDistroCrowdsaleTestContract");
-var CrowdsaleToken2 = artifacts.require("CrowdsaleToken");
+var TimeEvenDistroCrowdsaleTestContract2 = artifacts.require("TimeEvenDistroCrowdsaleTestContract2");
+var CrowdsaleToken2 = artifacts.require("CrowdsaleToken2");
 
 contract('CrowdsaleToken2', function(accounts) {
   it("should properly initialize token data", function() {
@@ -309,7 +309,7 @@ contract('TimeEvenDistroCrowdsaleTestContract2', function(accounts) {
         return c.getTokensPerEth.call();
       }).then(function(ret) {
         assert.equal(ret.valueOf(), 600, "tokensPerEth should have been set to 600!");
-        return c.getAddressCap.call();
+        return c.getAddressTokenCap.call();
       }).then(function(ret) {
         assert.equal(ret.valueOf(), 50000, "Address cap should have been calculated to correct number!");
         return c.withdrawOwnerEth(104, {from:accounts[5]});
@@ -375,7 +375,7 @@ contract('TimeEvenDistroCrowdsaleTestContract2', function(accounts) {
       assert.equal(ret.valueOf(), 24000, "accounts[0] tokens purchased should be 24000");
       return c.receivePurchase(108,{value: 40000000000000000000000, from:accounts[0]});
     }).then(function(ret) {
-      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressCap was exceeded");
+      assert.equal(ret.logs[0].args.Msg, "Cap Per Address has been exceeded! Please withdraw leftover Wei!","should show message that the addressTokenCap was exceeded");
       return c.receivePurchase(108,{value: 40000000000000000000, from:accounts[4]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.amount, 24000, "accounts[4] tokens purchased should be 24000");
@@ -406,7 +406,7 @@ contract('TimeEvenDistroCrowdsaleTestContract2', function(accounts) {
       return c.receivePurchase(140, {value: 40000000000000000000, from:accounts[0]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, "Address cap has increased!", "Should give message the the address cap has increased!");
-      return c.getAddressCap.call();
+      return c.getAddressTokenCap.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(),50000, "Address cap should be 50000");
       return c.getContribution.call(accounts[0],{from:accounts[0]});

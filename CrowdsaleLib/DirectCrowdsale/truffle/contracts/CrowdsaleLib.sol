@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title CrowdsaleLib
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 2.0.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -87,7 +87,7 @@ library CrowdsaleLib {
   /// @param _owner Address of crowdsale owner
   /// @param _saleData Array of 3 item sets such that, in each 3 element
   /// set, 1 is timestamp, 2 is price in cents at that time,
-  /// 3 is address purchase cap at that time, 0 if no address cap
+  /// 3 is address token purchase cap at that time, 0 if no address cap
   /// @param _fallbackExchangeRate Exchange rate of cents/ETH
   /// @param _capAmountInCents Total to be raised in cents
   /// @param _endTime Timestamp of sale end time
@@ -105,7 +105,7 @@ library CrowdsaleLib {
   	require(self.capAmount == 0);
   	require(self.owner == 0);
     require(_saleData.length > 0);
-    require((_saleData.length%3) == 0);
+    require((_saleData.length%3) == 0); // ensure saleData is 3-item sets
     require(_saleData[0] > (now + 3 days));
     require(_endTime > _saleData[0]);
     require(_capAmountInCents > 0);
@@ -173,7 +173,7 @@ library CrowdsaleLib {
     }
 
     if (msg.sender == self.owner) {
-      if((!crowdsaleEnded(self))){
+      if(!crowdsaleEnded(self)){
         LogErrorMsg("Owner cannot withdraw extra tokens until after the sale!");
         return false;
       } else {
@@ -215,7 +215,7 @@ library CrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if owner withdrew eth
   function withdrawOwnerEth(CrowdsaleStorage storage self) returns (bool) {
-    if (!crowdsaleEnded(self)) {
+    if ((!crowdsaleEnded(self)) && (self.token.balanceOf(this)>0)) {
       LogErrorMsg("Cannot withdraw owner ether until after the sale!");
       return false;
     }
