@@ -56,17 +56,17 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 
 ### v2.0.0
 
-**ENS**:
-**Main Ethereum Network**:
-**Rinkeby Test Network**:
-**Ropsten Test Network**:
+**ENS**: TBD   
+**Main Ethereum Network**: 0x30f1480d7de1e6edef2e62ff60c74a0767ad7dd0   
+**Rinkeby Test Network**: 0x4792a38f1916f238d6abd8a2f088a353787ab019   
+**Ropsten Test Network**: 0xbfc0dc6f4daaa317b50f1afb52d0a9a01e81c99a   
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time.*   
 
 **Main Ethereum Network**: None   
-**Ropsten Test Network**: None   
 **Rinkeby Test Network**: 0xd0c49af4e8b8abadc0803899f1fb5203f4b4a6c2   
+**Ropsten Test Network**: None   
 
 ## License and Warranty   
 
@@ -156,7 +156,7 @@ For direction and instructions on how the Solidity command line compiler works [
     "libraries": {
       "YourCrowdsaleContract.sol": {
         "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "EvenDistroCrowdsaleLib": ""
+        "EvenDistroCrowdsaleLib": "0x30f1480d7de1e6edef2e62ff60c74a0767ad7dd0"
       }
     }
   }
@@ -169,7 +169,7 @@ When creating unlinked binary, the compiler currently leaves special substrings 
 
 ```
 "CrowdsaleLib:0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1"
-"EvenDistroCrowdsaleLib:"
+"EvenDistroCrowdsaleLib:0x30f1480d7de1e6edef2e62ff60c74a0767ad7dd0"
 ```
 
 then add the following flag to your command:
@@ -220,7 +220,7 @@ var input = {
     "libraries": {
       "YourCrowdsaleContract.sol": {
         "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "EvenDistroCrowdsaleLib": ""
+        "EvenDistroCrowdsaleLib": "0x30f1480d7de1e6edef2e62ff60c74a0767ad7dd0"
       }
     }
     ...
@@ -269,28 +269,28 @@ The crowdsale contract should put the `init` function in the constructor with th
 
 The following is the list of functions available to use in your smart contract.
 
-#### init(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address, uint256, uint256, uint256,uint256[], uint256, uint256, uint8, CrowdsaleToken)   
-*(EvenDistroCrowdsaleLib.sol, line 90)*
+#### init(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address, uint256[], uint256, uint256, uint256,uint8, uint256, bool, CrowdsaleToken)   
+*(EvenDistroCrowdsaleLib.sol, line 93)*
 
-Constructor. Initialize the crowdsale with owner, raise cap (in cents), startTime, endTime, token price (in cents), fall back exchange rate, a time interval between address cap changes, burn percentage, a multiplier that will be used to increase the address cap, a fallback address cap, and the address of the deployed token contract.  Passes some values to the base constructor then sets the direct crowdsale specific storage variables.
+Constructor. Initialize the crowdsale with owner, sale data, fall back exchange rate, raise cap (in cents), endTime, burn percentage for leftover tokens, a boolean that determines whether the address cap will increase throughout the sale, and the address of the deployed token contract. Passes some values to the base constructor then sets the crowdsale specific storage variables. The sale data consists of an array of 3-item "sets" such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, 0 if no address cap. If address cap is to be determined after all registration has ended, then staticCap should be false and the address purchase cap item should indicate the percentage the base cap is increased at that timestamp. The base cap will be determined as the total raise cap divided by the number of registrants. i.e. If the raise cap is $10M and 1M people register, then the raise cap is $10/registrant and if the address purchase cap is set to 200, then the cap will increase by 200% at that timestamp. The first address cap should be set to 100.   
 
 ##### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
-**address[]** _owner Address of crowdsale owner   
-**uint256** _capAmountInCents For example, $300/ETH should be 30000   
-**uint256** _startTime Timestamp of the start time.   
-**uint256** _endTime Timestamp of the end time.   
-**uint256[]** _tokenPricePoints An array of each token price point during the sale, in terms of cents.   
+**address** _owner Address of crowdsale owner   
+**uint256[]** _saleData Array of 3 item sets such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, 0 if no address cap. If staticCap is true, item 3 should be expressed in terms of tokens, if false, staticCap should be expressed in terms of percentage increase. The first timestamp is the start of the sale, and if percentages, item 3 must be at or above 100 or zero, with zero indicating no address cap.   
 **uint256** _fallbackExchangeRate Used as a last resort if this is not set prior to the sale.   
-**uint256** _changeInterval Amount of time in seconds between each price change   
+**uint256** _capAmountInCents The total raise goal, expressed in terms of total cents.   
+**uint256** _endTime Timestamp of the end time.   
 **uint8** _percentBurn Percentage of extra tokens to burn after the sale.   
-**CrowdsaleToken** _token Token being sold in the crowdsale.
+**uint256** _initialAddressTokenCap This will set the address token cap in case the exchange rate setter is not called in time.    
+**bool** _staticCap True if the cap is set with tokens, false if set with percentages.   
+**CrowdsaleToken** _token Token being sold in the crowdsale.   
 
 ##### Returns
 No return   
 
 #### registerUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)   
-*(EvenDistroCrowdsaleLib.sol, line 130)*
+*(EvenDistroCrowdsaleLib.sol, line 121)*
 
 Registers an individual user for the crowdsale.  Only the owner can call this function.  If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
@@ -302,7 +302,7 @@ Registers an individual user for the crowdsale.  Only the owner can call this fu
 **bool**   
 
 #### registerUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])   
-*(EvenDistroCrowdsaleLib.sol, line 158)*
+*(EvenDistroCrowdsaleLib.sol, line 149)*
 
 Registers a group of users for the crowdsale.  Only the owner can call this function. If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
@@ -314,7 +314,7 @@ Registers a group of users for the crowdsale.  Only the owner can call this func
 **bool**   
 
 #### unregisterUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)   
-*(EvenDistroCrowdsaleLib.sol, line 172)*
+*(EvenDistroCrowdsaleLib.sol, line 163)*
 
 Registers an individual user for the crowdsale.  Only the owner can call this function. If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
@@ -326,7 +326,7 @@ Registers an individual user for the crowdsale.  Only the owner can call this fu
 **bool**   
 
 #### unregisterUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])   
-*(EvenDistroCrowdsaleLib.sol, line 199)*
+*(EvenDistroCrowdsaleLib.sol, line 190)*
 
 UnRegisters a group of users for the crowdsale.  Only the owner can call this function.  If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
@@ -337,10 +337,10 @@ UnRegisters a group of users for the crowdsale.  Only the owner can call this fu
 ##### Returns
 **bool**   
 
-#### calculateAddressCap(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 211)*
+#### calculateAddressTokenCap(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 203)*
 
-Internal function used for calculating the puchase cap per address.  It divides the total Ether raise cap by the total number of registrants to find the cap and emits an event.
+Internal function used for calculating the token cap per address.  It divides the total tokens by the total number of registrants to find the cap and emits an event.
 
 ##### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
@@ -349,9 +349,9 @@ Internal function used for calculating the puchase cap per address.  It divides 
 **bool**   
 
 #### receivePurchase(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)   
-*(EvenDistroCrowdsaleLib.sol, line 244)*
+*(EvenDistroCrowdsaleLib.sol, line 242)*
 
-Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  If the payment exceeds the address cap, the tokens are still credited to the buyer and the leftover wei is indicated in the leftoverWei mapping. If the time interval for cap changes has passed, it also calculates the new address cap by multiplying the old cap by the percentage multiplier.  
+Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  If the payment exceeds the address cap, the tokens are still credited to the buyer and the leftover wei is indicated in the leftoverWei mapping. It also sets the new address cap and price as each milestone is passed.  
 
 Tokens purchased are calculated by multiplying the wei contributed by the tokensPerEth value, then moving the decimal place to reflect the token's specified granularity.  Mappings for buyer contribution, tokens purchased, and any leftover wei are updated, as well as total wei raised in the sale.
 
@@ -363,13 +363,112 @@ Tokens purchased are calculated by multiplying the wei contributed by the tokens
 **bool** True if transaction confirmed or revoked successfully.   
 
 #### setTokenExchangeRate(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)   
-*(EvenDistroCrowdsaleLib.sol, line 327)*
+*(EvenDistroCrowdsaleLib.sol, line 346)*
 
-Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Calling this will also call the calculateAddressCap function.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
+Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Calling this will also call the calculateAddressTokenCap function.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
 
 ##### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 **uint256** _amount
+
+##### Returns
+**bool**   
+
+#### setTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 352)*
+
+Used as a last resort function in case the exchange rate is not set prior to the sale start.
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
+
+##### Returns
+**bool**   
+
+#### getSaleData(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 356)*   
+
+Returns a 3 element array with index-0 being the timestamp, index-1 being the current token price in cents, and index-2 being the address token purchase cap.   
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
+
+##### Returns
+**uint256[3]**    
+
+#### getTokensSold(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 360)*   
+
+Returns the total amount of tokens sold at the time of calling.   
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
+
+##### Returns
+**uint256**    
+
+#### withdrawTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 364)*
+
+Allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some.  The token's transferFrom function is called so that the token contract transfers tokens from the owners address to the buyer's address.  The owner can also call this function after the sale is over to withdraw the remaining tokens that were not sold and trigger the functionality to burn unwanted tokens.
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
+
+##### Returns
+**bool**   
+
+#### withdrawLeftoverWei(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 368)*
+
+If a user had sent wei that didn't add up exactly to a whole number of tokens, the leftover wei will be recorded in the leftoverWei mapping for that user.  This function allows the user to withdraw the excess.
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
+
+##### Returns
+**bool**   
+
+#### withdrawOwnerEth(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 372)*
+
+Allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.  ETH must have been contributed in the sale.  It sets the owner's balance to 0 and transfers all the ETH.
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
+
+##### Returns
+**bool**   
+
+#### crowdsaleActive(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 376)*
+
+Returns true if the crowdsale is currently active. (If now is between the start and end time)
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
+
+##### Returns
+**bool**   
+
+#### crowdsaleEnded(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 380)*
+
+Returns true if the crowdsale is over. (now is after the end time)
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
+
+##### Returns
+**bool**   
+
+#### validPurchase(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 384)*
+
+Returns true if a purchase is valid, by checking that it is during the active crowdsale and the amount of ether sent is more than 0.
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
 
 ##### Returns
 **bool**   

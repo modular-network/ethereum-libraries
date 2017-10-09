@@ -12,17 +12,17 @@ Crowdsale libraries [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 
 ### v2.0.0
 
-**ENS**:
-**Main Ethereum Network**:
-**Rinkeby Test Network**:
-**Ropsten Test Network**:
+**ENS**: TBD   
+**Main Ethereum Network**: 0x8b90e3937a5db939f15da38af99579b3c213d02a   
+**Rinkeby Test Network**: 0x7b6b4b6becc07238d42465bccd393d510a795e34   
+**Ropsten Test Network**: 0x23846ed79fc461095fc13ab60df4f3e1e6a07ded   
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time.*   
 
 **Main Ethereum Network**: 0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1   
-**Ropsten Test Network**: 0x37ea7b78992192ebbbf848294f6af338ae7ea1c5   
 **Rinkeby Test Network**: 0x33a5bb89721af20d992732bf16f7f17e7553f3ff   
+**Ropsten Test Network**: 0x37ea7b78992192ebbbf848294f6af338ae7ea1c5   
 
 ## How to Use
 

@@ -62,10 +62,10 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 
 ### v2.0.0
 
-**ENS**:
-**Main Ethereum Network**:
-**Rinkeby Test Network**:
-**Ropsten Test Network**:
+**ENS**: TBD
+**Main Ethereum Network**: 0xf0d145598e099e487ad71e70bf8845c116f982d5   
+**Rinkeby Test Network**: 0x6b3f746fc43f5f5ca63e8f02335c991eb89a82a3   
+**Ropsten Test Network**: 0x9fba2bb27f03f618d1b88d4bfd1fe2cb4788eeb5   
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time.*   
@@ -163,7 +163,7 @@ For direction and instructions on how the Solidity command line compiler works [
     "libraries": {
       "YourContract.sol": {
         "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "DirectCrowdsaleLib": "0x49a4dfad9797a1726da60098a1c06616cacfc1ec"
+        "DirectCrowdsaleLib": "0xf0d145598e099e487ad71e70bf8845c116f982d5"
       }
     }
   }
@@ -176,7 +176,7 @@ When creating unlinked binary, the compiler currently leaves special substrings 
 
 ```
 "CrowdsaleLib:0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1"
-"DirectCrowdsaleLib:0x49a4dfad9797a1726da60098a1c06616cacfc1ec"
+"DirectCrowdsaleLib:0xf0d145598e099e487ad71e70bf8845c116f982d5"
 ```
 
 then add the following flag to your command:
@@ -227,7 +227,7 @@ var input = {
     "libraries": {
       "YourCrowdsaleContract.sol": {
         "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "DirectCrowdsaleLib": "0x49a4dfad9797a1726da60098a1c06616cacfc1ec"
+        "DirectCrowdsaleLib": "0xf0d145598e099e487ad71e70bf8845c116f982d5"
       }
     }
     ...
@@ -275,20 +275,18 @@ The crowdsale contract should put the `init` function in the constructor with th
 
 The following is the list of functions available to use in your smart contract.
 
-#### init(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, address, uint256, uint256, uint256,uint256[], uint256, uint256, uint8, CrowdsaleToken)   
-*(DirectCrowdsaleLib.sol, line 67)*
+#### init(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, address, uint256[], uint256, uint256, uint256, uint8, CrowdsaleToken)   
+*(DirectCrowdsaleLib.sol, line 63)*
 
-Constructor. Initialize the crowdsale with owner, token price (in cents), raise cap, startTime, endTime, burn percentage, an array of token price points (in cents) that will be used throughout the sale, a fallback USD-Ether exchange rate, a time Interval between price changes, and the address of the deployed token contract.  Passes some values to the base constructor then sets the direct crowdsale specific storage variables.
+Constructor. Initialize the crowdsale with owner, sale data, fall back exchange rate, raise cap (in cents), endTime, burn percentage of leftover tokens, and the address of the deployed token contract. Passes some values to the base constructor then sets the direct crowdsale specific storage variables. The sale data consists of an array of 3-item "sets" such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, this value should be set to 0 for a direct crowdsale.    
 
 ##### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** self   
 **address[]** _owner Address of crowdsale owner   
-**uint256** _capAmountInCents For example, $300/ETH should be 30000   
-**uint256** _startTime Timestamp of the start time.   
-**uint256** _endTime Timestamp of the end time.   
-**uint256[]** _tokenPricePoints An array of each token price point during the sale, in terms of cents.   
+**uint256[]** _saleData Array of 3 item sets such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, this value should be set to 0 for a direct crowdsale. The very first item should be the timestamp for the auction start.      
 **uint256** _fallbackExchangeRate Used as a last resort if this is not set prior to the sale.   
-**uint256** _changeInterval Amount of time in seconds between each price change   
+**uint256** _capAmountInCents For example, $300/ETH should be 30000   
+**uint256** _endTime Timestamp of the end time.   
 **uint8** _percentBurn Percentage of extra tokens to burn after the sale.   
 **CrowdsaleToken** _token Token being sold in the crowdsale.
 
@@ -296,9 +294,9 @@ Constructor. Initialize the crowdsale with owner, token price (in cents), raise 
 No return   
 
 #### receivePurchase(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, uint256)   
-*(DirectCrowdsaleLib.sol, line 102)*
+*(DirectCrowdsaleLib.sol, line 85)*
 
-Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  This also updates the token's price when the time interval passes by checking an internal variable that keeps track of when the last change happened and checking to see if the time interval has passed since that change.   
+Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  This also updates the token's price when the time milestone passes.   
 
 Tokens purchased are calculated by multiplying the wei contributed by the tokensPerEth value, then moving the decimal place to reflect the token's specified granularity.  Mappings for buyer contribution, tokens purchased, and any leftover wei are updated, as well as total wei raised in the sale.
 
@@ -310,7 +308,7 @@ Tokens purchased are calculated by multiplying the wei contributed by the tokens
 **bool** True if transaction confirmed or revoked successfully.   
 
 #### setTokenExchangeRate(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, uint256)   
-*(DirectCrowdsaleLib.sol, line 169)*
+*(DirectCrowdsaleLib.sol, line 152)*
 
 Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
 
@@ -322,7 +320,7 @@ Function that is called by the owner to set the exhange rate (cents/ETH).  In ad
 **bool**   
 
 #### setTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 173)*
+*(DirectCrowdsaleLib.sol, line 156)*
 
 Used as a last resort function in case the exchange rate is not set prior to the sale start.
 
@@ -332,8 +330,30 @@ Used as a last resort function in case the exchange rate is not set prior to the
 ##### Returns
 **bool**   
 
+#### getSaleData(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 160)*   
+
+Returns a 3 element array with index-0 being the timestamp, index-1 being the current token price in cents, and index-2 being the address token purchase cap.   
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
+
+##### Returns
+**uint256[3]**    
+
+#### getTokensSold(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 164)*   
+
+Returns the total amount of tokens sold at the time of calling.   
+
+##### Arguments
+**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
+
+##### Returns
+**uint256**    
+
 #### withdrawTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 177)*
+*(DirectCrowdsaleLib.sol, line 168)*
 
 Allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some.  The token's transferFrom function is called so that the token contract transfers tokens from the owners address to the buyer's address.  The owner can also call this function after the sale is over to withdraw the remaining tokens that were not sold and trigger the functionality to burn unwanted tokens.
 
@@ -344,7 +364,7 @@ Allows a user to withdraw their purchased tokens whenever they want, provided th
 **bool**   
 
 #### withdrawLeftoverWei(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 181)*
+*(DirectCrowdsaleLib.sol, line 172)*
 
 If a user had sent wei that didn't add up exactly to a whole number of tokens, the leftover wei will be recorded in the leftoverWei mapping for that user.  This function allows the user to withdraw the excess.
 
@@ -355,7 +375,7 @@ If a user had sent wei that didn't add up exactly to a whole number of tokens, t
 **bool**   
 
 #### withdrawOwnerEth(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 185)*
+*(DirectCrowdsaleLib.sol, line 176)*
 
 Allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.  ETH must have been contributed in the sale.  It sets the owner's balance to 0 and transfers all the ETH.
 
@@ -366,7 +386,7 @@ Allows the owner of the crowdsale to withdraw all the contributed ether after th
 **bool**   
 
 #### crowdsaleActive(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 189)*
+*(DirectCrowdsaleLib.sol, line 180)*
 
 Returns true if the crowdsale is currently active. (If now is between the start and end time)
 
@@ -377,7 +397,7 @@ Returns true if the crowdsale is currently active. (If now is between the start 
 **bool**   
 
 #### crowdsaleEnded(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 193)*
+*(DirectCrowdsaleLib.sol, line 184)*
 
 Returns true if the crowdsale is over. (now is after the end time)
 
@@ -388,7 +408,7 @@ Returns true if the crowdsale is over. (now is after the end time)
 **bool**   
 
 #### validPurchase(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 197)*
+*(DirectCrowdsaleLib.sol, line 188)*
 
 Returns true if a purchase is valid, by checking that it is during the active crowdsale and the amount of ether sent is more than 0.
 
