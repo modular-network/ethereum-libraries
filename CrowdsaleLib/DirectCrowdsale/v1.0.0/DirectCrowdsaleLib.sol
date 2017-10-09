@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title DirectCrowdsaleLib
  * @author Majoolr.io
  *
- * version 2.0.0
+ * version 1.0.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -41,6 +41,10 @@ library DirectCrowdsaleLib {
 
   	CrowdsaleLib.CrowdsaleStorage base; // base storage from CrowdsaleLib
 
+    uint256[] tokenPricePoints;    // price points at each price change interval in cents/token.
+
+  	uint256 changeInterval;      // amount of time between changes in the price of the token
+  	uint256 lastPriceChangeTime;  // time of the last change in token cost
   }
 
   event LogTokensBought(address indexed buyer, uint256 amount);
@@ -52,35 +56,48 @@ library DirectCrowdsaleLib {
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
-  /// @param _saleData Array of 3 item sets such that, in each 3 element
-  /// set, 1 is timestamp, 2 is price in cents at that time,
-  /// 3 is address purchase cap at that time, 0 if no address cap
-  /// @param _fallbackExchangeRate Exchange rate of cents/ETH
   /// @param _capAmountInCents Total to be raised in cents
+  /// @param _startTime Timestamp of sale start time
   /// @param _endTime Timestamp of sale end time
+  /// @param _tokenPricePoints Array of each price point during sale cents/token
+  /// @param _fallbackExchangeRate Exchange rate of cents/ETH
+  /// @param _changeInterval The number of seconds between each step
   /// @param _percentBurn Percentage of extra tokens to burn
   /// @param _token Token being sold
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
-                uint256[] _saleData,
-                uint256 _fallbackExchangeRate,
                 uint256 _capAmountInCents,
+                uint256 _startTime,
                 uint256 _endTime,
+                uint256[] _tokenPricePoints,
+                uint256 _fallbackExchangeRate,
+                uint256 _changeInterval,
                 uint8 _percentBurn,
                 CrowdsaleToken _token)
   {
   	self.base.init(_owner,
-                _saleData,
+                _tokenPricePoints[0],
                 _fallbackExchangeRate,
                 _capAmountInCents,
+                _startTime,
                 _endTime,
                 _percentBurn,
                 _token);
+
+    require(_tokenPricePoints.length > 0);
+
+    // if there is no increase or decrease in price, the time interval should also be zero
+    if (_tokenPricePoints.length == 1) {
+    	require(_changeInterval == 0);
+    }
+    self.tokenPricePoints = _tokenPricePoints;
+  	self.changeInterval = _changeInterval;
+  	self.lastPriceChangeTime = _startTime;
   }
 
   /// @dev Called when an address wants to purchase tokens
   /// @param self Stored crowdsale from crowdsale contract
-  /// @param _amount amount of wei that the buyer is sending
+  /// @param _amount amound of wei that the buyer is sending
   /// @return true on succesful purchase
   function receivePurchase(DirectCrowdsaleStorage storage self, uint256 _amount) returns (bool) {
     require(msg.sender != self.base.owner);
@@ -89,60 +106,60 @@ library DirectCrowdsaleLib {
     require((self.base.ownerBalance + _amount) <= self.base.capAmount);
 
   	// if the token price increase interval has passed, update the current day and change the token price
-  	if ((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
-        (now > self.base.milestoneTimes[self.base.currentMilestone + 1]))
-    {
-        while((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
-              (now > self.base.milestoneTimes[self.base.currentMilestone + 1]))
-        {
-          self.base.currentMilestone += 1;
-        }
+  	if ((self.changeInterval > 0) && (now >= (self.lastPriceChangeTime + self.changeInterval))) {
+  		self.lastPriceChangeTime = self.lastPriceChangeTime + self.changeInterval;
+      uint256 index = (now-self.base.startTime)/self.changeInterval;
 
-        self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
-        LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
-    }
+      //prevents going out of bounds on the tokenPricePoints array
+      if (self.tokenPricePoints.length <= index)
+        index = self.tokenPricePoints.length - 1;
 
-  	uint256 _numTokens; //number of tokens that will be purchased
-    uint256 _newBalance; //the new balance of the owner of the crowdsale
-    uint256 _weiTokens; //temp calc holder
-    uint256 _zeros; //for calculating token
-    uint256 _leftoverWei; //wei change for purchaser
-    uint256 _remainder; //temp calc holder
-    bool err;
+      self.base.changeTokenPrice(self.tokenPricePoints[index]);
+
+      LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
+  	}
+
+  	uint256 numTokens; //number of tokens that will be purchased
+  	bool err;
+    uint256 newBalance; //the new balance of the owner of the crowdsale
+    uint256 weiTokens; //temp calc holder
+    uint256 zeros; //for calculating token
+    uint256 leftoverWei; //wei change for purchaser
+    uint256 remainder; //temp calc holder
 
     // Find the number of tokens as a function in wei
-    (err,_weiTokens) = _amount.times(self.base.tokensPerEth);
+    (err,weiTokens) = _amount.times(self.base.tokensPerEth);
     require(!err);
 
     if(self.base.tokenDecimals <= 18){
-      _zeros = 10**(18-uint256(self.base.tokenDecimals));
-      _numTokens = _weiTokens/_zeros;
-      _leftoverWei = _weiTokens % _zeros;
-      self.base.leftoverWei[msg.sender] += _leftoverWei;
+      zeros = 10**(18-uint256(self.base.tokenDecimals));
+      numTokens = weiTokens/zeros;
+      leftoverWei = weiTokens % zeros;
+      self.base.leftoverWei[msg.sender] += leftoverWei;
     } else {
-      _zeros = 10**(uint256(self.base.tokenDecimals)-18);
-      _numTokens = _weiTokens*_zeros;
+      zeros = 10**(uint256(self.base.tokenDecimals)-18);
+      numTokens = weiTokens*zeros;
     }
 
     // can't overflow because it is under the cap
-    self.base.hasContributed[msg.sender] += _amount - _leftoverWei;
+    self.base.hasContributed[msg.sender] += _amount - leftoverWei;
 
-    require(_numTokens <= self.base.token.balanceOf(this));
+    require(numTokens <= self.base.token.balanceOf(this));
 
-    // calculate the amount of ether in the owners balance
-    (err,_newBalance) = self.base.ownerBalance.plus(_amount-_leftoverWei);
+    // calculate the amout of ether in the owners balance
+    (err,newBalance) = self.base.ownerBalance.plus(_amount-leftoverWei);
     require(!err);
 
-    self.base.ownerBalance = _newBalance;   // "deposit" the amount
+    self.base.ownerBalance = newBalance;   // "deposit" the amount
 
     // can't overflow because it will be under the cap
-	  self.base.withdrawTokensMap[msg.sender] += _numTokens;
+	  self.base.withdrawTokensMap[msg.sender] += numTokens;
 
     //subtract tokens from owner's share
-    (err,_remainder) = self.base.withdrawTokensMap[self.base.owner].minus(_numTokens);
-    self.base.withdrawTokensMap[self.base.owner] = _remainder;
+    (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);
+    self.base.withdrawTokensMap[self.base.owner] = remainder;
 
-	  LogTokensBought(msg.sender, _numTokens);
+	  LogTokensBought(msg.sender, numTokens);
 
     return true;
   }
@@ -155,14 +172,6 @@ library DirectCrowdsaleLib {
 
   function setTokens(DirectCrowdsaleStorage storage self) returns (bool) {
     return self.base.setTokens();
-  }
-
-  function getSaleData(DirectCrowdsaleStorage storage self, uint256 timestamp) returns (uint256[3]) {
-    return self.base.getSaleData(timestamp);
-  }
-
-  function getTokensSold(DirectCrowdsaleStorage storage self) constant returns (uint256) {
-    return self.base.getTokensSold();
   }
 
   function withdrawTokens(DirectCrowdsaleStorage storage self) returns (bool) {

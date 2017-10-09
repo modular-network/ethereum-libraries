@@ -57,7 +57,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       return c.getEthRaised.call();
     }).then(function(ob) {
       returnObj.ownerBalance = ob;
-      return c.getPurchaseData.call(0);
+      return c.getSaleData.call(0);
     }).then(function(pd){
       console.log(pd);
       assert.equal(returnObj.owner.valueOf(), accounts[5], "Owner should be set to the account5");

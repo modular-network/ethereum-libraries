@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title EvenDistroCrowdsaleLib
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 2.0.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -54,16 +54,19 @@ library TestEvenDistroCrowdsaleLib {
     // mapping showing which addresses have registered for the sale. can only be changed by the owner
     mapping (address => bool) isRegistered;
 
+    // mapping to track number of tokens bought
+    mapping (address => uint256) tokensBought;
+
     uint256 numRegistered;   // records how many addresses have registered
-    uint256 addressCap;           // cap on how much wei an address can contribute in the sale
+    uint256 addressTokenCap;           // cap on how much wei an address can contribute in the sale
     bool staticCap;
   }
 
   // Indicates when tokens are bought during the sale
-  event LogTokensBought(address indexed buyer, uint256 amount);
+  event LogTokensBought(address indexed buyer, uint256 amount, uint256 time);
 
   // Logs when a buyer has exceeded the address cap and tells them to withdraw their leftover wei
-  event LogAddressCapExceeded(address indexed buyer, uint256 amount, string Msg);
+  event LogAddressTokenCapExceeded(address indexed buyer, uint256 amount, string Msg);
 
   // Logs when a user is registered in the system before the sale
   event LogUserRegistered(address registrant);
@@ -75,13 +78,13 @@ library TestEvenDistroCrowdsaleLib {
   event LogErrorMsg(uint256 amount, string Msg);
 
   // Logs when there is an increase in the contribution cap per address
-  event LogAddressCapChange(uint256 amount, string Msg);
+  event LogAddressTokenCapChange(uint256 amount, string Msg);
 
   // Logs when there is a change in price
   event LogTokenPriceChange(uint256 amount, string Msg);
 
   // Logs when the address cap is initially calculated
-  event LogAddressCapCalculated(uint256 saleCap, uint256 numRegistered, uint256 cap, string Msg);
+  event LogAddressTokenCapCalculated(uint256 saleCap, uint256 numRegistered, uint256 cap, string Msg);
 
 
   /// @dev Called by a crowdsale contract upon creation.
@@ -93,7 +96,7 @@ library TestEvenDistroCrowdsaleLib {
                 uint256 _capAmountInCents,
                 uint256 _endTime,
                 uint8 _percentBurn,
-                uint256 _initialAddressCap,
+                uint256 _initialAddressTokenCap,
                 bool _staticCap,
                 CrowdsaleToken _token)
   {
@@ -106,9 +109,9 @@ library TestEvenDistroCrowdsaleLib {
                    _percentBurn,
                    _token);
 
-
+    require(_initialAddressTokenCap > 0);
     self.staticCap = _staticCap;
-    self.addressCap = _initialAddressCap;
+    self.addressTokenCap = _initialAddressTokenCap;
   }
 
   /// @dev register user function. can only be called by the owner when a user registers on the web app.
@@ -197,28 +200,29 @@ library TestEvenDistroCrowdsaleLib {
 
   /// @dev function that calculates address cap from the number of users registered
   /// @param self Stored crowdsale from crowdsale contract
-  function calculateAddressCap(EvenDistroCrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
+  function calculateAddressTokenCap(EvenDistroCrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
     require(self.numRegistered > 0);
+    require(self.base.token.balanceOf(this) > 0);
+
     if ((currtime > self.base.startTime) || (currtime < (self.base.startTime - 3)) || (self.staticCap))  {
       return false;
     }
     if(self.base.rateSet) { return false; }  //make's sure this can only be called once
 
-    uint256 baseCap;
-    uint256 calcCap;
+    uint256 _baseCap;
+    uint256 _calcCap;
     bool err;
 
-    (err,baseCap) = self.base.capAmount.dividedBy(self.numRegistered);
-    require(!err);
+    _baseCap = (self.base.token.balanceOf(this))/self.numRegistered; // numRegistered required to be > 0
 
     for(uint256 i = 0; i < self.base.milestoneTimes.length; i++){
-      (err,calcCap) = self.base.saleData[self.base.milestoneTimes[i]][1].times(baseCap);
+      (err,_calcCap) = self.base.saleData[self.base.milestoneTimes[i]][1].times(_baseCap);
       require(!err);
-      self.base.saleData[self.base.milestoneTimes[i]][1] = calcCap/100;
+      self.base.saleData[self.base.milestoneTimes[i]][1] = _calcCap/100;
     }
 
-    self.addressCap = self.base.saleData[self.base.milestoneTimes[0]][1];
-    LogAddressCapCalculated(self.base.capAmount, self.numRegistered, self.addressCap, "Address cap was Calculated!");
+    self.addressTokenCap = self.base.saleData[self.base.milestoneTimes[0]][1];
+    LogAddressTokenCapCalculated(self.base.capAmount, self.numRegistered, self.addressTokenCap, "Address cap was Calculated!");
   }
 
   /// @dev utility function for the receivePurchase function. returns the lower number
@@ -261,67 +265,92 @@ library TestEvenDistroCrowdsaleLib {
         self.base.currentMilestone += 1;
       }
 
-      self.addressCap = self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][1];
+      self.addressTokenCap = self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][1];
+
       self.base.changeTokenPrice(self.base.saleData[self.base.milestoneTimes[self.base.currentMilestone]][0]);
 
-      LogAddressCapChange(result, "Address cap has increased!");
+      LogAddressTokenCapChange(self.addressTokenCap, "Address cap has increased!");
       LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
   	}
 
-  	uint256 numTokens; //number of tokens that will be purchased
-    uint256 zeros; //for calculating token
-    uint256 leftoverWei; //wei change for purchaser if they went over the address cap
-    uint256 remainder = 0; //temp calc holder for division remainder and then tokens remaining for the owner
+  	uint256 _numTokens; //number of tokens that will be purchased
+    uint256 _zeros; //for calculating token
+    uint256 _leftoverWei; //wei change for purchaser if they went over the address cap
+    uint256 _remainder; //temp calc holder for division remainder and then tokens remaining for the owner
+    uint256 _allowedWei;  // tells how much more the buyer can contribute up to their cap
+    uint256 _allowedTokens; // number of tokens the buyer is allowed to purchase
 
-    uint256 allowedWei;  // tells how much more the buyer can contribute up to their cap
-    (err,allowedWei) = self.addressCap.minus(self.base.hasContributed[msg.sender]);
-    require(!err);
+    if(self.base.tokenDecimals <= 18) {
+      _zeros = 10**(18-uint256(self.base.tokenDecimals));
+    } else {
+      _zeros = 10**(uint256(self.base.tokenDecimals)-18);
+    }
 
-    allowedWei = getMin(_amount,allowedWei);
-    leftoverWei = _amount - allowedWei;
+    if(self.addressTokenCap > 0) {
+      //_allowedWei represents tokens first, recycle variable to prevent stack depth issues
+      _allowedWei = self.addressTokenCap - self.tokensBought[msg.sender];
+      if(_allowedWei == 0){
+        LogErrorMsg(msg.value, "Cannot but anymore tokens!");
+        return false;
+      }
+
+      if(self.base.tokenDecimals <= 18){
+        _allowedWei = (_allowedWei * _zeros)/self.base.tokensPerEth;
+      } else {
+        _allowedWei = (_allowedWei * self.base.tokensPerEth)/_zeros;
+      }
+
+    } else {
+      // if addressTokenCap is zero then there is no cap
+      _allowedWei = _amount;
+    }
+
+    _allowedWei = getMin(_amount,_allowedWei);
+    _leftoverWei = _amount - _allowedWei;
 
     // Find the number of tokens as a function in wei
-    (err,result) = allowedWei.times(self.base.tokensPerEth);
+    (err,result) = _allowedWei.times(self.base.tokensPerEth);
     require(!err);
 
     if(self.base.tokenDecimals <= 18){
-      zeros = 10**(18-uint256(self.base.tokenDecimals));
-      numTokens = result/zeros;
-      remainder = result % zeros;
+      _numTokens = result/_zeros;
+      if((result % _zeros) > 0){
+        _remainder = _allowedWei - ((result-(result%_zeros))/self.base.tokensPerEth);
+      }
     } else {
-      zeros = 10**(uint256(self.base.tokenDecimals)-18);
-      numTokens = result*zeros;
+      _numTokens = result*_zeros;
     }
 
-    self.base.leftoverWei[msg.sender] += leftoverWei+remainder;
-    if(((self.base.hasContributed[msg.sender] + _amount)) > self.addressCap) {
-      LogAddressCapExceeded(msg.sender,self.base.leftoverWei[msg.sender],"Cap Per Address has been exceeded! Please withdraw leftover Wei!");
+    self.base.leftoverWei[msg.sender] += _leftoverWei+_remainder;
+    if(_leftoverWei > 0) {
+      LogAddressTokenCapExceeded(msg.sender,self.base.leftoverWei[msg.sender],"Cap Per Address has been exceeded! Please withdraw leftover Wei!");
     }
 
     // can't overflow because it is under the cap
-    self.base.hasContributed[msg.sender] += allowedWei - remainder;
+    self.base.hasContributed[msg.sender] += _allowedWei - _remainder;
 
-    require(numTokens <= self.base.token.balanceOf(this));
+    require(_numTokens <= self.base.token.balanceOf(this));
 
     // calculate the amout of ether in the owners balance and "deposit" it
-    self.base.ownerBalance = self.base.ownerBalance + (allowedWei - remainder);
+    self.base.ownerBalance = self.base.ownerBalance + (_allowedWei - _remainder);
 
     // can't overflow because it will be under the cap
-    self.base.withdrawTokensMap[msg.sender] += numTokens;
+    self.base.withdrawTokensMap[msg.sender] += _numTokens;
+    self.tokensBought[msg.sender] += _numTokens;
 
     //subtract tokens from owner's share
-    (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);
+    (err,_remainder) = self.base.withdrawTokensMap[self.base.owner].minus(_numTokens);
     require(!err);
-    self.base.withdrawTokensMap[self.base.owner] = remainder;
+    self.base.withdrawTokensMap[self.base.owner] = _remainder;
 
-    LogTokensBought(msg.sender, numTokens);
+    LogTokensBought(msg.sender, _numTokens, now);
 
     return true;
   }
 
   ///  Functions "inherited" from CrowdsaleLib library
   function setTokenExchangeRate(EvenDistroCrowdsaleStorage storage self, uint256 _exchangeRate, uint256 _currtime) returns (bool) {
-    bool ok = calculateAddressCap(self,_currtime);
+    bool ok = calculateAddressTokenCap(self,_currtime);
 
     return self.base.setTokenExchangeRate(_exchangeRate, _currtime) && ok;
   }

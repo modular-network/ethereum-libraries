@@ -12,12 +12,12 @@ pragma solidity ^0.4.15;
 import "./TestEvenDistroCrowdsaleLib.sol";
 import "./CrowdsaleToken.sol";
 
-contract TimeEvenDistroCrowdsaleTestContract {
+contract TimeEvenDistroCrowdsaleTestContract2 {
   using TestEvenDistroCrowdsaleLib for TestEvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage;
 
   TestEvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage sale;
 
-  function TimeEvenDistroCrowdsaleTestContract(
+  function TimeEvenDistroCrowdsaleTestContract2(
                 address owner,
                 uint256 currtime,
                 uint256[] saleData,

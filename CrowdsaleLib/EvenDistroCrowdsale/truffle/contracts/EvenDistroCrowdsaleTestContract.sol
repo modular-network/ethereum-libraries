@@ -21,11 +21,11 @@ contract EvenDistroCrowdsaleTestContract {
     uint256 capAmountInCents,
     uint256 endTime,
     uint8 percentBurn,
-    uint256 initialAddressCap,
+    uint256 initialAddressTokenCap,
     bool staticCap,
     CrowdsaleToken token)
   {
-  	sale.init(owner, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressCap, staticCap, token);
+  	sale.init(owner, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressTokenCap, staticCap, token);
   }
 
   // fallback function can be used to buy tokens
@@ -137,8 +137,8 @@ contract EvenDistroCrowdsaleTestContract {
     return sale.base.percentBurn;
   }
 
-  function getAddressCap() constant returns (uint256) {
-    return sale.addressCap;
+  function getAddressTokenCap() constant returns (uint256) {
+    return sale.addressTokenCap;
   }
 
   function getNumRegistered() constant returns (uint256) {
