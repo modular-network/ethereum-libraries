@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [CrowdsaleLib](#crowdsalelib)
+  - [Library Address](#library-address)
+    - [CrowdsaleLib](#crowdsalelib-1)
+    - [v2.0.0](#v200)
+    - [v1.0.0](#v100)
+  - [How to Use](#how-to-use)
+  - [Crowdsale Types](#crowdsale-types)
+    - [Direct Crowdsale](#direct-crowdsale)
+    - [Even Distribution Crowdsale](#even-distribution-crowdsale)
+  - [License and Warranty](#license-and-warranty)
+  - [Change Log](#change-log)
+    - [v2.0.0](#v200-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 CrowdsaleLib
 =========================
 
