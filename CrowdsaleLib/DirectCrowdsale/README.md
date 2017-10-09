@@ -60,7 +60,16 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 
 ## Library Address   
 
-**ENS**: TBD   
+### v2.0.0
+
+**ENS**:
+**Main Ethereum Network**:
+**Rinkeby Test Network**:
+**Ropsten Test Network**:
+
+### v1.0.0
+*Note: No ENS address is provided for older versions at this time.*   
+
 **Main Ethereum Network**: 0x49a4dfad9797a1726da60098a1c06616cacfc1ec   
 **Ropsten Test Network**: 0xbcaa0de389454de19ae7692e0832a116bc5b44ea   
 **Rinkeby Test Network**: 0xc1593efa265ae1a01672f344de8fcaca21946db5   
@@ -255,6 +264,12 @@ The Direct Crowdsale library provides functionality needed to launch an ETH in/t
 The crowdsale contract should put the `init` function in the constructor with the required parameters given. The crowdsale library functions will generally return false and log an error event when submitted parameters are either wrong or the call will not work.
 
 **DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://majoolr.io \"Majoolr website\") if you have discovered any issues or vulnerabilities with this library.
+
+## Change Log
+
+### v2.0.0
+
+* This version changes the sale data structure for all crowdsales.
 
 ## Functions
 

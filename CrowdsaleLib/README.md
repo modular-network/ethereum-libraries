@@ -10,7 +10,16 @@ Crowdsale libraries [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 
 ### CrowdsaleLib   
 
-**ENS**: TBD   
+### v2.0.0
+
+**ENS**:
+**Main Ethereum Network**:
+**Rinkeby Test Network**:
+**Ropsten Test Network**:
+
+### v1.0.0
+*Note: No ENS address is provided for older versions at this time.*   
+
 **Main Ethereum Network**: 0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1   
 **Ropsten Test Network**: 0x37ea7b78992192ebbbf848294f6af338ae7ea1c5   
 **Rinkeby Test Network**: 0x33a5bb89721af20d992732bf16f7f17e7553f3ff   
@@ -34,3 +43,9 @@ The EvenDistroCrowdsale is for auctions that pre-register buyers before the sale
 Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## Change Log
+
+### v2.0.0
+
+* This version changes the sale data structure for all crowdsales.
