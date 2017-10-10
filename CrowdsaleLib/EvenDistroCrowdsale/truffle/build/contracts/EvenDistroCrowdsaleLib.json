@@ -1261,11 +1261,14 @@
           "type": "event"
         }
       },
-      "links": {},
+      "links": {
+        "BasicMathLib": "0x73c983f3b4cf4f06921b5f39291cb532fd5f548c",
+        "CrowdsaleLib": "0x7b6b4b6becc07238d42465bccd393d510a795e34"
+      },
       "address": "0x0136a33eb0b3c3e5c112911be2f107d44bad8560",
-      "updated_at": 1507594599599
+      "updated_at": 1507598588570
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1507597518185
+  "updated_at": 1507598588570
 }

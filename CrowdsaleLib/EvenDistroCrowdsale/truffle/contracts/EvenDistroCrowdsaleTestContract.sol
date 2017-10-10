@@ -32,7 +32,7 @@ contract EvenDistroCrowdsaleTestContract {
   event LogAddressTokenCapExceeded(address indexed buyer, uint256 amount, string Msg);
   event LogUserRegistered(address registrant);
   event LogUserUnRegistered(address registrant);
-  event LogErrorMsg(string Msg);
+  event LogErrorMsg(address user, string Msg);
   event LogAddressTokenCapChange(uint256 amount, string Msg);
   event LogTokenPriceChange(uint256 amount, string Msg);
   event LogAddressTokenCapCalculated(uint256 saleCap, uint256 numRegistered, uint256 cap, string Msg);
@@ -62,7 +62,7 @@ contract EvenDistroCrowdsaleTestContract {
     return sale.unregisterUser(_registrant);
   }
 
-  function unregisterUsers(address _registrants) returns (bool) {
+  function unregisterUsers(address[] _registrants) returns (bool) {
     return sale.unregisterUser(_registrants);
   }
 
