@@ -63,7 +63,7 @@ contract EvenDistroCrowdsaleTestContract {
   }
 
   function unregisterUsers(address[] _registrants) returns (bool) {
-    return sale.unregisterUser(_registrants);
+    return sale.unregisterUsers(_registrants);
   }
 
   function isRegistered(address _registrant) constant returns (bool) {
