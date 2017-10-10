@@ -525,7 +525,7 @@
         "BasicMathLib": "0xd47c1de4e876b7382fd2d6e536f8e61553773560"
       },
       "address": "0x23846ed79fc461095fc13ab60df4f3e1e6a07ded",
-      "updated_at": 1507439174167
+      "updated_at": 1507597518181
     },
     "4": {
       "events": {
@@ -640,5 +640,5 @@
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1507555795672
+  "updated_at": 1507597518181
 }

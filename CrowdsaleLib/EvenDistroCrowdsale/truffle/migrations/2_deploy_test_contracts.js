@@ -50,7 +50,6 @@ module.exports = function(deployer, network, accounts) {
       return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 100, purchaseData, 29000, 1700000000, 125, 50, 50000, false, CrowdsaleToken.address,{from:accounts[5]});
     });
     deployer.deploy(CrowdsaleToken2, accounts[5], "Tester Token", "TST", 0, 500000000, false, {from:accounts[5]}).then(function() {
-      // configured to set the token price to $1.41, with a periodic increase in the address cap by 250%
       var purchaseData2 =[105,50,50000,
                          135,75,50000];
       return deployer.deploy(TimeEvenDistroCrowdsaleTestContract2, accounts[5], 100, purchaseData2, 29000, 40000000000, 165, 100, 50000, true, CrowdsaleToken2.address,{from:accounts[5]});

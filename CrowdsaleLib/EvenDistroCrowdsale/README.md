@@ -88,9 +88,9 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 ### v2.0.0
 
 **ENS**: TBD   
-**Main Ethereum Network**: 0x30f1480d7de1e6edef2e62ff60c74a0767ad7dd0   
-**Rinkeby Test Network**: 0x4792a38f1916f238d6abd8a2f088a353787ab019   
-**Ropsten Test Network**: 0xbfc0dc6f4daaa317b50f1afb52d0a9a01e81c99a   
+**Main Ethereum Network**: 0x8683e57d7277c8e12b938bcba617366262704c3b   
+**Rinkeby Test Network**: 0x0136a33eb0b3c3e5c112911be2f107d44bad8560   
+**Ropsten Test Network**: 0x6d7a3886047d7d5fb3773012ea2df593b7872574   
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time.*   
@@ -187,7 +187,7 @@ For direction and instructions on how the Solidity command line compiler works [
     "libraries": {
       "YourCrowdsaleContract.sol": {
         "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "EvenDistroCrowdsaleLib": "0x30f1480d7de1e6edef2e62ff60c74a0767ad7dd0"
+        "EvenDistroCrowdsaleLib": "0x8683e57d7277c8e12b938bcba617366262704c3b"
       }
     }
   }
@@ -200,7 +200,7 @@ When creating unlinked binary, the compiler currently leaves special substrings 
 
 ```
 "CrowdsaleLib:0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1"
-"EvenDistroCrowdsaleLib:0x30f1480d7de1e6edef2e62ff60c74a0767ad7dd0"
+"EvenDistroCrowdsaleLib:0x8683e57d7277c8e12b938bcba617366262704c3b"
 ```
 
 then add the following flag to your command:
@@ -251,7 +251,7 @@ var input = {
     "libraries": {
       "YourCrowdsaleContract.sol": {
         "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "EvenDistroCrowdsaleLib": "0x30f1480d7de1e6edef2e62ff60c74a0767ad7dd0"
+        "EvenDistroCrowdsaleLib": "0x8683e57d7277c8e12b938bcba617366262704c3b"
       }
     }
     ...
@@ -345,7 +345,7 @@ Registers a group of users for the crowdsale.  Only the owner can call this func
 **bool**   
 
 #### unregisterUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)   
-*(EvenDistroCrowdsaleLib.sol, line 163)*
+*(EvenDistroCrowdsaleLib.sol, line 162)*
 
 Registers an individual user for the crowdsale.  Only the owner can call this function. If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
@@ -357,7 +357,7 @@ Registers an individual user for the crowdsale.  Only the owner can call this fu
 **bool**   
 
 #### unregisterUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])   
-*(EvenDistroCrowdsaleLib.sol, line 190)*
+*(EvenDistroCrowdsaleLib.sol, line 189)*
 
 UnRegisters a group of users for the crowdsale.  Only the owner can call this function.  If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
@@ -369,7 +369,7 @@ UnRegisters a group of users for the crowdsale.  Only the owner can call this fu
 **bool**   
 
 #### calculateAddressTokenCap(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 203)*
+*(EvenDistroCrowdsaleLib.sol, line 202)*
 
 Internal function used for calculating the token cap per address.  It divides the total tokens by the total number of registrants to find the cap and emits an event.
 
@@ -380,7 +380,7 @@ Internal function used for calculating the token cap per address.  It divides th
 **bool**   
 
 #### receivePurchase(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)   
-*(EvenDistroCrowdsaleLib.sol, line 242)*
+*(EvenDistroCrowdsaleLib.sol, line 241)*
 
 Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  If the payment exceeds the address cap, the tokens are still credited to the buyer and the leftover wei is indicated in the leftoverWei mapping. It also sets the new address cap and price as each milestone is passed.  
 
@@ -394,7 +394,7 @@ Tokens purchased are calculated by multiplying the wei contributed by the tokens
 **bool** True if transaction confirmed or revoked successfully.   
 
 #### setTokenExchangeRate(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)   
-*(EvenDistroCrowdsaleLib.sol, line 346)*
+*(EvenDistroCrowdsaleLib.sol, line 345)*
 
 Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Calling this will also call the calculateAddressTokenCap function.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
 
@@ -406,7 +406,7 @@ Function that is called by the owner to set the exhange rate (cents/ETH).  In ad
 **bool**   
 
 #### setTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 352)*
+*(EvenDistroCrowdsaleLib.sol, line 351)*
 
 Used as a last resort function in case the exchange rate is not set prior to the sale start.
 
@@ -417,7 +417,7 @@ Used as a last resort function in case the exchange rate is not set prior to the
 **bool**   
 
 #### getSaleData(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 356)*   
+*(EvenDistroCrowdsaleLib.sol, line 355)*   
 
 Returns a 3 element array with index-0 being the timestamp, index-1 being the current token price in cents, and index-2 being the address token purchase cap.   
 
@@ -428,7 +428,7 @@ Returns a 3 element array with index-0 being the timestamp, index-1 being the cu
 **uint256[3]**    
 
 #### getTokensSold(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 360)*   
+*(EvenDistroCrowdsaleLib.sol, line 359)*   
 
 Returns the total amount of tokens sold at the time of calling.   
 
@@ -439,7 +439,7 @@ Returns the total amount of tokens sold at the time of calling.
 **uint256**    
 
 #### withdrawTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 364)*
+*(EvenDistroCrowdsaleLib.sol, line 363)*
 
 Allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some.  The token's transferFrom function is called so that the token contract transfers tokens from the owners address to the buyer's address.  The owner can also call this function after the sale is over to withdraw the remaining tokens that were not sold and trigger the functionality to burn unwanted tokens.
 
@@ -450,7 +450,7 @@ Allows a user to withdraw their purchased tokens whenever they want, provided th
 **bool**   
 
 #### withdrawLeftoverWei(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 368)*
+*(EvenDistroCrowdsaleLib.sol, line 367)*
 
 If a user had sent wei that didn't add up exactly to a whole number of tokens, the leftover wei will be recorded in the leftoverWei mapping for that user.  This function allows the user to withdraw the excess.
 
@@ -461,7 +461,7 @@ If a user had sent wei that didn't add up exactly to a whole number of tokens, t
 **bool**   
 
 #### withdrawOwnerEth(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 372)*
+*(EvenDistroCrowdsaleLib.sol, line 371)*
 
 Allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.  ETH must have been contributed in the sale.  It sets the owner's balance to 0 and transfers all the ETH.
 
@@ -472,7 +472,7 @@ Allows the owner of the crowdsale to withdraw all the contributed ether after th
 **bool**   
 
 #### crowdsaleActive(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 376)*
+*(EvenDistroCrowdsaleLib.sol, line 375)*
 
 Returns true if the crowdsale is currently active. (If now is between the start and end time)
 
@@ -483,7 +483,7 @@ Returns true if the crowdsale is currently active. (If now is between the start 
 **bool**   
 
 #### crowdsaleEnded(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 380)*
+*(EvenDistroCrowdsaleLib.sol, line 379)*
 
 Returns true if the crowdsale is over. (now is after the end time)
 
@@ -494,7 +494,7 @@ Returns true if the crowdsale is over. (now is after the end time)
 **bool**   
 
 #### validPurchase(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 384)*
+*(EvenDistroCrowdsaleLib.sol, line 383)*
 
 Returns true if a purchase is valid, by checking that it is during the active crowdsale and the amount of ether sent is more than 0.
 

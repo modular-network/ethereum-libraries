@@ -111,15 +111,15 @@
       "links": {},
       "events": {},
       "address": "0x7424a30199a76d085277c58e38b5b5375fb9bff8",
-      "updated_at": 1507439174151
+      "updated_at": 1507597518170
     },
     "4": {
       "events": {},
       "links": {},
       "address": "0xbc3216a0a455a66acdfb5bb3394499ce91f922a0",
-      "updated_at": 1507439694069
+      "updated_at": 1507590204390
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1507555795666
+  "updated_at": 1507597518170
 }
