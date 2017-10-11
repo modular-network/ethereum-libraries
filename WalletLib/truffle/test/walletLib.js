@@ -149,111 +149,63 @@ contract('WalletLibTestContract', (accounts) => {
     assert.equal(oi2.valueOf(), 0, "The index of the removed owner should be 0");
     
   });
-  it("should change requiredAdmin after requiredAdmin number of confirmations and deny illegal requests", function() {
-    let c;
-    let id;
 
-    return WalletLibTestContract.deployed().then(function(instance){
-      c = instance;
-      return c.changeRequiredAdmin(6, true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.changeRequiredAdmin(2, true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      id = ""+ret.logs[0].args.txid+"";
-      return c.changeRequiredAdmin(2, false, {from: accounts[1]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      assert.equal(len, 0, "Revocation of only confirmation should delete tx");
-    }).then(function(){
-      return c.changeRequiredAdmin(2, true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      id = ""+ret.logs[0].args.txid+"";
-      return c.confirmTx(id, {from:accounts[2]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.revokeConfirm(id, {from:accounts[3]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      return c.transactionConfirmCount(id, len - 1);
-    }).then(function(count){
-      count = count.valueOf();
-      assert.equal(count, 2, "Confirmation count should still be two b/c accounts[3] has not confirmed");
-    }).then(function(){
-      return c.confirmTx(id, {from:accounts[3]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.confirmTx(id, {from:accounts[0]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.requiredAdmin.call();
-    }).then(function(ra){
-      assert.equal(ra.valueOf(), 2, "New sig requirement for administrative tasks should be 2");
-    }).then(function(ret){
-      return c.changeRequiredAdmin(0, true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.changeRequiredAdmin(3, true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.changeRequiredAdmin(3, true, {from: accounts[0]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.requiredAdmin.call();
-    }).then(function(ra){
-      assert.equal(ra.valueOf(), 3, "New sig requirement for administrative tasks should be 3 after two sigs");
-    });
+  it("should change requiredAdmin after requiredAdmin number of confirmations and deny illegal requests", async () => {
+    
+    const c = await WalletLibTestContract.deployed();
+
+    await c.changeRequiredAdmin(6, true, {from: accounts[1]});
+    const ret = await c.changeRequiredAdmin(2, true, {from: accounts[1]});
+    const id = ""+ret.logs[0].args.txid+"";
+    await c.changeRequiredAdmin(2, false, {from: accounts[1]});
+    const len = await c.transactionLength(id);
+    
+    const ret2 = await c.changeRequiredAdmin(2, true, {from: accounts[1]});
+    const id2 = ""+ret2.logs[0].args.txid+"";
+    await c.confirmTx(id2, {from:accounts[2]});
+    await c.revokeConfirm(id2, {from:accounts[3]});
+    const len2 = await c.transactionLength(id2);
+    const count = await c.transactionConfirmCount(id2, len2.valueOf() - 1);
+    
+    await c.confirmTx(id2, {from:accounts[3]});
+    await c.confirmTx(id2, {from:accounts[0]});
+    const ra = await c.requiredAdmin.call();
+    
+    await c.changeRequiredAdmin(0, true, {from: accounts[1]});
+    await c.changeRequiredAdmin(3, true, {from: accounts[1]});
+    await c.changeRequiredAdmin(3, true, {from: accounts[0]});
+    const ra2 = await c.requiredAdmin.call();
+
+    assert.equal(len.valueOf(), 0, "Revocation of only confirmation should delete tx");
+    assert.equal(count.valueOf(), 2, "Confirmation count should still be two b/c accounts[3] has not confirmed");
+    assert.equal(ra.valueOf(), 2, "New sig requirement for administrative tasks should be 2");
+    assert.equal(ra2.valueOf(), 3, "New sig requirement for administrative tasks should be 3 after two sigs");
   });
-  it("should change requiredMajor after requiredAdmin number of confirmations and deny illegal requests", function() {
-    let c;
+  
+  it("should change requiredMajor after requiredAdmin number of confirmations and deny illegal requests", async () => {
     let id;
 
-    return WalletLibTestContract.deployed().then(function(instance){
-      c = instance;
-      return c.changeRequiredMajor(6, true, {from: accounts[2]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.changeRequiredMajor(4, true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      id = ""+ret.logs[0].args.txid+"";
-      return c.changeRequiredMajor(4, false, {from: accounts[1]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      assert.equal(len, 0, "Revocation of only confirmation should delete tx");
-    }).then(function(){
-      return c.changeRequiredMajor(4, true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      id = ""+ret.logs[0].args.txid+"";
-      return c.confirmTx(id, {from:accounts[2]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.revokeConfirm(id, {from:accounts[3]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      return c.transactionConfirmCount(id, len - 1);
-    }).then(function(count){
-      count = count.valueOf();
-      assert.equal(count, 2, "Confirmation count should still be two b/c accounts[3] has not confirmed");
-    }).then(function(){
-      return c.confirmTx(id, {from:accounts[3]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.requiredMajor.call();
-    }).then(function(rma){
-      assert.equal(rma.valueOf(), 4, "New sig requirement for major tx should be 4");
-    });
+    const c = await WalletLibTestContract.deployed();
+    await c.changeRequiredMajor(6, true, {from: accounts[2]});
+    const ret = await c.changeRequiredMajor(4, true, {from: accounts[1]});
+    id = ""+ret.logs[0].args.txid+"";
+    await c.changeRequiredMajor(4, false, {from: accounts[1]});
+    const len = await c.transactionLength(id);
+    
+    const ret2 = await c.changeRequiredMajor(4, true, {from: accounts[1]});
+    id = ""+ret2.logs[0].args.txid+"";
+    await c.confirmTx(id, {from:accounts[2]});
+    await c.revokeConfirm(id, {from:accounts[3]});
+    const len2 = await c.transactionLength(id);
+    const count = await c.transactionConfirmCount(id, len2.valueOf() - 1);
+
+    await c.confirmTx(id, {from:accounts[3]});
+    const rma = await c.requiredMajor.call();
+
+    assert.equal(len.valueOf(), 0, "Revocation of only confirmation should delete tx");
+    assert.equal(count.valueOf(), 2, "Confirmation count should still be two b/c accounts[3] has not confirmed");
+    assert.equal(rma.valueOf(), 4, "New sig requirement for major tx should be 4");
+    
   });
   it("should change requiredMinor after requiredAdmin number of confirmations and deny illegal requests", function() {
     let c;
