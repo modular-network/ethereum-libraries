@@ -28,43 +28,43 @@ contract('WalletLibTestContract', (accounts) => {
     const c = await WalletLibTestContract.deployed();
     const ownerIndex = await c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
 
-    let ret = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    const ret = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[0]});
     const id = ""+ret.logs[0].args.txid+"";
     const rc = await c.revokeConfirm(id, {from:accounts[1]});
     
-    let len = await c.transactionLength(id);
-    const cnc = await c.checkNotConfirmed('0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57', len.valueOf() - 1, {from:accounts[1]});
+    const len = await c.transactionLength(id);
+    const cnc = await c.checkNotConfirmed("0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57", len.valueOf() - 1, {from:accounts[1]});
     
-    let tcount = await c.transactionConfirmCount(id, len.valueOf() - 1);
+    const tcount = await c.transactionConfirmCount(id, len.valueOf() - 1);
      
     await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[2]});
     await c.revokeConfirm(id, {from:accounts[2]});
-    let len0 = await c.transactionLength(id);
+    const len0 = await c.transactionLength(id);
     const ccount = await c.transactionConfirmCount(id, len0 - 1);
     
-    let ret0 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    const ret0 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[2]});
 
-    let ret1 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    const ret1 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[1]});
 
-    let ret2 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    const ret2 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[1]});
     
-    let len1 = await c.transactionLength(id);
-    let ret3 = await c.checkNotConfirmed(id,  len1.valueOf() - 1, {from:accounts[1]});
-    let count1 = await c.transactionConfirmCount(id,  len1.valueOf() - 1);
+    const len1 = await c.transactionLength(id);
+    const ret3 = await c.checkNotConfirmed(id,  len1.valueOf() - 1, {from:accounts[1]});
+    const count1 = await c.transactionConfirmCount(id,  len1.valueOf() - 1);
     
     await c.confirmTx(id, {from:accounts[3]});
-    let oi = await c.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
-    let oi1 = await c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
+    const oi = await c.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
+    const oi1 = await c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
 
     assert.equal(rc.logs[0].args.msg, 'Owner has not confirmed tx', "should give message that the owner hasn't confirmed the transaction yet");
     assert.equal(len.valueOf(), 1, 'Should have 1 transaction with this ID');
@@ -79,123 +79,75 @@ contract('WalletLibTestContract', (accounts) => {
 
   });
 
-  it("should add owner after requiredAdmin number of confirmations and deny illegal requests", function() {
-    let c;
-    let id;
-    let ownerIndex;
-
-    return WalletLibTestContract.deployed().then(function(instance){
-      c = instance;
-      return c.addOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
+  it("should add owner after requiredAdmin number of confirmations and deny illegal requests", async () => {
+    
+    const c = await WalletLibTestContract.deployed();
+    await c.addOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                          true, {from: accounts[0]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.addOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    const ret = await c.addOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                          true, {from: accounts[0]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      id = ""+ret.logs[0].args.txid+"";
-      return c.revokeConfirm(id, {from:accounts[0]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      assert.equal(len, 0, "Revocation of only confirmation should delete tx");
-    }).then(function(){
-      return c.addOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    console.log(ret.logs[0].args);
+    const id = ""+ret.logs[0].args.txid+"";
+    await c.revokeConfirm(id, {from:accounts[0]});
+    const len = await c.transactionLength(id);
+    
+    await c.addOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                          true, {from: accounts[0]});
-    }).then(function(ret){
-      return c.revokeConfirm(id, {from:accounts[2]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      return c.transactionConfirmCount(id, len - 1);
-    }).then(function(count){
-      count = count.valueOf();
-      assert.equal(count, 1, "Confirmation count should still be one b/c accounts[2] has not confirmed");
-    }).then(function(){
-      return c.confirmTx(id, {from:accounts[2]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.confirmTx(id, {from:accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.addOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    await c.revokeConfirm(id, {from:accounts[2]});
+    const len2 = await c.transactionLength(id);
+    const count = await c.transactionConfirmCount(id, len2.valueOf() - 1);
+    
+    await c.confirmTx(id, {from:accounts[2]});
+    await c.confirmTx(id, {from:accounts[1]});
+    await c.addOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                          false, {from: accounts[0]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      return c.transactionConfirmCount(id, len - 1);
-    }).then(function(count){
-      count = count.valueOf();
-      assert.equal(count, 2, "Confirmation count should be two b/c accounts[0] revoked");
-    }).then(function(){
-      return c.confirmTx(id, {from:accounts[0]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.confirmTx(id, {from:accounts[3]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
-    }).then(function(oi){
-      assert.equal(oi.valueOf(), 6, "The index for the new owner should be six");
-    });
-  });
-  it("should remove owner after requiredAdmin number of confirmations and deny illegal requests", function() {
-    let c;
-    let id;
-    let ownerIndex;
+    const len3 = await c.transactionLength(id);
+    const count2 = await c.transactionConfirmCount(id, len3.valueOf() - 1);
+    
+    await c.confirmTx(id, {from:accounts[0]});
+    await c.confirmTx(id, {from:accounts[3]});
+    const oi = await c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
 
-    return WalletLibTestContract.deployed().then(function(instance){
-      c = instance;
-      return c.removeOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
+    assert.equal(len.valueOf(), 0, "Revocation of only confirmation should delete tx");
+    assert.equal(count.valueOf(), 1, "Confirmation count should still be one b/c accounts[2] has not confirmed");
+    assert.equal(count2.valueOf(), 2, "Confirmation count should be two b/c accounts[0] revoked");
+    assert.equal(oi.valueOf(), 6, "The index for the new owner should be six");
+  });
+
+  it("should remove owner after requiredAdmin number of confirmations and deny illegal requests", async () => {
+    
+    const c = await WalletLibTestContract.deployed();
+    await c.removeOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                          true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.removeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    const ret = await c.removeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                          true, {from: accounts[0]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      id = ""+ret.logs[0].args.txid+"";
-      return c.revokeConfirm(id, {from:accounts[0]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      assert.equal(len, 0, "Revocation of only confirmation should delete tx");
-    }).then(function(){
-      return c.removeOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
+    const id = ""+ret.logs[0].args.txid+"";
+    await c.revokeConfirm(id, {from:accounts[0]});
+    const len = await c.transactionLength(id);
+    
+    const ret2 = await c.removeOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                          true, {from: accounts[0]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      id = ""+ret.logs[0].args.txid+"";
-      return c.removeOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
+    
+    console.log(ret2.logs[0].args);
+    const id2 = ""+ret2.logs[0].args.txid+"";
+    await c.removeOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                          false, {from: accounts[2]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      return c.transactionConfirmCount(id, len - 1);
-    }).then(function(count){
-      count = count.valueOf();
-      assert.equal(count, 2, "Confirmation count should still be two b/c accounts[2] has not confirmed");
-    }).then(function(){
-      return c.confirmTx(id, {from:accounts[2]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.confirmTx(id, {from:accounts[3]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
-    }).then(function(oi){
-      assert.equal(oi.valueOf(), 5, "The index of the last owner should be moved to removed owner");
-      return c.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
-    }).then(function(oi){
-      assert.equal(oi.valueOf(), 0, "The index of the removed owner should be 0");
-      return c.owners.call();
-    });
+    const len2 = await c.transactionLength(id2);
+    const count = await c.transactionConfirmCount(id2, len2.valueOf() - 1);
+    
+    await c.confirmTx(id2, {from:accounts[2]});
+    await c.confirmTx(id2, {from:accounts[3]});
+
+    const oi = await c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
+    const oi2 = await c.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
+    
+    await c.owners.call();
+
+    assert.equal(len.valueOf(), 0, "Revocation of only confirmation should delete tx");
+    assert.equal(count.valueOf(), 2, "Confirmation count should still be two b/c accounts[2] has not confirmed");
+    assert.equal(oi.valueOf(), 5, "The index of the last owner should be moved to removed owner");
+    assert.equal(oi2.valueOf(), 0, "The index of the removed owner should be 0");
+    
   });
   it("should change requiredAdmin after requiredAdmin number of confirmations and deny illegal requests", function() {
     let c;
