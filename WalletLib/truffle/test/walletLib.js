@@ -207,186 +207,106 @@ contract('WalletLibTestContract', (accounts) => {
     assert.equal(rma.valueOf(), 4, "New sig requirement for major tx should be 4");
     
   });
-  it("should change requiredMinor after requiredAdmin number of confirmations and deny illegal requests", function() {
-    let c;
+
+  it("should change requiredMinor after requiredAdmin number of confirmations and deny illegal requests", async () => {
     let id;
 
-    return WalletLibTestContract.deployed().then(function(instance){
-      c = instance;
-      return c.changeRequiredMinor(6, true, {from: accounts[2]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.changeRequiredMinor(2, true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      id = ""+ret.logs[0].args.txid+"";
-      return c.revokeConfirm(id, {from:accounts[1]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      assert.equal(len, 0, "Revocation of only confirmation should delete tx");
-    }).then(function(){
-      return c.changeRequiredMinor(2, true, {from: accounts[1]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      id = ""+ret.logs[0].args.txid+"";
-      return c.confirmTx(id, {from:accounts[2]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.changeRequiredMinor(2, false, {from: accounts[3]});
-    }).then(function(ret){
-      return c.transactionLength(id);
-    }).then(function(len){
-      len = len.valueOf();
-      return c.transactionConfirmCount(id, len - 1);
-    }).then(function(count){
-      count = count.valueOf();
-      assert.equal(count, 2, "Confirmation count should still be two b/c accounts[3] has not confirmed");
-    }).then(function(){
-      return c.confirmTx(id, {from:accounts[3]});
-    }).then(function(ret){
-      console.log(ret.logs[0].args);
-      return c.requiredMinor.call();
-    }).then(function(rmi){
-      assert.equal(rmi.valueOf(), 2, "New sig requirement for minor tx should be 2");
-    });
+    const c = await WalletLibTestContract.deployed();
+    await c.changeRequiredMinor(6, true, {from: accounts[2]});
+    const ret = await c.changeRequiredMinor(2, true, {from: accounts[1]});
+    id = ""+ret.logs[0].args.txid+"";
+    await c.revokeConfirm(id, {from:accounts[1]});
+    const len = await c.transactionLength(id);
+    
+
+    const ret2 = await c.changeRequiredMinor(2, true, {from: accounts[1]});
+    id = ""+ret2.logs[0].args.txid+"";
+    await c.confirmTx(id, {from:accounts[2]});
+    await c.changeRequiredMinor(2, false, {from: accounts[3]});
+    const len2 = await c.transactionLength(id);
+    const count = await c.transactionConfirmCount(id, len2 - 1);
+
+    await c.confirmTx(id, {from:accounts[3]});
+    const rmi = await c.requiredMinor.call();
+
+    assert.equal(len.valueOf(), 0, "Revocation of only confirmation should delete tx");
+    assert.equal(count.valueOf(), 2, "Confirmation count should still be two b/c accounts[3] has not confirmed");
+    assert.equal(rmi.valueOf(), 2, "New sig requirement for minor tx should be 2");
+
   });
-  it("should change majorThreshold after requiredAdmin number of confirmations and deny illegal requests", function() {
-    let c;
-    let tc;
-    let tcAdd;
+  
+  it("should change majorThreshold after requiredAdmin number of confirmations and deny illegal requests", async () => {
     let id;
 
-    return WalletLibTestContract.deployed().then(function(instance){
-      c = instance;
-      return TestToken.deployed().then(function(tokInstance){
-        tc = tokInstance;
-        tcAdd = ""+tc.address+"";
-        console.log(tcAdd);
-        return c.changeMajorThreshold(tcAdd, 3, true, {from: accounts[0]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        id = ""+ret.logs[0].args.txid+"";
-        return c.confirmTx(id, {from:accounts[1]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        return c.revokeConfirm(id, {from:accounts[1]});
-      }).then(function(ret){
-        return c.transactionLength(id);
-      }).then(function(len){
-        len = len.valueOf();
-        return c.transactionConfirmCount(id, len - 1);
-      }).then(function(count){
-        count = count.valueOf();
-        assert.equal(count, 1, "Confirmation count should be one b/c accounts[1] revoked");
-      }).then(function(){
-        return c.changeMajorThreshold(tcAdd, 3, true, {from: accounts[0]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        return c.transactionLength(id);
-      }).then(function(len){
-        len = len.valueOf();
-        return c.transactionConfirmCount(id, len - 1);
-      }).then(function(count){
-        count = count.valueOf();
-        assert.equal(count, 1, "Confirmation count should still be one b/c accounts[0] already confirmed");
-      }).then(function(){
-        return c.changeMajorThreshold(tcAdd, 3, true, {from: accounts[1]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        return c.confirmTx(id, {from:accounts[2]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        return c.majorThreshold.call(tcAdd);
-      }).then(function(mt){
-        assert.equal(mt.valueOf(), 3, "Major tx threshold for test token should be 3");
-      }).then(function(){
-        return c.changeMajorThreshold(0, 50000000000000000000, true, {from: accounts[0]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        id = ""+ret.logs[0].args.txid+"";
-        return c.confirmTx(id, {from:accounts[1]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        return c.confirmTx(id, {from:accounts[2]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        return c.majorThreshold.call(0);
-      }).then(function(mt){
-        assert.equal(mt.valueOf(), 50000000000000000000, "Major tx threshold for ether should be 50");
-      });
-    });
+    const c = await WalletLibTestContract.deployed();
+    const tc = await TestToken.deployed();
+    const tcAdd = ""+tc.address+"";
+    
+    const ret = await c.changeMajorThreshold(tcAdd, 3, true, {from: accounts[0]});
+    id = ""+ret.logs[0].args.txid+"";
+    await c.confirmTx(id, {from:accounts[1]});
+    await c.revokeConfirm(id, {from:accounts[1]});
+    const len = await c.transactionLength(id);
+    const count = await c.transactionConfirmCount(id, len.valueOf() - 1);
+    
+    await c.changeMajorThreshold(tcAdd, 3, true, {from: accounts[0]});
+    const len2 = await c.transactionLength(id);
+    const count2 = await c.transactionConfirmCount(id, len2.valueOf() - 1);
+    
+    await c.changeMajorThreshold(tcAdd, 3, true, {from: accounts[1]});
+    await c.confirmTx(id, {from:accounts[2]});
+    const mt = await c.majorThreshold.call(tcAdd);
+    
+    const ret2 = await c.changeMajorThreshold(0, 50000000000000000000, true, {from: accounts[0]});
+    id = ""+ret2.logs[0].args.txid+"";
+    await c.confirmTx(id, {from:accounts[1]});
+    await c.confirmTx(id, {from:accounts[2]});
+    const mt2 = await c.majorThreshold.call(0);
+
+    assert.equal(count.valueOf(), 1, "Confirmation count should be one b/c accounts[1] revoked");
+    assert.equal(count2.valueOf(), 1, "Confirmation count should still be one b/c accounts[0] already confirmed");
+    assert.equal(mt.valueOf(), 3, "Major tx threshold for test token should be 3");
+    assert.equal(mt2.valueOf(), 50000000000000000000, "Major tx threshold for ether should be 50");
+    
   });
-  it("should execute minor tx after requiredMinor number of confirmations and deny illegal requests", function() {
-    let c;
-    let tc;
-    let tcAdd;
+  it("should execute minor tx after requiredMinor number of confirmations and deny illegal requests", async () => {
     let id;
-    let initialBalance;
-    let data;
+ 
 
-    return WalletLibTestContract.deployed().then(function(instance){
-      c = instance;
-      return TestToken.deployed().then(function(tokInstance){
-        tc = tokInstance;
-        tcAdd = ""+tc.address+"";
-        return tc.transfer(c.address, 10, {from:accounts[1]});
-      }).then(function(ret){
-        return web3.eth.getBalance(accounts[5]);
-      }).then(function(bal){
-        initialBalance = Math.floor(bal.valueOf()/10**18);
-        return c.sendTransaction({value: 100000000000000000000, from: accounts[5]});
-      }).then(function(ret){
-        return web3.eth.getBalance(c.address);
-      }).then(function(bal){
-        bal = Math.floor(bal.valueOf()/10**18);
-        assert.equal(bal, 100, "100 ether should be transferred to the wallet from accounts[5]");
-        return c.serveTx(accounts[5], 10000000000000000000, 0, true, {from: accounts[0]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        id = ""+ret.logs[0].args.txid+"";
-        return c.confirmTx(id, {from:accounts[2]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        assert.equal(ret.logs[0].args.value.valueOf(), 10000000000000000000, "10 ether should be transferred to accounts[5] from the wallet with 2 sigs");
-      }).then(function(){
-        return tc.transfer.request(accounts[5], 2);
-      }).then(function(ret){
-        data = ret.params[0].data;
-        return c.serveTx(tcAdd, 0, ""+data+"", true, {from: accounts[0]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        id = ""+ret.logs[0].args.txid+"";
-        return c.revokeConfirm(id, {from:accounts[2]});
-      }).then(function(ret){
-        return c.transactionLength(id);
-      }).then(function(len){
-        len = len.valueOf();
-        return c.transactionConfirmCount(id, len - 1);
-      }).then(function(count){
-        count = count.valueOf();
-        assert.equal(count, 1, "Confirmation count should be one b/c accounts[2] has not confirmed");
-      }).then(function(){
-        return c.serveTx(tcAdd, 0, ""+data+"", true, {from: accounts[0]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        return c.transactionLength(id);
-      }).then(function(len){
-        len = len.valueOf();
-        return c.transactionConfirmCount(id, len - 1);
-      }).then(function(count){
-        count = count.valueOf();
-        assert.equal(count, 1, "Confirmation count should be one b/c accounts[0] has already confirmed");
-      }).then(function(){
-        return c.serveTx(tcAdd, 0, ""+data+"", true, {from: accounts[2]});
-      }).then(function(ret){
-        console.log(ret.logs[0].args);
-        return tc.balanceOf(""+c.address+"");
-      }).then(function(b){
-        assert.equal(b.valueOf(), 8, "2 tokens should be transferred to accounts[5] after 2 sigs");
-      });
-    });
+    const c  = await WalletLibTestContract.deployed();
+    const tc = await TestToken.deployed();
+    const tcAdd = ""+tc.address+"";
+    await tc.transfer(c.address, 10, {from:accounts[1]});
+    const bal = await web3.eth.getBalance(accounts[5]);
+    const initialBalance = Math.floor(bal.valueOf()/10**18);
+    await c.sendTransaction({value: 100000000000000000000, from: accounts[5]});
+    const bal2 = await web3.eth.getBalance(c.address);
+    const balance = Math.floor(bal2.valueOf()/10**18);
+    
+    const ret = await c.serveTx(accounts[5], 10000000000000000000, 0, true, {from: accounts[0]});
+    id = ""+ret.logs[0].args.txid+"";
+    const ret2 = await c.confirmTx(id, {from:accounts[2]});
+    
+    const ret3 = await tc.transfer.request(accounts[5], 2);
+    const data = ret3.params[0].data;
+    const ret4 = await c.serveTx(tcAdd, 0, ""+data+"", true, {from: accounts[0]});
+    id = ""+ret4.logs[0].args.txid+"";
+    await c.revokeConfirm(id, {from:accounts[2]});
+    const len = await c.transactionLength(id);
+    const count = await c.transactionConfirmCount(id, len.valueOf() - 1);
+    
+    await c.serveTx(tcAdd, 0, ""+data+"", true, {from: accounts[0]});
+    const len2 = await c.transactionLength(id);
+    const count2 = await c.transactionConfirmCount(id, len2.valueOf() - 1);
+    
+    await c.serveTx(tcAdd, 0, ""+data+"", true, {from: accounts[2]});
+    const b = await tc.balanceOf(""+c.address+"");
+
+    assert.equal(balance, 100, "100 ether should be transferred to the wallet from accounts[5]");
+    assert.equal(ret2.logs[0].args.value.valueOf(), 10000000000000000000, "10 ether should be transferred to accounts[5] from the wallet with 2 sigs");
+    assert.equal(count.valueOf(), 1, "Confirmation count should be one b/c accounts[2] has not confirmed");
+    assert.equal(count2.valueOf(), 1, "Confirmation count should be one b/c accounts[0] has already confirmed");
+    assert.equal(b.valueOf(), 8, "2 tokens should be transferred to accounts[5] after 2 sigs");
   });
   it("should execute major tx after requiredMajor number of confirmations and deny illegal requests", function() {
     let c;
