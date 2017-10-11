@@ -13,15 +13,13 @@ contract('WalletLibTestContract', (accounts) => {
     const rma = await c.requiredMajor.call();
     const o = await c.owners.call();
     const mt = await c.majorThreshold.call(0);
-  
-    const returnObj = { mo, oc, ra, rmi, rma, o, mt };
     
-    assert.equal(returnObj.mo.valueOf(), 50, "Max owners should be set to 50.");
-    assert.equal(returnObj.oc.valueOf(), 5, "Owner count should reflect 5.");
-    assert.equal(returnObj.ra.valueOf(), 4, "Required sigs for admin should reflect 4.");
-    assert.equal(returnObj.rmi.valueOf(), 1, "Required sigs for minor tx should show 1.");
-    assert.equal(returnObj.rma.valueOf(), 3, "Required sigs for major tx should show 3.");
-    assert.equal(returnObj.mt.valueOf(), 100000000000000000000, "Max threshold should reflect 100 ether.");
+    assert.equal(mo.valueOf(), 50, "Max owners should be set to 50.");
+    assert.equal(oc.valueOf(), 5, "Owner count should reflect 5.");
+    assert.equal(ra.valueOf(), 4, "Required sigs for admin should reflect 4.");
+    assert.equal(rmi.valueOf(), 1, "Required sigs for minor tx should show 1.");
+    assert.equal(rma.valueOf(), 3, "Required sigs for major tx should show 3.");
+    assert.equal(mt.valueOf(), 100000000000000000000, "Max threshold should reflect 100 ether.");
 
   });
   
@@ -35,53 +33,48 @@ contract('WalletLibTestContract', (accounts) => {
                            true, {from: accounts[0]});
     const id = ""+ret.logs[0].args.txid+"";
     const rc = await c.revokeConfirm(id, {from:accounts[1]});
-    assert.equal(rc.logs[0].args.msg, 'Owner has not confirmed tx', "should give message that the owner hasn't confirmed the transaction yet");
-
-    let len = await c.transactionLength(id);
-    assert.equal(len.valueOf(), 1, 'Should have 1 transaction with this ID');
-
-    const cnc = await c.checkNotConfirmed('0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57', len.valueOf() - 1, {from:accounts[1]});
-    assert.equal(cnc.logs[0].args.msg,'Tx not initiated', "should return msg that the tx hasn't been initiated");
-
-    let tcount = await c.transactionConfirmCount(id, len.valueOf() - 1);
-    assert.equal(tcount.valueOf(), 1, "Confirmation count should still be one b/c accounts[1] has not confirmed");
     
+    let len = await c.transactionLength(id);
+    const cnc = await c.checkNotConfirmed('0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57', len.valueOf() - 1, {from:accounts[1]});
+    
+    let tcount = await c.transactionConfirmCount(id, len.valueOf() - 1);
+     
     await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[2]});
     await c.revokeConfirm(id, {from:accounts[2]});
     let len0 = await c.transactionLength(id);
     const ccount = await c.transactionConfirmCount(id, len0 - 1);
-    assert.equal(ccount.valueOf(), 1, "Confirmation count should still be one b/c accounts[2] has revoked");
-
+    
     let ret0 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[2]});
-    
-    console.log(ret0.logs[0].args);
 
     let ret1 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[1]});
-    console.log(ret1.logs[0].args);
 
     let ret2 = await c.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[1]});
-    assert.equal(ret2.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
-
+    
     let len1 = await c.transactionLength(id);
     let ret3 = await c.checkNotConfirmed(id,  len1.valueOf() - 1, {from:accounts[1]});
-    assert.equal(ret3.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
-
     let count1 = await c.transactionConfirmCount(id,  len1.valueOf() - 1);
-    assert.equal(count1.valueOf(), 3, "Confirmation count should still be three b/c accounts[1] has already confirmed");
-
+    
     await c.confirmTx(id, {from:accounts[3]});
     let oi = await c.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
-    assert.equal(oi.valueOf(), ownerIndex, "The index for the new owner should be the same as the old owner");
-
     let oi1 = await c.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
+
+    assert.equal(rc.logs[0].args.msg, 'Owner has not confirmed tx', "should give message that the owner hasn't confirmed the transaction yet");
+    assert.equal(len.valueOf(), 1, 'Should have 1 transaction with this ID');
+    assert.equal(cnc.logs[0].args.msg,'Tx not initiated', "should return msg that the tx hasn't been initiated");
+    assert.equal(tcount.valueOf(), 1, "Confirmation count should still be one b/c accounts[1] has not confirmed");
+    assert.equal(ccount.valueOf(), 1, "Confirmation count should still be one b/c accounts[2] has revoked");
+    assert.equal(ret2.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
+    assert.equal(ret3.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
+    assert.equal(count1.valueOf(), 3, "Confirmation count should still be three b/c accounts[1] has already confirmed");
+    assert.equal(oi.valueOf(), ownerIndex, "The index for the new owner should be the same as the old owner");
     assert.equal(oi1.valueOf(), 0, "The index of the old owner should be 0");
 
   });
