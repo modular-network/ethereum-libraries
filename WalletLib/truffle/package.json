@@ -2,6 +2,9 @@
   "name": "WalletLib",
   "version": "1.0.1",
   "description": "Wallet Library to create multisig wallets",
+  "scripts": {
+    "test:coverage": "./node_modules/.bin/solidity-coverage"
+  },
   "devDependencies": {
     "ethereumjs-testrpc": "4.0.0",
     "solidity-coverage": "^0.2.7",
