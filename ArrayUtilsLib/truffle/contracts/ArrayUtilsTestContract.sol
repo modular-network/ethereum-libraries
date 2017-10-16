@@ -414,7 +414,7 @@ contract ArrayUtilsTestContract {
     }
   }
 
-  function getUniq256() returns (uint256[10] memory r) {
+  function getUniq256() returns (uint256[7] memory r) {
     uint arrayNewLength;
 
     delete array256;
