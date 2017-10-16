@@ -36,41 +36,36 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
     return TimeDirectCrowdsaleTestContract.deployed().then(function(instance) {
       c = instance;
 
-      return c.owner.call();
+      return c.getOwner.call();
     }).then(function(o){
       returnObj.owner = o;
-      return c.tokensPerEth.call();
+      return c.getTokensPerEth.call();
     }).then(function(tpe) {
       returnObj.tokensPerEth = tpe;
-      return c.capAmount.call();
+      return c.getCapAmount.call();
     }).then(function(ca){
       returnObj.capAmount = ca;
-      return c.startTime.call();
+      return c.getStartTime.call();
     }).then(function(st){
       returnObj.startTime = st;
-      return c.endTime.call();
+      return c.getEndTime.call();
     }).then(function(et){
       returnObj.endTime = et;
-      return c.firstPriceChange.call();
-    }).then(function(pc) {
-      returnObj.pc = pc;
-      return c.exchangeRate.call();
+      return c.getExchangeRate.call();
     }).then(function(er) {
       returnObj.exchangeRate = er;
-      return c.changeInterval.call();
-    }).then(function(ci) {
-      returnObj.changeInterval = ci;
-      return c.ownerBalance.call();
-    }).then(function(ob){
+      return c.getEthRaised.call();
+    }).then(function(ob) {
       returnObj.ownerBalance = ob;
+      return c.getSaleData.call(0);
+    }).then(function(pd){
+      console.log(pd);
       assert.equal(returnObj.owner.valueOf(), accounts[5], "Owner should be set to the account5");
       assert.equal(returnObj.tokensPerEth.valueOf(), 206, "Tokens per ETH should be 205");
       assert.equal(returnObj.capAmount.valueOf(), 58621000000000000000000, "capAmount should be set to 56821000000000000000000 wei");
-      assert.equal(returnObj.pc.valueOf(), 155, "First price change should be 55 cents");
       assert.equal(returnObj.startTime.valueOf(),105, "start time should be 105");
       assert.equal(returnObj.endTime.valueOf(),125, "end time should be 125");
       assert.equal(returnObj.exchangeRate.valueOf(),29000, "exchangeRate should be 29000");
-      assert.equal(returnObj.changeInterval.valueOf(),5, "changeInterval should be 5");
       assert.equal(returnObj.ownerBalance.valueOf(), 0, "Amount of wei raised in the crowdsale should be zero");
     });
   });
@@ -120,10 +115,10 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       return c.setTokenExchangeRate(30000,101, {from:accounts[5]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, 'Owner can only set the exchange rate once up to three days before the sale!', "Should give an error message that timing for setting the exchange rate is wrong.");
-      return c.exchangeRate.call();
+      return c.getExchangeRate.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 30000, "exchangeRate should have been set to 30000!");
-      return c.tokensPerEth.call();
+      return c.getTokensPerEth.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 213, "tokensPerEth should have been set to 212!");
       return c.withdrawOwnerEth(104, {from:accounts[5]});
@@ -270,9 +265,9 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       return c.crowdsaleEnded.call(106);
     }).then(function(ret) {
       assert.equal(ret.valueOf(), false, "Crowsale should not be ended!");
-      return c.changeInterval.call();
-    }).then(function(ret) {
-      assert.equal(ret.valueOf(),5, "Price Change time interval should be 5!");
+//      return c.changeInterval.call();
+//    }).then(function(ret) {
+//      assert.equal(ret.valueOf(),5, "Price Change time interval should be 5!");
       return c.withdrawTokens(106,{from:accounts[0]});
     }).then(function(ret) {
       assert.equal(ret.logs[0].args.Msg, 'Sender has no tokens to withdraw!', "should give message that the sender cannot withdraw any tokens");
@@ -303,7 +298,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       assert.equal(ret.valueOf(), 8520000000000000000000, "accounts[0] tokens purchased should be 8520000000000000000000");
       return c.receivePurchase(111,{value: 40000000000000000000, from:accounts[0]});
     }).then(function(ret) {
-      return c.tokensPerEth.call();
+      return c.getTokensPerEth.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 194, "tokensPerEth should have been set to 194!");
       return c.getContribution.call(accounts[0], {from:accounts[0]});
@@ -343,7 +338,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       return c.getTokenPurchase.call(accounts[3],{from:accounts[3]});
     }).then(function(ret) {
       assert.equal(ret.valueOf(),91000000000000018200000, "accounts[3] amount of tokens purchased should be 9100000000000018200000 tokens");
-      return c.tokensPerEth.call();
+      return c.getTokensPerEth.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(),182, "New token price should be 182 tokens per ether!");
       return c.withdrawTokens(116,{from:accounts[0]});
@@ -399,7 +394,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
       return c.crowdsaleEnded.call(126);
     }).then(function(ret) {
       assert.equal(ret.valueOf(), true, "Crowsale should be ended!");
-      return c.ownerBalance.call();
+      return c.getEthRaised.call();
     }).then(function(ret) {
       return c.getTokenPurchase.call(accounts[0],{from:accounts[0]});
     }).then(function(ret) {
@@ -438,7 +433,7 @@ contract('TimeDirectCrowdsaleTestContract', function(accounts) {
     }).then(function(ret) {
       assert.equal(ret.valueOf(),0,"accounts[4] should have withdrawn all tokens and should now have zero in the contract");
 
-      return c.ownerBalance.call();
+      return c.getEthRaised.call();
     }).then(function(ret) {
       assert.equal(ret.valueOf(), 0, "Owner's ether balance in the contract should be zero!");
 

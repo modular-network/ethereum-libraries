@@ -1,17 +1,19 @@
 var BasicMathLib = artifacts.require("./BasicMathLib.sol");
 var Array256Lib = artifacts.require("./Array256Lib.sol");
 var TokenLib = artifacts.require("./TokenLib.sol");
-var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
 var CrowdsaleLib = artifacts.require("./CrowdsaleLib.sol");
 var EvenDistroCrowdsaleLib = artifacts.require("./EvenDistroCrowdsaleLib.sol");
 var EvenDistroCrowdsaleTestContract = artifacts.require("./EvenDistroCrowdsaleTestContract.sol");
 
 //testrpc contracts
-//var CrowdsaleToken2 = artifacts.require("./CrowdsaleToken.sol");
 var TestCrowdsaleLib = artifacts.require("./TestCrowdsaleLib.sol");
 var TestEvenDistroCrowdsaleLib = artifacts.require("./TestEvenDistroCrowdsaleLib.sol");
+
+var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
 var TimeEvenDistroCrowdsaleTestContract = artifacts.require("./TimeEvenDistroCrowdsaleTestContract.sol");
-//var TimeEvenDistroCTCnoChangeFullRegistration = artifacts.require("./TimeEvenDistroCrowdsaleTestContract.sol");
+
+var CrowdsaleToken2 = artifacts.require("./CrowdsaleToken2.sol");
+var TimeEvenDistroCrowdsaleTestContract2 = artifacts.require("./TimeEvenDistroCrowdsaleTestContract2.sol");
 
 module.exports = function(deployer, network, accounts) {
   deployer.deploy(BasicMathLib,{overwrite: false});
@@ -35,19 +37,22 @@ module.exports = function(deployer, network, accounts) {
     deployer.link(TestCrowdsaleLib,TestEvenDistroCrowdsaleLib);
     deployer.deploy(TestEvenDistroCrowdsaleLib);
     deployer.link(TokenLib,CrowdsaleToken);
-    // deployer.link(TokenLib,CrowdsaleToken2);
     deployer.link(TestCrowdsaleLib,TimeEvenDistroCrowdsaleTestContract);
     deployer.link(TestEvenDistroCrowdsaleLib, TimeEvenDistroCrowdsaleTestContract);
-    // deployer.link(TestCrowdsaleLib,TimeEvenDistroCTCnoChangeFullRegistration);
-    // deployer.link(TestEvenDistroCrowdsaleLib, TimeEvenDistroCTCnoChangeFullRegistration);
+    deployer.link(TokenLib,CrowdsaleToken2);
+    deployer.link(TestCrowdsaleLib,TimeEvenDistroCrowdsaleTestContract2);
+    deployer.link(TestEvenDistroCrowdsaleLib, TimeEvenDistroCrowdsaleTestContract2);
     deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]}).then(function() {
       // configured to set the token price to $1.41, with a periodic increase in the address cap by 250%
- 	    return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 1700000000, 105, 125, 141, 29000, 250, 100000000000000000000, 5, 50, CrowdsaleToken.address,{from:accounts[5]});
-      //return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 1700000000, 105, 125, 141, 29000, 100, 1.465525e+22, 0, 50, CrowdsaleToken.address,{from:accounts[5]});
+      var purchaseData =[105,141,100,
+                         110,141,250,
+                         115,141,625];
+      return deployer.deploy(TimeEvenDistroCrowdsaleTestContract, accounts[5], 100, purchaseData, 29000, 1700000000, 125, 50, 50000, false, CrowdsaleToken.address,{from:accounts[5]});
     });
-    // deployer.deploy(CrowdsaleToken2, accounts[5], "Tester Toke", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]}).then(function() {
-    //   // configured to set the token price to $1.41, which a static address cap for the entire sale
-    //   return deployer.deploy(TimeEvenDistroCTCnoChangeFullRegistration, accounts[5], 1700000000, 105, 125, 141, 29000, 0, 100000000000000000000, 0, 50, CrowdsaleToken2.address,{from:accounts[5]});
-    // });
+    deployer.deploy(CrowdsaleToken2, accounts[5], "Tester Token", "TST", 0, 500000000, false, {from:accounts[5]}).then(function() {
+      var purchaseData2 =[105,50,50000,
+                         135,75,50000];
+      return deployer.deploy(TimeEvenDistroCrowdsaleTestContract2, accounts[5], 100, purchaseData2, 29000, 40000000000, 165, 100, 50000, true, CrowdsaleToken2.address,{from:accounts[5]});
+    });
   }
 };
