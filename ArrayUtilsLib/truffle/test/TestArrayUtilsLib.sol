@@ -192,20 +192,7 @@ contract TestArrayUtilsLib{
     expectedArray.push(0);
     expectedArray.push(1095);
 
-    /*
-      Currently delete array[index] does not actually delete the element, it
-      only replaces the item defined in the index with a zero. So the uniq
-      function will push any trailing zeroes to the end of the array and update
-      the array length to avoid any mistake while iterating over array.length
-      Discussion: https://github.com/ethereum/solidity/issues/414
-    */
-    expectedArray.push(0);
-    expectedArray.push(0);
-    expectedArray.push(0);
-
-    uint[10] memory r1;
-    r1 = instance.getUniq256();
-    resultArray = r1;
+    resultArray = instance.getUniq256();
 
     Assert.equal(resultArray, expectedArray, "uniq");
   }

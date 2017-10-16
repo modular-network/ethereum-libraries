@@ -415,6 +415,8 @@ contract ArrayUtilsTestContract {
   }
 
   function getUniq256() returns (uint256[10] memory r) {
+    uint arrayNewLength;
+
     delete array256;
 
     array256.push(1);
@@ -428,9 +430,9 @@ contract ArrayUtilsTestContract {
     array256.push(1095);
     array256.push(1);
 
-    array256.uniq();
+    arrayNewLength = array256.uniq();
 
-    for (uint256 i = 0; i < array256.length; i++) {
+    for (uint256 i = 0; i < arrayNewLength; i++) {
       r[i] = array256[i];
     }
   }

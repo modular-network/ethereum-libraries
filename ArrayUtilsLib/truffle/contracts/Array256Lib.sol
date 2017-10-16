@@ -203,7 +203,7 @@ library Array256Lib {
 
   /// @dev Removes duplicates from a given array.
   /// @param self Storage array containing uint256 type variables
-  function uniq(uint256[] storage self) {
+  function uniq(uint256[] storage self) returns (uint length) {
     bool contains;
     uint index;
 
@@ -220,5 +220,7 @@ library Array256Lib {
         i--;
       }
     }
+
+    length = self.length;
   }
 }
