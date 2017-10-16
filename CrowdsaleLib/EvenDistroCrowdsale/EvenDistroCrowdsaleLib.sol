@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title EvenDistroCrowdsaleLib
  * @author Majoolr.io
  *
- * version 2.0.0
+ * version 2.0.1
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -67,7 +67,7 @@ library EvenDistroCrowdsaleLib {
   event LogUserUnRegistered(address registrant);
 
   // Logs when there is an error
-  event LogErrorMsg(string Msg);
+  event LogErrorMsg(address user, string Msg);
 
   // Logs when there is an increase in the contribution cap per address
   event LogAddressTokenCapChange(uint256 amount, string Msg);
@@ -119,14 +119,14 @@ library EvenDistroCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _registrant address to be registered for the sale
   function registerUser(EvenDistroCrowdsaleStorage storage self, address _registrant) returns (bool) {
-    require(msg.sender == self.base.owner);
+    require((msg.sender == self.base.owner) || (msg.sender == address(this)));
     // if the change interval is 0, then registration is allowed throughout the sale since a cap doesn't need to be calculated
     if ((!self.staticCap) && (now >= self.base.startTime - 3 days)) {
-      LogErrorMsg("Can only register users earlier than 3 days before the sale!");
+      LogErrorMsg(_registrant, "Can only register users earlier than 3 days before the sale!");
       return false;
     }
     if(self.isRegistered[_registrant]) {
-      LogErrorMsg("Registrant address is already registered for the sale!");
+      LogErrorMsg(_registrant, "Registrant address is already registered for the sale!");
       return false;
     }
 
@@ -152,22 +152,21 @@ library EvenDistroCrowdsaleLib {
 
     for (uint256 i = 0; i < _registrants.length; i++) {
       ok = registerUser(self,_registrants[i]);
-      require(ok);
     }
-    return true;
+    return ok;
   }
 
   /// @dev Cancels a user's registration status can only be called by the owner when a user cancels their registration.
   /// sets their address field in the registered mapping to false and decrements the numRegistered
   /// @param self Stored crowdsale from crowdsale contract
   function unregisterUser(EvenDistroCrowdsaleStorage storage self, address _registrant) returns (bool) {
-    require(msg.sender == self.base.owner);
+    require((msg.sender == self.base.owner) || (msg.sender == address(this)));
     if ((!self.staticCap) && (now >= self.base.startTime - 3 days)) {
-      LogErrorMsg("Can only register and unregister users earlier than 3 days before the sale!");
+      LogErrorMsg(_registrant, "Can only register and unregister users earlier than 3 days before the sale!");
       return false;
     }
     if(!self.isRegistered[_registrant]) {
-      LogErrorMsg("Registrant address not registered for the sale!");
+      LogErrorMsg(_registrant, "Registrant address not registered for the sale!");
       return false;
     }
 
@@ -193,9 +192,8 @@ library EvenDistroCrowdsaleLib {
 
     for (uint256 i = 0; i < _registrants.length; i++) {
       ok = unregisterUser(self,_registrants[i]);
-      require(ok);
     }
-    return true;
+    return ok;
   }
 
   /// @dev function that calculates address cap from the number of users registered
@@ -283,7 +281,7 @@ library EvenDistroCrowdsaleLib {
       //_allowedWei represents tokens first, recycle variable to prevent stack depth issues
       _allowedWei = self.addressTokenCap - self.tokensBought[msg.sender];
       if(_allowedWei == 0){
-        LogErrorMsg("Cannot but anymore tokens!");
+        LogErrorMsg(msg.sender, "Cannot but anymore tokens!");
         return false;
       }
 

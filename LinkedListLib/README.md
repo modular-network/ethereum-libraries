@@ -225,8 +225,20 @@ Checks to see if the list exists. If there is only a head node, it does not exis
 ##### Returns
 **bool**   
 
+#### nodeExists(LinkedListLib.LinkedList storage)   
+*(LinkedListLib.sol, line 66)*
+
+Checks to see if a specific node exists.
+
+##### Arguments
+**LinkedListLib.LinkedList** self
+**uint256** _node index of the node to look for
+
+##### Returns
+**bool**   
+
 #### sizeOf(LinkedListLib.LinkedList storage)   
-*(LinkedListLib.sol, line 65)*
+*(LinkedListLib.sol, line 83)*
 
 Finds the size of the linked list.  Head node does not count toward size.
 
@@ -237,7 +249,7 @@ Finds the size of the linked list.  Head node does not count toward size.
 **uint256**   
 
 #### getNode(LinkedListLib.LinkedList storage, uint256)   
-*(LinkedListLib.sol, line 77)*
+*(LinkedListLib.sol, line 95)*
 
 Returns the links of a node as a tuple.
 
@@ -249,7 +261,7 @@ Returns the links of a node as a tuple.
 **(uint256,uint256)** the PREV and NEXT node, in that order, both 0 if the node doesn't exist.  
 
 #### getAdjacent(LinkedListLib.LinkedList storage, uint256, bool)   
-*(LinkedListLib.sol, line 87)*
+*(LinkedListLib.sol, line 109)*
 
  Returns the link of a node `_node` in direction `_direction`.
 
@@ -262,7 +274,7 @@ Returns the links of a node as a tuple.
 **uint256**   
 
 #### getSortedSpot(LinkedListLib.LinkedList storage, uint256, uint256, bool)   
-*(LinkedListLib.sol, line 99)*
+*(LinkedListLib.sol, line 121)*
 
 Finds the spot in a sorted list where 'value' can be inserted.  Used before insert to build a sorted list.
 
@@ -275,7 +287,7 @@ Finds the spot in a sorted list where 'value' can be inserted.  Used before inse
 **uint256**   
 
 #### createLink(LinkedListLib.LinkedList storage, uint256, uint256, bool)   
-*(LinkedListLib.sol, line 112)*
+*(LinkedListLib.sol, line 134)*
 
 Creates a bidirectional link between two nodes in direction `_direction`.
 
@@ -289,7 +301,7 @@ Creates a bidirectional link between two nodes in direction `_direction`.
 
 
 #### insert(LinkedListLib.LinkedList storage, uint256, uint256, bool)   
-*(LinkedListLib.sol, line 122)*
+*(LinkedListLib.sol, line 144)*
 
  Insert node `_new` beside existing node `_node` in direction `_direction`.
 
@@ -303,7 +315,7 @@ Creates a bidirectional link between two nodes in direction `_direction`.
 
 
 #### remove(LinkedListLib.LinkedList storage, uint256)   
-*(LinkedListLib.sol, line 131)*
+*(LinkedListLib.sol, line 155)*
 
 Removes node _node from the list.
 
@@ -315,7 +327,7 @@ Removes node _node from the list.
 **uint256**   
 
 #### push(LinkedListLib.LinkedList storage, uint256, bool)   
-*(LinkedListLib.sol, line 143)*
+*(LinkedListLib.sol, line 167)*
 
 pushes a new node to one end of the list.
 
@@ -328,7 +340,7 @@ pushes a new node to one end of the list.
 
 
 #### pop(LinkedListLib.LinkedList storage, bool)   
-*(LinkedListLib.sol, line 150)*
+*(LinkedListLib.sol, line 174)*
 
 Pops a node of an end of the list.
 

@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title EvenDistroCrowdsaleLib
  * @author Majoolr.io
  *
- * version 2.0.0
+ * version 2.0.1
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -119,7 +119,7 @@ library TestEvenDistroCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _registrant address to register for the sale
   function registerUser(EvenDistroCrowdsaleStorage storage self, address _registrant, uint256 currtime) returns (bool) {
-    require(msg.sender == self.base.owner);
+    require((msg.sender == self.base.owner) || (msg.sender == address(this)));
     if ((!self.staticCap) && (currtime >= self.base.startTime - 3)) {
       LogErrorMsg(self.base.startTime-1, "Cannot register users within 3 days of the sale!");
       return false;
@@ -161,7 +161,7 @@ library TestEvenDistroCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _registrant address to unregister from the sale
   function unregisterUser(EvenDistroCrowdsaleStorage storage self, address _registrant, uint256 currtime) returns (bool) {
-    require(msg.sender == self.base.owner);
+    require((msg.sender == self.base.owner) || (msg.sender == address(this)));
     if ((!self.staticCap) && (currtime >= self.base.startTime - 3)) {
       LogErrorMsg(self.base.startTime-1, "Cannot unregister users within 3 days of the sale!");
       return false;
