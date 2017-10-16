@@ -24,6 +24,11 @@ contract LinkedListTestContract {
         return list.exists();
     }
 
+    /// @dev checks to see if a node exists
+    function nodeExists(uint256 _node) constant returns (bool) {
+        return list.nodeExists(_node);
+    }
+
     /// @dev Returns the number of elements in the list
     function sizeOf() constant returns (uint256 numElements) {
         return list.sizeOf();
