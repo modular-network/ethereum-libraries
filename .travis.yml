@@ -19,4 +19,4 @@ script:
   - 'truffle test'
 
 after_script:
-  - 'cd WalletLib/truffle && npm run test:coverage && cat coverage/lcov.info | coveralls'
+  - 'npm run test:coverage && cat coverage/lcov.info | coveralls'
