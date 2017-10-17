@@ -36,10 +36,14 @@ contract TestLinkedListLib{
 
     instance.insert(0,2000,NEXT);
 
+
     bResult = instance.exists();
     Assert.isTrue(bResult, "The list has one element so result should be true!");
     result = instance.sizeOf();
     Assert.equal(result,1, "The size of the linked list should be one!");
+
+    bResult = instance.nodeExists(2000);
+    Assert.isTrue(bResult, "The node 2000 should exist!");
   }
 
   function testSortedInsert() {
@@ -74,6 +78,16 @@ contract TestLinkedListLib{
     (bResult,resultPrev,resultNext) = instance.getNode(3000);
     Assert.equal(resultPrev,2000,"The previous node should be 2000!");
     Assert.equal(resultNext,0, "The next node should be HEAD!");
+
+    result = instance.getSortedSpot(HEAD,3000,NEXT);
+    Assert.equal(result,3000, "Should return the node because it already exists!");
+
+    bResult = instance.nodeExists(3000);
+    Assert.isTrue(bResult, "The node 3000 should exist!");
+
+    instance.insert(result,3000,PREV);
+    result = instance.sizeOf();
+    Assert.equal(result,3, "The size of the linked list should stay three because duplicates cant be added!");
   }
 
   function testRemove() {

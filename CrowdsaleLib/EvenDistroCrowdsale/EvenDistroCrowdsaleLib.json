@@ -1,0 +1,1271 @@
+{
+  "contract_name": "EvenDistroCrowdsaleLib",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        }
+      ],
+      "name": "crowdsaleActive",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        }
+      ],
+      "name": "withdrawOwnerEth",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        }
+      ],
+      "name": "validPurchase",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        }
+      ],
+      "name": "crowdsaleEnded",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        }
+      ],
+      "name": "setTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        },
+        {
+          "name": "_exchangeRate",
+          "type": "uint256"
+        }
+      ],
+      "name": "setTokenExchangeRate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        },
+        {
+          "name": "_registrants",
+          "type": "address[]"
+        }
+      ],
+      "name": "registerUsers",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        },
+        {
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "receivePurchase",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        },
+        {
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "name": "_saleData",
+          "type": "uint256[]"
+        },
+        {
+          "name": "_fallbackExchangeRate",
+          "type": "uint256"
+        },
+        {
+          "name": "_capAmountInCents",
+          "type": "uint256"
+        },
+        {
+          "name": "_endTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_percentBurn",
+          "type": "uint8"
+        },
+        {
+          "name": "_initialAddressTokenCap",
+          "type": "uint256"
+        },
+        {
+          "name": "_staticCap",
+          "type": "bool"
+        },
+        {
+          "name": "_token",
+          "type": "CrowdsaleToken"
+        }
+      ],
+      "name": "init",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        }
+      ],
+      "name": "getTokensSold",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        },
+        {
+          "name": "_registrant",
+          "type": "address"
+        }
+      ],
+      "name": "unregisterUser",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        },
+        {
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSaleData",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[3]"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        }
+      ],
+      "name": "withdrawTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        }
+      ],
+      "name": "withdrawLeftoverWei",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        },
+        {
+          "name": "_registrants",
+          "type": "address[]"
+        }
+      ],
+      "name": "unregisterUsers",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage"
+        },
+        {
+          "name": "_registrant",
+          "type": "address"
+        }
+      ],
+      "name": "registerUser",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "time",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogTokensBought",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "Msg",
+          "type": "string"
+        }
+      ],
+      "name": "LogAddressTokenCapExceeded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "registrant",
+          "type": "address"
+        }
+      ],
+      "name": "LogUserRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "registrant",
+          "type": "address"
+        }
+      ],
+      "name": "LogUserUnRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "Msg",
+          "type": "string"
+        }
+      ],
+      "name": "LogErrorMsg",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "Msg",
+          "type": "string"
+        }
+      ],
+      "name": "LogAddressTokenCapChange",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "Msg",
+          "type": "string"
+        }
+      ],
+      "name": "LogTokenPriceChange",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "saleCap",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "numRegistered",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "cap",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "Msg",
+          "type": "string"
+        }
+      ],
+      "name": "LogAddressTokenCapCalculated",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b611d958061001f6000396000f300606060405236156100ca5763ffffffff60e060020a6000350416630378ce2381146100cf57806313bffc4d146100ee57806323cdafae1461010d578063395088231461012c5780633b9130491461014b5780637dedb7911461016a5780638b6708811461018c57806398e78d6b146101e95780639a19e94a1461020b578063a4107c9014610296578063ac78f38f146102b3578063b38ee932146102de578063bfb671e114610325578063c065b99e14610344578063f1618f0814610363578063fed56360146103c0575b600080fd5b6100da6004356103eb565b604051901515815260200160405180910390f35b6100da600435610466565b604051901515815260200160405180910390f35b6100da6004356104e1565b604051901515815260200160405180910390f35b6100da6004356104f4565b604051901515815260200160405180910390f35b6100da60043561056f565b604051901515815260200160405180910390f35b6100da6004356024356105ea565b604051901515815260200160405180910390f35b6100da6004803590604460248035908101908301358060208181020160405190810160405280939291908181526020018383602002808284375094965061068495505050505050565b604051901515815260200160405180910390f35b6100da6004356024356106e8565b604051901515815260200160405180910390f35b610294600480359060248035600160a060020a031691906064906044359081019083013580602080820201604051908101604052809392919081815260200183836020028082843750949650508435946020810135945060408101359350606081013560ff1692506080810135915060a081013515159060c00135600160a060020a0316610f3b565b005b6102a160043561105e565b60405190815260200160405180910390f35b6100da600435600160a060020a03602435166110d9565b604051901515815260200160405180910390f35b6102ec6004356024356113ac565b6040518082606080838360005b838110156103125780820151818401525b6020016102f9565b5050505090500191505060405180910390f35b6100da600435611439565b604051901515815260200160405180910390f35b6100da6004356114b4565b604051901515815260200160405180910390f35b6100da6004803590604460248035908101908301358060208181020160405190810160405280939291908181526020018383602002808284375094965061152f95505050505050565b604051901515815260200160405180910390f35b6100da600435600160a060020a0360243516611593565b604051901515815260200160405180910390f35b600073__CrowdsaleLib__________________________636eee0e9283836040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b151561044457600080fd5b6102c65a03f4151561045557600080fd5b50505060405180519150505b919050565b600073__CrowdsaleLib__________________________63d34e327483836040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b151561044457600080fd5b6102c65a03f4151561045557600080fd5b50505060405180519150505b919050565b60006104ec82611844565b90505b919050565b600073__CrowdsaleLib__________________________6310bc04e783836040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b151561044457600080fd5b6102c65a03f4151561045557600080fd5b50505060405180519150505b919050565b600073__CrowdsaleLib__________________________633617dbba83836040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b151561044457600080fd5b6102c65a03f4151561045557600080fd5b50505060405180519150505b919050565b6000806105f684611900565b905073__CrowdsaleLib__________________________6314f1d11b858560006040516020015260405160e060020a63ffffffff85160281526004810192909252602482015260440160206040518083038186803b151561065657600080fd5b6102c65a03f4151561066757600080fd5b50505060405180519050801561067a5750805b91505b5092915050565b81546000908190819033600160a060020a039081169116146106a557600080fd5b5060005b83518110156106dc576106d1858583815181106106c257fe5b90602001906020020151611593565b91505b6001016106a9565b8192505b505092915050565b81546000908190819081908190819081908190819033600160a060020a039081169116141561071657600080fd5b600160a060020a0333166000908152600f8c01602052604090205460ff16151561073f57600080fd5b6107488b611844565b151561075357600080fd5b60028b015460068c01548b01111561076a57600080fd5b60098b015460088c015460ff918216600101909116901180156107ba575060098b015460088c018054909160ff908116600101169081106107a757fe5b906000526020600020900160005b505442115b156109bb575b60098b015460088c015460ff91821660010190911690118015610810575060098b015460088c018054909160ff908116600101169081106107fd57fe5b906000526020600020900160005b505442115b156108325760098b01805460ff8082166001011660ff199091161790556107c0565b60098b015460088c018054600a8e01926000929160ff90911690811061085457fe5b906000526020600020900160005b50548152602081019190915260400160002060015b0160005b505460128c015560098b015460088c0180546108de92600a8f0192600092909160ff169081106108a757fe5b906000526020600020900160005b5054815260208101919091526040016000908120905b0160005b50548c9063ffffffff611c8116565b507f8d323fdcf6bf512b7fe2e0155fc98bcd3a89e178ed4f6f85bbe6b60334c3c6438b60120154604051908152604060208201819052601a818301527f41646472657373206361702068617320696e637265617365642100000000000060608301526080909101905180910390a160018b01547f140575aff45eb4e414ffb6ece685f9e52ecf2bb56553b9e1b716175d9a25bffa906040519081526040602082018190526018818301527f546f6b656e20507269636520686173206368616e67656421000000000000000060608301526080909101905180910390a15b60098b0154601261010090910460ff16116109ea5760098b0154610100900460ff16601203600a0a9450610a01565b60098b0154610100900460ff1660111901600a0a94505b60008b601201541115610aeb57600160a060020a033316600090815260108c01602052604090205460128c0154039150811515610aa257600080516020611d4a83398151915233604051600160a060020a039091168152604060208201819052601a818301527f43616e6e6f742062757420616e796d6f726520746f6b656e732100000000000060608301526080909101905180910390a160009850610f2d565b60098b0154601261010090910460ff1611610ad05760018b0154828602811515610ac857fe5b049150610ae6565b60018b015485908302811515610ae257fe5b0491505b610aef565b8991505b610af98a83611ce1565b9150818a0393508173__BasicMathLib__________________________631d3b9edf90918d6000016001015460006040516040015260405160e060020a63ffffffff851602815260048101929092526024820152604401604080518083038186803b1515610b6657600080fd5b6102c65a03f41515610b7757600080fd5b5050506040518051906020018051919950909750508715610b9757600080fd5b60098b0154601261010090910460ff1611610bf5578487811515610bb757fe5b04955060008588811515610bc757fe5b061115610bf05760018b01548588811515610bde57fe5b068803811515610bea57fe5b04820392505b610bfb565b84870295505b600160a060020a0333166000908152600d8c01602052604081208054868601019055841115610ccf57600160a060020a0333166000818152600d8d01602052604090819020547fe1d9b0da597fb39709a59c2112f1e305d69b65e813b9beebaf6905cecc3abd7891519081526040602082018190528082018190527f43617020506572204164647265737320686173206265656e206578636565646560608301527f642120506c65617365207769746864726177206c6566746f7665722057656921608083015260a0909101905180910390a25b600160a060020a033381166000908152600b8d0160205260408082208054878703019055600e8e0154909216916370a08231913091516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b1515610d4757600080fd5b6102c65a03f11515610d5857600080fd5b50505060405180518711159050610d6e57600080fd5b8282038b60000160060154018b60000160060181905550858b600001600c01600033600160a060020a0316600160a060020a0316815260200190815260200160002060008282540192505081905550858b601001600033600160a060020a0316600160a060020a03168152602001908152602001600020600082825401925050819055508a600001600c0160008c60000160000160009054906101000a9004600160a060020a0316600160a060020a0316600160a060020a031681526020019081526020016000205473__BasicMathLib__________________________63f4f3bdc190918860006040516040015260405160e060020a63ffffffff851602815260048101929092526024820152604401604080518083038186803b1515610e9557600080fd5b6102c65a03f41515610ea657600080fd5b5050506040518051906020018051919950909350508715610ec657600080fd5b8a54600160a060020a039081166000908152600c8d0160205260409081902085905533909116907fce03317035e948abee1845ebd3074288b7672883445506d168d03d552214b7e890889042905191825260208201526040908101905180910390a2600198505b505050505050505092915050565b73__CrowdsaleLib__________________________63d11bd57f8b8b8b8b8b8b8b8960405160e060020a63ffffffff8b1602815260048101898152600160a060020a03808a166024840152606483018890526084830187905260a4830186905260ff851660c4840152831660e48301526101006044830190815290916101040188818151815260200191508051906020019060200280838360005b83811015610fef5780820151818401525b602001610fd6565b50505050905001995050505050505050505060006040518083038186803b151561101857600080fd5b6102c65a03f4151561102957600080fd5b505060008411905061103a57600080fd5b60128a0183905560138a01805460ff19168315151790555b50505050505050505050565b600073__CrowdsaleLib__________________________6319c5f76b83836040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b151561044457600080fd5b6102c65a03f4151561045557600080fd5b50505060405180519150505b919050565b81546000908190819033600160a060020a039081169116148061110d575030600160a060020a031633600160a060020a0316145b151561111857600080fd5b601385015460ff16158015611137575060038501546203f47f19014210155b156111f257600080516020611d4a83398151915284604051600160a060020a039091168152604060208201819052604b818301527f43616e206f6e6c7920726567697374657220616e6420756e726567697374657260608301527f207573657273206561726c696572207468616e20332064617973206265666f7260808301527f65207468652073616c652100000000000000000000000000000000000000000060a083015260c0909101905180910390a1600092506106e0565b600160a060020a0384166000908152600f8601602052604090205460ff1615156112a657600080516020611d4a83398151915284604051600160a060020a039091168152604060208201819052602f818301527f52656769737472616e742061646472657373206e6f742072656769737465726560608301527f6420666f72207468652073616c65210000000000000000000000000000000000608083015260a0909101905180910390a1600092506106e0565b600160a060020a0384166000908152600f86016020526040808220805460ff19169055601187015473__BasicMathLib__________________________9263f4f3bdc19260019190516040015260405160e060020a63ffffffff851602815260048101929092526024820152604401604080518083038186803b151561132b57600080fd5b6102c65a03f4151561133c57600080fd5b5050506040518051906020018051935090915050801561135b57600080fd5b601185018290557ff4feccbb86b1e3ed44c295752216a4576783a17ab625721f4671540a49b955e984604051600160a060020a03909116815260200160405180910390a1600192505b505092915050565b6113b4611d22565b73__CrowdsaleLib__________________________63d7bc0959848460006040516060015260405160e060020a63ffffffff85160281526004810192909252602482015260440160606040518083038186803b151561141257600080fd5b6102c65a03f4151561142357600080fd5b5050506040518060600160405290505b92915050565b600073__CrowdsaleLib__________________________63b5d8816383836040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b151561044457600080fd5b6102c65a03f4151561045557600080fd5b50505060405180519150505b919050565b600073__CrowdsaleLib__________________________63d06f9a5e83836040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b151561044457600080fd5b6102c65a03f4151561045557600080fd5b50505060405180519150505b919050565b81546000908190819033600160a060020a0390811691161461155057600080fd5b5060005b83518110156106dc5761157c8585838151811061156d57fe5b906020019060200201516110d9565b91505b600101611554565b8192505b505092915050565b81546000908190819033600160a060020a03908116911614806115c7575030600160a060020a031633600160a060020a0316145b15156115d257600080fd5b601385015460ff161580156115f1575060038501546203f47f19014210155b1561168657600080516020611d4a83398151915284604051600160a060020a039091168152604060208201819052603c818301527f43616e206f6e6c79207265676973746572207573657273206561726c6965722060608301527f7468616e20332064617973206265666f7265207468652073616c652100000000608083015260a0909101905180910390a1600092506106e0565b600160a060020a0384166000908152600f8601602052604090205460ff161561173957600080516020611d4a83398151915284604051600160a060020a0390911681526040602082018190526036818301527f52656769737472616e74206164647265737320697320616c726561647920726560608301527f676973746572656420666f72207468652073616c652100000000000000000000608083015260a0909101905180910390a1600092506106e0565b600160a060020a0384166000908152600f86016020526040808220805460ff19166001908117909155601188015473__BasicMathLib__________________________936366098d4f93919291516040015260405160e060020a63ffffffff851602815260048101929092526024820152604401604080518083038186803b15156117c357600080fd5b6102c65a03f415156117d457600080fd5b505050604051805190602001805193509091505080156117f357600080fd5b601185018290557fa28576aa71409e890d90a3b4642d4d95b7f26dc5b969e9b915067e531b73938d84604051600160a060020a03909116815260200160405180910390a1600192505b505092915050565b600034151561185283611d00565b801561185b5750805b1561186957600191506118f9565b7f33d5e4ca87f41f94abfa39e8857804e697a40c15950f7cc8d32d65c9a56c8a3760405160208082526036908201527f496e76616c69642050757263686173652120436865636b2073656e642074696d6040808301919091527f6520616e6420616d6f756e74206f662065746865722e0000000000000000000060608301526080909101905180910390a1600091505b5b50919050565b600080600080600080866011015411151561191a57600080fd5b600e860154600090600160a060020a03166370a0823130836040516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b151561197757600080fd5b6102c65a03f1151561198857600080fd5b5050506040518051905011151561199e57600080fd5b60038601544211806119b9575060038601546203f47f190142105b806119c85750601386015460ff165b156119d65760009450611c78565b6009860154640100000000900460ff16156119f057600080fd5b6011860154600e870154600160a060020a03166370a082313060006040516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b1515611a5057600080fd5b6102c65a03f11515611a6157600080fd5b50505060405180519050811515611a7457fe5b049350600090505b6008860154811015611bab57600886018054600a88019160009184908110611aa057fe5b906000526020600020900160005b50548152602081019190915260400160002060015b0160005b505473__BasicMathLib__________________________631d3b9edf90918660006040516040015260405160e060020a63ffffffff851602815260048101929092526024820152604401604080518083038186803b1515611b2757600080fd5b6102c65a03f41515611b3857600080fd5b50505060405180519060200180519450909250508115611b5757600080fd5b6064835b0486600001600a0160008860000160080184815481101515611b7957fe5b906000526020600020900160005b50548152602081019190915260400160002060015b0160005b50555b600101611a7c565b600886018054600a88019160009182908110611bc357fe5b906000526020600020900160005b50548152602081019190915260400160002060015b0160005b505460128701819055600287015460118801547f9e28739d4887d9040e65dbc68bb8ad344a31e225ee58b019b7d97bdd7bc141ac926040519283526020830191909152604080830191909152608060608301819052601b908301527f4164647265737320636170207761732043616c63756c6174656421000000000060a083015260c0909101905180910390a15b50505050919050565b60008080808411611c9157600080fd5b838560050154811515611ca057fe5b049150838560050154811515611cb257fe5b0690506000811115611ccc57600180830190860155611cd4565b600185018290555b600192505b505092915050565b600081831015611cf2575081611433565b5080611433565b5b92915050565b6000816003015442101580156104ec575081600401544211155b90505b919050565b60606040519081016040526003815b6000815260200190600190039081611d3157905050905600130a356d9d4d11b36b281e1792848eadcb4a1a8d0a68a5a38eea1438a55da29aa165627a7a72305820add5100cc619d66bf6bad36e36d4c57735319a47dd54f346c97981d6bd674f450029",
+  "networks": {
+    "1": {
+      "events": {
+        "0x4eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        },
+        "0xac0f38657cc8741669b8ba861fe5e6e18a4256a26ce4963b7b74a0f8739fdc6f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_bidder",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "Amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokensWithdrawn",
+          "type": "event"
+        },
+        "0x3531f0ded8ff844beb165a1eeff617d161ea9381dee34a2695d33ea8412d66cd": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_bidder",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "Amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWeiWithdrawn",
+          "type": "event"
+        },
+        "0x4159712a53cf7d5c014b7f7bccd52ce07122696797310c76d6d4273f0bda9e99": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogOwnerEthWithdrawn",
+          "type": "event"
+        },
+        "0x567990ae41a073da2ab5d99943460204347712a2ce40df6e9f06dd451c20700c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_buyer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogNoticeMsg",
+          "type": "event"
+        },
+        "0x33d5e4ca87f41f94abfa39e8857804e697a40c15950f7cc8d32d65c9a56c8a37": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogErrorMsg",
+          "type": "event"
+        },
+        "0xce03317035e948abee1845ebd3074288b7672883445506d168d03d552214b7e8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "buyer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "time",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokensBought",
+          "type": "event"
+        },
+        "0xe1d9b0da597fb39709a59c2112f1e305d69b65e813b9beebaf6905cecc3abd78": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "buyer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogAddressTokenCapExceeded",
+          "type": "event"
+        },
+        "0xa28576aa71409e890d90a3b4642d4d95b7f26dc5b969e9b915067e531b73938d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "registrant",
+              "type": "address"
+            }
+          ],
+          "name": "LogUserRegistered",
+          "type": "event"
+        },
+        "0xf4feccbb86b1e3ed44c295752216a4576783a17ab625721f4671540a49b955e9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "registrant",
+              "type": "address"
+            }
+          ],
+          "name": "LogUserUnRegistered",
+          "type": "event"
+        },
+        "0x130a356d9d4d11b36b281e1792848eadcb4a1a8d0a68a5a38eea1438a55da29a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogErrorMsg",
+          "type": "event"
+        },
+        "0x8d323fdcf6bf512b7fe2e0155fc98bcd3a89e178ed4f6f85bbe6b60334c3c643": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogAddressTokenCapChange",
+          "type": "event"
+        },
+        "0x140575aff45eb4e414ffb6ece685f9e52ecf2bb56553b9e1b716175d9a25bffa": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogTokenPriceChange",
+          "type": "event"
+        },
+        "0x9e28739d4887d9040e65dbc68bb8ad344a31e225ee58b019b7d97bdd7bc141ac": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "saleCap",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "numRegistered",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "cap",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogAddressTokenCapCalculated",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x8683e57d7277c8e12b938bcba617366262704c3b",
+      "updated_at": 1507594599599
+    },
+    "3": {
+      "events": {
+        "0x4eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        },
+        "0xac0f38657cc8741669b8ba861fe5e6e18a4256a26ce4963b7b74a0f8739fdc6f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_bidder",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "Amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokensWithdrawn",
+          "type": "event"
+        },
+        "0x3531f0ded8ff844beb165a1eeff617d161ea9381dee34a2695d33ea8412d66cd": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_bidder",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "Amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWeiWithdrawn",
+          "type": "event"
+        },
+        "0x4159712a53cf7d5c014b7f7bccd52ce07122696797310c76d6d4273f0bda9e99": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogOwnerEthWithdrawn",
+          "type": "event"
+        },
+        "0x567990ae41a073da2ab5d99943460204347712a2ce40df6e9f06dd451c20700c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_buyer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogNoticeMsg",
+          "type": "event"
+        },
+        "0x33d5e4ca87f41f94abfa39e8857804e697a40c15950f7cc8d32d65c9a56c8a37": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogErrorMsg",
+          "type": "event"
+        },
+        "0xce03317035e948abee1845ebd3074288b7672883445506d168d03d552214b7e8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "buyer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "time",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokensBought",
+          "type": "event"
+        },
+        "0xe1d9b0da597fb39709a59c2112f1e305d69b65e813b9beebaf6905cecc3abd78": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "buyer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogAddressTokenCapExceeded",
+          "type": "event"
+        },
+        "0xa28576aa71409e890d90a3b4642d4d95b7f26dc5b969e9b915067e531b73938d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "registrant",
+              "type": "address"
+            }
+          ],
+          "name": "LogUserRegistered",
+          "type": "event"
+        },
+        "0xf4feccbb86b1e3ed44c295752216a4576783a17ab625721f4671540a49b955e9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "registrant",
+              "type": "address"
+            }
+          ],
+          "name": "LogUserUnRegistered",
+          "type": "event"
+        },
+        "0x130a356d9d4d11b36b281e1792848eadcb4a1a8d0a68a5a38eea1438a55da29a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogErrorMsg",
+          "type": "event"
+        },
+        "0x8d323fdcf6bf512b7fe2e0155fc98bcd3a89e178ed4f6f85bbe6b60334c3c643": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogAddressTokenCapChange",
+          "type": "event"
+        },
+        "0x140575aff45eb4e414ffb6ece685f9e52ecf2bb56553b9e1b716175d9a25bffa": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogTokenPriceChange",
+          "type": "event"
+        },
+        "0x9e28739d4887d9040e65dbc68bb8ad344a31e225ee58b019b7d97bdd7bc141ac": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "saleCap",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "numRegistered",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "cap",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogAddressTokenCapCalculated",
+          "type": "event"
+        }
+      },
+      "links": {
+        "BasicMathLib": "0xd47c1de4e876b7382fd2d6e536f8e61553773560",
+        "CrowdsaleLib": "0x23846ed79fc461095fc13ab60df4f3e1e6a07ded"
+      },
+      "address": "0x6d7a3886047d7d5fb3773012ea2df593b7872574",
+      "updated_at": 1507597518185
+    },
+    "4": {
+      "events": {
+        "0x4eb9487277c052fc38bc53c91e4af51b26a1e7600aa1761ef9d2973180cf72a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "typeErr",
+              "type": "string"
+            }
+          ],
+          "name": "Err",
+          "type": "event"
+        },
+        "0xac0f38657cc8741669b8ba861fe5e6e18a4256a26ce4963b7b74a0f8739fdc6f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_bidder",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "Amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokensWithdrawn",
+          "type": "event"
+        },
+        "0x3531f0ded8ff844beb165a1eeff617d161ea9381dee34a2695d33ea8412d66cd": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_bidder",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "Amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWeiWithdrawn",
+          "type": "event"
+        },
+        "0x4159712a53cf7d5c014b7f7bccd52ce07122696797310c76d6d4273f0bda9e99": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogOwnerEthWithdrawn",
+          "type": "event"
+        },
+        "0x567990ae41a073da2ab5d99943460204347712a2ce40df6e9f06dd451c20700c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_buyer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogNoticeMsg",
+          "type": "event"
+        },
+        "0x33d5e4ca87f41f94abfa39e8857804e697a40c15950f7cc8d32d65c9a56c8a37": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogErrorMsg",
+          "type": "event"
+        },
+        "0xce03317035e948abee1845ebd3074288b7672883445506d168d03d552214b7e8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "buyer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "time",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokensBought",
+          "type": "event"
+        },
+        "0xe1d9b0da597fb39709a59c2112f1e305d69b65e813b9beebaf6905cecc3abd78": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "buyer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogAddressTokenCapExceeded",
+          "type": "event"
+        },
+        "0xa28576aa71409e890d90a3b4642d4d95b7f26dc5b969e9b915067e531b73938d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "registrant",
+              "type": "address"
+            }
+          ],
+          "name": "LogUserRegistered",
+          "type": "event"
+        },
+        "0xf4feccbb86b1e3ed44c295752216a4576783a17ab625721f4671540a49b955e9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "registrant",
+              "type": "address"
+            }
+          ],
+          "name": "LogUserUnRegistered",
+          "type": "event"
+        },
+        "0x130a356d9d4d11b36b281e1792848eadcb4a1a8d0a68a5a38eea1438a55da29a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogErrorMsg",
+          "type": "event"
+        },
+        "0x8d323fdcf6bf512b7fe2e0155fc98bcd3a89e178ed4f6f85bbe6b60334c3c643": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogAddressTokenCapChange",
+          "type": "event"
+        },
+        "0x140575aff45eb4e414ffb6ece685f9e52ecf2bb56553b9e1b716175d9a25bffa": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogTokenPriceChange",
+          "type": "event"
+        },
+        "0x9e28739d4887d9040e65dbc68bb8ad344a31e225ee58b019b7d97bdd7bc141ac": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "saleCap",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "numRegistered",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "cap",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogAddressTokenCapCalculated",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x0136a33eb0b3c3e5c112911be2f107d44bad8560",
+      "updated_at": 1507594599599
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1507597518185
+}

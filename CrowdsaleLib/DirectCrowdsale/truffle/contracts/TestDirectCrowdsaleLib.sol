@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title DirectCrowdsaleLib
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 2.0.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -108,41 +108,41 @@ library TestDirectCrowdsaleLib {
         LogTokenPriceChange(self.base.tokensPerEth,"Token Price has changed!");
     }
 
-  	uint256 numTokens;     //number of tokens that will be purchased
-  	bool err;
-    uint256 newBalance;    //the new balance of the owner of the crowdsale
-    uint256 weiTokens;
-    uint256 zeros;
-    uint256 leftoverWei;
-    uint256 remainder;
+  	uint256 _numTokens;     //number of tokens that will be purchased
+    uint256 _newBalance;    //the new balance of the owner of the crowdsale
+    uint256 _weiTokens;
+    uint256 _zeros;
+    uint256 _leftoverWei;
+    uint256 _remainder;
+    bool err;
 
-    (err,weiTokens) = _amount.times(self.base.tokensPerEth);    // Find the number of tokens as a function in wei
+    (err,_weiTokens) = _amount.times(self.base.tokensPerEth);    // Find the number of tokens as a function in wei
     require(!err);
 
     if(self.base.tokenDecimals <= 18){
-      zeros = 10**(18-uint256(self.base.tokenDecimals));
-      numTokens = weiTokens/zeros;
-      leftoverWei = weiTokens % zeros;
-      self.base.leftoverWei[msg.sender] += leftoverWei;
+      _zeros = 10**(18-uint256(self.base.tokenDecimals));
+      _numTokens = _weiTokens/_zeros;
+      _leftoverWei = _weiTokens % _zeros;
+      self.base.leftoverWei[msg.sender] += _leftoverWei;
     } else {
-      zeros = 10**(uint256(self.base.tokenDecimals)-18);
-      numTokens = weiTokens*zeros;
+      _zeros = 10**(uint256(self.base.tokenDecimals)-18);
+      _numTokens = _weiTokens*_zeros;
     }
 
-    self.base.hasContributed[msg.sender] += _amount - leftoverWei;      // can't overflow because it is under the cap
+    self.base.hasContributed[msg.sender] += _amount - _leftoverWei;      // can't overflow because it is under the cap
 
-    require(numTokens <= self.base.token.balanceOf(this));
+    require(_numTokens <= self.base.token.balanceOf(this));
 
-    (err,newBalance) = self.base.ownerBalance.plus(_amount-leftoverWei);      // calculate the amout of ether in the owners balance
+    (err,_newBalance) = self.base.ownerBalance.plus(_amount-_leftoverWei);      // calculate the amout of ether in the owners balance
     require(!err);
 
-    self.base.ownerBalance = newBalance;   // "deposit" the amount
+    self.base.ownerBalance = _newBalance;   // "deposit" the amount
 
-	  self.base.withdrawTokensMap[msg.sender] += numTokens;    // can't overflow because it will be under the cap
-    (err,remainder) = self.base.withdrawTokensMap[self.base.owner].minus(numTokens);  //subtract tokens from owner's share
-    self.base.withdrawTokensMap[self.base.owner] = remainder;
+	  self.base.withdrawTokensMap[msg.sender] += _numTokens;    // can't overflow because it will be under the cap
+    (err,_remainder) = self.base.withdrawTokensMap[self.base.owner].minus(_numTokens);  //subtract tokens from owner's share
+    self.base.withdrawTokensMap[self.base.owner] = _remainder;
 
-	  LogTokensBought(msg.sender, numTokens);
+	  LogTokensBought(msg.sender, _numTokens);
 
     return true;
   }

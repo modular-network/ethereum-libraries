@@ -21,12 +21,25 @@ contract EvenDistroCrowdsaleTestContract {
     uint256 capAmountInCents,
     uint256 endTime,
     uint8 percentBurn,
-    uint256 initialAddressCap,
+    uint256 initialAddressTokenCap,
     bool staticCap,
     CrowdsaleToken token)
   {
-  	sale.init(owner, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressCap, staticCap, token);
+  	sale.init(owner, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressTokenCap, staticCap, token);
   }
+
+  event LogTokensBought(address indexed buyer, uint256 amount, uint256 time);
+  event LogAddressTokenCapExceeded(address indexed buyer, uint256 amount, string Msg);
+  event LogUserRegistered(address registrant);
+  event LogUserUnRegistered(address registrant);
+  event LogErrorMsg(address user, string Msg);
+  event LogAddressTokenCapChange(uint256 amount, string Msg);
+  event LogTokenPriceChange(uint256 amount, string Msg);
+  event LogAddressTokenCapCalculated(uint256 saleCap, uint256 numRegistered, uint256 cap, string Msg);
+  event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);
+  event LogWeiWithdrawn(address indexed _bidder, uint256 Amount);
+  event LogOwnerEthWithdrawn(address indexed owner, uint256 amount, string Msg);
+  event LogNoticeMsg(address _buyer, uint256 value, string Msg);
 
   // fallback function can be used to buy tokens
   function () payable {
@@ -49,8 +62,8 @@ contract EvenDistroCrowdsaleTestContract {
     return sale.unregisterUser(_registrant);
   }
 
-  function unregisterUsers(address _registrants) returns (bool) {
-    return sale.unregisterUser(_registrants);
+  function unregisterUsers(address[] _registrants) returns (bool) {
+    return sale.unregisterUsers(_registrants);
   }
 
   function isRegistered(address _registrant) constant returns (bool) {
@@ -137,8 +150,8 @@ contract EvenDistroCrowdsaleTestContract {
     return sale.base.percentBurn;
   }
 
-  function getAddressCap() constant returns (uint256) {
-    return sale.addressCap;
+  function getAddressTokenCap() constant returns (uint256) {
+    return sale.addressTokenCap;
   }
 
   function getNumRegistered() constant returns (uint256) {

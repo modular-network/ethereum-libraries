@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title CrowdsaleLib
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 2.0.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -85,9 +85,9 @@ library CrowdsaleLib {
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
-  /// @param _saleData Array of 3 item arrays such that, in each 3 element
-  /// array index-0 is timestamp, index-1 is price in cents at that time,
-  /// index-2 is address purchase cap at that time, 0 if no address cap
+  /// @param _saleData Array of 3 item sets such that, in each 3 element
+  /// set, 1 is timestamp, 2 is price in cents at that time,
+  /// 3 is address token purchase cap at that time, 0 if no address cap
   /// @param _fallbackExchangeRate Exchange rate of cents/ETH
   /// @param _capAmountInCents Total to be raised in cents
   /// @param _endTime Timestamp of sale end time
@@ -105,7 +105,7 @@ library CrowdsaleLib {
   	require(self.capAmount == 0);
   	require(self.owner == 0);
     require(_saleData.length > 0);
-    require((_saleData.length%3) == 0);
+    require((_saleData.length%3) == 0); // ensure saleData is 3-item sets
     require(_saleData[0] > (now + 3 days));
     require(_endTime > _saleData[0]);
     require(_capAmountInCents > 0);
@@ -173,7 +173,7 @@ library CrowdsaleLib {
     }
 
     if (msg.sender == self.owner) {
-      if((!crowdsaleEnded(self))){
+      if(!crowdsaleEnded(self)){
         LogErrorMsg("Owner cannot withdraw extra tokens until after the sale!");
         return false;
       } else {
@@ -215,7 +215,7 @@ library CrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if owner withdrew eth
   function withdrawOwnerEth(CrowdsaleStorage storage self) returns (bool) {
-    if (!crowdsaleEnded(self)) {
+    if ((!crowdsaleEnded(self)) && (self.token.balanceOf(this)>0)) {
       LogErrorMsg("Cannot withdraw owner ether until after the sale!");
       return false;
     }
@@ -239,12 +239,15 @@ library CrowdsaleLib {
   	require(_newPrice > 0);
 
     uint256 result;
-    bool err;
+    uint256 remainder;
 
-    (err,result) = self.exchangeRate.dividedBy(_newPrice);
-    require(!err);
-
-  	self.tokensPerEth = result + 1;
+    result = self.exchangeRate / _newPrice;
+    remainder = self.exchangeRate % _newPrice;
+    if(remainder > 0) {
+      self.tokensPerEth = result + 1;
+    } else {
+      self.tokensPerEth = result;
+    }
     return true;
   }
 
@@ -260,14 +263,10 @@ library CrowdsaleLib {
     require(_exchangeRate > 0);
 
     uint256 _capAmountInCents;
-    uint256 _tokenPriceInCents;
     uint256 _tokenBalance;
     bool err;
 
     (err, _capAmountInCents) = self.exchangeRate.times(self.capAmount);
-    require(!err);
-
-    (err, _tokenPriceInCents) = self.exchangeRate.dividedBy(self.tokensPerEth);
     require(!err);
 
     _tokenBalance = self.token.balanceOf(this);
@@ -277,7 +276,7 @@ library CrowdsaleLib {
 
     self.exchangeRate = _exchangeRate;
     self.capAmount = (_capAmountInCents/_exchangeRate) + 1;
-    changeTokenPrice(self,_tokenPriceInCents + 1);
+    changeTokenPrice(self,self.saleData[self.milestoneTimes[0]][0]);
     self.rateSet = true;
 
     LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");
@@ -307,14 +306,14 @@ library CrowdsaleLib {
   /// @return A 3-element array with 0 the timestamp, 1 the price in cents, 2 the address cap
   function getSaleData(CrowdsaleStorage storage self, uint256 timestamp) constant returns (uint256[3]) {
     uint256[3] memory _thisData;
-    uint256 index = 0;
-    for(uint256 i = 0; i<self.milestoneTimes.length; i++){
-      if (self.milestoneTimes[i] < timestamp) {
-        index++;
-      } else {
-        break;
-      }
+    uint256 index;
+
+    while((index < self.milestoneTimes.length) && (self.milestoneTimes[index] < timestamp)) {
+      index++;
     }
+    if(index == 0)
+      index++;
+
     _thisData[0] = self.milestoneTimes[index - 1];
     _thisData[1] = self.saleData[_thisData[0]][0];
     _thisData[2] = self.saleData[_thisData[0]][1];

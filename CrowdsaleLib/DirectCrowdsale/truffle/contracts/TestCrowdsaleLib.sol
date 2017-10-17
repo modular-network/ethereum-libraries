@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title CrowdsaleLib
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 2.0.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -194,7 +194,7 @@ library TestCrowdsaleLib {
 
   /// @dev send ether from a purchase to the owners wallet address
   function withdrawOwnerEth(CrowdsaleStorage storage self, uint256 currtime) internal returns (bool) {
-    if (!crowdsaleEnded(self, currtime)) {
+    if ((!crowdsaleEnded(self,currtime)) && (self.token.balanceOf(this)>0)) {
       LogErrorMsg("Cannot withdraw owner ether until after the sale");
       return false;
     }
@@ -216,12 +216,15 @@ library TestCrowdsaleLib {
     require(_newPrice > 0);
 
     uint256 result;
-    bool err;
+    uint256 remainder;
 
-    (err,result) = self.exchangeRate.dividedBy(_newPrice);
-    require(!err);
-
-    self.tokensPerEth = result + 1;
+    result = self.exchangeRate / _newPrice;
+    remainder = self.exchangeRate % _newPrice;
+    if(remainder > 0) {
+      self.tokensPerEth = result + 1;
+    } else {
+      self.tokensPerEth = result;
+    }
     return true;
   }
 
@@ -233,9 +236,7 @@ library TestCrowdsaleLib {
       LogErrorMsg("Owner can only set the exchange rate!");
       return false;
     }
-    if ((_currtime >= (self.startTime - 3)) && (_currtime <= (self.startTime)) && (self.rateSet == false)) {
-      require(self.rateSet == false);
-    } else {
+    if (!((_currtime >= (self.startTime - 3)) && (_currtime <= (self.startTime)) && (self.rateSet == false))) {
       LogErrorMsg("Owner can only set the exchange rate once up to three days before the sale!");
       return false;
     }
@@ -248,21 +249,20 @@ library TestCrowdsaleLib {
       return false;
     }
     uint256 _capAmountInCents;
-    uint256 _tokenPriceInCents;
+    uint256 _tokenBalance;
     bool err;
 
     (err, _capAmountInCents) = self.exchangeRate.times(self.capAmount);
     require(!err);
 
-    (err, _tokenPriceInCents) = self.exchangeRate.dividedBy(self.tokensPerEth);
-    require(!err);
-
-    self.withdrawTokensMap[msg.sender] = self.token.balanceOf(this);
+    _tokenBalance = self.token.balanceOf(this);
+    self.withdrawTokensMap[msg.sender] = _tokenBalance;
+    self.startingTokenBalance = _tokenBalance;
     self.tokensSet = true;
 
     self.exchangeRate = _exchangeRate;
     self.capAmount = (_capAmountInCents/_exchangeRate) + 1;
-    changeTokenPrice(self,_tokenPriceInCents + 1);
+    changeTokenPrice(self,self.saleData[self.milestoneTimes[0]][0]);
     self.rateSet = true;
 
     LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");
@@ -273,7 +273,11 @@ library TestCrowdsaleLib {
     require(msg.sender == self.owner);
     require(!self.tokensSet);
 
-    self.withdrawTokensMap[msg.sender] = self.token.balanceOf(this);
+    uint256 _tokenBalance;
+
+    _tokenBalance = self.token.balanceOf(this);
+    self.withdrawTokensMap[msg.sender] = _tokenBalance;
+    self.startingTokenBalance = _tokenBalance;
     self.tokensSet = true;
 
     return true;
@@ -285,14 +289,14 @@ library TestCrowdsaleLib {
   /// @return A 3-element array with 0 the timestamp, 1 the price in cents, 2 the address cap
   function getSaleData(CrowdsaleStorage storage self, uint256 timestamp) constant returns (uint256[3]) {
     uint256[3] memory _thisData;
-    uint256 index = 0;
-    for(uint256 i = 0; i<self.milestoneTimes.length; i++){
-      if (self.milestoneTimes[i] < timestamp) {
-        index++;
-      } else {
-        break;
-      }
+    uint256 index;
+
+    while((index < self.milestoneTimes.length) && (self.milestoneTimes[index] < timestamp)) {
+      index++;
     }
+    if(index == 0)
+      index++;
+
     _thisData[0] = self.milestoneTimes[index - 1];
     _thisData[1] = self.saleData[_thisData[0]][0];
     _thisData[2] = self.saleData[_thisData[0]][1];
