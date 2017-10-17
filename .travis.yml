@@ -19,4 +19,5 @@ script:
   - 'truffle test'
 
 after_script:
+  - 'killall -9 node'
   - 'npm run test:coverage && cat coverage/lcov.info | coveralls'
