@@ -88,9 +88,21 @@ contract TestLinkedListLib{
     instance.insert(result,3000,PREV);
     result = instance.sizeOf();
     Assert.equal(result,3, "The size of the linked list should stay three because duplicates cant be added!");
+
+    result = instance.getSortedSpot(HEAD,2500,NEXT);
+    Assert.equal(result,3000, "Should return 3000 as the node next to the place for the new node!");
+
+    instance.insert(result,2500,PREV);
+    result = instance.sizeOf();
+    Assert.equal(result,4, "The size of the linked list should be four!");
   }
 
   function testRemove() {
+    result = instance.remove(2500);
+    Assert.equal(result,2500, "2500 should have been deleted");
+    result = instance.sizeOf();
+    Assert.equal(result,3, "The size of the linked list should be 3!");
+
     result = instance.remove(4000);
     Assert.equal(result,0, "should return zero because that node doesnt exist");
 
