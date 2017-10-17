@@ -1,0 +1,1868 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/WalletAdminLib.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> WalletAdminLib.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">86.96% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>180/207</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>96/128</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>12/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.68% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>235/265</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">pragma solidity 0.4.15;
+&nbsp;
+/**
+ * @title Wallet Admin Library
+ * @author Majoolr.io
+ *
+ * version 1.0.0
+ * Copyright (c) 2017 Majoolr, LLC
+ * The MIT License (MIT)
+ * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ *
+ * The Wallet Library family is inspired by the multisig wallets built by Consensys
+ * at https://github.com/ConsenSys/MultiSigWallet and Parity at
+ * https://github.com/paritytech/contracts/blob/master/Wallet.sol with added
+ * functionality. Majoolr works on open source projects in the Ethereum
+ * community with the purpose of testing, documenting, and deploying reusable
+ * code onto the blockchain to improve security and usability of smart contracts.
+ * Majoolr also strives to educate non-profits, schools, and other community
+ * members about the application of blockchain technology. For further
+ * information: majoolr.io, consensys.net, paritytech.io
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+&nbsp;
+import "./WalletMainLib.sol";
+&nbsp;
+library WalletAdminLib {
+  using WalletMainLib for WalletMainLib.WalletData;
+&nbsp;
+  /*Events*/
+  event LogTransactionConfirmed(bytes32 txid, address sender, uint confirmsNeeded);
+  event LogOwnerAdded(address newOwner);
+  event LogOwnerRemoved(address ownerRemoved);
+  event LogOwnerChanged(address from, address to);
+  event LogRequirementChange(uint newRequired);
+  event LogThresholdChange(address token, uint newThreshold);
+  event LogErrMsg(string msg);
+&nbsp;
+  /*Checks*/
+&nbsp;
+  /// @dev Validates arguments for changeOwner function
+  /// @param _from Index of current owner removing
+  /// @param _to Index of new potential owner, should be 0
+  /// @return Returns true if check passes, false otherwise
+  function checkChangeOwnerArgs(uint _from, uint _to) constant returns (bool) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(_from == 0){
+<span class="cstat-no" title="statement not covered" >      LogErrMsg("Change from address is not an owner")</span>;
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(_to != 0){
+<span class="cstat-no" title="statement not covered" >      LogErrMsg("Change to address is an owner")</span>;
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+    return true;
+  }
+&nbsp;
+  /// @dev Validates arguments for addOwner function
+  /// @param _index Index of new owner, should be 0
+  /// @param _length Current length of owner array
+  /// @return Returns true if check passes, false otherwise
+  function checkNewOwnerArgs(uint _index, uint _length, uint _max)
+           constant returns (bool)
+  {
+    if(_index != 0){
+      LogErrMsg("New owner already owner");
+      return false;
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if((_length + 1) &gt; _max){
+<span class="cstat-no" title="statement not covered" >      LogErrMsg("Too many owners")</span>;
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+    return true;
+  }
+&nbsp;
+  /// @dev Validates arguments for removeOwner function
+  /// @param _index Index of owner removing
+  /// @param _length Current number of owners
+  /// @param _min Minimum owners currently required to meet sig requirements
+  /// @return Returs true if check passes, false otherwise
+  function checkRemoveOwnerArgs(uint _index, uint _length, uint _min)
+           constant returns (bool)
+  {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(_index == 0){
+<span class="cstat-no" title="statement not covered" >      LogErrMsg("Owner removing not an owner")</span>;
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(_length - 1 &lt; _min){
+<span class="cstat-no" title="statement not covered" >      LogErrMsg("Must reduce requiredAdmin first")</span>;
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+    return true;
+  }
+&nbsp;
+  /// @dev Validates arguments for changing any of the sig requirement parameters
+  /// @param _newRequired The new sig requirement
+  /// @param _length Current number of owners
+  /// @return Returns true if checks pass, false otherwise
+  function checkRequiredChange(uint _newRequired, uint _length)
+           constant returns (bool)
+  {
+    if(_newRequired == 0){
+      LogErrMsg("Cant reduce to 0");
+      return false;
+    }
+    if(_length - 1 &lt; _newRequired){
+      LogErrMsg("Making requirement too high");
+      return false;
+    }
+    return true;
+  }
+&nbsp;
+  /*Utility Functions*/
+&nbsp;
+  /// @dev Used later to calculate the number of confirmations needed for tx
+  /// @param _required Number of sigs required
+  /// @param _count Current number of sigs
+  function calcConfirmsNeeded(uint _required, uint _count) constant returns (uint){
+    return _required - _count;
+  }
+&nbsp;
+  /*Administrative Functions*/
+&nbsp;
+  /// @dev Changes owner address to a new address
+  /// @param self Wallet in contract storage
+  /// @param _from Current owner address
+  /// @param _to New address
+  /// @param _confirm True if confirming, false if revoking confirmation
+  /// @param _data Message data passed from wallet contract
+  /// @return bool Returns true if successful, false otherwise
+  /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
+  function changeOwner(WalletMainLib.WalletData storage self,
+                       address _from,
+                       address _to,
+                       bool _confirm,
+                       bytes _data)
+                       returns (bool,bytes32)
+  {
+    bytes32 _id = sha3("changeOwner",_from,_to);
+    uint _number = self.transactionInfo[_id].length;
+    bool allGood;
+&nbsp;
+    if(msg.sender != address(this)){
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(!_confirm) {
+<span class="cstat-no" title="statement not covered" >        allGood = self.revokeConfirm(_id)</span>;
+<span class="cstat-no" title="statement not covered" >        return (allGood,_id);</span>
+      } else {
+        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+          <span class="missing-if-branch" title="else path not taken" >E</span>require(self.ownerIndex[msg.sender] &gt; 0);
+          allGood = checkChangeOwnerArgs(self.ownerIndex[_from], self.ownerIndex[_to]);
+          <span class="missing-if-branch" title="if path not taken" >I</span>if(!allGood)
+<span class="cstat-no" title="statement not covered" >            return (false,0);</span>
+&nbsp;
+          self.transactionInfo[_id].length++;
+          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactions[now / 1 days].push(_id);
+        } else {
+          _number--;
+          allGood = self.checkNotConfirmed(_id, _number);
+          if(!allGood)
+            return (false,_id);
+        }
+      }
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
+      self.transactionInfo[_id][_number].confirmCount++;
+    } else {
+      _number--;
+    }
+&nbsp;
+    if(self.transactionInfo[_id][_number].confirmCount ==
+       self.transactionInfo[_id][_number].confirmRequired)
+    {
+      self.transactionInfo[_id][_number].success = true;
+      uint i = self.ownerIndex[_from];
+      self.ownerIndex[_from] = 0;
+      self.owners[i] = _to;
+      self.ownerIndex[_to] = i;
+      delete self.transactionInfo[_id][_number].data;
+      LogOwnerChanged(_from, _to);
+    } else {
+      if(self.transactionInfo[_id][_number].data.length == 0)
+        self.transactionInfo[_id][_number].data = _data;
+&nbsp;
+      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+                                               self.transactionInfo[_id][_number].confirmCount);
+&nbsp;
+      LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
+    }
+&nbsp;
+    return (true,_id);
+	}
+&nbsp;
+  /// @dev Adds owner to wallet
+  /// @param self Wallet in contract storage
+  /// @param _newOwner Address for new owner
+  /// @param _confirm True if confirming, false if revoking confirmation
+  /// @param _data Message data passed from wallet contract
+  /// @return bool Returns true if successful, false otherwise
+  /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
+  function addOwner(WalletMainLib.WalletData storage self,
+                    address _newOwner,
+                    bool _confirm,
+                    bytes _data)
+                    returns (bool,bytes32)
+  {
+    bytes32 _id = sha3("addOwner",_newOwner);
+    uint _number = self.transactionInfo[_id].length;
+    bool allGood;
+&nbsp;
+    if(msg.sender != address(this)){
+      <span class="missing-if-branch" title="else path not taken" >E</span>require(_newOwner != 0);
+&nbsp;
+      if(!_confirm) {
+        allGood = self.revokeConfirm(_id);
+        return (allGood,_id);
+      } else {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+          <span class="missing-if-branch" title="else path not taken" >E</span>require(self.ownerIndex[msg.sender] &gt; 0);
+          allGood = checkNewOwnerArgs(self.ownerIndex[_newOwner],
+                                      self.owners.length,
+                                      self.maxOwners);
+          if(!allGood)
+            return (false,0);
+&nbsp;
+          self.transactionInfo[_id].length++;
+          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactions[now / 1 days].push(_id);
+        } else {
+          _number--;
+<span class="cstat-no" title="statement not covered" >          allGood = self.checkNotConfirmed(_id, _number)</span>;
+<span class="cstat-no" title="statement not covered" >          if(!allGood)</span>
+<span class="cstat-no" title="statement not covered" >            return (false,_id);</span>
+        }
+      }
+&nbsp;
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmCount++;
+    } else {
+      _number--;
+    }
+&nbsp;
+    if(self.transactionInfo[_id][_number].confirmCount ==
+       self.transactionInfo[_id][_number].confirmRequired)
+    {
+      self.transactionInfo[_id][_number].success = true;
+      self.owners.push(_newOwner);
+      self.ownerIndex[_newOwner] = self.owners.length - 1;
+      delete self.transactionInfo[_id][_number].data;
+      LogOwnerAdded(_newOwner);
+    } else {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if(self.transactionInfo[_id][_number].data.length == 0)
+        self.transactionInfo[_id][_number].data = _data;
+&nbsp;
+      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+                                               self.transactionInfo[_id][_number].confirmCount);
+      LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
+    }
+&nbsp;
+    return (true,_id);
+	}
+&nbsp;
+  /// @dev Removes owner from wallet
+  /// @param self Wallet in contract storage
+  /// @param _ownerRemoving Address of owner to be removed
+  /// @param _confirm True if confirming, false if revoking confirmation
+  /// @param _data Message data passed from wallet contract
+  /// @return bool Returns true if successful, false otherwise
+  /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
+  function removeOwner(WalletMainLib.WalletData storage self,
+                       address _ownerRemoving,
+                       bool _confirm,
+                       bytes _data)
+                       returns (bool,bytes32)
+  {
+    bytes32 _id = sha3("removeOwner",_ownerRemoving);
+    uint _number = self.transactionInfo[_id].length;
+    bool allGood;
+&nbsp;
+    if(msg.sender != address(this)){
+      if(!_confirm) {
+        allGood = self.revokeConfirm(_id);
+        return (allGood,_id);
+      } else {
+        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+          <span class="missing-if-branch" title="else path not taken" >E</span>require(self.ownerIndex[msg.sender] &gt; 0);
+          allGood = checkRemoveOwnerArgs(self.ownerIndex[_ownerRemoving],
+                                         self.owners.length,
+                                         self.requiredAdmin);
+          <span class="missing-if-branch" title="if path not taken" >I</span>if(!allGood)
+<span class="cstat-no" title="statement not covered" >            return (false,0);</span>
+&nbsp;
+          self.transactionInfo[_id].length++;
+          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactions[now / 1 days].push(_id);
+        } else {
+          _number--;
+          allGood = self.checkNotConfirmed(_id, _number);
+          <span class="missing-if-branch" title="if path not taken" >I</span>if(!allGood)
+<span class="cstat-no" title="statement not covered" >            return (false,_id);</span>
+        }
+      }
+&nbsp;
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmCount++;
+    } else {
+      _number--;
+    }
+&nbsp;
+    if(self.transactionInfo[_id][_number].confirmCount ==
+       self.transactionInfo[_id][_number].confirmRequired)
+    {
+      self.transactionInfo[_id][_number].success = true;
+      self.owners[self.ownerIndex[_ownerRemoving]] = self.owners[self.owners.length - 1];
+      self.ownerIndex[self.owners[self.owners.length - 1]] = self.ownerIndex[_ownerRemoving];
+      self.ownerIndex[_ownerRemoving] = 0;
+      self.owners.length--;
+      delete self.transactionInfo[_id][_number].data;
+      LogOwnerRemoved(_ownerRemoving);
+    } else {
+      if(self.transactionInfo[_id][_number].data.length == 0)
+        self.transactionInfo[_id][_number].data = _data;
+&nbsp;
+      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+                                               self.transactionInfo[_id][_number].confirmCount);
+      LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
+    }
+&nbsp;
+    return (true,_id);
+	}
+&nbsp;
+  /// @dev Changes required sigs to change wallet parameters
+  /// @param self Wallet in contract storage
+  /// @param _requiredAdmin The new signature requirement
+  /// @param _confirm True if confirming, false if revoking confirmation
+  /// @param _data Message data passed from wallet contract
+  /// @return bool Returns true if successful, false otherwise
+  /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
+  function changeRequiredAdmin(WalletMainLib.WalletData storage self,
+                               uint _requiredAdmin,
+                               bool _confirm,
+                               bytes _data)
+                               returns (bool,bytes32)
+  {
+    bytes32 _id = sha3("changeRequiredAdmin",_requiredAdmin);
+    uint _number = self.transactionInfo[_id].length;
+&nbsp;
+    if(msg.sender != address(this)){
+      bool allGood;
+&nbsp;
+      if(!_confirm) {
+        allGood = self.revokeConfirm(_id);
+        return (allGood,_id);
+      } else {
+        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+          <span class="missing-if-branch" title="else path not taken" >E</span>require(self.ownerIndex[msg.sender] &gt; 0);
+          allGood = checkRequiredChange(_requiredAdmin, self.owners.length);
+          if(!allGood)
+            return (false,0);
+&nbsp;
+          self.transactionInfo[_id].length++;
+          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactions[now / 1 days].push(_id);
+        } else {
+          _number--;
+          allGood = self.checkNotConfirmed(_id, _number);
+          <span class="missing-if-branch" title="if path not taken" >I</span>if(!allGood)
+<span class="cstat-no" title="statement not covered" >            return (false,_id);</span>
+        }
+      }
+&nbsp;
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmCount++;
+    } else {
+      _number--;
+    }
+&nbsp;
+    if(self.transactionInfo[_id][_number].confirmCount ==
+      self.transactionInfo[_id][_number].confirmRequired)
+    {
+      self.transactionInfo[_id][_number].success = true;
+      self.requiredAdmin = _requiredAdmin;
+      delete self.transactionInfo[_id][_number].data;
+      LogRequirementChange(_requiredAdmin);
+    } else {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if(self.transactionInfo[_id][_number].data.length == 0)
+        self.transactionInfo[_id][_number].data = _data;
+&nbsp;
+      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+                                               self.transactionInfo[_id][_number].confirmCount);
+      LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
+    }
+&nbsp;
+    return (true,_id);
+	}
+&nbsp;
+  /// @dev Changes required sigs for major transactions
+  /// @param self Wallet in contract storage
+  /// @param _requiredMajor The new signature requirement
+  /// @param _confirm True if confirming, false if revoking confirmation
+  /// @param _data Message data passed from wallet contract
+  /// @return bool Returns true if successful, false otherwise
+  /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
+  function changeRequiredMajor(WalletMainLib.WalletData storage self,
+                               uint _requiredMajor,
+                               bool _confirm,
+                               bytes _data)
+                               returns (bool,bytes32)
+  {
+    bytes32 _id = sha3("changeRequiredMajor",_requiredMajor);
+    uint _number = self.transactionInfo[_id].length;
+&nbsp;
+    if(msg.sender != address(this)){
+      bool allGood;
+&nbsp;
+      if(!_confirm) {
+        allGood = self.revokeConfirm(_id);
+        return (allGood,_id);
+      } else {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+          <span class="missing-if-branch" title="else path not taken" >E</span>require(self.ownerIndex[msg.sender] &gt; 0);
+          allGood = checkRequiredChange(_requiredMajor, self.owners.length);
+          if(!allGood)
+            return (false,0);
+&nbsp;
+          self.transactionInfo[_id].length++;
+          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactions[now / 1 days].push(_id);
+        } else {
+          _number--;
+<span class="cstat-no" title="statement not covered" >          allGood = self.checkNotConfirmed(_id, _number)</span>;
+<span class="cstat-no" title="statement not covered" >          if(!allGood)</span>
+<span class="cstat-no" title="statement not covered" >            return (false,_id);</span>
+        }
+      }
+&nbsp;
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmCount++;
+    } else {
+      _number--;
+    }
+&nbsp;
+    if(self.transactionInfo[_id][_number].confirmCount ==
+       self.transactionInfo[_id][_number].confirmRequired)
+    {
+      self.transactionInfo[_id][_number].success = true;
+      self.requiredMajor = _requiredMajor;
+      delete self.transactionInfo[_id][_number].data;
+      LogRequirementChange(_requiredMajor);
+    } else {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if(self.transactionInfo[_id][_number].data.length == 0)
+        self.transactionInfo[_id][_number].data = _data;
+&nbsp;
+      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+                                               self.transactionInfo[_id][_number].confirmCount);
+      LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
+    }
+&nbsp;
+    return (true,_id);
+	}
+&nbsp;
+  /// @dev Changes required sigs for minor transactions
+  /// @param self Wallet in contract storage
+  /// @param _requiredMinor The new signature requirement
+  /// @param _confirm True if confirming, false if revoking confirmation
+  /// @param _data Message data passed from wallet contract
+  /// @return bool Returns true if successful, false otherwise
+  /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
+  function changeRequiredMinor(WalletMainLib.WalletData storage self,
+                               uint _requiredMinor,
+                               bool _confirm,
+                               bytes _data)
+                               returns (bool,bytes32)
+  {
+    bytes32 _id = sha3("changeRequiredMinor",_requiredMinor);
+    uint _number = self.transactionInfo[_id].length;
+&nbsp;
+    if(msg.sender != address(this)){
+      bool allGood;
+&nbsp;
+      if(!_confirm) {
+        allGood = self.revokeConfirm(_id);
+        return (allGood,_id);
+      } else {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+          <span class="missing-if-branch" title="else path not taken" >E</span>require(self.ownerIndex[msg.sender] &gt; 0);
+          allGood = checkRequiredChange(_requiredMinor, self.owners.length);
+          if(!allGood)
+            return (false,0);
+&nbsp;
+          self.transactionInfo[_id].length++;
+          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactions[now / 1 days].push(_id);
+        } else {
+          _number--;
+<span class="cstat-no" title="statement not covered" >          allGood = self.checkNotConfirmed(_id, _number)</span>;
+<span class="cstat-no" title="statement not covered" >          if(!allGood)</span>
+<span class="cstat-no" title="statement not covered" >            return (false,_id);</span>
+        }
+      }
+&nbsp;
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmCount++;
+    } else {
+      _number--;
+    }
+&nbsp;
+    if(self.transactionInfo[_id][_number].confirmCount ==
+       self.transactionInfo[_id][_number].confirmRequired)
+    {
+      self.transactionInfo[_id][_number].success = true;
+      self.requiredMinor = _requiredMinor;
+      delete self.transactionInfo[_id][_number].data;
+      LogRequirementChange(_requiredMinor);
+    } else {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if(self.transactionInfo[_id][_number].data.length == 0)
+        self.transactionInfo[_id][_number].data = _data;
+&nbsp;
+      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+                                               self.transactionInfo[_id][_number].confirmCount);
+      LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
+    }
+&nbsp;
+    return (true,_id);
+	}
+&nbsp;
+  /// @dev Changes threshold for major transaction day spend per token
+  /// @param self Wallet in contract storage
+  /// @param _token Address of token, ether is 0
+  /// @param _majorThreshold New threshold
+  /// @param _confirm True if confirming, false if revoking confirmation
+  /// @param _data Message data passed from wallet contract
+  /// @return bool Returns true if successful, false otherwise
+  /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
+  function changeMajorThreshold(WalletMainLib.WalletData storage self,
+                                address _token,
+                                uint _majorThreshold,
+                                bool _confirm,
+                                bytes _data)
+                                returns (bool,bytes32)
+  {
+    bytes32 _id = sha3("changeMajorThreshold", _token, _majorThreshold);
+    uint _number = self.transactionInfo[_id].length;
+&nbsp;
+    if(msg.sender != address(this)){
+      bool allGood;
+&nbsp;
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(!_confirm) {
+<span class="cstat-no" title="statement not covered" >        allGood = self.revokeConfirm(_id)</span>;
+<span class="cstat-no" title="statement not covered" >        return (allGood,_id);</span>
+      } else {
+        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+          <span class="missing-if-branch" title="else path not taken" >E</span>require(self.ownerIndex[msg.sender] &gt; 0);
+&nbsp;
+          self.transactionInfo[_id].length++;
+          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactions[now / 1 days].push(_id);
+        } else {
+          _number--;
+          allGood = self.checkNotConfirmed(_id, _number);
+          if(!allGood)
+            return (false,_id);
+        }
+      }
+&nbsp;
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmCount++;
+    } else {
+      _number--;
+    }
+&nbsp;
+    if(self.transactionInfo[_id][_number].confirmCount ==
+       self.transactionInfo[_id][_number].confirmRequired)
+    {
+      self.transactionInfo[_id][_number].success = true;
+      self.majorThreshold[_token] = _majorThreshold;
+      delete self.transactionInfo[_id][_number].data;
+      LogThresholdChange(_token, _majorThreshold);
+    } else {
+      if(self.transactionInfo[_id][_number].data.length == 0)
+        self.transactionInfo[_id][_number].data = _data;
+&nbsp;
+      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+                                               self.transactionInfo[_id][_number].confirmCount);
+      LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
+    }
+&nbsp;
+    return (true,_id);
+	}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 14 2017 08:10:50 GMT-0300 (-03)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

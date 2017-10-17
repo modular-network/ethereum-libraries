@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/Array256Lib.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> Array256Lib.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/47</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.29% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">1.79% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/56</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">pragma solidity ^0.4.15;
+&nbsp;
+/**
+ * @title Array256 Library
+ * @author Majoolr.io
+ *
+ * version 1.0.0
+ * Copyright (c) 2017 Majoolr, LLC
+ * The MIT License (MIT)
+ * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ *
+ * The Array256 Library provides a few utility functions to work with
+ * storage uint256[] types in place. Majoolr works on open source projects in
+ * the Ethereum community with the purpose of testing, documenting, and deploying
+ * reusable code onto the blockchain to improve security and usability of smart
+ * contracts. Majoolr also strives to educate non-profits, schools, and other
+ * community members about the application of blockchain technology.
+ * For further information: majoolr.io
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+&nbsp;
+library Array256Lib {
+&nbsp;
+  /// @dev Sum vector
+  /// @param self Storage array containing uint256 type variables
+  /// @return sum The sum of all elements, does not check for overflow
+<span class="fstat-no" title="function not covered" >  function sumElements(uint256[] storage self) constant returns(uint256 sum) </span>{
+    assembly {
+      mstore(0x60,self_slot)
+&nbsp;
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        sum := add(sload(add(sha3(0x60,0x20),i)),sum)
+      }
+    }
+  }
+&nbsp;
+  /// @dev Returns the max value in an array.
+  /// @param self Storage array containing uint256 type variables
+  /// @return maxValue The highest value in the array
+<span class="fstat-no" title="function not covered" >  function getMax(uint256[] storage self) constant returns(uint256 maxValue) </span>{
+    assembly {
+      mstore(0x60,self_slot)
+      maxValue := sload(sha3(0x60,0x20))
+&nbsp;
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        switch gt(sload(add(sha3(0x60,0x20),i)), maxValue)
+        case 1 {
+          maxValue := sload(add(sha3(0x60,0x20),i))
+        }
+      }
+    }
+  }
+&nbsp;
+  /// @dev Returns the minimum value in an array.
+  /// @param self Storage array containing uint256 type variables
+  /// @return minValue The highest value in the array
+<span class="fstat-no" title="function not covered" >  function getMin(uint256[] storage self) constant returns(uint256 minValue) </span>{
+    assembly {
+      mstore(0x60,self_slot)
+      minValue := sload(sha3(0x60,0x20))
+&nbsp;
+      for { let i := 0 } lt(i, sload(self_slot)) { i := add(i, 1) } {
+        switch gt(sload(add(sha3(0x60,0x20),i)), minValue)
+        case 0 {
+          minValue := sload(add(sha3(0x60,0x20),i))
+        }
+      }
+    }
+  }
+&nbsp;
+  /// @dev Finds the index of a given value in an array
+  /// @param self Storage array containing uint256 type variables
+  /// @param value The value to search for
+  /// @param isSorted True if the array is sorted, false otherwise
+  /// @return found True if the value was found, false otherwise
+  /// @return index The index of the given value, returns 0 if found is false
+  function indexOf(uint256[] storage self, uint256 value, bool isSorted) constant
+           returns(bool found, uint256 index) {
+    assembly{
+      mstore(0x60,self_slot)
+      switch isSorted
+      case 1 {
+        let high := sub(sload(self_slot),1)
+        let mid := 0
+        let low := 0
+        for { } iszero(gt(low, high)) { } {
+          mid := div(add(low,high),2)
+&nbsp;
+          switch lt(sload(add(sha3(0x60,0x20),mid)),value)
+          case 1 {
+             low := add(mid,1)
+          }
+          case 0 {
+            switch gt(sload(add(sha3(0x60,0x20),mid)),value)
+            case 1 {
+              high := sub(mid,1)
+            }
+            case 0 {
+              found := 1
+              index := mid
+              low := add(high,1)
+            }
+          }
+        }
+      }
+      case 0 {
+        for { let low := 0 } lt(low, sload(self_slot)) { low := add(low, 1) } {
+          switch eq(sload(add(sha3(0x60,0x20),low)), value)
+          case 1 {
+            found := 1
+            index := low
+            low := sload(self_slot)
+          }
+        }
+      }
+    }
+  }
+&nbsp;
+  /// @dev Utility function for heapSort
+  /// @param index The index of child node
+  /// @return pI The parent node index
+<span class="fstat-no" title="function not covered" >  function getParentI(uint256 index) constant private returns (uint256 pI) </span>{
+<span class="cstat-no" title="statement not covered" >    uint256 i = index - 1</span>;
+<span class="cstat-no" title="statement not covered" >    pI = i/2</span>;
+  }
+&nbsp;
+  /// @dev Utility function for heapSort
+  /// @param index The index of parent node
+  /// @return lcI The index of left child
+<span class="fstat-no" title="function not covered" >  function getLeftChildI(uint256 index) constant private returns (uint256 lcI) </span>{
+<span class="cstat-no" title="statement not covered" >    uint256 i = index * 2</span>;
+<span class="cstat-no" title="statement not covered" >    lcI = i + 1</span>;
+  }
+&nbsp;
+  /// @dev Sorts given array in place
+  /// @param self Storage array containing uint256 type variables
+<span class="fstat-no" title="function not covered" >  function heapSort(uint256[] storage self) </span>{
+<span class="cstat-no" title="statement not covered" >    uint256 end = self.length - 1</span>;
+<span class="cstat-no" title="statement not covered" >    uint256 start = getParentI(end)</span>;
+<span class="cstat-no" title="statement not covered" >    uint256 root = start</span>;
+    uint256 lChild;
+    uint256 rChild;
+    uint256 swap;
+    uint256 temp;
+<span class="cstat-no" title="statement not covered" >    while(start &gt;= 0){</span>
+<span class="cstat-no" title="statement not covered" >      root = start</span>;
+<span class="cstat-no" title="statement not covered" >      lChild = getLeftChildI(start)</span>;
+<span class="cstat-no" title="statement not covered" >      while(lChild &lt;= end){</span>
+<span class="cstat-no" title="statement not covered" >        rChild = lChild + 1</span>;
+<span class="cstat-no" title="statement not covered" >        swap = root</span>;
+<span class="cstat-no" title="statement not covered" >        if(self[swap] &lt; self[lChild])</span>
+<span class="cstat-no" title="statement not covered" >          swap = lChild</span>;
+<span class="cstat-no" title="statement not covered" >        if((rChild &lt;= end) &amp;&amp; (self[swap]&lt;self[rChild]))</span>
+<span class="cstat-no" title="statement not covered" >          swap = rChild</span>;
+<span class="cstat-no" title="statement not covered" >        if(swap == root)</span>
+<span class="cstat-no" title="statement not covered" >          lChild = end+1</span>;
+        else {
+<span class="cstat-no" title="statement not covered" >          temp = self[swap]</span>;
+<span class="cstat-no" title="statement not covered" >          self[swap] = self[root]</span>;
+<span class="cstat-no" title="statement not covered" >          self[root] = temp</span>;
+<span class="cstat-no" title="statement not covered" >          root = swap</span>;
+<span class="cstat-no" title="statement not covered" >          lChild = getLeftChildI(root)</span>;
+        }
+      }
+<span class="cstat-no" title="statement not covered" >      if(start == 0)</span>
+        break;
+      else
+<span class="cstat-no" title="statement not covered" >        start = start - 1</span>;
+    }
+<span class="cstat-no" title="statement not covered" >    while(end &gt; 0){</span>
+<span class="cstat-no" title="statement not covered" >      temp = self[end]</span>;
+<span class="cstat-no" title="statement not covered" >      self[end] = self[0]</span>;
+<span class="cstat-no" title="statement not covered" >      self[0] = temp</span>;
+<span class="cstat-no" title="statement not covered" >      end = end - 1</span>;
+<span class="cstat-no" title="statement not covered" >      root = 0</span>;
+<span class="cstat-no" title="statement not covered" >      lChild = getLeftChildI(0)</span>;
+<span class="cstat-no" title="statement not covered" >      while(lChild &lt;= end){</span>
+<span class="cstat-no" title="statement not covered" >        rChild = lChild + 1</span>;
+<span class="cstat-no" title="statement not covered" >        swap = root</span>;
+<span class="cstat-no" title="statement not covered" >        if(self[swap] &lt; self[lChild])</span>
+<span class="cstat-no" title="statement not covered" >          swap = lChild</span>;
+<span class="cstat-no" title="statement not covered" >        if((rChild &lt;= end) &amp;&amp; (self[swap]&lt;self[rChild]))</span>
+<span class="cstat-no" title="statement not covered" >          swap = rChild</span>;
+<span class="cstat-no" title="statement not covered" >        if(swap == root)</span>
+<span class="cstat-no" title="statement not covered" >          lChild = end + 1</span>;
+        else {
+<span class="cstat-no" title="statement not covered" >          temp = self[swap]</span>;
+<span class="cstat-no" title="statement not covered" >          self[swap] = self[root]</span>;
+<span class="cstat-no" title="statement not covered" >          self[root] = temp</span>;
+<span class="cstat-no" title="statement not covered" >          root = swap</span>;
+<span class="cstat-no" title="statement not covered" >          lChild = getLeftChildI(root)</span>;
+        }
+      }
+    }
+  }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 14 2017 08:10:50 GMT-0300 (-03)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
