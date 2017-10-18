@@ -228,4 +228,27 @@ library Array32Lib {
       }
     }
   }
+
+  /// @dev Removes duplicates from a given array.
+  /// @param self Storage array containing uint256 type variables
+  function uniq(uint32[] storage self) returns (uint length) {
+    bool contains;
+    uint index;
+
+    for (uint i = 0; i < self.length; i++) {
+      (contains, index) = indexOf(self, self[i], false);
+
+      if (i > index) {
+        for (uint j = i; j < self.length - 1; j++){
+          self[j] = self[j + 1];
+        }
+
+        delete self[self.length - 1];
+        self.length--;
+        i--;
+      }
+    }
+
+    length = self.length;
+  }
 }

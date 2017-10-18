@@ -414,6 +414,119 @@ contract ArrayUtilsTestContract {
     }
   }
 
+  function getUniq8() returns (uint8[5] memory r) {
+    uint arrayNewLength;
+
+    delete array8;
+
+    array8.push(1);
+    array8.push(1);
+    array8.push(2);
+    array8.push(7);
+    array8.push(4);
+    array8.push(4);
+    array8.push(0);
+    array8.push(1);
+
+    arrayNewLength = array8.uniq();
+
+    for (uint8 i = 0; i < arrayNewLength; i++) {
+      r[i] = array8[i];
+    }
+  }
+
+  function getUniq16() returns (uint16[7] memory r) {
+    uint arrayNewLength;
+
+    delete array16;
+
+    array16.push(1);
+    array16.push(1);
+    array16.push(2);
+    array16.push(7);
+    array16.push(4);
+    array16.push(4);
+    array16.push(0);
+    array16.push(0xff3);
+    array16.push(1095);
+    array16.push(1);
+
+    arrayNewLength = array16.uniq();
+
+    for (uint16 i = 0; i < arrayNewLength; i++) {
+      r[i] = array16[i];
+    }
+  }
+
+  function getUniq32() returns (uint32[7] memory r) {
+    uint arrayNewLength;
+
+    delete array32;
+
+    array32.push(1);
+    array32.push(1);
+    array32.push(2);
+    array32.push(7);
+    array32.push(4);
+    array32.push(4);
+    array32.push(0);
+    array32.push(0xff3);
+    array32.push(1095);
+    array32.push(1);
+
+    arrayNewLength = array32.uniq();
+
+    for (uint32 i = 0; i < arrayNewLength; i++) {
+      r[i] = array32[i];
+    }
+  }
+
+  function getUniq64() returns (uint64[7] memory r) {
+    uint arrayNewLength;
+
+    delete array64;
+
+    array64.push(1);
+    array64.push(1);
+    array64.push(2);
+    array64.push(7);
+    array64.push(4);
+    array64.push(4);
+    array64.push(0);
+    array64.push(0xff3);
+    array64.push(1095);
+    array64.push(1);
+
+    arrayNewLength = array64.uniq();
+
+    for (uint64 i = 0; i < arrayNewLength; i++) {
+      r[i] = array64[i];
+    }
+  }
+
+  function getUniq128() returns (uint128[7] memory r) {
+    uint arrayNewLength;
+
+    delete array128;
+
+    array128.push(1);
+    array128.push(1);
+    array128.push(2);
+    array128.push(7);
+    array128.push(4);
+    array128.push(4);
+    array128.push(0);
+    array128.push(0xff3);
+    array128.push(1095);
+    array128.push(1);
+
+    arrayNewLength = array128.uniq();
+
+    for (uint128 i = 0; i < arrayNewLength; i++) {
+      r[i] = array128[i];
+    }
+  }
+
   function getUniq256() returns (uint256[7] memory r) {
     uint arrayNewLength;
 
@@ -425,8 +538,8 @@ contract ArrayUtilsTestContract {
     array256.push(7);
     array256.push(4);
     array256.push(4);
-    array256.push(0xff3);
     array256.push(0);
+    array256.push(0xff3);
     array256.push(1095);
     array256.push(1);
 
