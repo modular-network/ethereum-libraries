@@ -188,13 +188,29 @@ contract TestArrayUtilsLib{
     expectedArray.push(2);
     expectedArray.push(7);
     expectedArray.push(4);
-    expectedArray.push(0xff3);
     expectedArray.push(0);
+
+    resultArray = instance.getUniq8();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 8-bit array");
+
+    expectedArray.push(0xff3);
     expectedArray.push(1095);
 
-    resultArray = instance.getUniq256();
+    resultArray = instance.getUniq16();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 16-bit array");
 
-    Assert.equal(resultArray, expectedArray, "uniq");
+    resultArray = instance.getUniq32();
+
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 32-bit array");
+
+    resultArray = instance.getUniq64();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 64-bit array");
+
+    resultArray = instance.getUniq128();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 128-bit array");
+
+    resultArray = instance.getUniq256();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 256-bit array");
   }
 
 }
