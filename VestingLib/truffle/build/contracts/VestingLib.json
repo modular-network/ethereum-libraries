@@ -1,0 +1,139 @@
+{
+  "contract_name": "VestingLib",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "VestingLib.VestingStorage storage"
+        },
+        {
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "name": "_isToken",
+          "type": "bool"
+        },
+        {
+          "name": "_startTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_endTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_numReleases",
+          "type": "uint256"
+        }
+      ],
+      "name": "init",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "Msg",
+          "type": "string"
+        }
+      ],
+      "name": "LogErrorMsg",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "registrant",
+          "type": "address"
+        }
+      ],
+      "name": "LogUserRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "registrant",
+          "type": "address"
+        }
+      ],
+      "name": "LogUserUnRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "currentRegistrant",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "newRegistrant",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amountWithdrawn",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogRegistrationReplaced",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "beneficiary",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogETHWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "beneficiary",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogTokensWithdrawn",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b6101ab8061001f6000396000f300606060405263ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166367c2049a811461003d575b600080fd5b61006f60043573ffffffffffffffffffffffffffffffffffffffff60243516604435151560643560843560a435610071565b005b855473ffffffffffffffffffffffffffffffffffffffff161561009357600080fd5b6001860154156100a257600080fd5b73ffffffffffffffffffffffffffffffffffffffff851615156100c457600080fd5b4283116100d057600080fd5b8282116100dc57600080fd5b600081116100e957600080fd5b8060648115156100f557fe5b061561010057600080fd5b855473ffffffffffffffffffffffffffffffffffffffff191673ffffffffffffffffffffffffffffffffffffffff861617865560038601805460ff191685151517905560048601839055600586018290558083830381151561015e57fe5b04600787015580606481151561017057fe5b0460088701555b5050505050505600a165627a7a723058205e309d65cdf5847bf556fc4dc6835903b92e4317dcd6ce7dfadbca42322cd6f90029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1508357193871
+}
