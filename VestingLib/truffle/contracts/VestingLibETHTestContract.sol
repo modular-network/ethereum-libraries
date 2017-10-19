@@ -1,14 +1,13 @@
 pragma solidity ^0.4.15;
 
 import "./VestingLib.sol";
-import "./CrowdsaleToken.sol";
 
-contract VestingLibTokenTestContract {
+contract VestingLibETHTestContract {
   using VestingLib for VestingLib.VestingStorage;
 
   VestingLib.VestingStorage public vesting;
 
-  function VestingLibTokenTestContract(
+  function VestingLibETHTestContract(
                 address _owner,
                 bool _isToken,
                 uint256 _startTime,
@@ -22,8 +21,8 @@ contract VestingLibTokenTestContract {
     
   }
 
-  function initializeTokenBalance(CrowdsaleToken token, uint256 _balance, uint256 _bonus) returns (bool) {
-    return vesting.initializeTokenBalance(token, _balance, _bonus);
+  function initializeETHBalance(uint256 _balance, uint256 _bonus) returns (bool) {
+    return vesting.initializeETHBalance(_balance, _bonus);
   }
 
   function registerUser(address _registrant) returns (bool) {
@@ -46,16 +45,16 @@ contract VestingLibTokenTestContract {
     return vesting.swapRegistration(_replacementRegistrant);
   }
 
-  function withdrawTokens(CrowdsaleToken token) returns (bool) {
-    return vesting.withdrawTokens(token);
+  function withdrawETH() returns (bool) {
+    return vesting.withdrawETH();
   }
 
-  function sendTokens(CrowdsaleToken token, address _beneficiary) returns (bool) {
-    return vesting.sendTokens(token,_beneficiary);
+  function sendETH(address _beneficiary) returns (bool) {
+    return vesting.sendETH(_beneficiary);
   }
 
-  function ownerWithdrawExtraTokens(CrowdsaleToken token) returns (bool) {
-    return vesting.ownerWithdrawExtraTokens(token);
+  function ownerWithdrawExtraETH() returns (bool) {
+    return vesting.ownerWithdrawExtraETH();
   }
 
   /*Getters*/

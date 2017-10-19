@@ -1,14 +1,15 @@
 pragma solidity ^0.4.15;
 
-import "./VestingLib.sol";
-import "./CrowdsaleToken.sol";
+import "./TestVestingLib.sol";
 
-contract VestingLibTokenTestContract {
-  using VestingLib for VestingLib.VestingStorage;
+contract TimeVestingLibETHTestContract {
+  using TestVestingLib for TestVestingLib.TestVestingStorage;
 
-  VestingLib.VestingStorage public vesting;
+  TestVestingLib.TestVestingStorage vesting;
 
-  function VestingLibTokenTestContract(
+  event Deposit(uint value);
+
+  function TimeVestingLibETHTestContract(
                 address _owner,
                 bool _isToken,
                 uint256 _startTime,
@@ -22,8 +23,8 @@ contract VestingLibTokenTestContract {
     
   }
 
-  function initializeTokenBalance(CrowdsaleToken token, uint256 _balance, uint256 _bonus) returns (bool) {
-    return vesting.initializeTokenBalance(token, _balance, _bonus);
+  function initializeETHBalance(uint256 _balance, uint256 _bonus) returns (bool) {
+    return vesting.initializeETHBalance(_balance, _bonus);
   }
 
   function registerUser(address _registrant) returns (bool) {
@@ -46,16 +47,16 @@ contract VestingLibTokenTestContract {
     return vesting.swapRegistration(_replacementRegistrant);
   }
 
-  function withdrawTokens(CrowdsaleToken token) returns (bool) {
-    return vesting.withdrawTokens(token);
+  function withdrawETH(uint256 _currtime) returns (bool) {
+    return vesting.withdrawETH(_currtime);
   }
 
-  function sendTokens(CrowdsaleToken token, address _beneficiary) returns (bool) {
-    return vesting.sendTokens(token,_beneficiary);
+  function sendETH(address _beneficiary, uint256 _currtime) returns (bool) {
+    return vesting.sendETH(_beneficiary,_currtime);
   }
 
-  function ownerWithdrawExtraTokens(CrowdsaleToken token) returns (bool) {
-    return vesting.ownerWithdrawExtraTokens(token);
+  function ownerWithdrawExtraETH() returns (bool) {
+    return vesting.ownerWithdrawExtraETH();
   }
 
   /*Getters*/
@@ -107,6 +108,9 @@ contract VestingLibTokenTestContract {
   function getHasWithdrawn(address _participant) constant returns (uint256) {
     return vesting.gethasWithdrawn(_participant);
   }
+
+
+
 
 
 
