@@ -1,7 +1,7 @@
 pragma solidity ^0.4.15;
 
 /**
- * @title VestingLib
+ * @title TestVestingLib
  * @author Majoolr.io
  *
  * version 1.0.0
@@ -32,10 +32,10 @@ import "./BasicMathLib.sol";
 import "./TokenLib.sol";
 import "./CrowdsaleToken.sol";
 
-library VestingLib {
+library TestVestingLib {
   using BasicMathLib for uint256;
 
-  struct VestingStorage {
+  struct TestVestingStorage {
     address owner;
 
     uint256 totalSupply;     // total supply of ETH or tokens
@@ -81,7 +81,7 @@ library VestingLib {
   /// @param _startTime the start time of the vesting (UNIX timestamp)
   /// @param _endTime the end time of the vesting     (UNIX timestamp)
   /// @param _numReleases number of times during vesting that the contract releases coins
-  function init(VestingStorage storage self,
+  function init(TestVestingStorage storage self,
                 address _owner,
                 bool _isToken,
                 uint256 _startTime,
@@ -91,7 +91,7 @@ library VestingLib {
     require(self.owner == 0);
     require(self.totalSupply == 0);
     require(_owner != 0);
-    require(_startTime > now);
+    //require(_startTime > now);
     require(_endTime > _startTime);
     require(_numReleases > 0);
     require(_numReleases <= 100);
@@ -108,9 +108,9 @@ library VestingLib {
   /// @dev function owner has to call before the vesting starts to initialize the ETH balance of the contract.
   /// @param self Stored vesting from vesting contract
   /// @param _balance the balance that is being vested.  msg.value from the contract call. 
-  function initializeETHBalance(VestingStorage storage self, uint256 _balance, uint256 bonus) internal returns (bool) {
+  function initializeETHBalance(TestVestingStorage storage self, uint256 _balance, uint256 bonus) internal returns (bool) {
     require(msg.sender == self.owner);
-    require(now < self.startTime);
+    //require(now < self.startTime);
     require(_balance != 0);
     require(!self.isToken);
     require(self.totalSupply == 0);
@@ -124,9 +124,9 @@ library VestingLib {
   /// @dev function owner has to call before the vesting starts to initialize the token balance of the contract.
   /// @param self Stored vesting from vesting contract
   /// @param _balance the balance that is being vested.  owner has to have sent tokens to the contract before calling this function
-  function initializeTokenBalance(VestingStorage storage self, CrowdsaleToken token, uint256 _balance, uint256 _bonus) internal returns (bool) {
+  function initializeTokenBalance(TestVestingStorage storage self, CrowdsaleToken token, uint256 _balance, uint256 _bonus) internal returns (bool) {
     require(msg.sender == self.owner);
-    require(now < self.startTime);
+    //require(now < self.startTime);
     require(_balance != 0);
     require(self.isToken);
     require(token.balanceOf(this) == _balance);
@@ -142,12 +142,12 @@ library VestingLib {
   /// puts their address in the registered mapping and increments the numRegistered
   /// @param self Stored vesting from vesting contract
   /// @param _registrant address to be registered for the vesting
-  function registerUser(VestingStorage storage self, address _registrant) internal returns (bool) {
+  function registerUser(TestVestingStorage storage self, address _registrant) internal returns (bool) {
     require((msg.sender == self.owner) || (msg.sender == address(this)));
-    if (now >= self.startTime - 1 days) {
-      LogErrorMsg(0,"Can only register users earlier than 1 day before the vesting!");
-      return false;
-    }
+    // if (now >= self.startTime - 1 days) {
+    //   LogErrorMsg(0,"Can only register users earlier than 1 day before the vesting!");
+    //   return false;
+    // }
     if(self.isRegistered[_registrant]) {
       LogErrorMsg(0,"Registrant address is already registered for the vesting!");
       return false;
@@ -169,7 +169,7 @@ library VestingLib {
   /// @dev registers multiple users at the same time
   /// @param self Stored vesting from vesting contract
   /// @param _registrants addresses to register for the vesting
-  function registerUsers(VestingStorage storage self, address[] _registrants) internal returns (bool) {
+  function registerUsers(TestVestingStorage storage self, address[] _registrants) internal returns (bool) {
     require(msg.sender == self.owner);
     bool ok;
 
@@ -182,12 +182,12 @@ library VestingLib {
   /// @dev Cancels a user's registration status can only be called by the owner when a user cancels their registration.
   /// sets their address field in the registered mapping to false and decrements the numRegistered
   /// @param self Stored vesting from vesting contract
-  function unregisterUser(VestingStorage storage self, address _registrant) internal returns (bool) {
+  function unregisterUser(TestVestingStorage storage self, address _registrant) internal returns (bool) {
     require((msg.sender == self.owner) || (msg.sender == address(this)));
-    if (now >= self.startTime - 1 days) {
-      LogErrorMsg(0, "Can only register and unregister users earlier than 1 days before the vesting!");
-      return false;
-    }
+    // if (now >= self.startTime - 1 days) {
+    //   LogErrorMsg(0, "Can only register and unregister users earlier than 1 days before the vesting!");
+    //   return false;
+    // }
     if(!self.isRegistered[_registrant]) {
       LogErrorMsg(0, "Registrant address not registered for the vesting!");
       return false;
@@ -209,7 +209,7 @@ library VestingLib {
   /// @dev unregisters multiple users at the same time
   /// @param self Stored vesting from vesting contract
   /// @param _registrants addresses to unregister for the vesting
-  function unregisterUsers(VestingStorage storage self, address[] _registrants) internal returns (bool) {
+  function unregisterUsers(TestVestingStorage storage self, address[] _registrants) internal returns (bool) {
     require(msg.sender == self.owner);
     bool ok;
 
@@ -222,7 +222,7 @@ library VestingLib {
   /// @dev allows a participant to replace themselves in the vesting schedule with a new address
   /// @param self Stored vesting from vesting contract
   /// @param _replacementRegistrant new address to replace the caller with
-  function swapRegistration(VestingStorage storage self, address _replacementRegistrant) internal returns (bool) {
+  function swapRegistration(TestVestingStorage storage self, address _replacementRegistrant) internal returns (bool) {
     require(self.isRegistered[msg.sender]);
     require(!self.isRegistered[_replacementRegistrant]);
     require(_replacementRegistrant != 0);
@@ -242,11 +242,11 @@ library VestingLib {
   /// @dev calculates the number of tokens or ETH available for the sender to withdraw
   /// @param self Stored vesting from vesting contract
   /// @param _beneficiary the sender, who will be withdrawing their balance
-  function calculateWithdrawal(VestingStorage storage self, address _beneficiary) internal returns (uint256) {
+  function calculateWithdrawal(TestVestingStorage storage self, address _beneficiary, uint256 _currtime) internal returns (uint256) {
     require(_beneficiary != 0);
 
     // figure out how many intervals have passed since the start
-    uint256 numIntervals = (now-self.startTime)/self.timeInterval;
+    uint256 numIntervals = (_currtime-self.startTime)/self.timeInterval;
 
     // multiply that by the percentage released every interval
     // calculate the amount of ETH released in total by this time
@@ -261,13 +261,13 @@ library VestingLib {
 
   /// @dev allows participants to withdraw their vested ETH
   /// @param self Stored vesting from vesting contract
-  function withdrawETH(VestingStorage storage self) internal returns (bool) {
-    require(now > self.startTime);
+  function withdrawETH(TestVestingStorage storage self, uint256 _currtime) internal returns (bool) {
+    require(_currtime > self.startTime);
     require(self.isRegistered[msg.sender]);
     require(!self.isToken);
 
     // calculate the amount of ETH that is available to withdraw right now
-    uint256 amount = calculateWithdrawal(self, msg.sender);
+    uint256 amount = calculateWithdrawal(self, msg.sender, _currtime);
     require(amount > 0);
 
     // update the amount that the sender has withdrawn
@@ -281,7 +281,7 @@ library VestingLib {
 
     self.contractBalance = newBalance;
 
-    if ((now > self.endTime) && (self.hasWithdrawn[msg.sender] == 0)) {
+    if ((_currtime > self.endTime) && (self.hasWithdrawn[msg.sender] == 0)) {
       // add the bonus to the amount
       amount += self.bonus/self.numRegistered;
     }
@@ -296,13 +296,13 @@ library VestingLib {
   /// @dev allows participants to withdraw their vested tokens
   /// @param self Stored vesting from vesting contract
   /// @param token the token contract that is being withdrawn
-  function withdrawTokens(VestingStorage storage self,CrowdsaleToken token) internal returns (bool) {
-    require(now > self.startTime);
+  function withdrawTokens(TestVestingStorage storage self,CrowdsaleToken token, uint256 _currtime) internal returns (bool) {
+    require(_currtime > self.startTime);
     require(self.isRegistered[msg.sender]);
     require(self.isToken);
 
     // calculate the amount of ETH that is available to withdraw right now
-    uint256 amount = calculateWithdrawal(self, msg.sender);
+    uint256 amount = calculateWithdrawal(self, msg.sender, _currtime);
     require(amount > 0);
 
     // update the amount that the sender has withdrawn
@@ -316,11 +316,11 @@ library VestingLib {
 
     self.contractBalance = newBalance;
 
-    if ((now > self.endTime) && (self.hasWithdrawn[msg.sender] == 0)) {
+    if ((_currtime > self.endTime) && (self.hasWithdrawn[msg.sender] == 0)) {
       // add the bonus to the amount
       amount += self.bonus/self.numRegistered;
     }
-
+    
     // transfer tokens to the sender
     bool ok = token.transfer(msg.sender,amount);
     require(ok);
@@ -331,9 +331,9 @@ library VestingLib {
 
   /// @dev Allows the owner to withdraw any ETH that participants may have forgotten to withdraw
   /// @param self Stored vesting from vesting contract
-  function ownerWithdrawExtraETH(VestingStorage storage self) internal returns (bool) {
+  function ownerWithdrawExtraETH(TestVestingStorage storage self) internal returns (bool) {
     require(msg.sender == self.owner);
-    require(now > self.endTime + 30 days);
+    //require(now > self.endTime + 30 days);
 
     self.contractBalance = 0;
 
@@ -343,9 +343,9 @@ library VestingLib {
 
   /// @dev Allows the owner to withdraw any tokens that participants may have forgotten to withdraw
   /// @param self Stored vesting from vesting contract
-  function ownerWithdrawExtraTokens(VestingStorage storage self, CrowdsaleToken token) internal returns (bool) {
+  function ownerWithdrawExtraTokens(TestVestingStorage storage self, CrowdsaleToken token) internal returns (bool) {
     require(msg.sender == self.owner);
-    require(now > self.endTime + 30 days);
+    //require(now > self.endTime + 30 days);
 
     self.contractBalance = 0;
 
@@ -353,11 +353,11 @@ library VestingLib {
     token.transfer(self.owner,this.balance);
   }
 
-  function getisRegistered(VestingStorage storage self, address participant) internal constant returns (bool) {
+  function getisRegistered(TestVestingStorage storage self, address participant) internal constant returns (bool) {
     return self.isRegistered[participant];
   }
 
-  function gethasWithdrawn(VestingStorage storage self, address participant) internal constant returns (uint256) {
+  function gethasWithdrawn(TestVestingStorage storage self, address participant) internal constant returns (uint256) {
     return self.hasWithdrawn[participant];
   }
 
