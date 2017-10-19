@@ -1,31 +1,32 @@
 var BasicMathLib = artifacts.require("./BasicMathLib.sol");
 var Array256Lib = artifacts.require("./Array256Lib.sol");
-var WalletMainLib = artifacts.require("./WalletMainLib.sol");
-var WalletAdminLib = artifacts.require("./WalletAdminLib.sol");
-var WalletGetterLib = artifacts.require("./WalletGetterLib.sol");
-var WalletLibTestContract = artifacts.require("./WalletLibTestContract.sol");
-var ERC20Lib = artifacts.require("./ERC20Lib.sol");
-var TestToken = artifacts.require("./TestToken.sol");
+var TokenLib = artifacts.require("./TokenLib.sol");
+var VestingLib = artifacts.require("./VestingLib.sol");
 
-module.exports = function(deployer, network) {
+// testrpc contracts
+var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
+var TestVestingLib = artifacts.require("./TestVestingLib.sol");
+var TimeVestingLibTokenTestContract = artifacts.require("./TimeVestingLibTokenTestContract");
+
+module.exports = function(deployer, network, accounts) {
   deployer.deploy(BasicMathLib,{overwrite: false});
   deployer.deploy(Array256Lib, {overwrite: false});
-  deployer.link(BasicMathLib, WalletMainLib);
-  deployer.link(Array256Lib, WalletMainLib);
-  deployer.deploy(WalletMainLib,{overwrite: false});
-  deployer.link(WalletMainLib,WalletAdminLib);
-  deployer.link(WalletMainLib,WalletGetterLib);
-  deployer.deploy(WalletAdminLib,{overwrite: false});
-  deployer.deploy(WalletGetterLib,{overwrite: false});
-  deployer.link(BasicMathLib, ERC20Lib);
-  deployer.deploy(ERC20Lib, {overwrite: false});
+  deployer.link(BasicMathLib, TokenLib);
+  deployer.deploy(TokenLib, {overwrite: false});
+  deployer.link(BasicMathLib,VestingLib);
+  deployer.link(TokenLib, VestingLib);
+  deployer.deploy(VestingLib, {overwrite: false});
 
   if(network == "development"){
-    deployer.link(WalletMainLib, WalletLibTestContract);
-    deployer.link(WalletAdminLib, WalletLibTestContract);
-    deployer.link(WalletGetterLib, WalletLibTestContract);
-    deployer.deploy(WalletLibTestContract);
-    deployer.link(ERC20Lib, TestToken);
-    deployer.deploy(TestToken);
+    deployer.link(BasicMathLib,TestVestingLib);
+    deployer.link(TokenLib,TestVestingLib);
+    deployer.deploy(TestVestingLib, {overwrite:false});
+
+    deployer.link(TokenLib,CrowdsaleToken);
+    deployer.link(BasicMathLib,TimeVestingLibTokenTestContract);
+    deployer.link(TestVestingLib,TimeVestingLibTokenTestContract);
+    deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]});
+
+    deployer.deploy(TimeVestingLibTokenTestContract,accounts[5],true,105,150,5);
   }
 };
