@@ -52,6 +52,10 @@ contract TimeVestingLibTokenTestContract {
     return vesting.withdrawTokens(token, _currtime);
   }
 
+  function sendTokens(CrowdsaleToken token, address _beneficiary, uint256 _currtime) returns (bool) {
+    return vesting.sendTokens(token,_beneficiary,_currtime);
+  }
+
   function ownerWithdrawExtraTokens(CrowdsaleToken token) returns (bool) {
     return vesting.ownerWithdrawExtraTokens(token);
   }

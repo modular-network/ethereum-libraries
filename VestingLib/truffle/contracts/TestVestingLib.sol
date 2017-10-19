@@ -108,15 +108,16 @@ library TestVestingLib {
   /// @dev function owner has to call before the vesting starts to initialize the ETH balance of the contract.
   /// @param self Stored vesting from vesting contract
   /// @param _balance the balance that is being vested.  msg.value from the contract call. 
-  function initializeETHBalance(TestVestingStorage storage self, uint256 _balance, uint256 bonus) internal returns (bool) {
+  function initializeETHBalance(TestVestingStorage storage self, uint256 _balance, uint256 _bonus) internal returns (bool) {
     require(msg.sender == self.owner);
     //require(now < self.startTime);
     require(_balance != 0);
     require(!self.isToken);
     require(self.totalSupply == 0);
 
-    self.totalSupply = _balance - bonus;
-    self.contractBalance = _balance - bonus;
+    self.totalSupply = _balance - _bonus;
+    self.contractBalance = _balance - _bonus;
+    self.bonus = _bonus;
 
     return true;
   }
@@ -134,6 +135,7 @@ library TestVestingLib {
 
     self.totalSupply = _balance - _bonus;
     self.contractBalance = _balance - _bonus;
+    self.bonus = _bonus;
 
     return true;
   }
@@ -239,7 +241,7 @@ library TestVestingLib {
 
   }
 
-  /// @dev calculates the number of tokens or ETH available for the sender to withdraw
+  /// @dev calculates the number of tokens or ETH available for the beneficiary to withdraw
   /// @param self Stored vesting from vesting contract
   /// @param _beneficiary the sender, who will be withdrawing their balance
   function calculateWithdrawal(TestVestingStorage storage self, address _beneficiary, uint256 _currtime) internal returns (uint256) {
@@ -255,6 +257,24 @@ library TestVestingLib {
     // divide that by the number of registered addresses to find the total amount available to withdraw per user from the beginning of the vesting
     // subtract what has already been withdrawn from that amount to get the amount available to withdraw right now
     uint256 userWithdrawalAmount = (totalETHReleased/self.numRegistered) - self.hasWithdrawn[_beneficiary];
+    require(userWithdrawalAmount > 0);
+
+    // subtract the withdrawl from the contract's balance
+    uint256 newBalance;
+    bool err;
+    (err,newBalance) = self.contractBalance.minus(userWithdrawalAmount);
+    require(!err);
+
+    self.contractBalance = newBalance;
+
+    // if the beneficiary waiting until after vesting is over, they get whatever bonus the owner set
+    if ((_currtime > self.endTime) && (self.hasWithdrawn[_beneficiary] == 0)) {
+      // add the bonus to the amount
+      userWithdrawalAmount += self.bonus/self.numRegistered;
+    }
+
+    // update the amount that the sender has withdrawn
+    self.hasWithdrawn[_beneficiary] += userWithdrawalAmount;
 
     return userWithdrawalAmount;
   }
@@ -268,23 +288,6 @@ library TestVestingLib {
 
     // calculate the amount of ETH that is available to withdraw right now
     uint256 amount = calculateWithdrawal(self, msg.sender, _currtime);
-    require(amount > 0);
-
-    // update the amount that the sender has withdrawn
-    self.hasWithdrawn[msg.sender] += amount;
-
-    // subtract the withdrawl from the contract's balance
-    uint256 newBalance;
-    bool err;
-    (err,newBalance) = self.contractBalance.minus(amount);
-    require(!err);
-
-    self.contractBalance = newBalance;
-
-    if ((_currtime > self.endTime) && (self.hasWithdrawn[msg.sender] == 0)) {
-      // add the bonus to the amount
-      amount += self.bonus/self.numRegistered;
-    }
 
     // transfer ETH to the sender
     msg.sender.transfer(amount);
@@ -303,29 +306,52 @@ library TestVestingLib {
 
     // calculate the amount of ETH that is available to withdraw right now
     uint256 amount = calculateWithdrawal(self, msg.sender, _currtime);
-    require(amount > 0);
-
-    // update the amount that the sender has withdrawn
-    self.hasWithdrawn[msg.sender] += amount;
-
-    // subtract the withdrawl from the contract's balance
-    uint256 newBalance;
-    bool err;
-    (err,newBalance) = self.contractBalance.minus(amount);
-    require(!err);
-
-    self.contractBalance = newBalance;
-
-    if ((_currtime > self.endTime) && (self.hasWithdrawn[msg.sender] == 0)) {
-      // add the bonus to the amount
-      amount += self.bonus/self.numRegistered;
-    }
     
     // transfer tokens to the sender
     bool ok = token.transfer(msg.sender,amount);
     require(ok);
 
     LogTokensWithdrawn(msg.sender,amount);
+    return true;
+  }
+
+  /// @dev allows the owner to send vested ETH to participants
+  /// @param self Stored vesting from vesting contract
+  /// @param _beneficiary registered address to send the ETH to
+  function sendETH(TestVestingStorage storage self, address _beneficiary, uint256 _currtime) internal returns (bool) {
+    require(_currtime > self.startTime);
+    require(msg.sender == self.owner);
+    require(self.isRegistered[_beneficiary]);
+    require(!self.isToken);
+
+    // calculate the amount of ETH that is available to withdraw right now
+    uint256 amount = calculateWithdrawal(self, _beneficiary, _currtime);
+
+    // transfer ETH to the sender
+    msg.sender.transfer(amount);
+
+    LogETHWithdrawn(_beneficiary,amount);
+    return true;
+  }
+
+  /// @dev allows the owner to send vested tokens to participants
+  /// @param self Stored vesting from vesting contract
+  /// @param token the token contract that is being withdrawn
+  /// @param _beneficiary registered address to send the tokens to
+  function sendTokens(TestVestingStorage storage self,CrowdsaleToken token, address _beneficiary, uint256 _currtime) internal returns (bool) {
+    require(_currtime > self.startTime);
+    require(msg.sender == self.owner);
+    require(self.isRegistered[_beneficiary]);
+    require(self.isToken);
+
+    // calculate the amount of ETH that is available to withdraw right now
+    uint256 amount = calculateWithdrawal(self, _beneficiary, _currtime);
+
+    // transfer tokens to the sender
+    bool ok = token.transfer(_beneficiary,amount);
+    require(ok);
+
+    LogTokensWithdrawn(_beneficiary,amount);
     return true;
   }
 
