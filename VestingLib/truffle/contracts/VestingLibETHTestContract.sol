@@ -21,7 +21,7 @@ contract VestingLibETHTestContract {
     
   }
 
-  function initializeETHBalance(uint256 _balance, uint256 _bonus) returns (bool) {
+  function initializeETHBalance(uint256 _balance, uint256 _bonus) payable returns (bool) {
     return vesting.initializeETHBalance(_balance, _bonus);
   }
 

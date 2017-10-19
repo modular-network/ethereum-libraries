@@ -7,6 +7,7 @@ var VestingLib = artifacts.require("./VestingLib.sol");
 var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
 var TestVestingLib = artifacts.require("./TestVestingLib.sol");
 var TimeVestingLibTokenTestContract = artifacts.require("./TimeVestingLibTokenTestContract");
+var TimeVestingLibETHTestContract = artifacts.require("./TimeVestingLibETHTestContract.sol");
 
 module.exports = function(deployer, network, accounts) {
   deployer.deploy(BasicMathLib,{overwrite: false});
@@ -25,8 +26,14 @@ module.exports = function(deployer, network, accounts) {
     deployer.link(TokenLib,CrowdsaleToken);
     deployer.link(BasicMathLib,TimeVestingLibTokenTestContract);
     deployer.link(TestVestingLib,TimeVestingLibTokenTestContract);
+
+    deployer.link(BasicMathLib,TimeVestingLibETHTestContract);
+    deployer.link(TestVestingLib,TimeVestingLibETHTestContract);
+
     deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]});
 
     deployer.deploy(TimeVestingLibTokenTestContract,accounts[5],true,105,150,5);
+
+    deployer.deploy(TimeVestingLibETHTestContract,accounts[5],false,105,150,5);
   }
 };
