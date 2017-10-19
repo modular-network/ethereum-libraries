@@ -19,5 +19,6 @@ script:
   - 'truffle test'
 
 after_script:
+  - 'npm install -g coveralls' 
   - 'npm run test:coverage'
   - 'cat coverage/lcov.info | coveralls'
