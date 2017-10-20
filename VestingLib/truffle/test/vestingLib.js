@@ -14,7 +14,7 @@ contract('CrowdsaleToken', (accounts) => {
     assert.equal(name.valueOf(), 'Tester Token', "Name should be set to Tester Token.");
     assert.equal(symbol.valueOf(), 'TST', "Symbol should be set to TST.");
     assert.equal(decimals.valueOf(), 18, "Decimals should be set to 18.");
-    assert.equal(totalSupply.valueOf(), 20000000000000000000000000, "Total supply should reflect 20000000000000000000.");
+    assert.equal(totalSupply.valueOf(), 2000000000000, "Total supply should reflect 20000000000000000000.");
   });
 });
 
@@ -118,6 +118,10 @@ contract('TimeVestingLibTokenTestContract', (accounts) => {
     hasWithdrawn = await c.getHasWithdrawn.call(accounts[3]);
     tokenBalance = await t.balanceOf(accounts[3]);
     assert.equal(tokenBalance.valueOf(),333333, "accounts[3] token balance should be 333333!");
+  
+    await c.ownerWithdrawExtraTokens(t.address, {from:accounts[5]});
+    tokenBalance = await t.balanceOf(accounts[5]);
+    assert.equal(tokenBalance.valueOf(), 1999999116667, "owner should have withdrawn all the extra tokens!");
   });
 });
 
@@ -212,5 +216,9 @@ contract('TimeVestingLibETHTestContract', (accounts) => {
     ret = await c.withdrawETH(156, {from:accounts[3]});
     hasWithdrawn = await c.getHasWithdrawn.call(accounts[3]);
     assert.equal(ret.logs[0].args.amount, 333333, "accounts[3] should have withdrawn 333333 wei!");
+  
+    ret = await c.ownerWithdrawExtraETH({from:accounts[5]});
+    assert.equal(ret.logs[0].args.amount, 450000, "owner should have withdrawn all the extra ETH!");
+  
   });
 });

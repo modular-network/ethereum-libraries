@@ -360,6 +360,7 @@ library VestingLib {
   function ownerWithdrawExtraETH(VestingStorage storage self) internal returns (bool) {
     require(msg.sender == self.owner);
     require(now > self.endTime + 30 days);
+    require(self.contractBalance > 0);
 
     self.contractBalance = 0;
 
@@ -372,11 +373,12 @@ library VestingLib {
   function ownerWithdrawExtraTokens(VestingStorage storage self, CrowdsaleToken token) internal returns (bool) {
     require(msg.sender == self.owner);
     require(now > self.endTime + 30 days);
+    require(self.contractBalance > 0);
 
     self.contractBalance = 0;
 
-    LogETHWithdrawn(self.owner,token.balanceOf(this));
-    token.transfer(self.owner,this.balance);
+    LogTokensWithdrawn(self.owner,token.balanceOf(this));
+    token.transfer(self.owner,token.balanceOf(this));
   }
 
   function getisRegistered(VestingStorage storage self, address participant) internal constant returns (bool) {

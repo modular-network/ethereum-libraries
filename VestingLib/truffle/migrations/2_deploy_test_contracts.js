@@ -30,7 +30,7 @@ module.exports = function(deployer, network, accounts) {
     deployer.link(BasicMathLib,TimeVestingLibETHTestContract);
     deployer.link(TestVestingLib,TimeVestingLibETHTestContract);
 
-    deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]});
+    deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 2000000000000, false, {from:accounts[5]});
 
     deployer.deploy(TimeVestingLibTokenTestContract,accounts[5],true,105,150,5);
 
