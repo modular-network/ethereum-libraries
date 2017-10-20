@@ -360,11 +360,14 @@ library TestVestingLib {
   function ownerWithdrawExtraETH(TestVestingStorage storage self) internal returns (bool) {
     require(msg.sender == self.owner);
     //require(now > self.endTime + 30 days);
+    require(self.contractBalance > 0);
 
     self.contractBalance = 0;
 
     LogETHWithdrawn(self.owner,this.balance);
     self.owner.transfer(this.balance);
+
+    return true;
   }
 
   /// @dev Allows the owner to withdraw any tokens that participants may have forgotten to withdraw
@@ -372,11 +375,15 @@ library TestVestingLib {
   function ownerWithdrawExtraTokens(TestVestingStorage storage self, CrowdsaleToken token) internal returns (bool) {
     require(msg.sender == self.owner);
     //require(now > self.endTime + 30 days);
+    require(self.contractBalance > 0);
 
     self.contractBalance = 0;
 
-    LogETHWithdrawn(self.owner,token.balanceOf(this));
-    token.transfer(self.owner,this.balance);
+    LogTokensWithdrawn(self.owner,token.balanceOf(this));
+    bool ok = token.transfer(self.owner,token.balanceOf(this));
+    require(ok);
+
+    return true;
   }
 
   function getisRegistered(TestVestingStorage storage self, address participant) internal constant returns (bool) {
