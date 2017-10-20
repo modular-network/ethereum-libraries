@@ -7,6 +7,21 @@ contract VestingLibETHTestContract {
 
   VestingLib.VestingStorage public vesting;
 
+  // Generic Error message, error code and string
+  event LogErrorMsg(uint256 amount, string Msg);
+
+  // Logs when a user is registered in the system for vesting
+  event LogUserRegistered(address registrant);
+
+  // Logs when a user is unregistered from the system
+  event LogUserUnRegistered(address registrant);
+
+  // Logs when a user replaces themselves with a different beneficiary
+  event LogRegistrationReplaced(address currentRegistrant, address newRegistrant, uint256 amountWithdrawn);
+
+  // Logs when a user withdraws their ETH from vesting
+  event LogETHWithdrawn(address beneficiary, uint256 amount);
+
   function VestingLibETHTestContract(
                 address _owner,
                 bool _isToken,

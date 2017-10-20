@@ -18,6 +18,24 @@ contract VestingLibTokenTestContract {
     vesting.init(_owner, _isToken, _startTime, _endTime, _numReleases);
   }
 
+  // Generic Error message, error code and string
+  event LogErrorMsg(uint256 amount, string Msg);
+
+  // Logs when a user is registered in the system for vesting
+  event LogUserRegistered(address registrant);
+
+  // Logs when a user is unregistered from the system
+  event LogUserUnRegistered(address registrant);
+
+  // Logs when a user replaces themselves with a different beneficiary
+  event LogRegistrationReplaced(address currentRegistrant, address newRegistrant, uint256 amountWithdrawn);
+
+  // Logs when a user withdraws their ETH from vesting
+  event LogETHWithdrawn(address beneficiary, uint256 amount);
+
+  // Logs when a user withdraws their tokens from the contract
+  event LogTokensWithdrawn(address beneficiary, uint256 amount);
+
   function() payable {
     
   }
@@ -107,9 +125,5 @@ contract VestingLibTokenTestContract {
   function getHasWithdrawn(address _participant) constant returns (uint256) {
     return vesting.gethasWithdrawn(_participant);
   }
-
-
-
-
 
 }

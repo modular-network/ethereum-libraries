@@ -95,7 +95,6 @@ library TestVestingLib {
     require(_endTime > _startTime);
     require(_numReleases > 0);
     require(_numReleases <= 100);
-    require(100%_numReleases == 0);      // needs to divide to an whole number percentage
 
     self.owner = _owner;
     self.isToken = _isToken;
