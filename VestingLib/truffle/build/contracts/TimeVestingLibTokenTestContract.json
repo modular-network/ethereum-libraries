@@ -476,11 +476,91 @@
           ],
           "name": "Deposit",
           "type": "event"
+        },
+        "0x8756f3e78da606244d7d8c9563ce2678f294db7c57afce515849e03d5eec6c3a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "Msg",
+              "type": "string"
+            }
+          ],
+          "name": "LogErrorMsg",
+          "type": "event"
+        },
+        "0xa28576aa71409e890d90a3b4642d4d95b7f26dc5b969e9b915067e531b73938d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "registrant",
+              "type": "address"
+            }
+          ],
+          "name": "LogUserRegistered",
+          "type": "event"
+        },
+        "0xf4feccbb86b1e3ed44c295752216a4576783a17ab625721f4671540a49b955e9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "registrant",
+              "type": "address"
+            }
+          ],
+          "name": "LogUserUnRegistered",
+          "type": "event"
+        },
+        "0x4e9343fae477c3dfe91b2fe149f304ddbaf344fec651ec21f125052d17d21242": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "currentRegistrant",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "newRegistrant",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amountWithdrawn",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogRegistrationReplaced",
+          "type": "event"
+        },
+        "0xac0f38657cc8741669b8ba861fe5e6e18a4256a26ce4963b7b74a0f8739fdc6f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "beneficiary",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokensWithdrawn",
+          "type": "event"
         }
       },
-      "updated_at": 1508511217808
+      "updated_at": 1508517828863
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1508511491199
+  "updated_at": 1508517828863
 }

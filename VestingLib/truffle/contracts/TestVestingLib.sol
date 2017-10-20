@@ -101,6 +101,7 @@ library TestVestingLib {
     self.startTime = _startTime;
     self.endTime = _endTime;
     self.timeInterval = (_endTime - _startTime)/_numReleases;
+    require(self.timeInterval > 0);
     self.percentReleased = 100/_numReleases;
   }
 
@@ -111,6 +112,7 @@ library TestVestingLib {
     require(msg.sender == self.owner);
     //require(now < self.startTime);
     require(_balance != 0);
+    require(_balance > _bonus);
     require(!self.isToken);
     require(self.totalSupply == 0);
 
@@ -128,6 +130,7 @@ library TestVestingLib {
     require(msg.sender == self.owner);
     //require(now < self.startTime);
     require(_balance != 0);
+    require(_balance > _bonus);
     require(self.isToken);
     require(token.balanceOf(this) == _balance);
     require(self.totalSupply == 0);
@@ -245,6 +248,7 @@ library TestVestingLib {
   /// @param _beneficiary the sender, who will be withdrawing their balance
   function calculateWithdrawal(TestVestingStorage storage self, address _beneficiary, uint256 _currtime) internal returns (uint256) {
     require(_beneficiary != 0);
+    require(self.isRegistered[_beneficiary]);
 
     // figure out how many intervals have passed since the start
     uint256 numIntervals = (_currtime-self.startTime)/self.timeInterval;
@@ -257,6 +261,7 @@ library TestVestingLib {
     // subtract what has already been withdrawn from that amount to get the amount available to withdraw right now
     uint256 userWithdrawalAmount = (totalETHReleased/self.numRegistered) - self.hasWithdrawn[_beneficiary];
     require(userWithdrawalAmount > 0);
+    require(userWithdrawalAmount <= self.totalSupply);
 
     // subtract the withdrawl from the contract's balance
     uint256 newBalance;
@@ -282,7 +287,6 @@ library TestVestingLib {
   /// @param self Stored vesting from vesting contract
   function withdrawETH(TestVestingStorage storage self, uint256 _currtime) internal returns (bool) {
     require(_currtime > self.startTime);
-    require(self.isRegistered[msg.sender]);
     require(!self.isToken);
 
     // calculate the amount of ETH that is available to withdraw right now
@@ -300,7 +304,6 @@ library TestVestingLib {
   /// @param token the token contract that is being withdrawn
   function withdrawTokens(TestVestingStorage storage self,CrowdsaleToken token, uint256 _currtime) internal returns (bool) {
     require(_currtime > self.startTime);
-    require(self.isRegistered[msg.sender]);
     require(self.isToken);
 
     // calculate the amount of ETH that is available to withdraw right now
@@ -320,7 +323,6 @@ library TestVestingLib {
   function sendETH(TestVestingStorage storage self, address _beneficiary, uint256 _currtime) internal returns (bool) {
     require(_currtime > self.startTime);
     require(msg.sender == self.owner);
-    require(self.isRegistered[_beneficiary]);
     require(!self.isToken);
 
     // calculate the amount of ETH that is available to withdraw right now
@@ -340,7 +342,6 @@ library TestVestingLib {
   function sendTokens(TestVestingStorage storage self,CrowdsaleToken token, address _beneficiary, uint256 _currtime) internal returns (bool) {
     require(_currtime > self.startTime);
     require(msg.sender == self.owner);
-    require(self.isRegistered[_beneficiary]);
     require(self.isToken);
 
     // calculate the amount of ETH that is available to withdraw right now
