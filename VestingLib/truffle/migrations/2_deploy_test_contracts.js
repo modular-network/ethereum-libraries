@@ -43,8 +43,8 @@ module.exports = function(deployer, network, accounts) {
     deployer.link(BasicMathLib,VestingLibTokenTestContract);
     deployer.link(VestingLib,VestingLibTokenTestContract);
 
-    deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 1.2389E25, false, {from:"0x3f33c3d3ae37fdd0e1227a424add8b67f49232c0"});
+    deployer.deploy(CrowdsaleToken, "0x3f33c3d3ae37fdd0e1227a424add8b67f49232c0", "Tester Token", "TST", 18, 1.2389E25, false);
 
-    deployer.deploy(VestingLibTokenTestContract,"0x3f33c3d3ae37fdd0e1227a424add8b67f49232c0",true,1508518800,1508554800,12);
+    deployer.deploy(VestingLibTokenTestContract,"0x3f33c3d3ae37fdd0e1227a424add8b67f49232c0",true,1503259200,1508554800,12);
   }
 };
