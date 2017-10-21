@@ -1,0 +1,9 @@
+{
+  "name": "WalletLib",
+  "version": "1.0.1",
+  "description": "Wallet Library to create multisig wallets",
+  "devDependencies": {
+    "truffle": "3.4.11",
+    "ethereumjs-testrpc": "4.0.0"
+  }
+}
