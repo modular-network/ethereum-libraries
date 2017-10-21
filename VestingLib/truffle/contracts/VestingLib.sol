@@ -373,7 +373,7 @@ library VestingLib {
   /// @param self Stored vesting from vesting contract
   function ownerWithdrawExtraTokens(VestingStorage storage self, CrowdsaleToken token) returns (bool) {
     require(msg.sender == self.owner);
-    require(now > self.endTime + 30 hours);
+    require(now > self.endTime);
     require(self.contractBalance > 0);
 
     self.contractBalance = 0;
