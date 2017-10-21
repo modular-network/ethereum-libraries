@@ -108,7 +108,7 @@ library TestVestingLib {
   /// @dev function owner has to call before the vesting starts to initialize the ETH balance of the contract.
   /// @param self Stored vesting from vesting contract
   /// @param _balance the balance that is being vested.  msg.value from the contract call. 
-  function initializeETHBalance(TestVestingStorage storage self, uint256 _balance, uint256 _bonus) internal returns (bool) {
+  function initializeETHBalance(TestVestingStorage storage self, uint256 _balance, uint256 _bonus) returns (bool) {
     require(msg.sender == self.owner);
     //require(now < self.startTime);
     require(_balance != 0);
@@ -126,7 +126,7 @@ library TestVestingLib {
   /// @dev function owner has to call before the vesting starts to initialize the token balance of the contract.
   /// @param self Stored vesting from vesting contract
   /// @param _balance the balance that is being vested.  owner has to have sent tokens to the contract before calling this function
-  function initializeTokenBalance(TestVestingStorage storage self, CrowdsaleToken token, uint256 _balance, uint256 _bonus) internal returns (bool) {
+  function initializeTokenBalance(TestVestingStorage storage self, CrowdsaleToken token, uint256 _balance, uint256 _bonus) returns (bool) {
     require(msg.sender == self.owner);
     //require(now < self.startTime);
     require(_balance != 0);
@@ -146,7 +146,7 @@ library TestVestingLib {
   /// puts their address in the registered mapping and increments the numRegistered
   /// @param self Stored vesting from vesting contract
   /// @param _registrant address to be registered for the vesting
-  function registerUser(TestVestingStorage storage self, address _registrant) internal returns (bool) {
+  function registerUser(TestVestingStorage storage self, address _registrant) returns (bool) {
     require((msg.sender == self.owner) || (msg.sender == address(this)));
     // if (now >= self.startTime - 1 days) {
     //   LogErrorMsg(0,"Can only register users earlier than 1 day before the vesting!");
@@ -173,7 +173,7 @@ library TestVestingLib {
   /// @dev registers multiple users at the same time
   /// @param self Stored vesting from vesting contract
   /// @param _registrants addresses to register for the vesting
-  function registerUsers(TestVestingStorage storage self, address[] _registrants) internal returns (bool) {
+  function registerUsers(TestVestingStorage storage self, address[] _registrants) returns (bool) {
     require(msg.sender == self.owner);
     bool ok;
 
@@ -186,7 +186,7 @@ library TestVestingLib {
   /// @dev Cancels a user's registration status can only be called by the owner when a user cancels their registration.
   /// sets their address field in the registered mapping to false and decrements the numRegistered
   /// @param self Stored vesting from vesting contract
-  function unregisterUser(TestVestingStorage storage self, address _registrant) internal returns (bool) {
+  function unregisterUser(TestVestingStorage storage self, address _registrant) returns (bool) {
     require((msg.sender == self.owner) || (msg.sender == address(this)));
     // if (now >= self.startTime - 1 days) {
     //   LogErrorMsg(0, "Can only register and unregister users earlier than 1 days before the vesting!");
@@ -213,7 +213,7 @@ library TestVestingLib {
   /// @dev unregisters multiple users at the same time
   /// @param self Stored vesting from vesting contract
   /// @param _registrants addresses to unregister for the vesting
-  function unregisterUsers(TestVestingStorage storage self, address[] _registrants) internal returns (bool) {
+  function unregisterUsers(TestVestingStorage storage self, address[] _registrants) returns (bool) {
     require(msg.sender == self.owner);
     bool ok;
 
@@ -226,7 +226,7 @@ library TestVestingLib {
   /// @dev allows a participant to replace themselves in the vesting schedule with a new address
   /// @param self Stored vesting from vesting contract
   /// @param _replacementRegistrant new address to replace the caller with
-  function swapRegistration(TestVestingStorage storage self, address _replacementRegistrant) internal returns (bool) {
+  function swapRegistration(TestVestingStorage storage self, address _replacementRegistrant) returns (bool) {
     require(self.isRegistered[msg.sender]);
     require(!self.isRegistered[_replacementRegistrant]);
     require(_replacementRegistrant != 0);
@@ -285,7 +285,7 @@ library TestVestingLib {
 
   /// @dev allows participants to withdraw their vested ETH
   /// @param self Stored vesting from vesting contract
-  function withdrawETH(TestVestingStorage storage self, uint256 _currtime) internal returns (bool) {
+  function withdrawETH(TestVestingStorage storage self, uint256 _currtime) returns (bool) {
     require(_currtime > self.startTime);
     require(!self.isToken);
 
@@ -302,7 +302,7 @@ library TestVestingLib {
   /// @dev allows participants to withdraw their vested tokens
   /// @param self Stored vesting from vesting contract
   /// @param token the token contract that is being withdrawn
-  function withdrawTokens(TestVestingStorage storage self,CrowdsaleToken token, uint256 _currtime) internal returns (bool) {
+  function withdrawTokens(TestVestingStorage storage self,CrowdsaleToken token, uint256 _currtime) returns (bool) {
     require(_currtime > self.startTime);
     require(self.isToken);
 
@@ -320,7 +320,7 @@ library TestVestingLib {
   /// @dev allows the owner to send vested ETH to participants
   /// @param self Stored vesting from vesting contract
   /// @param _beneficiary registered address to send the ETH to
-  function sendETH(TestVestingStorage storage self, address _beneficiary, uint256 _currtime) internal returns (bool) {
+  function sendETH(TestVestingStorage storage self, address _beneficiary, uint256 _currtime) returns (bool) {
     require(_currtime > self.startTime);
     require(msg.sender == self.owner);
     require(!self.isToken);
@@ -339,7 +339,7 @@ library TestVestingLib {
   /// @param self Stored vesting from vesting contract
   /// @param token the token contract that is being withdrawn
   /// @param _beneficiary registered address to send the tokens to
-  function sendTokens(TestVestingStorage storage self,CrowdsaleToken token, address _beneficiary, uint256 _currtime) internal returns (bool) {
+  function sendTokens(TestVestingStorage storage self,CrowdsaleToken token, address _beneficiary, uint256 _currtime) returns (bool) {
     require(_currtime > self.startTime);
     require(msg.sender == self.owner);
     require(self.isToken);
@@ -357,7 +357,7 @@ library TestVestingLib {
 
   /// @dev Allows the owner to withdraw any ETH that participants may have forgotten to withdraw
   /// @param self Stored vesting from vesting contract
-  function ownerWithdrawExtraETH(TestVestingStorage storage self) internal returns (bool) {
+  function ownerWithdrawExtraETH(TestVestingStorage storage self) returns (bool) {
     require(msg.sender == self.owner);
     //require(now > self.endTime + 30 days);
     require(self.contractBalance > 0);
@@ -372,7 +372,7 @@ library TestVestingLib {
 
   /// @dev Allows the owner to withdraw any tokens that participants may have forgotten to withdraw
   /// @param self Stored vesting from vesting contract
-  function ownerWithdrawExtraTokens(TestVestingStorage storage self, CrowdsaleToken token) internal returns (bool) {
+  function ownerWithdrawExtraTokens(TestVestingStorage storage self, CrowdsaleToken token) returns (bool) {
     require(msg.sender == self.owner);
     //require(now > self.endTime + 30 days);
     require(self.contractBalance > 0);
@@ -386,11 +386,11 @@ library TestVestingLib {
     return true;
   }
 
-  function getisRegistered(TestVestingStorage storage self, address participant) internal constant returns (bool) {
+  function getisRegistered(TestVestingStorage storage self, address participant) constant returns (bool) {
     return self.isRegistered[participant];
   }
 
-  function gethasWithdrawn(TestVestingStorage storage self, address participant) internal constant returns (uint256) {
+  function gethasWithdrawn(TestVestingStorage storage self, address participant) constant returns (uint256) {
     return self.hasWithdrawn[participant];
   }
 
