@@ -13,7 +13,7 @@ contract VestingLibTokenTestContract {
                 bool _isToken,
                 uint256 _startTime,
                 uint256 _endTime,
-                uint256 _numReleases) 
+                uint256 _numReleases)
   {
     vesting.init(_owner, _isToken, _startTime, _endTime, _numReleases);
   }
@@ -22,7 +22,7 @@ contract VestingLibTokenTestContract {
   event LogErrorMsg(uint256 amount, string Msg);
 
   // Logs when a user is registered in the system for vesting
-  event LogUserRegistered(address registrant);
+  event LogUserRegistered(address registrant, uint256 vestAmount, uint256 bonus);
 
   // Logs when a user is unregistered from the system
   event LogUserUnRegistered(address registrant);
@@ -36,20 +36,18 @@ contract VestingLibTokenTestContract {
   // Logs when a user withdraws their tokens from the contract
   event LogTokensWithdrawn(address beneficiary, uint256 amount);
 
-  function() payable {
-    
+  function() payable {}
+
+  function initializeTokenBalance(CrowdsaleToken token, uint256 _balance) returns (bool) {
+    return vesting.initializeTokenBalance(token, _balance);
   }
 
-  function initializeTokenBalance(CrowdsaleToken token, uint256 _balance, uint256 _bonus) returns (bool) {
-    return vesting.initializeTokenBalance(token, _balance, _bonus);
+  function registerUser(address _registrant, uint256 _vestAmount, uint256 _bonus) returns (bool) {
+    return vesting.registerUser(_registrant, _vestAmount, _bonus);
   }
 
-  function registerUser(address _registrant) returns (bool) {
-    return vesting.registerUser(_registrant);
-  }
-
-  function registerUsers(address[] _registrants) returns (bool) {
-    return vesting.registerUsers(_registrants);
+  function registerUsers(address[] _registrants, uint256 _vestAmount, uint256 _bonus) returns (bool) {
+    return vesting.registerUsers(_registrants, _vestAmount, _bonus);
   }
 
   function unregisterUser(address _registrant) returns (bool) {
@@ -90,10 +88,6 @@ contract VestingLibTokenTestContract {
     return vesting.contractBalance;
   }
 
-  function getBonus() constant returns (uint256) {
-    return vesting.bonus;
-  }
-
   function getIsToken() constant returns (bool) {
     return vesting.isToken;
   }
@@ -114,16 +108,24 @@ contract VestingLibTokenTestContract {
     return vesting.timeInterval;
   }
 
-  function getPercentReleased() constant returns (uint256) {
-    return vesting.percentReleased;
+  function getPercentPerInterval() constant returns (uint256) {
+    return vesting.percentPerInterval;
   }
 
-  function getIsRegistered(address _participant) constant returns (bool) {
-    return vesting.getisRegistered(_participant);
+  function getPercentReleased() constant returns (uint256) {
+    return vesting.getPercentReleased();
   }
 
   function getHasWithdrawn(address _participant) constant returns (uint256) {
-    return vesting.gethasWithdrawn(_participant);
+    return vesting.hasWithdrawn[_participant];
+  }
+
+  function getVestingAmount(address _participant) constant returns (uint256) {
+    return vesting.holdingAmount[_participant][0];
+  }
+
+  function getBonusAmount(address _participant) constant returns (uint256) {
+    return vesting.holdingAmount[_participant][1];
   }
 
 }
