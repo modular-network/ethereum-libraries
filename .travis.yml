@@ -19,6 +19,7 @@ script:
   - 'truffle test'
 
 after_script:
-  - 'npm install -g coveralls' 
+  - 'npm install -g codecov' 
   - 'npm run test:coverage'
-  - 'cat coverage/lcov.info | coveralls'
+  - 'cd $TRAVIS_BUILD_DIR'
+  - 'codecov'
