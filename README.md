@@ -66,6 +66,9 @@ If you see an issue in our repo or a piece of code in our Libraries you want to 
 6. Include the description of the changes on the Pull Request.
 7. When creating a pull request on the main repo, do not submit it to master.  Either submit it to an existing branch that was allocated for the changes, or submit it to a new branch you create with the PR.
 
+### Code Quality
+
+We strive to maintain high standards at Majoolr . To accomplish this, we have included unit tests and a coverage report tool. We are using the [solitidy-coverage](https://github.com/sc-forks/solidity-coverage) tool and [Codecov](https://codecov.io/gh/Majoolr/ethereum-libraries) to host our reports and analysis. Let's keep growing our coverage percentage as much as we can!
 
 ## Why Libraries?
 
