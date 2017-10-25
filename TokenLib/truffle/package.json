@@ -2,8 +2,12 @@
   "name": "TokenLib",
   "version": "1.1.0",
   "description": "Token library used by token contracts",
+  "scripts": {
+    "test:coverage": "./node_modules/.bin/solidity-coverage"
+  },
   "devDependencies": {
-    "truffle": "3.4.9",
-    "ethereumjs-testrpc": "4.1.1"
+    "ethereumjs-testrpc": "4.0.0",
+    "solidity-coverage": "^0.2.7",
+    "truffle": "3.4.11"
   }
 }
