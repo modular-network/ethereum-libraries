@@ -2,6 +2,7 @@ Majoolr Libraries
 =========================
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
+[![codecov](https://codecov.io/gh/Majoolr/ethereum-libraries/branch/master/graph/badge.svg)](https://codecov.io/gh/Majoolr/ethereum-libraries)
 [![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
 
