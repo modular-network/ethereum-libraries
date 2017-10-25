@@ -14,7 +14,7 @@ module.exports = function(deployer, network) {
   deployer.deploy(Array16Lib, {overwrite: false});
   deployer.deploy(Array8Lib, {overwrite: false});
 
-  if(network == "development"){
+  if(network === "development" || network === "coverage"){
     deployer.link(Array256Lib, ArrayUtilsTestContract);
     deployer.link(Array128Lib, ArrayUtilsTestContract);
     deployer.link(Array64Lib, ArrayUtilsTestContract);

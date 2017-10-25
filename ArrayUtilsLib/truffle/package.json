@@ -2,8 +2,12 @@
   "name": "ArrayUtilityLibraries",
   "version": "1.0.0",
   "description": "Array utilities library deployed on Ethereum mainnet",
+  "scripts": {
+    "test:coverage": "./node_modules/.bin/solidity-coverage"
+  },
   "devDependencies": {
-    "truffle": "^3.4.5",
-    "ethereumjs-testrpc": "^4.0.0"
+    "ethereumjs-testrpc": "^4.0.0",
+    "solidity-coverage": "^0.2.7",
+    "truffle": "^3.4.5"
   }
 }
