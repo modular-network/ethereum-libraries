@@ -2,8 +2,12 @@
   "name": "BasicMathLib",
   "version": "1.0.0",
   "description": "Basic math operations on Ethereum with overflow protection",
+  "scripts": {
+    "test:coverage": "./node_modules/.bin/solidity-coverage"
+  },
   "devDependencies": {
-    "truffle": "^3.4.5",
-    "ethereumjs-testrpc": "^4.0.0"
+    "ethereumjs-testrpc": "4.0.0",
+    "solidity-coverage": "^0.2.7",
+    "truffle": "3.4.11"
   }
 }
