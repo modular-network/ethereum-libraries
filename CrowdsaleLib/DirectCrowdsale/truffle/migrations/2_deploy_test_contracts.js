@@ -24,7 +24,7 @@ module.exports = function(deployer, network, accounts) {
   deployer.link(CrowdsaleLib,DirectCrowdsaleLib);
   deployer.deploy(DirectCrowdsaleLib, {overwrite:false});
 
-  if(network == "development"){
+  if(network === "development" || network === "coverage"){
     deployer.link(BasicMathLib,TestCrowdsaleLib);
     deployer.link(TokenLib,TestCrowdsaleLib);
     deployer.deploy(TestCrowdsaleLib);
