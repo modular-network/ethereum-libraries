@@ -4,12 +4,12 @@ var TokenLib = artifacts.require("./TokenLib.sol");
 var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
 var CrowdsaleLib = artifacts.require("./CrowdsaleLib.sol");
 var DirectCrowdsaleLib = artifacts.require("./DirectCrowdsaleLib.sol");
-var DirectCrowdsaleTestContract = artifacts.require("./DirectCrowdsaleTestContract.sol");
 
 //testrpc contracts
 var TestCrowdsaleLib = artifacts.require("./TestCrowdsaleLib.sol");
 var TestDirectCrowdsaleLib = artifacts.require("./TestDirectCrowdsaleLib.sol");
 var TimeDirectCrowdsaleTestContract = artifacts.require("./TimeDirectCrowdsaleTestContract.sol");
+var DirectCrowdsaleTestContract = artifacts.require("./DirectCrowdsaleTestContract.sol");
 
 module.exports = function(deployer, network, accounts) {
   deployer.deploy(BasicMathLib,{overwrite: false});
@@ -35,6 +35,9 @@ module.exports = function(deployer, network, accounts) {
     deployer.link(TokenLib,CrowdsaleToken);
     deployer.link(TestCrowdsaleLib,TimeDirectCrowdsaleTestContract);
     deployer.link(TestDirectCrowdsaleLib, TimeDirectCrowdsaleTestContract);
+    deployer.link(DirectCrowdsaleLib, DirectCrowdsaleTestContract);
+    deployer.deploy(DirectCrowdsaleTestContract);
+    // deployer.link(DirectCrowdsaleTestContract, CrowdsaleToken);
     deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]}).then(function() {
       // right now it is configured to use accounts[5] as the owner and for the token price to increase periodically by 50 cents
       var purchaseData =[105,141,0,
