@@ -5,7 +5,7 @@ Majoolr Libraries
 [![codecov](https://codecov.io/gh/Majoolr/ethereum-libraries/branch/master/graph/badge.svg)](https://codecov.io/gh/Majoolr/ethereum-libraries)
 [![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/cbacd8e3b48260f1dd9b20afad5d1950686257de080aa1249dcd047e22a4315f.svg?columns=all)](https://waffle.io/Majoolr/blosym-root)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/cbacd8e3b48260f1dd9b20afad5d1950686257de080aa1249dcd047e22a4315f.svg?columns=all)](https://waffle.io/Majoolr/ethereum-libraries)
 
 Majoolr Libraries is a group of packages built for use on blockchains utilizing the Ethereum Virtual Machine (EVM). All libraries are deployed and linkable in your smart contracts on both Rinkeby, Ropsten, and Ethereum Mainnet. [We also have an ethereum-contracts repository that currently holds ICO contracts](https://github.com/Majoolr/ethereum-contracts "Github link").  
 
