@@ -4,7 +4,6 @@ var TokenLib = artifacts.require("./TokenLib.sol");
 var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
 var CrowdsaleLib = artifacts.require("./CrowdsaleLib.sol");
 var DirectCrowdsaleLib = artifacts.require("./DirectCrowdsaleLib.sol");
-var DirectCrowdsaleTestContract = artifacts.require("./DirectCrowdsaleTestContract.sol");
 
 //testrpc contracts
 var TestCrowdsaleLib = artifacts.require("./TestCrowdsaleLib.sol");
