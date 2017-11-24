@@ -46,10 +46,10 @@ A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Gi
 
 ## Library Address
 
-**ENS**: BasicMathLib.majoolr.eth   
-**Main Ethereum Network**: 0x74453cf53c97437066b1987e364e5d6b54bcaee6   
-**Rinkeby Test Network**: 0x73c983f3b4cf4f06921b5f39291cb532fd5f548c  
-**Ropsten Test Network**: 0xd47c1de4e876b7382fd2d6e536f8e61553773560
+**ENS**: Coming Soon   
+**Main Ethereum Network**: 0x01671229bbf99b30203f9807c5a577a7b8c358fc   
+**Rinkeby Test Network**: 0xEbDD4DfEe8cd0348476a0DcA736344B9DDd0BCA2  
+**Ropsten Test Network**: 0xAff3FC5478c30736a7c5Aa69747E314D0165C38e
 
 ## License and Warranty
 
