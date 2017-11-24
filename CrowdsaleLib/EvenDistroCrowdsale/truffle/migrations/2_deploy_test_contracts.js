@@ -28,7 +28,7 @@ module.exports = function(deployer, network, accounts) {
   deployer.link(CrowdsaleLib,EvenDistroCrowdsaleLib);
   deployer.deploy(EvenDistroCrowdsaleLib, {overwrite:false});
 
-  if(network == "development"){
+  if(network === "development" || network === "coverage"){
     deployer.link(BasicMathLib,TestCrowdsaleLib);
     deployer.link(TokenLib,TestCrowdsaleLib);
     deployer.deploy(TestCrowdsaleLib);

@@ -2,8 +2,12 @@
   "name": "DirectCrowdsaleLib",
   "version": "2.0.0",
   "description": "Direct crowdsale library used by crowdsale contracts",
+  "scripts": {
+    "test:coverage": "./node_modules/.bin/solidity-coverage"
+  },
   "devDependencies": {
     "truffle": "3.4.11",
-    "ethereumjs-testrpc": "4.1.1"
+    "ethereumjs-testrpc": "4.1.1",
+    "solidity-coverage": "^0.2.7"
   }
 }
