@@ -29,12 +29,12 @@ Crowdsale libraries [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 
 ### CrowdsaleLib   
 
-### v2.0.0
+### v2.1.0
 
 **ENS**: TBD   
-**Main Ethereum Network**: 0x8b90e3937a5db939f15da38af99579b3c213d02a   
-**Rinkeby Test Network**: 0x7b6b4b6becc07238d42465bccd393d510a795e34   
-**Ropsten Test Network**: 0x23846ed79fc461095fc13ab60df4f3e1e6a07ded   
+**Main Ethereum Network**: 0x56367a4cD348C8c61dc8a66E6a5F88e32fD6aa32   
+**Rinkeby Test Network**: 0x2A8eEe874F08bd86dC60838b8AD0e43F3d5846c1   
+**Ropsten Test Network**: 0x0611A2cD0e4C2f754daa737b4554f06b96fF9992   
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time.*   
@@ -64,6 +64,10 @@ Be advised that while we strive to provide professional grade, tested code we ca
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Change Log
+
+### v2.1.0
+
+* Update compiler to 0.4.18 and explicitly define function scopes, minor fixes from audit.
 
 ### v2.0.0
 
