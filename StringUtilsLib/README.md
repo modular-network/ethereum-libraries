@@ -90,7 +90,7 @@ specific language governing permissions and limitations under the License.
 
 ### Truffle Installation
 
-**version 3.4.6**
+**version 4.0.1**
 
 First install truffle via npm using `npm install -g truffle` .
 
@@ -120,13 +120,10 @@ The following process will allow you to `truffle test` this library in your proj
 1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/StringUtilsLib/truffle`.    
    Each folder in the truffle directory correlates to the folders in your truffle project.   
 2. Go into the StringUtilsLib truffle directory on your computer and place each file in their respective directory in **your** truffle project.
-3. [Start a testrpc node](https://github.com/ethereumjs/testrpc "testrpc's Github")   
-
-**Note**: The tests are written using Truffle's testing mechanisms and they are gas hungry. When starting your testrpc node be sure to set the gas and starting ether options high to allow for consumption. For example:
-
-   ```
-   $ testrpc --gasLimit 0xffffffffffff --account="0xfacec5711eb0a84bbd13b9782df26083fc68cf41b2210681e4d478687368fdc3,100000000000000000000000000"
-   ```
+3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")   
+4. In your terminal go to your truffle project directory.   
+5. Ensure the `development` object in your truffle.js file points to the same port Ganache uses, default is 7545.  
+6. Go to 'Settings' in the top right corner of Ganache, click on 'Chain', and set 'Gas Limit' to 1000000000000000.    
 
    Additionally you need to set the caller's gas limit high enough as well. This is done in the truffle.js file and it should look like this:
 
@@ -137,7 +134,7 @@ The following process will allow you to `truffle test` this library in your proj
       networks: {
          development: {
            host: "localhost",
-           port: 8545,
+           port: 7545, //Ensure this is set for Ganache
            gas: 470000000, //This is the important line
            network_id: "*",
          },
@@ -146,11 +143,11 @@ The following process will allow you to `truffle test` this library in your proj
        }
     }
    ```
-4. Run `truffle test`.
+7. Run `truffle test`.
 
 ### solc Installation
 
-**version 0.4.13**
+**version 0.4.18**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").
 
@@ -187,7 +184,7 @@ the compiler will not create unlinked binary.
 
 ### solc-js Installation
 
-**version 0.4.13**
+**version 0.4.18**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.
 
@@ -318,269 +315,297 @@ Calling `find` on a copy of `s` returns the part of the string from `needle` onw
 
 ## Reference
 
-### toSlice(string self) internal returns (slice)
+#### toSlice(string) internal returns (StringUtilsLib.slice)   
+*(StringUtilsLib.sol, line 95)*   
+
 Returns a slice containing the entire string.
 
-Arguments:
+##### Arguments
+**string** self The string to make a slice from.     
 
- - self The string to make a slice from.
+##### Returns
+**StringUtilsLib.slice** A newly allocated slice containing the entire string.   
 
-Returns A newly allocated slice containing the entire string.
+#### copy(StringUtilsLib.slice) internal returns (StringUtilsLib.slice)   
+*(StringUtilsLib.sol, line 157)*    
 
-### copy(slice self) internal returns (slice)
-Returns a new slice containing the same data as the current slice.
+Returns a new slice containing the same data as the current slice.   
 
-Arguments:
+##### Arguments
+**StringUtilsLib.slice** self The slice to copy.     
 
- - self The slice to copy.
+##### Returns
+**StringUtilsLib.slice** A new slice containing the same data as `self`.   
 
-Returns A new slice containing the same data as `self`.
 
-### toString(slice self) internal returns (string)
+#### toString(StringUtilsLib.slice) internal view returns (string)
+*(StringUtilsLib.sol, line 166)*    
 
-Copies a slice to a new string.
+Copies a slice to a new string.   
 
-Arguments:
+##### Arguments
+**StringUtilsLib.slice** self The slice to copy.     
 
- - self The slice to copy.
+##### Returns
+**string** A newly allocated string containing the slice's text.   
 
-Returns A newly allocated string containing the slice's text.
+#### len(StringUtilsLib.slice) internal view returns (uint)
+*(StringUtilsLib.sol, line 184)*    
 
-### len(slice self) internal returns (uint)
+Returns the length in runes of the slice. Note that this operation takes time proportional to the length of the slice; avoid using it in loops, and call `slice.empty()` if you only need to know whether the slice is empty or not.   
 
-Returns the length in runes of the slice. Note that this operation takes time proportional to the length of the slice; avoid using it in loops, and call `slice.empty()` if you only need to know whether the slice is empty or not.
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
 
-Arguments:
+##### Returns
+**uint** The length of the slice in runes.   
 
- - self The slice to operate on.
+#### empty(StringUtilsLib.slice) internal view returns (bool)
+*(StringUtilsLib.sol, line 215)*    
 
-Returns The length of the slice in runes.
+Returns true if the slice is empty (has a length of 0).   
 
-### empty(slice self) internal returns (bool)
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
 
-Returns true if the slice is empty (has a length of 0).
+##### Returns
+**bool** True if the slice is empty, false otherwise.   
 
-Arguments:
+#### compare(StringUtilsLib.slice, StringUtilsLib.slice) internal view returns (int)
+*(StringUtilsLib.sol, line 228)*    
 
- - self The slice to operate on.
+Returns a positive number if `other` comes lexicographically after `self`, a negative number if it comes before, or zero if the contents of the two slices are equal. Comparison is done per-rune, on unicode codepoints.   
 
-Returns True if the slice is empty, False otherwise.
+##### Arguments
+**StringUtilsLib.slice** self The first slice to compare.     
+**StringUtilsLib.slice** other The second slice to compare.    
 
-### compare(slice self, slice other) internal returns (int)
+##### Returns
+**int** The result of the comparison.   
 
-Returns a positive number if `other` comes lexicographically after `self`, a negative number if it comes before, or zero if the contents of the two slices are equal. Comparison is done per-rune, on unicode codepoints.
+#### equals(StringUtilsLib.slice, StringUtilsLib.slice) internal view returns (bool)   
+*(StringUtilsLib.sol, line 261)*    
 
-Arguments:
+Returns true if the two slices contain the same text.   
 
- - self The first slice to compare.
- - other The second slice to compare.
+##### Arguments
+**StringUtilsLib.slice** self The first slice to compare.     
+**StringUtilsLib.slice** other The second slice to compare.    
 
-Returns The result of the comparison.
+##### Returns
+**bool** True if the slices are equal, false otherwise.   
 
-### equals(slice self, slice other) internal returns (bool)
+#### nextRune(StringUtilsLib.slice, StringUtilsLib.slice) internal returns (StringUtilsLib.slice)   
+*(StringUtilsLib.sol, line 272)*    
 
-Returns true if the two slices contain the same text.
+Extracts the first rune in the slice into `rune`, advancing the slice to point to the next rune and returning `self`.   
 
-Arguments:
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
+**StringUtilsLib.slice** rune The slice that will contain the first rune.    
 
- - self The first slice to compare.
- - self The second slice to compare.
+##### Returns
+**StringUtilsLib.slice** rune      
 
-Returns True if the slices are equal, false otherwise.
+#### nextRune(StringUtilsLib.slice) internal returns (StringUtilsLib.slice)   
+*(StringUtilsLib.sol, line 314)*    
 
-### nextRune(slice self, slice rune) internal returns (slice)
+Returns the first rune in the slice, advancing the slice to point to the next rune.   
 
-Extracts the first rune in the slice into `rune`, advancing the slice to point to the next rune and returning `self`.
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
 
-Arguments:
+##### Returns
+**StringUtilsLib.slice** A slice containing only the first rune from `self`.      
 
- - self The slice to operate on.
- - rune The slice that will contain the first rune.
+#### ord(StringUtilsLib.slice) internal view returns (uint)   
+*(StringUtilsLib.sol, line 323)*    
 
-Returns `rune`.
+Returns the number of the first codepoint in the slice.   
 
-### nextRune(slice self) internal returns (slice ret)
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
 
-Returns the first rune in the slice, advancing the slice to point to the next rune.
+##### Returns
+**uint** The number of the first codepoint in the slice.      
 
-Arguments:
+#### keccak(StringUtilsLib.slice) internal view returns (bytes32)
+*(StringUtilsLib.sol, line 372)*    
 
- - self The slice to operate on.
+Returns the keccak-256 hash of the slice.   
 
-Returns A slice containing only the first rune from `self`.
+##### Arguments
+**StringUtilsLib.slice** self The slice to hash.     
 
-### ord(slice self) internal returns (uint ret)
+##### Returns
+**bytes32** The hash of the slice.      
 
-Returns the number of the first codepoint in the slice.
+#### startsWith(StringUtilsLib.slice, StringUtilsLib.slice) internal view returns (bool)
+*(StringUtilsLib.sol, line 384)*    
 
-Arguments:
+Returns true if `self` starts with `needle`.   
 
- - self The slice to operate on.
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
+**StringUtilsLib.slice** needle The slice to search for.     
 
-Returns The number of the first codepoint in the slice.
+##### Returns
+**bool** True if the slice starts with the provided text, false otherwise.      
 
-### keccak(slice self) internal returns (bytes32 ret)
+#### beyond(StringUtilsLib.slice, StringUtilsLib.slice) internal returns (StringUtilsLib.slice)
+*(StringUtilsLib.sol, line 410)*    
 
-Returns the keccak-256 hash of the slice.
+If `self` starts with `needle`, `needle` is removed from the beginning of `self`. Otherwise, `self` is unmodified.   
 
-Arguments:
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
+**StringUtilsLib.slice** needle The slice to search for.     
 
- - self The slice to hash.
+##### Returns
+**StringUtilsLib.slice** self      
 
-Returns The hash of the slice.
+#### endsWith(StringUtilsLib.slice, StringUtilsLib.slice) internal view returns (bool)
+*(StringUtilsLib.sol, line 439)*    
 
-### startsWith(slice self, slice needle) internal returns (bool)
+Returns true if the slice ends with `needle`.   
 
-Returns true if `self` starts with `needle`.
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
+**StringUtilsLib.slice** needle The slice to search for.     
 
-Arguments:
+##### Returns
+**bool** True if the slice starts with the provided text, false otherwise.      
 
- - self The slice to operate on.
- - needle The slice to search for.
+#### until(StringUtilsLib.slice, StringUtilsLib.slice) internal returns (StringUtilsLib.slice)
+*(StringUtilsLib.sol, line 467)*    
 
-Returns True if the slice starts with the provided text, false otherwise.
+If `self` ends with `needle`, `needle` is removed from the end of `self`. Otherwise, `self` is unmodified.   
 
-### beyond(slice self, slice needle) internal returns (slice)
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
+**StringUtilsLib.slice** needle The slice to search for.     
 
-If `self` starts with `needle`, `needle` is removed from the beginning of `self`. Otherwise, `self` is unmodified.
+##### Returns
+**StringUtilsLib.slice** self      
 
-Arguments:
-
- - self The slice to operate on.
- - needle The slice to search for.
-
-Returns `self`
-
-### endsWith(slice self, slice needle) internal returns (bool)
-
-Returns true if the slice ends with `needle`.
-
-Arguments:
-
- - self The slice to operate on.
- - needle The slice to search for.
-
-Returns True if the slice starts with the provided text, false otherwise.
-
-### until(slice self, slice needle) internal returns (slice)
-
-If `self` ends with `needle`, `needle` is removed from the end of `self`. Otherwise, `self` is unmodified.
-
-Arguments:
-
- - self The slice to operate on.
- - needle The slice to search for.
-
-Returns `self`
-
-### find(slice self, slice needle) internal returns (slice)
+#### find(StringUtilsLib.slice, StringUtilsLib.slice) internal returns (StringUtilsLib.slice)
+*(StringUtilsLib.sol, line 602)*    
 
 Modifies `self` to contain everything from the first occurrence of `needle` to the end of the slice. `self` is set to the empty slice if `needle` is not found.
 
-Arguments:
+##### Arguments
+**StringUtilsLib.slice** self The slice to operate on.     
+**StringUtilsLib.slice** needle The text to search for.     
 
- - self The slice to search and modify.
- - needle The text to search for.
+##### Returns
+**StringUtilsLib.slice** self      
 
-Returns `self`.
+#### rfind(StringUtilsLib.slice, StringUtilsLib.slice) internal returns (StringUtilsLib.slice)
+*(StringUtilsLib.sol, line 617)*    
 
-### rfind(slice self, slice needle) internal returns (slice)
+Modifies `self` to contain the part of the string from the start of `self` to the end of the first occurrence of `needle`. If `needle` is not found, `self` is set to the empty slice.   
 
-Modifies `self` to contain the part of the string from the start of `self` to the end of the first occurrence of `needle`. If `needle` is not found, `self` is set to the empty slice.
+##### Arguments
+**StringUtilsLib.slice** self The slice to search and modify.     
+**StringUtilsLib.slice** needle The text to search for.     
 
-Arguments:
+##### Returns
+**StringUtilsLib.slice** self      
 
- - self The slice to search and modify.
- - needle The text to search for.
+#### split(StringUtilsLib.slice, StringUtilsLib.slice, StringUtilsLib.slice) internal returns (StringUtilsLib.slice)
+*(StringUtilsLib.sol, line 633)*    
 
-Returns `self`.
+Splits the slice, setting `self` to everything after the first occurrence of `needle`, and `token` to everything before it. If `needle` does not occur in `self`, `self` is set to the empty slice, and `token` is set to the entirety of `self`.   
 
-### split(slice self, slice needle, slice token) internal returns (slice)
+##### Arguments
+**StringUtilsLib.slice** self The slice to split.     
+**StringUtilsLib.slice** needle The text to search for in `self`.     
+**StringUtilsLib.slice** token An output parameter to which the first token is written.     
 
-Splits the slice, setting `self` to everything after the first occurrence of `needle`, and `token` to everything before it. If `needle` does not occur in `self`, `self` is set to the empty slice, and `token` is set to the entirety of `self`.
+##### Returns
+**StringUtilsLib.slice** token      
 
-Arguments:
+#### split(StringUtilsLib.slice, StringUtilsLib.slice) internal returns (StringUtilsLib.slice)
+*(StringUtilsLib.sol, line 656)*    
 
- - self The slice to split.
- - needle The text to search for in `self`.
- - token An output parameter to which the first token is written.
+Splits the slice, setting `self` to everything after the first occurrence of `needle`, and returning everything before it. If `needle` does not occur in `self`, `self` is set to the empty slice, and the entirety of `self` is returned.   
 
-Returns `token`.
+##### Arguments
+**StringUtilsLib.slice** self The slice to split.     
+**StringUtilsLib.slice** needle The text to search for in `self`.     
 
-### split(slice self, slice needle) internal returns (slice token)
+##### Returns
+**StringUtilsLib.slice** token The part of `self` up to the first occurrence of `needle`.      
 
-Splits the slice, setting `self` to everything after the first occurrence of `needle`, and returning everything before it. If `needle` does not occur in `self`, `self` is set to the empty slice, and the entirety of `self` is returned.
+#### rsplit(StringUtilsLib.slice, StringUtilsLib.slice, StringUtilsLib.slice) internal returns (StringUtilsLib.slice)
+*(StringUtilsLib.sol, line 670)*    
 
-Arguments:
+Splits the slice, setting `self` to everything before the last occurrence of `needle`, and `token` to everything after it. If `needle` does not occur in `self`, `self` is set to the empty slice, and `token` is set to the entirety of `self`.   
 
- - self The slice to split.
- - needle The text to search for in `self`.
+##### Arguments
+**StringUtilsLib.slice** self The slice to split.     
+**StringUtilsLib.slice** needle The text to search for in `self`.     
+**StringUtilsLib.slice** token An output parameter to which the first token is written.     
 
-Returns The part of `self` up to the first occurrence of `delim`.
+##### Returns
+**StringUtilsLib.slice** token   
 
-### rsplit(slice self, slice needle, slice token) internal returns (slice)
+#### rsplit(StringUtilsLib.slice, StringUtilsLib.slice) internal returns (StringUtilsLib.slice)
+*(StringUtilsLib.sol, line 670)*    
 
-Splits the slice, setting `self` to everything before the last occurrence of `needle`, and `token` to everything after it. If `needle` does not occur in `self`, `self` is set to the empty slice, and `token` is set to the entirety of `self`.
+Splits the slice, setting `self` to everything before the last occurrence of `needle`, and returning everything after it. If `needle` does not occur in `self`, `self` is set to the empty slice, and the entirety of `self` is returned.   
 
-Arguments:
+##### Arguments
+**StringUtilsLib.slice** self The slice to split.     
+**StringUtilsLib.slice** needle The text to search for in `self`.     
 
- - self The slice to split.
- - needle The text to search for in `self`.
- - token An output parameter to which the first token is written.
+##### Returns
+**StringUtilsLib.slice** token The part of `self` after the last occurrence of `needle`.   
 
-Returns `token`.
+#### count(StringUtilsLib.slice, StringUtilsLib.slice) internal view returns (uint)
+*(StringUtilsLib.sol, line 702)*    
 
-### rsplit(slice self, slice needle) internal returns (slice token)
+Counts the number of non overlapping occurrences of `needle` in `self`.   
 
-Splits the slice, setting `self` to everything before the last occurrence of `needle`, and returning everything after it. If `needle` does not occur in `self`, `self` is set to the empty slice, and the entirety of `self` is returned.
+##### Arguments
+**StringUtilsLib.slice** self The slice to split.     
+**StringUtilsLib.slice** needle The text to search for in `self`.     
 
-Arguments:
+##### Returns
+**uint** count The number of occurrences of `needle` found in `self`.   
 
- - self The slice to split.
- - needle The text to search for in `self`.
+#### contains(StringUtilsLib.slice, StringUtilsLib.slice) internal view returns (bool)
+*(StringUtilsLib.sol, line 716)*    
 
-Returns The part of `self` after the last occurrence of `delim`.
+Returns True if `self` contains `needle`.   
 
-### count(slice self, slice needle) internal returns (uint count)
+##### Arguments
+**StringUtilsLib.slice** self The slice to search.     
+**StringUtilsLib.slice** needle The text to search for in `self`.     
 
-Counts the number of nonoverlapping occurrences of `needle` in `self`.
+##### Returns
+**bool** True if `needle` is found in `self`, false otherwise.   
 
-Arguments:
+#### concat(StringUtilsLib.slice, StringUtilsLib.slice) internal view returns (string)
+*(StringUtilsLib.sol, line 727)*    
 
- - self The slice to search.
- - needle The text to search for in `self`.
+Returns a newly allocated string containing the concatenation of `self` and `other`.   
 
-Returns The number of occurrences of `needle` found in `self`.
+##### Arguments
+**StringUtilsLib.slice** self The first slice to concatenate.     
+**StringUtilsLib.slice** other The second slice to concatenate.     
 
-### contains(slice self, slice needle) internal returns (bool)
+##### Returns
+**string** The concatenation of the two strings.   
 
-Returns True if `self` contains `needle`.
+#### join(StringUtilsLib.slice, StringUtilsLib.slice[]) internal view returns (string)
+*(StringUtilsLib.sol, line 744)*    
 
-Arguments:
+Joins an array of slices, using `self` as a delimiter, returning a newly allocated string.   
 
- - self The slice to search.
- - needle The text to search for in `self`.
+##### Arguments
+**StringUtilsLib.slice** self The delimiter to use.     
+**StringUtilsLib.slice[]** parts A list of slices to join.     
 
-Returns True if `needle` is found in `self`, false otherwise.
-
-### concat(slice self, slice other) internal returns (string)
-
-Returns a newly allocated string containing the concatenation of `self` and `other`.
-
-Arguments:
-
- - self The first slice to concatenate.
- - other The second slice to concatenate.
-
-Returns The concatenation of the two strings.
-
-### join(slice self, slice[] parts) internal returns (string)
-
-Joins an array of slices, using `self` as a delimiter, returning a newly allocated string.
-
-Arguments:
-
- - self The delimiter to use.
- - parts A list of slices to join.
-
-Returns A newly allocated string containing all the slices in `parts`, joined with `self`.
+##### Returns
+**string** A newly allocated string containing all the slices in `parts`, joined with `self`.   
