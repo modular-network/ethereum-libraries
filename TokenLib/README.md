@@ -73,15 +73,15 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 ### v1.1.0
 
 **ENS**: TokenLib.majoolr.eth   
-**Main Ethereum Network**: 0x02d509d0af485c8da54d8aeb42c624e7d9e2eeb6   
-**Rinkeby Test Network**: 0xae5222aa5112673a77f29a80b6659d9be8b674a4   
-**Ropsten Test Network**: 0xae1e80c332f78df321e72bd3c5aafc55766d83cc  
+**Main Ethereum Network**: 0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6   
+**Rinkeby Test Network**: 0xAe5222Aa5112673A77F29a80b6659d9bE8b674A4   
+**Ropsten Test Network**: 0xaE1e80c332f78Df321E72BD3C5AAfc55766D83Cc   
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time. (We're still thinking about how to design and integrate the system.)*
-**Main Ethereum Network**: 0x0aa4e6e25a76f81f079aa300c33621e20c632e6a   
-**Rinkeby Test Network**: 0x4efd23da884251417907a6526b0241595cd3449a   
-**Ropsten Test Network**: 0x0f1064372d2c28c06f04279116e48e7a4d1c45f9   
+**Main Ethereum Network**: 0x0Aa4e6E25a76f81F079Aa300C33621E20C632E6a   
+**Rinkeby Test Network**: 0x4EFd23dA884251417907a6526b0241595cD3449a   
+**Ropsten Test Network**: 0x0F1064372D2C28C06f04279116e48E7A4d1C45f9   
 
 ## License and Warranty
 
