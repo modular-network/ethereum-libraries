@@ -47,7 +47,7 @@ A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Gi
 ## Library Address
 
 **ENS**: Coming Soon   
-**Main Ethereum Network**: 0x01671229bbf99b30203f9807c5a577a7b8c358fc   
+**Main Ethereum Network**: 0x01671229Bbf99b30203F9807C5A577a7B8C358Fc   
 **Rinkeby Test Network**: 0xEbDD4DfEe8cd0348476a0DcA736344B9DDd0BCA2  
 **Ropsten Test Network**: 0xAff3FC5478c30736a7c5Aa69747E314D0165C38e
 
@@ -139,7 +139,7 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x74453cf53c97437066b1987e364e5d6b54bcaee6"
+        "BasicMathLib": "0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"
       }
     }
   }
@@ -151,11 +151,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "BasicMathLib:0x74453cf53c97437066b1987e364e5d6b54bcaee6"`
+`--libraries "BasicMathLib:0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"`
 
-Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:
+Additionally, if you have multiple libraries, you can create a file with one library string per line and include this library as follows:
 
-`"BasicMathLib:0x74453cf53c97437066b1987e364e5d6b54bcaee6"`
+`"BasicMathLib:0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"`
 
 then add the following flag to your command:
 
@@ -163,7 +163,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "BasicMathLib:0x74453cf53c97437066b1987e364e5d6b54bcaee6"`
+`--libraries "BasicMathLib:0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"`
 
 #### solc documentation
 
@@ -200,7 +200,7 @@ var input = {
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x74453cf53c97437066b1987e364e5d6b54bcaee6"
+        "BasicMathLib": "0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"
       }
     }
     ...
@@ -217,7 +217,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'BasicMathLib': '0x74453cf53c97437066b1987e364e5d6b54bcaee6' });
+ bytecode = solc.linkBytecode(bytecode, { 'BasicMathLib': '0x01671229Bbf99b30203F9807C5A577a7B8C358Fc' });
  ```
 
 #### Solc-js documentation

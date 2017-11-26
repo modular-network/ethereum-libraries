@@ -73,15 +73,15 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 ### v1.1.0
 
 **ENS**: TokenLib.majoolr.eth   
-**Main Ethereum Network**: 0x02d509d0af485c8da54d8aeb42c624e7d9e2eeb6   
-**Rinkeby Test Network**: 0xae5222aa5112673a77f29a80b6659d9be8b674a4   
-**Ropsten Test Network**: 0xae1e80c332f78df321e72bd3c5aafc55766d83cc  
+**Main Ethereum Network**: 0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6   
+**Rinkeby Test Network**: 0xAe5222Aa5112673A77F29a80b6659d9bE8b674A4   
+**Ropsten Test Network**: 0xaE1e80c332f78Df321E72BD3C5AAfc55766D83Cc   
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time. (We're still thinking about how to design and integrate the system.)*
-**Main Ethereum Network**: 0x0aa4e6e25a76f81f079aa300c33621e20c632e6a   
-**Rinkeby Test Network**: 0x4efd23da884251417907a6526b0241595cd3449a   
-**Ropsten Test Network**: 0x0f1064372d2c28c06f04279116e48e7a4d1c45f9   
+**Main Ethereum Network**: 0x0Aa4e6E25a76f81F079Aa300C33621E20C632E6a   
+**Rinkeby Test Network**: 0x4EFd23dA884251417907a6526b0241595cD3449a   
+**Ropsten Test Network**: 0x0F1064372D2C28C06f04279116e48E7A4d1C45f9   
 
 ## License and Warranty
 
@@ -181,10 +181,10 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "TokenLib.sol": {
-        "BasicMathLib" : "0x74453cf53c97437066b1987e364e5d6b54bcaee6"
+        "BasicMathLib" : "0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"
       },
       "YourTokenContract.sol": {
-        "TokenLib": "0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"
+        "TokenLib": "0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"
       }
     }
   }
@@ -196,11 +196,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "TokenLib:0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"`
+`--libraries "TokenLib:0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"`
 
-Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:
+Additionally, if you have multiple libraries, you can create a file with one library string per line and include this library as follows:
 
-`"TokenLib:0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"`
+`"TokenLib:0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"`
 
 then add the following flag to your command:
 
@@ -208,7 +208,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "TokenLib:0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"`
+`--libraries "TokenLib:0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"`
 
 #### solc documentation
 
@@ -249,10 +249,10 @@ var input = {
     ...
     "libraries": {
       "TokenLib": {
-        "BasicMathLib": "0x74453cf53c97437066b1987e364e5d6b54bcaee6"
+        "BasicMathLib": "0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"
       },
       "YourContract.sol": {
-        "TokenLib": "0x0aa4e6e25a76f81f079aa300c33621e20c632e6a"
+        "TokenLib": "0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"
       }
     }
     ...
@@ -269,7 +269,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'TokenLib': '0x71ecde7c4b184558e8dba60d9f323d7a87411946' });
+ bytecode = solc.linkBytecode(bytecode, { 'TokenLib': '0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6' });
  ```
 
 #### Solc-js documentation
