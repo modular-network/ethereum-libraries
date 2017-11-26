@@ -7,7 +7,7 @@ Array Utility Libraries
 
 An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") .   
 
-*Note: Each uint array type now has its own library thanks to Joshua Hannan's help. If your storage array contains uint16[] types, for instance, then you would link to the Array16Lib.sol library. This README uses the Array256Lib for all examples.*
+*Note: Each uint array type now has its own library. If your storage array contains uint16[] types, for instance, then you would link to the Array16Lib.sol library. This README uses the Array256Lib for all examples.*
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -57,40 +57,40 @@ An array utility library [provided by Majoolr](https://github.com/Majoolr "Majoo
 ## Library Addresses
 
 ### Array256Lib   
-**ENS**: Array256Lib.majoolr.eth   
-**Main Ethereum Network**: 0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247   
-**Rinkeby Test Network**: 0xbc3216a0a455a66acdfb5bb3394499ce91f922a0   
-**Ropsten Test Network**: 0x7424a30199a76d085277c58e38b5b5375fb9bff8    
+**ENS**: TBD   
+**Main Ethereum Network**: 0xD620Ce17fC516671F0fA84Ac88e39dCBb0a1615A   
+**Rinkeby Test Network**: 0x8d05ae16246A22dc8C75bcF8De6c418782c174f5   
+**Ropsten Test Network**: 0x2a54B21BA120BEd011356EAF11Dc6e5CA8132B91    
 
 ### Array128Lib   
-**ENS**: Array128Lib.majoolr.eth   
-**Main Ethereum Network**: 0x8d51d7c60cd8f9101b209449a1ae96685e74c659   
-**Rinkeby Test Network**: 0x60e9e02d130497ab9b8b1d03707384561dcc921f   
-**Ropsten Test Network**: 0xf5a7a818389396ad2b2f44204e3bb637359e6b67    
+**ENS**: TBD   
+**Main Ethereum Network**: 0xaaed720C987B25E8CC0f4C0d1827F8b0C8545B41   
+**Rinkeby Test Network**: 0x31D5f41761D4145433b6F39C59781Ae331148C4F   
+**Ropsten Test Network**: 0x3EA41321B4787262827fD76D33f1ddfa76A47184    
 
 ### Array64Lib   
-**ENS**: Array64Lib.majoolr.eth   
-**Main Ethereum Network**: 0xe64072d8252806e7b122758a9407c609ceda4891   
-**Rinkeby Test Network**: 0xa0b1c46934b27188778e7d6eaa5babae3845a8b9   
-**Ropsten Test Network**: 0x388994a141ee357d26c1709a26ee4fe473c7f5c1    
+**ENS**: TBD   
+**Main Ethereum Network**: 0xa13533142ddd31dDb2C9DA7F82BB083696182C71   
+**Rinkeby Test Network**: 0x5b597FD52bbE6455E0A86006C6Fd8FECA2785Ff0   
+**Ropsten Test Network**: 0xc0cCE76F81D5c6694b7adA58855E372899B2b005    
 
 ### Array32Lib   
-**ENS**: Array32Lib.majoolr.eth   
-**Main Ethereum Network**: 0x9a958b5935e7a9011cc0780022b0ed48d06d73d9   
-**Rinkeby Test Network**: 0xb42c3f58fedd844a69d4813fe7e9f40a9c08f7dc   
-**Ropsten Test Network**: 0x9a2d52346d47e1dafd1249d336e0a39032517443    
+**ENS**: TBD   
+**Main Ethereum Network**: 0x58ab2F692C606c520ACaf784FE4F0553ccD4Db8a   
+**Rinkeby Test Network**: 0xd1Cd92b015f483255f8a305D2c7a99E0A0B4d818   
+**Ropsten Test Network**: 0x144AEAF15EC3f9850cc88F31928F3a55cB849360    
 
 ### Array16Lib   
-**ENS**: Array16Lib.majoolr.eth   
-**Main Ethereum Network**: 0xeb01ce41580fb3fc6765b72cdded74fcd9fcc894   
-**Rinkeby Test Network**: 0x3823391981ed462e352b2c36d648117b55806b40   
-**Ropsten Test Network**: 0xd85b49c5fde28b11173e1ac4dd4095710f5570e8    
+**ENS**: TBD   
+**Main Ethereum Network**: 0xb6Cbc04D803d323f678b430751a8ED23276A5A57   
+**Rinkeby Test Network**: 0x90AdcDa446f6f42583965A13FF1703b094090BA3   
+**Ropsten Test Network**: 0xC94821766f2C8c2a98BA5532C5ea7ea174A140E2    
 
 ### Array8Lib   
-**ENS**: Array8Lib.majoolr.eth   
-**Main Ethereum Network**: 0xa3e7fd8cda44a122c8a4ffcc8bd5bb6c97ef47d2   
-**Rinkeby Test Network**: 0x34e4140e79e78ce51bfb89b6ee9204e5c9035d07   
-**Ropsten Test Network**: 0x6eeb68eb37363e61ecfae9eef1c892cda64ecc37   
+**ENS**: TBD   
+**Main Ethereum Network**: 0x85D2317f73e45bF266283b653B7407C95c0D2Ba6   
+**Rinkeby Test Network**: 0x41773f6A40C4A8049225b3E2ADCe67326fb023da   
+**Ropsten Test Network**: 0xe1ca2c0C8ec95b20E6f8a02318441221b232C3B6   
 
 ## License and Warranty
 
@@ -110,7 +110,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### Truffle Installation
 
-**version 3.4.6**
+**version 4.0.1**
 
 First install truffle via npm using `npm install -g truffle` .
 
@@ -147,17 +147,14 @@ The following process will allow you to `truffle test` this library in your proj
    Each folder in the truffle directory correlates to the folders in your truffle project.   
 2. Go into the ArrayUtilsLib truffle directory on your computer and place each file in their respective directory in **your** truffle project.
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
-3. [Start a testrpc node](https://github.com/ethereumjs/testrpc "testrpc's Github")
-4. In your terminal go to your truffle project directory and run `truffle migrate`.
-5. After migration run `truffle test`.
-
-#### EthPM install:
-
-We were experiencing errors with EthPM deployment and will update this when those are resolved.
+3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")
+4. In your terminal go to your truffle project directory.
+5. Ensure the `development` object in your truffle.js file points to the same port Ganache uses, default is 7545.
+6. Run `truffle test`.   
 
 ### solc Installation
 
-**version 0.4.13**
+**version 0.4.18**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").
 
@@ -215,7 +212,7 @@ Finally, if you have an unlinked binary already stored with the '__LibraryName__
 
 ### solc-js Installation
 
-**version 0.4.13**
+**version 0.4.18**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.
 
@@ -284,7 +281,7 @@ When using the `indexOf` function be sure to provide a return tuple and check to
 ### Usage Example
 
 ```
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.18;
 
 import "./Array256Lib.sol";
 
@@ -317,64 +314,74 @@ Binding the library allows you to call the function in the format array.function
 
 ### Usage Note
 
-All of the functions only accept storage arrays containing uint256 types.
+All of the functions only accept storage arrays containing the approprate uint type.
 
 ## Functions
 
 The following is the list of functions available to use in your smart contract.
 
-   ### sumElements(uint256[] storage self) constant returns(uint256 sum)
-   *(Array256Lib.sol, line 34)*
+#### sumElements(uint256[] storage) public view returns(uint256)
+*(Array256Lib.sol, line 35)*   
 
-   Returns the sum of the array elements
+Returns the sum of the array elements
 
-   #### Arguments
-   *uint256[] storage variable* self   
+##### Arguments
+**uint256[] storage variable** self   
 
-   #### Returns
-   *uint256* sum    
+##### Returns
+**uint256** sum    
 
-   ### getMax(uint256[] storage self) constant returns(uint256 maxValue)
-   *(Array256Lib.sol, line 47)*
+#### getMax(uint256[] storage) public view returns(uint256)
+*(Array256Lib.sol, line 48)*
 
-   Returns the maximum value in the given array.
+Returns the maximum value in the given array.
 
-   #### Arguments
-   *uint256[] storage variable* self   
+##### Arguments
+**uint256[] storage** self   
 
-   #### Returns
-   *uint256* maxValue   
+##### Returns
+**uint256** maxValue   
 
-   ### getMin(uint256[] storage self) constant returns(uint256 minValue)
-   *(Array256Lib.sol, line 64)*
+#### getMin(uint256[] storage) public view returns(uint256)
+*(Array256Lib.sol, line 65)*
 
-   Returns the minimum value in the given array.
+Returns the minimum value in the given array.
 
-   #### Arguments
-   *uint256[] storage variable* self   
+##### Arguments
+**uint256[] storage** self   
 
-   #### Returns
-   *uint256* minValue    
+##### Returns
+**uint256** minValue    
 
-   ### indexOf(uint256[] storage self, uint256 value, bool isSorted) constant
-       returns(bool found, uint256 index)
-   *(Array256Lib.sol, line 84)*
+#### indexOf(uint256[] storage, uint256, bool) public view returns(bool, uint256)
+*(Array256Lib.sol, line 85)*
 
-   Returns true and the index of the given value if found or false and 0 otherwise
+Returns true and the index of the given value if found or false and 0 otherwise
 
-   #### Arguments
-   *uint256[] storage variable* self   
-   *uint256* value   
-   *bool* isSorted    
+##### Arguments
+**uint256[] storage** self   
+**uint256** value   
+**bool** isSorted    
 
-   #### Returns
-   *bool* found    
-   *uint256* index    
+##### Returns
+**bool** found    
+**uint256** index    
 
-   ### heapSort(uint256[] storage self)
-   *(ArrayUtilsLib.sol, line 144)*
+#### heapSort(uint256[] storage self) public
+*(ArrayUtilsLib.sol, line 147)*
 
-   Sorts the given array.
+Sorts the given array.
 
-   #### Arguments
-   *uint256[] storage variable* self   
+##### Arguments
+**uint256[] storage** self   
+
+#### uniq(uint256[] storage) public returns (uint256)
+*(Array256Lib.sol, line 209)*
+
+Removes duplicates from a given array.
+
+##### Arguments
+**uint256[] storage** self   
+
+##### Returns
+**uint256** length    
