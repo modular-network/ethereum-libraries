@@ -46,10 +46,10 @@ A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Gi
 
 ## Library Address
 
-**ENS**: BasicMathLib.majoolr.eth   
-**Main Ethereum Network**: 0x74453cf53c97437066b1987e364e5d6b54bcaee6   
-**Rinkeby Test Network**: 0x73c983f3b4cf4f06921b5f39291cb532fd5f548c  
-**Ropsten Test Network**: 0xd47c1de4e876b7382fd2d6e536f8e61553773560
+**ENS**: Coming Soon   
+**Main Ethereum Network**: 0x01671229bbf99b30203f9807c5a577a7b8c358fc   
+**Rinkeby Test Network**: 0xEbDD4DfEe8cd0348476a0DcA736344B9DDd0BCA2  
+**Ropsten Test Network**: 0xAff3FC5478c30736a7c5Aa69747E314D0165C38e
 
 ## License and Warranty
 
@@ -69,7 +69,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### Truffle Installation
 
-**version 3.4.6**
+**version 4.0.1**
 
 First install truffle via npm using `npm install -g truffle` .
 
@@ -106,17 +106,14 @@ The following process will allow you to `truffle test` this library in your proj
    Each folder in the truffle directory correlates to the folders in your truffle project.   
 2. Go into the BasicMathLib truffle directory on your computer and place each file in their respective directory in **your** truffle project.
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
-3. [Start a testrpc node](https://github.com/ethereumjs/testrpc "testrpc's Github")
-4. In your terminal go to your truffle project directory and run `truffle migrate`.
-5. After migration run `truffle test`.
-
-#### EthPM install:
-
-We were experiencing errors with EthPM deployment and will update this when those are resolved.
+3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")
+4. In your terminal go to your truffle project directory.
+5. Ensure the `development` object in your truffle.js file points to the same port Ganache uses, default is 7545.
+5. Run `truffle test`.   
 
 ### solc Installation
 
-**version 0.4.13**
+**version 0.4.18**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").
 
@@ -174,7 +171,7 @@ Finally, if you have an unlinked binary already stored with the '__LibraryName__
 
 ### solc-js Installation
 
-**version 0.4.13**
+**version 0.4.18**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.
 
@@ -238,7 +235,7 @@ For a detailed explanation on how libraries are used please read the following f
 
 The BasicMathLib library does the four basic math functions for unsigned 256-bit integers and protects for overflow, underflow, and from dividing by 0 (yes, we know Solidity throws when dividing by zero but keep reading.) Each function returns two variables, the first being a boolean variable which indicates `true` if there is an error and `false` if there is no error. Error being an under/overflow condition or dividing by 0. The second variable is the result of the operation or 0 if there is an error.
 
-When there is an error condition, BasicMathLib does not `throw`,`invalid`, or `revert`. This is important to understand for your smart contract workflow. The con to this is that **any state changes your contract has made up to this point will need to be handled by you, no state changes will be reverted by the library if there is an error condition.** The pro is this allows the library to log an error event that describes what happened. Pending EIP140, which we are watching, if your smart contract throws, no events will be triggered and there is no way to describe what happened to the user. This library will return (true, 0) if there is an error, triggers an `Err` event with a string logged such as `plus func overflow`, and leaves you the flexibility to handle it how you want.
+When there is an error condition, BasicMathLib does not `throw`,`invalid`, or `revert`. This is important to understand for your smart contract workflow. The con to this is that **any state changes your contract has made up to this point will need to be handled by you, no state changes will be reverted by the library if there is an error condition.**
 
 The results parallel javascript callback functions such that every return will have (err, result). This allows you to handle returns such as:
 
@@ -250,7 +247,7 @@ else
   //there is no error, use res
 ```
 
-Note: If you choose to throw when there is an error condition, such as `assert(!err)` , the Err event will not trigger and users will only receive the standard Solidity exception. This gives you the benefit of automatically reverting state changes but will not currently provide a reason to your users, leaving them guessing. On the other hand, you can handle the error without throwing such as reverting yourself, etc, and users will receive the error message. This library gives you the flexibility to decide that tradeoff yourself.
+Note: You can handle the error without throwing such as reverting yourself, this library gives you the flexibility to decide that tradeoff yourself.   
 
 In order to use the BasicMathLib library, import it into your contract and then bind it as follows:
 
@@ -321,16 +318,13 @@ contract YourContract {
   ...
 }
 ```
-While it may seem complicated rather than just asserting and throwing an error,
-being able to send an error message, when feasible, to your users is much better
-than sending them `invalid opcode` and leaving them guessing.
 
 ## Functions
 
 The following is the list of functions available to use in your smart contract.
 
    ### times(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 39)*
+   *(BasicMathLib.sol, line 38)*
 
    Multiply two numbers. Checks for overflow.
 
@@ -342,7 +336,7 @@ The following is the list of functions available to use in your smart contract.
    *uint256* number    
 
    ### dividedBy(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 58)*
+   *(BasicMathLib.sol, line 55)*
 
    Divide two numbers. Checks for 0 divisor.
 
@@ -354,7 +348,7 @@ The following is the list of functions available to use in your smart contract.
    *uint256* number   
 
    ### plus(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 77)*
+   *(BasicMathLib.sol, line 78)*
 
    Add two numbers. Checks for overflow.
 
@@ -366,7 +360,7 @@ The following is the list of functions available to use in your smart contract.
    *uint256* number   
 
    ### minus(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 96)*
+   *(BasicMathLib.sol, line 95)*
 
    Subtract two numbers. Checks for underflow.
 
