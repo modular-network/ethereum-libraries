@@ -47,7 +47,7 @@ A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Gi
 ## Library Address
 
 **ENS**: Coming Soon   
-**Main Ethereum Network**: 0x01671229bbf99b30203f9807c5a577a7b8c358fc   
+**Main Ethereum Network**: 0x01671229Bbf99b30203F9807C5A577a7B8C358Fc   
 **Rinkeby Test Network**: 0xEbDD4DfEe8cd0348476a0DcA736344B9DDd0BCA2  
 **Ropsten Test Network**: 0xAff3FC5478c30736a7c5Aa69747E314D0165C38e
 
@@ -153,7 +153,7 @@ When creating unlinked binary, the compiler currently leaves special substrings 
 
 `--libraries "BasicMathLib:0x74453cf53c97437066b1987e364e5d6b54bcaee6"`
 
-Additionally, if you have multiple libraries, you can create a file with one library string per line and inlcude this library as follows:
+Additionally, if you have multiple libraries, you can create a file with one library string per line and include this library as follows:
 
 `"BasicMathLib:0x74453cf53c97437066b1987e364e5d6b54bcaee6"`
 
