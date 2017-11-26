@@ -1,10 +1,10 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 /**
  * @title TokenLib
  * @author Majoolr.io
  *
- * version 1.1.0
+ * version 1.2.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -35,13 +35,14 @@ library TokenLib {
   using BasicMathLib for uint256;
 
   struct TokenStorage {
+    bool initialized;
     mapping (address => uint256) balances;
     mapping (address => mapping (address => uint256)) allowed;
 
     string name;
     string symbol;
     uint256 totalSupply;
-    uint256 INITIAL_SUPPLY;
+    uint256 initialSupply;
     address owner;
     uint8 decimals;
     bool stillMinting;
@@ -67,12 +68,14 @@ library TokenLib {
                 uint8 _decimals,
                 uint256 _initial_supply,
                 bool _allowMinting)
+                public
   {
-    require(self.INITIAL_SUPPLY == 0);
+    require(!self.initialized);
+    self.initialized = true;
     self.name = _name;
     self.symbol = _symbol;
     self.totalSupply = _initial_supply;
-    self.INITIAL_SUPPLY = _initial_supply;
+    self.initialSupply = _initial_supply;
     self.decimals = _decimals;
     self.owner = _owner;
     self.stillMinting = _allowMinting;
@@ -84,7 +87,7 @@ library TokenLib {
   /// @param _to Address to send tokens
   /// @param _value Number of tokens to send
   /// @return True if completed
-  function transfer(TokenStorage storage self, address _to, uint256 _value) returns (bool) {
+  function transfer(TokenStorage storage self, address _to, uint256 _value) public returns (bool) {
     bool err;
     uint256 balance;
 
@@ -107,6 +110,7 @@ library TokenLib {
                         address _from,
                         address _to,
                         uint256 _value)
+                        public
                         returns (bool)
   {
     var _allowance = self.allowed[_from][msg.sender];
@@ -132,7 +136,7 @@ library TokenLib {
   /// @param self Stored token from token contract
   /// @param _owner Address to retrieve balance of
   /// @return balance The number of tokens in the subject account
-  function balanceOf(TokenStorage storage self, address _owner) constant returns (uint256 balance) {
+  function balanceOf(TokenStorage storage self, address _owner) public view returns (uint256 balance) {
     return self.balances[_owner];
   }
 
@@ -141,7 +145,10 @@ library TokenLib {
   /// @param _spender Address to authorize
   /// @param _value Number of tokens authorized account may send
   /// @return True if completed
-  function approve(TokenStorage storage self, address _spender, uint256 _value) returns (bool) {
+  function approve(TokenStorage storage self, address _spender, uint256 _value) public returns (bool) {
+    // must set to zero before changing approval amount in accordance with spec
+    require((_value == 0) || (self.allowed[msg.sender][_spender] == 0));
+
     self.allowed[msg.sender][_spender] = _value;
     Approval(msg.sender, _spender, _value);
     return true;
@@ -152,7 +159,10 @@ library TokenLib {
   /// @param _owner Address of token holder
   /// @param _spender Address of authorized spender
   /// @return remaining Number of tokens spender has left in owner's account
-  function allowance(TokenStorage storage self, address _owner, address _spender) constant returns (uint256 remaining) {
+  function allowance(TokenStorage storage self, address _owner, address _spender)
+                     public
+                     view
+                     returns (uint256 remaining) {
     return self.allowed[_owner][_spender];
   }
 
@@ -163,7 +173,7 @@ library TokenLib {
   /// @param _increase True if increasing allowance, false if decreasing allowance
   /// @return True if completed
   function approveChange (TokenStorage storage self, address _spender, uint256 _valueChange, bool _increase)
-                          returns (bool)
+                          public returns (bool)
   {
     uint256 _newAllowed;
     bool err;
@@ -190,7 +200,7 @@ library TokenLib {
   /// @param self Stored token from token contract
   /// @param _newOwner Address for the new owner
   /// @return True if completed
-  function changeOwner(TokenStorage storage self, address _newOwner) returns (bool) {
+  function changeOwner(TokenStorage storage self, address _newOwner) public returns (bool) {
     require((self.owner == msg.sender) && (_newOwner > 0));
 
     self.owner = _newOwner;
@@ -202,7 +212,7 @@ library TokenLib {
   /// @param self Stored token from token contract
   /// @param _amount Number of tokens to mint
   /// @return True if completed
-  function mintToken(TokenStorage storage self, uint256 _amount) returns (bool) {
+  function mintToken(TokenStorage storage self, uint256 _amount) public returns (bool) {
     require((self.owner == msg.sender) && self.stillMinting);
     uint256 _newAmount;
     bool err;
@@ -219,7 +229,7 @@ library TokenLib {
   /// @dev Permanent stops minting
   /// @param self Stored token from token contract
   /// @return True if completed
-  function closeMint(TokenStorage storage self) returns (bool) {
+  function closeMint(TokenStorage storage self) public returns (bool) {
     require(self.owner == msg.sender);
 
     self.stillMinting = false;
@@ -231,7 +241,7 @@ library TokenLib {
   /// @param self Stored token from token contract
   /// @param _amount Amount of tokens to burn
   /// @return True if completed
-  function burnToken(TokenStorage storage self, uint256 _amount) returns (bool) {
+  function burnToken(TokenStorage storage self, uint256 _amount) public returns (bool) {
       uint256 _newBalance;
       bool err;
 

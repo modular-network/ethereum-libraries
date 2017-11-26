@@ -17,7 +17,6 @@ A utility library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Gi
   - [Truffle Installation](#truffle-installation)
     - [Manual install:](#manual-install)
     - [Testing the library in truffle](#testing-the-library-in-truffle)
-    - [EthPM install:](#ethpm-install)
   - [solc Installation](#solc-installation)
     - [With standard JSON input](#with-standard-json-input)
     - [solc without standard JSON input](#solc-without-standard-json-input)
