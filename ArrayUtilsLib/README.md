@@ -180,7 +180,7 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "Array256Lib": "0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"
+        "Array256Lib": "0xD620Ce17fC516671F0fA84Ac88e39dCBb0a1615A"
       }
     }
   }
@@ -192,11 +192,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "Array256Lib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"`
+`--libraries "Array256Lib:0xD620Ce17fC516671F0fA84Ac88e39dCBb0a1615A"`
 
 Additionally, if you have multiple libraries, you can create a file with one library string per line and include this library as follows:
 
-`"Array256Lib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"`
+`"Array256Lib:0xD620Ce17fC516671F0fA84Ac88e39dCBb0a1615A"`
 
 then add the following flag to your command:
 
@@ -204,7 +204,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "Array256Lib:0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"`
+`--libraries "Array256Lib:0xD620Ce17fC516671F0fA84Ac88e39dCBb0a1615A"`
 
 #### solc documentation
 
@@ -241,7 +241,7 @@ var input = {
     ...
     "libraries": {
       "YourContract.sol": {
-        "Array256Lib": "0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247"
+        "Array256Lib": "0xD620Ce17fC516671F0fA84Ac88e39dCBb0a1615A"
       }
     }
     ...
@@ -258,7 +258,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'Array256Lib': '0xcbe717fb2923f4226271cc4c1d5ef2c076fb3247' });
+ bytecode = solc.linkBytecode(bytecode, { 'Array256Lib': '0xD620Ce17fC516671F0fA84Ac88e39dCBb0a1615A' });
  ```
 
 #### Solc-js documentation
