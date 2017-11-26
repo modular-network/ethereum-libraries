@@ -12,7 +12,7 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 
 - [Library Address](#library-address)
-  - [v1.1.0](#v110)
+  - [v1.2.0](#v120)
   - [v1.0.0](#v100)
 - [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
@@ -29,40 +29,42 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 - [Basic Usage](#basic-usage)
   - [Usage Example](#usage-example)
 - [Change Log](#change-log)
-  - [v1.1.0](#v110-1)
+  - [v1.2.0](#v120-1)
+  - [v1.1.0](#v110)
 - [Functions](#functions)
-    - [init(TokenLib.TokenStorage storage, address, string, string, uint8, uint256, bool)](#inittokenlibtokenstorage-storage-address-string-string-uint8-uint256-bool)
+    - [Standard Token Functions](#standard-token-functions)
+    - [init(TokenLib.TokenStorage storage, address, string, string, uint8, uint256, bool) public](#inittokenlibtokenstorage-storage-address-string-string-uint8-uint256-bool-public)
       - [Arguments](#arguments)
       - [Returns](#returns)
-    - [transfer(TokenLib.TokenStorage storage, address, uint256)](#transfertokenlibtokenstorage-storage-address-uint256)
+    - [transfer(TokenLib.TokenStorage storage, address, uint256) public returns (bool)](#transfertokenlibtokenstorage-storage-address-uint256-public-returns-bool)
       - [Arguments](#arguments-1)
       - [Returns](#returns-1)
-    - [transferFrom(TokenLib.TokenStorage storage, address, address, uint256)](#transferfromtokenlibtokenstorage-storage-address-address-uint256)
+    - [transferFrom(TokenLib.TokenStorage storage, address, address, uint256) public returns (bool)](#transferfromtokenlibtokenstorage-storage-address-address-uint256-public-returns-bool)
       - [Arguments](#arguments-2)
       - [Returns](#returns-2)
-    - [balanceOf(TokenLib.TokenStorage storage, address)](#balanceoftokenlibtokenstorage-storage-address)
+    - [balanceOf(TokenLib.TokenStorage storage, address) public vew returns (uint256)](#balanceoftokenlibtokenstorage-storage-address-public-vew-returns-uint256)
       - [Arguments](#arguments-3)
       - [Returns](#returns-3)
-    - [approve(TokenLib.TokenStorage storage, address, uint256)](#approvetokenlibtokenstorage-storage-address-uint256)
+    - [approve(TokenLib.TokenStorage storage, address, uint256) public returns (bool)](#approvetokenlibtokenstorage-storage-address-uint256-public-returns-bool)
       - [Arguments](#arguments-4)
       - [Returns](#returns-4)
-    - [allowance(TokenLib.TokenStorage storage, address, address)](#allowancetokenlibtokenstorage-storage-address-address)
+    - [allowance(TokenLib.TokenStorage storage, address, address) public view returns (uint256)](#allowancetokenlibtokenstorage-storage-address-address-public-view-returns-uint256)
       - [Arguments](#arguments-5)
       - [Returns](#returns-5)
   - [Enhanced Token Functions](#enhanced-token-functions)
-    - [approveChange(TokenLib.TokenStorage storage, address, uint256, bool)](#approvechangetokenlibtokenstorage-storage-address-uint256-bool)
+    - [approveChange(TokenLib.TokenStorage storage, address, uint256, bool) public returns (bool)](#approvechangetokenlibtokenstorage-storage-address-uint256-bool-public-returns-bool)
       - [Arguments](#arguments-6)
       - [Returns](#returns-6)
-    - [changeOwner(TokenLib.TokenStorage storage, address)](#changeownertokenlibtokenstorage-storage-address)
+    - [changeOwner(TokenLib.TokenStorage storage, address) public returns (bool)](#changeownertokenlibtokenstorage-storage-address-public-returns-bool)
       - [Arguments](#arguments-7)
       - [Returns](#returns-7)
-    - [mintToken(TokenLib.TokenStorage storage, uint256)](#minttokentokenlibtokenstorage-storage-uint256)
+    - [mintToken(TokenLib.TokenStorage storage, uint256) public returns (bool)](#minttokentokenlibtokenstorage-storage-uint256-public-returns-bool)
       - [Arguments](#arguments-8)
       - [Returns](#returns-8)
-    - [closeMint(TokenLib.TokenStorage storage)](#closeminttokenlibtokenstorage-storage)
+    - [closeMint(TokenLib.TokenStorage storage) public returns (bool)](#closeminttokenlibtokenstorage-storage-public-returns-bool)
       - [Arguments](#arguments-9)
       - [Returns](#returns-9)
-    - [burnToken(TokenLib.TokenStorage storage, uint256)](#burntokentokenlibtokenstorage-storage-uint256)
+    - [burnToken(TokenLib.TokenStorage storage, uint256) public returns (bool)](#burntokentokenlibtokenstorage-storage-uint256-public-returns-bool)
       - [Arguments](#arguments-10)
       - [Returns](#returns-10)
 
@@ -70,12 +72,12 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 ## Library Address
 
-### v1.1.0
+### v1.2.0
 
-**ENS**: TokenLib.majoolr.eth   
-**Main Ethereum Network**: 0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6   
-**Rinkeby Test Network**: 0xAe5222Aa5112673A77F29a80b6659d9bE8b674A4   
-**Ropsten Test Network**: 0xaE1e80c332f78Df321E72BD3C5AAfc55766D83Cc   
+**ENS**: TBD   
+**Main Ethereum Network**: 0x6d271cbF16be9E9D037DDA5F0dc507777bA27a1c   
+**Rinkeby Test Network**: 0x80b4028a4d6127838dd7bC8C74d7738b4b8EF111   
+**Ropsten Test Network**: 0xE6B2dEBa012F85Ef1C0D1b113c09A1353f3dC40c  
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time. (We're still thinking about how to design and integrate the system.)*
@@ -101,7 +103,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### Truffle Installation
 
-**version 3.4.9**
+**version 4.0.1**
 
 First install truffle via npm using `npm install -g truffle` .
 
@@ -147,12 +149,14 @@ The following process will allow you to `truffle test` this library in your proj
    Each folder in the truffle directory correlates to the folders in your truffle project.   
 2. Go into the TokenLib truffle directory on your computer and place each file in their respective directory in **your** truffle project.
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
-3. [Start a testrpc node](https://github.com/ethereumjs/testrpc "testrpc's Github")
-4. In your terminal go to your truffle project directory and run `truffle test`.
+3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")
+4. In your terminal go to your truffle project directory.
+5. Ensure the `development` object in your truffle.js file points to the same port Ganache uses, default is 7545.
+6. Run `truffle test`.  
 
 ### solc Installation
 
-**version 0.4.15**
+**version 0.4.18**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").
 
@@ -184,7 +188,7 @@ For direction and instructions on how the Solidity command line compiler works [
         "BasicMathLib" : "0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"
       },
       "YourTokenContract.sol": {
-        "TokenLib": "0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"
+        "TokenLib": "0x6d271cbF16be9E9D037DDA5F0dc507777bA27a1c"
       }
     }
   }
@@ -196,11 +200,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "TokenLib:0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"`
+`--libraries "TokenLib:0x6d271cbF16be9E9D037DDA5F0dc507777bA27a1c"`
 
 Additionally, if you have multiple libraries, you can create a file with one library string per line and include this library as follows:
 
-`"TokenLib:0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"`
+`"TokenLib:0x6d271cbF16be9E9D037DDA5F0dc507777bA27a1c"`
 
 then add the following flag to your command:
 
@@ -208,7 +212,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "TokenLib:0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"`
+`--libraries "TokenLib:0x6d271cbF16be9E9D037DDA5F0dc507777bA27a1c"`
 
 #### solc documentation
 
@@ -216,7 +220,7 @@ Finally, if you have an unlinked binary already stored with the '__LibraryName__
 
 ### solc-js Installation
 
-**version 0.4.15**
+**version 0.4.18**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.
 
@@ -252,7 +256,7 @@ var input = {
         "BasicMathLib": "0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"
       },
       "YourContract.sol": {
-        "TokenLib": "0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6"
+        "TokenLib": "0x6d271cbF16be9E9D037DDA5F0dc507777bA27a1c"
       }
     }
     ...
@@ -269,7 +273,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'TokenLib': '0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6' });
+ bytecode = solc.linkBytecode(bytecode, { 'TokenLib': '0x6d271cbF16be9E9D037DDA5F0dc507777bA27a1c' });
  ```
 
 #### Solc-js documentation
@@ -292,7 +296,7 @@ In order to use the TokenLib, import it into your token contract and then bind i
 ### Usage Example
 
 ```
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 import "./TokenLib.sol";
 
@@ -326,6 +330,14 @@ Binding the library allows you to call the function in the format [firstParamete
 
 ## Change Log
 
+### v1.2.0
+
+* Changed INITIAL_SUPPLY to initialSupply since it is not a defined constant at runtime.   
+
+* Changed the initialization check to an initialization flag as suggested by Noel Maersk.   
+
+* Changed `approve` function to check for current approval to be 0 before changing to be more inline with the current spec.   
+
 ### v1.1.0
 
 * Changed the `init()` function to set the balance of the `_owner` as the initial supply. It was previously the `msg.sender`.
@@ -334,161 +346,151 @@ Binding the library allows you to call the function in the format [firstParamete
 
 The following is the list of functions available to use in your token contract.
 
-###Standard Token Functions
+#### Standard Token Functions
 
-   #### init(TokenLib.TokenStorage storage, address, string, string, uint8, uint256, bool)   
-   *(TokenLib.sol, line 63)*
+#### init(TokenLib.TokenStorage storage, address, string, string, uint8, uint256, bool) public   
+*(TokenLib.sol, line 64)*
 
-   Initialize token with owner address, token name, symbol, decimals, supply, and minting status. Standard decimals is 18, the decimals used for Ether. If no additional tokens will be minted _allowMinting should be false.
+Initialize token with owner address, token name, symbol, decimals, supply, and minting status. Standard decimals is 18, the decimals used for Ether. If no additional tokens will be minted `_allowMinting` should be false.
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self The storage token in the calling contract.   
-   **address** _owner Owning address of token contract.
-   **string** _name Name of the token.   
-   **string** _symbol Symbol of the token.   
-   **uint8** _decimals Decimal places for token represented.   
-   **uint256** _initial_supply Initial supply for the token.   
-   **bool** _allowMinting True if more tokens will be created, false otherwise.
+##### Arguments
+**TokenLib.TokenStorage storage** `self` The storage token in the calling contract.   
+**address** `_owner` Owning address of token contract.
+**string** `_name Name` of the token.   
+**string** `_symbol` Symbol of the token.   
+**uint8** `_decimals` Decimal places for token represented.   
+**uint256** `_initial_supply` Initial supply for the token.   
+**bool** `_allowMinting` True if more tokens will be created, false otherwise.
 
-   ##### Returns
-   Nada
+##### Returns
+Nada
 
-   #### transfer(TokenLib.TokenStorage storage, address, uint256)    
-                 returns (bool)   
-   *(TokenLib.sol, line 87)*
+#### transfer(TokenLib.TokenStorage storage, address, uint256) public returns (bool)   
+*(TokenLib.sol, line 90)*
 
-   Transfer tokens from msg.sender to another account.
+Transfer tokens from msg.sender to another account.
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage variable** self   
-   **address** _to   
-   **uint256** _value   
+##### Arguments
+**TokenLib.TokenStorage storage variable** `self`   
+**address** `_to`   
+**uint256** `_value`   
 
-   ##### Returns
-   **bool** Returns true after successful transfer.     
+##### Returns
+**bool** Returns true after successful transfer.     
 
-   #### transferFrom(TokenLib.TokenStorage storage, address, address, uint256)   
-                     returns (bool)   
-   *(TokenLib.sol, line 106)*
+#### transferFrom(TokenLib.TokenStorage storage, address, address, uint256) public returns (bool)   
+*(TokenLib.sol, line 109)*
 
-   Authorized spender, msg.sender, transfers tokens from one account to another.
+Authorized spender, msg.sender, transfers tokens from one account to another.
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self   
-   **address** _from   
-   **address** _to   
-   **uint256** _value   
+##### Arguments
+**TokenLib.TokenStorage storage** `self`   
+**address** `_from`   
+**address** `_to`   
+**uint256** `_value`   
 
-   ##### Returns
-   **bool**      
+##### Returns
+**bool**      
 
-   #### balanceOf(TokenLib.TokenStorage storage, address)    
-                  constant returns (uint256)   
-   *(TokenLib.sol, line 135)*   
+#### balanceOf(TokenLib.TokenStorage storage, address) public vew returns (uint256)   
+*(TokenLib.sol, line 139)*   
 
-   Retrieve the token balance of the given account.
+Retrieve the token balance of the given account.
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self   
-   **address** _owner   
+##### Arguments
+**TokenLib.TokenStorage storage** `self`   
+**address** `_owner`   
 
-   ##### Returns
-   **uint256** balance    
+##### Returns
+**uint256** `balance`    
 
-   #### approve(TokenLib.TokenStorage storage, address, uint256)    
-                returns (bool)   
-   *(TokenLib.sol, line 144)*   
+#### approve(TokenLib.TokenStorage storage, address, uint256) public returns (bool)   
+*(TokenLib.sol, line 148)*   
 
-   msg.sender approves a third party to spend up to _value in tokens.
+msg.sender approves a third party to spend up to `_value` in tokens.
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **address** _spender   
-   **uint256** _value   
+##### Arguments
+**TokenLib.TokenStorage storage** `self`    
+**address** `_spender`   
+**uint256** `_value`   
 
-   ##### Returns
-   **bool**   
+##### Returns
+**bool**   
 
-   #### allowance(TokenLib.TokenStorage storage, address, address)   
-                  constant returns (uint256)   
-   *(TokenLib.sol, line 155)*
+#### allowance(TokenLib.TokenStorage storage, address, address) public view returns (uint256)   
+*(TokenLib.sol, line 162)*
 
-   Check the remaining allowance spender has from owner.
+Check the remaining allowance spender has from owner.
 
-   ##### Arguments
-   **TokenStorage storage** self   
-   **address** _owner   
-   **address** _spender   
+##### Arguments
+**TokenStorage storage** `self`   
+**address** `_owner`   
+**address** `_spender`   
 
-   ##### Returns
-   **uint256** remaining   
+##### Returns
+**uint256** `remaining`   
 
 ### Enhanced Token Functions
 
 These are additional functions beyond the standard that can enhance token functionality.   
 
-   #### approveChange(TokenLib.TokenStorage storage, address, uint256, bool)   
-                     returns (bool)   
-   *(TokenLib.sol, line 165)*   
+#### approveChange(TokenLib.TokenStorage storage, address, uint256, bool) public returns (bool)   
+*(TokenLib.sol, line 176)*   
 
-   msg.sender approves a third party to spend tokens by increasing or decreasing the allowance by an amount equal to _valueChange. _increase should be true if increasing the approval amount and false if decreasing the approval amount. This is an enhancement to the `approve` function which subverts [the attack vector described here](https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit#heading=h.m9fhqynw2xvt "ERC20 approve attack vector") by acting on the allowance delta rather than the amount explicitly.   
+`msg.sender` approves a third party to spend tokens by increasing or decreasing the allowance by an amount equal to `_valueChange`. `_increase` should be `true` if increasing the approval amount and `false` if decreasing the approval amount. This is an enhancement to the `approve` function which subverts [the attack vector described here](https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit#heading=h.m9fhqynw2xvt "ERC20 approve attack vector") by acting on the allowance delta rather than the amount explicitly.   
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **address** _spender   
-   **uint256** _valueChange The amount to change approval by.   
-   **bool** _increase True if increasing approval, false if decreasing.      
+##### Arguments
+**TokenLib.TokenStorage storage** `self `   
+**address** `_spender`   
+**uint256** `_valueChange` The amount to change approval by.   
+**bool** `_increase` True if increasing approval, false if decreasing.      
 
-   ##### Returns
-   **bool**   
+##### Returns
+**bool**   
 
-   #### changeOwner(TokenLib.TokenStorage storage, address)   
-                     returns (bool)   
-   *(TokenLib.sol, line 193)*   
+#### changeOwner(TokenLib.TokenStorage storage, address) public returns (bool)   
+*(TokenLib.sol, line 203)*   
 
-   Changes the owning address of the token contract.   
+Changes the owning address of the token contract.   
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **address** _newOwner   
+##### Arguments
+**TokenLib.TokenStorage storage** `self`    
+**address** `_newOwner`   
 
-   ##### Returns
-   **bool**   
+##### Returns
+**bool**   
 
-   #### mintToken(TokenLib.TokenStorage storage, uint256)   
-                     returns (bool)   
-   *(TokenLib.sol, line 205)*   
+#### mintToken(TokenLib.TokenStorage storage, uint256) public returns (bool)   
+*(TokenLib.sol, line 215)*   
 
-   Mints new tokens if allowed, increases totalSupply. New tokens go to the token contract owner address.   
+Mints new tokens if allowed, increases totalSupply. New tokens go to the token contract owner address.   
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **uint256** _value Amount of tokens to mint.   
+##### Arguments
+**TokenLib.TokenStorage storage** `self`    
+**uint256** `_value` Amount of tokens to mint.   
 
-   ##### Returns
-   **bool**    
+##### Returns
+**bool**    
 
-   #### closeMint(TokenLib.TokenStorage storage)   
-                     returns (bool)   
-   *(TokenLib.sol, line 222)*   
+#### closeMint(TokenLib.TokenStorage storage) public returns (bool)   
+*(TokenLib.sol, line 232)*   
 
-   Permanently closes minting capability.   
+Permanently closes minting capability.   
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
+##### Arguments
+**TokenLib.TokenStorage storage** `self`    
 
-   ##### Returns
-   **bool**   
+##### Returns
+**bool**   
 
-   #### burnToken(TokenLib.TokenStorage storage, uint256)   
-                     returns (bool)   
-   *(TokenLib.sol, line 234)*   
+#### burnToken(TokenLib.TokenStorage storage, uint256) public returns (bool)   
+*(TokenLib.sol, line 244)*   
 
-   Allows to permanently burn tokens, reduces totalSupply.   
+Allows to permanently burn tokens, reduces totalSupply.   
 
-   ##### Arguments
-   **TokenLib.TokenStorage storage** self    
-   **uint256** _value Amount of tokens to burn.   
+##### Arguments
+**TokenLib.TokenStorage storage** `self`    
+**uint256** `_value` Amount of tokens to burn.   
 
-   ##### Returns
-   **bool**   
+##### Returns
+**bool**   
