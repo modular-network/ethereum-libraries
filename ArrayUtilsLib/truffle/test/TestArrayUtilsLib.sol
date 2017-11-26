@@ -169,6 +169,7 @@ contract TestArrayUtilsLib{
     expectedArray.push(9);
     expectedArray.push(1095);
     expectedArray.push(0xff3);
+
     uint[10] memory r1;
     r1 = instance.getHeapSort256();
     resultArray = r1;
@@ -178,6 +179,38 @@ contract TestArrayUtilsLib{
     r2 = instance.getHeapSort64();
     resultArray = r2;
     Assert.equal(resultArray, expectedArray, "heapSort");
+  }
+
+  function testUniqFunction(){
+    delete expectedArray;
+
+    expectedArray.push(1);
+    expectedArray.push(2);
+    expectedArray.push(7);
+    expectedArray.push(4);
+    expectedArray.push(0);
+
+    resultArray = instance.getUniq8();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 8-bit array");
+
+    expectedArray.push(0xff3);
+    expectedArray.push(1095);
+
+    resultArray = instance.getUniq16();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 16-bit array");
+
+    resultArray = instance.getUniq32();
+
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 32-bit array");
+
+    resultArray = instance.getUniq64();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 64-bit array");
+
+    resultArray = instance.getUniq128();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 128-bit array");
+
+    resultArray = instance.getUniq256();
+    Assert.equal(resultArray, expectedArray, "The uniq function did not returned the expected values for a 256-bit array");
   }
 
 }
