@@ -1,4 +1,4 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.18;
 
 import "./Array256Lib.sol";
 import "./Array128Lib.sol";
@@ -51,41 +51,7 @@ contract ArrayUtilsTestContract {
     return array256.getMin();
   }
 
-  function getSortedIndexOf256(uint256 value) returns (bool,uint256){
-    delete array256;
-    array256.push(1);
-    array256.push(3);
-    array256.push(4);
-    array256.push(7);
-    array256.push(8);
-    array256.push(9);
-    array256.push(1095);
-    return array256.indexOf(value,true);
-  }
-
-  function getUnsortedIndexOf256(uint256 value) returns (bool,uint256) {
-    delete array256;
-    array256.push(7);
-    array256.push(0xffff);
-    array256.push(3);
-    array256.push(1);
-    array256.push(9);
-    array256.push(1095);
-    return array256.indexOf(value,false);
-  }
-
-  function getNoIndexOf256(uint256 value, bool isSorted) returns (bool,uint256) {
-    delete array256;
-    array256.push(1);
-    array256.push(3);
-    array256.push(4);
-    array256.push(7);
-    array256.push(9);
-    array256.push(1095);
-    return array256.indexOf(value,isSorted);
-  }
-
-  function getSumElements128() returns (uint128 test){
+  function getSumElements128() returns (uint256 test){
     delete array128;
     array128.push(2);
     array128.push(4);
@@ -95,7 +61,7 @@ contract ArrayUtilsTestContract {
     return array128.sumElements();
   }
 
-  function getSumElements64() returns (uint64 test){
+  function getSumElements64() returns (uint256 test){
     delete array64;
     array64.push(2);
     array64.push(4);
@@ -105,7 +71,7 @@ contract ArrayUtilsTestContract {
     return array64.sumElements();
   }
 
-  /*function getSumElements32() returns (uint32 test){
+  function getSumElements32() returns (uint256 test){
     delete array32;
     array32.push(2);
     array32.push(4);
@@ -115,7 +81,7 @@ contract ArrayUtilsTestContract {
     return array32.sumElements();
   }
 
-  function getSumElements16() returns (uint16 test){
+  function getSumElements16() returns (uint256 test){
     delete array16;
     array16.push(2);
     array16.push(4);
@@ -123,9 +89,9 @@ contract ArrayUtilsTestContract {
     array16.push(3);
 
     return array16.sumElements();
-  }*/
+  }
 
-  function getSumElements8() returns (uint8 test){
+  function getSumElements8() returns (uint256 test){
     delete array8;
     array8.push(2);
     array8.push(4);
@@ -157,7 +123,7 @@ contract ArrayUtilsTestContract {
     return array64.getMax();
   }
 
-  /*function getGetMaxMiddle32() returns (uint32){
+  function getGetMaxMiddle32() returns (uint32){
     delete array32;
     array32.push(2);
     array32.push(29588);
@@ -177,7 +143,7 @@ contract ArrayUtilsTestContract {
 
 
     return array16.getMax();
-  }*/
+  }
 
   function getGetMaxMiddle8() returns (uint8){
     delete array8;
@@ -208,7 +174,7 @@ contract ArrayUtilsTestContract {
     return array64.getMin();
   }
 
-  /*function getGetMinMiddle32() returns (uint32){
+  function getGetMinMiddle32() returns (uint32){
     delete array32;
     array32.push(1058939);
     array32.push(73);
@@ -224,7 +190,7 @@ contract ArrayUtilsTestContract {
     array16.push(17);
     array16.push(0xffff);
     return array16.getMin();
-  }*/
+  }
 
   function getGetMinMiddle8() returns (uint8){
     delete array8;
@@ -233,321 +199,6 @@ contract ArrayUtilsTestContract {
     array8.push(17);
     array8.push(0xff);
     return array8.getMin();
-  }
-
-  function getSortedIndexOf128(uint128 value) returns (bool,uint256) {
-    delete array128;
-    array128.push(0);
-    array128.push(1);
-    array128.push(2);
-    array128.push(3);
-    array128.push(4);
-    array128.push(5);
-    array128.push(6);
-    array128.push(7);
-    array128.push(8);
-    array128.push(9);
-    array128.push(1095);
-    return array128.indexOf(value,true);
-  }
-
-  /*function getSortedIndexOf64(uint64 value) returns (bool,uint256) {
-    delete array64;
-    array64.push(0);
-    array64.push(1);
-    array64.push(2);
-    array64.push(3);
-    array64.push(4);
-    array64.push(5);
-    array64.push(6);
-    array64.push(7);
-    array64.push(8);
-    array64.push(9);
-    array64.push(1095);
-    return array64.indexOf(value,true);
-  }
-
-  function getSortedIndexOf32(uint32 value) returns (bool,uint256) {
-    delete array32;
-    array32.push(0);
-    array32.push(1);
-    array32.push(2);
-    array32.push(3);
-    array32.push(4);
-    array32.push(5);
-    array32.push(6);
-    array32.push(7);
-    array32.push(8);
-    array32.push(9);
-    array32.push(1095);
-    return array32.indexOf(value,true);
-  }*/
-
-  /*function getSortedIndexOf16(uint16 value) returns (bool,uint256) {
-    delete array16;
-    array16.push(0);
-    array16.push(1);
-    array16.push(2);
-    array16.push(3);
-    array16.push(4);
-    array16.push(5);
-    array16.push(6);
-    array16.push(7);
-    array16.push(8);
-    array16.push(9);
-    array16.push(109);
-    return array16.indexOf(value,true);
-  }*/
-
-  /*function getSortedIndexOf8(uint8 value) returns (bool,uint256) {
-    delete array8;
-    array8.push(0);
-    array8.push(1);
-    array8.push(2);
-    array8.push(3);
-    array8.push(4);
-    array8.push(5);
-    array8.push(6);
-    array8.push(7);
-    array8.push(8);
-    array8.push(9);
-    array8.push(109);
-    return array8.indexOf(value,true);
-  }*/
-
-  function getUnsortedIndexOf64(uint64 value) returns (bool,uint256) {
-    delete array64;
-    array64.push(7);
-    array64.push(0xffff);
-    array64.push(3);
-    array64.push(1);
-    array64.push(9);
-    array64.push(1095);
-    return array64.indexOf(value,false);
-  }
-
-
-  /*function getUnsortedIndexOf128(uint128 value) returns (bool,uint256) {
-    delete array128;
-    array128.push(7);
-    array128.push(0xffff);
-    array128.push(3);
-    array128.push(1);
-    array128.push(9);
-    array128.push(1095);
-    return array128.indexOf(value,false);
-  }
-
-  function getNoIndexOf128(uint128 value, bool isSorted) returns (bool,uint256) {
-    delete array128;
-    array128.push(1);
-    array128.push(3);
-    array128.push(4);
-    array128.push(7);
-    array128.push(9);
-    array128.push(1095);
-    return array128.indexOf(value,isSorted);
-  }*/
-
-  function getNoIndexOf64(uint64 value, bool isSorted) returns (bool,uint256) {
-    delete array64;
-    array64.push(1);
-    array64.push(3);
-    array64.push(4);
-    array64.push(7);
-    array64.push(9);
-    array64.push(1095);
-    return array64.indexOf(value,isSorted);
-  }
-
-  function getHeapSort256() returns (uint256[10] memory r){
-    delete array256;
-    array256.push(3);
-    array256.push(1);
-    array256.push(9);
-    array256.push(7);
-    array256.push(4);
-    array256.push(4);
-    array256.push(0xff3);
-    array256.push(0);
-    array256.push(1095);
-    array256.push(1);
-    array256.heapSort();
-    for(uint256 i = 0; i<array256.length; i++){
-      r[i] = array256[i];
-    }
-  }
-
-  /*function getHeapSort128() returns (uint128[10] memory r){
-    delete array128;
-    array128.push(3);
-    array128.push(1);
-    array128.push(9);
-    array128.push(7);
-    array128.push(4);
-    array128.push(4);
-    array128.push(0xff3);
-    array128.push(0);
-    array128.push(1095);
-    array128.push(1);
-    array128.heapSort();
-    for(uint256 i = 0; i<array128.length; i++){
-      r[i] = array128[i];
-    }
-  }*/
-
-  function getHeapSort64() returns (uint64[10] memory r){
-    delete array64;
-    array64.push(3);
-    array64.push(1);
-    array64.push(9);
-    array64.push(7);
-    array64.push(4);
-    array64.push(4);
-    array64.push(0xff3);
-    array64.push(0);
-    array64.push(1095);
-    array64.push(1);
-    array64.heapSort();
-    for(uint256 i = 0; i<array64.length; i++){
-      r[i] = array64[i];
-    }
-  }
-
-  function getUniq8() returns (uint8[5] memory r) {
-    uint arrayNewLength;
-
-    delete array8;
-
-    array8.push(1);
-    array8.push(1);
-    array8.push(2);
-    array8.push(7);
-    array8.push(4);
-    array8.push(4);
-    array8.push(0);
-    array8.push(1);
-
-    arrayNewLength = array8.uniq();
-
-    for (uint8 i = 0; i < arrayNewLength; i++) {
-      r[i] = array8[i];
-    }
-  }
-
-  function getUniq16() returns (uint16[7] memory r) {
-    uint arrayNewLength;
-
-    delete array16;
-
-    array16.push(1);
-    array16.push(1);
-    array16.push(2);
-    array16.push(7);
-    array16.push(4);
-    array16.push(4);
-    array16.push(0);
-    array16.push(0xff3);
-    array16.push(1095);
-    array16.push(1);
-
-    arrayNewLength = array16.uniq();
-
-    for (uint16 i = 0; i < arrayNewLength; i++) {
-      r[i] = array16[i];
-    }
-  }
-
-  function getUniq32() returns (uint32[7] memory r) {
-    uint arrayNewLength;
-
-    delete array32;
-
-    array32.push(1);
-    array32.push(1);
-    array32.push(2);
-    array32.push(7);
-    array32.push(4);
-    array32.push(4);
-    array32.push(0);
-    array32.push(0xff3);
-    array32.push(1095);
-    array32.push(1);
-
-    arrayNewLength = array32.uniq();
-
-    for (uint32 i = 0; i < arrayNewLength; i++) {
-      r[i] = array32[i];
-    }
-  }
-
-  function getUniq64() returns (uint64[7] memory r) {
-    uint arrayNewLength;
-
-    delete array64;
-
-    array64.push(1);
-    array64.push(1);
-    array64.push(2);
-    array64.push(7);
-    array64.push(4);
-    array64.push(4);
-    array64.push(0);
-    array64.push(0xff3);
-    array64.push(1095);
-    array64.push(1);
-
-    arrayNewLength = array64.uniq();
-
-    for (uint64 i = 0; i < arrayNewLength; i++) {
-      r[i] = array64[i];
-    }
-  }
-
-  function getUniq128() returns (uint128[7] memory r) {
-    uint arrayNewLength;
-
-    delete array128;
-
-    array128.push(1);
-    array128.push(1);
-    array128.push(2);
-    array128.push(7);
-    array128.push(4);
-    array128.push(4);
-    array128.push(0);
-    array128.push(0xff3);
-    array128.push(1095);
-    array128.push(1);
-
-    arrayNewLength = array128.uniq();
-
-    for (uint128 i = 0; i < arrayNewLength; i++) {
-      r[i] = array128[i];
-    }
-  }
-
-  function getUniq256() returns (uint256[7] memory r) {
-    uint arrayNewLength;
-
-    delete array256;
-
-    array256.push(1);
-    array256.push(1);
-    array256.push(2);
-    array256.push(7);
-    array256.push(4);
-    array256.push(4);
-    array256.push(0);
-    array256.push(0xff3);
-    array256.push(1095);
-    array256.push(1);
-
-    arrayNewLength = array256.uniq();
-
-    for (uint256 i = 0; i < arrayNewLength; i++) {
-      r[i] = array256[i];
-    }
   }
 
 }

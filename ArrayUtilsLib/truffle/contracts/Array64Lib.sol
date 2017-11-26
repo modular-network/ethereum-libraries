@@ -1,20 +1,21 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.18;
 
 /**
  * @title Array64 Library
  * @author Majoolr.io
  *
- * version 1.0.0
+ * version 1.1.0
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
  *
  * The Array64 Library provides a few utility functions to work with
- * storage uint64[] types in place. Majoolr works on open source projects in
- * the Ethereum community with the purpose of testing, documenting, and deploying
- * reusable code onto the blockchain to improve security and usability of smart
- * contracts. Majoolr also strives to educate non-profits, schools, and other
- * community members about the application of blockchain technology.
+ * storage uint64[] types in place. Majoolr provides smart contract services
+ * and security reviews for contract deployments in addition to working on open
+ * source projects in the Ethereum community. Our purpose is to test, document,
+ * and deploy reusable code onto the blockchain and improve both security and
+ * usability. We also educate non-profits, schools, and other community members
+ * about the application of blockchain technology.
  * For further information: majoolr.io
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
@@ -31,7 +32,7 @@ library Array64Lib {
   /// @dev Sum vector
   /// @param self Storage array containing uint256 type variables
   /// @return sum The sum of all elements, does not check for overflow
-  function sumElements(uint64[] storage self) constant returns(uint64 sum) {
+  function sumElements(uint64[] storage self) public view returns(uint256 sum) {
     uint256 term;
     uint8 remainder;
 
@@ -57,7 +58,7 @@ library Array64Lib {
   /// @dev Returns the max value in an array.
   /// @param self Storage array containing uint256 type variables
   /// @return maxValue The highest value in the array
-  function getMax(uint64[] storage self) constant returns(uint64 maxValue) {
+  function getMax(uint64[] storage self) public view returns(uint64 maxValue) {
     uint256 term;
     uint8 remainder;
 
@@ -86,7 +87,7 @@ library Array64Lib {
   /// @dev Returns the minimum value in an array.
   /// @param self Storage array containing uint256 type variables
   /// @return minValue The highest value in the array
-  function getMin(uint64[] storage self) constant returns(uint64 minValue) {
+  function getMin(uint64[] storage self) public view returns(uint64 minValue) {
     uint256 term;
     uint8 remainder;
 
@@ -122,7 +123,9 @@ library Array64Lib {
   /// @param isSorted True if the array is sorted, false otherwise
   /// @return found True if the value was found, false otherwise
   /// @return index The index of the given value, returns 0 if found is false
-  function indexOf(uint64[] storage self, uint64 value, bool isSorted) constant
+  function indexOf(uint64[] storage self, uint64 value, bool isSorted)
+           public
+           view
            returns(bool found, uint256 index) {
     if (isSorted) {
         uint256 high = self.length - 1;
@@ -154,7 +157,7 @@ library Array64Lib {
   /// @dev Utility function for heapSort
   /// @param index The index of child node
   /// @return pI The parent node index
-  function getParentI(uint256 index) constant private returns (uint256 pI) {
+  function getParentI(uint256 index) private pure returns (uint256 pI) {
     uint256 i = index - 1;
     pI = i/2;
   }
@@ -162,14 +165,14 @@ library Array64Lib {
   /// @dev Utility function for heapSort
   /// @param index The index of parent node
   /// @return lcI The index of left child
-  function getLeftChildI(uint256 index) constant private returns (uint256 lcI) {
+  function getLeftChildI(uint256 index) private pure returns (uint256 lcI) {
     uint256 i = index * 2;
     lcI = i + 1;
   }
 
   /// @dev Sorts given array in place
   /// @param self Storage array containing uint256 type variables
-  function heapSort(uint64[] storage self) {
+  function heapSort(uint64[] storage self) public {
     uint256 end = self.length - 1;
     uint256 start = getParentI(end);
     uint256 root = start;
@@ -231,15 +234,15 @@ library Array64Lib {
 
   /// @dev Removes duplicates from a given array.
   /// @param self Storage array containing uint256 type variables
-  function uniq(uint64[] storage self) returns (uint length) {
+  function uniq(uint64[] storage self) public returns (uint256 length) {
     bool contains;
-    uint index;
+    uint256 index;
 
-    for (uint i = 0; i < self.length; i++) {
+    for (uint256 i = 0; i < self.length; i++) {
       (contains, index) = indexOf(self, self[i], false);
 
       if (i > index) {
-        for (uint j = i; j < self.length - 1; j++){
+        for (uint256 j = i; j < self.length - 1; j++){
           self[j] = self[j + 1];
         }
 
