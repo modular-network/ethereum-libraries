@@ -253,7 +253,7 @@ In order to use the BasicMathLib library, import it into your contract and then 
 ### Usage Example
 
 ```
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.18;
 
 import "./BasicMathLib.sol";
 
@@ -322,50 +322,54 @@ contract YourContract {
 
 The following is the list of functions available to use in your smart contract.
 
-   ### times(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 38)*
+#### times(numberOne, numberTwo) public view returns (bool, uint256)
+*(BasicMathLib.sol, line 38)*
 
-   Multiply two numbers. Checks for overflow.
+Multiply two numbers. Checks for overflow.
 
-   #### Arguments
-   *uint256* numberOne    
-   *uint256* numberTwo   
+##### Arguments
+**uint256** a   
+**uint256** b   
 
-   #### Returns
-   *uint256* number    
+##### Returns
+**bool** err
+**uint256** res   
 
-   ### dividedBy(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 55)*
+#### dividedBy(uint256, uint256) constant returns (bool, uint256)
+*(BasicMathLib.sol, line 55)*
 
-   Divide two numbers. Checks for 0 divisor.
+Divide two numbers. Checks for 0 divisor.
 
-   #### Arguments
-   *uint256* numberOne   
-   *uint256* numberTwo   
+##### Arguments
+**uint256** a   
+**uint256** b   
 
-   #### Returns
-   *uint256* number   
+##### Returns
+**bool** err
+**uint256** res   
 
-   ### plus(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 78)*
+#### plus(uint256, uint256) constant returns (bool, uint256)
+*(BasicMathLib.sol, line 78)*
 
-   Add two numbers. Checks for overflow.
+Add two numbers. Checks for overflow.
 
-   #### Arguments
-   *uint256* numberOne   
-   *uint256* numberTwo    
+##### Arguments
+**uint256** a   
+**uint256** b    
 
-   #### Returns
-   *uint256* number   
+##### Returns
+**bool** err
+**uint256** res   
 
-   ### minus(numberOne, numberTwo) constant returns (number)
-   *(BasicMathLib.sol, line 95)*
+#### minus(uint256, uint256) constant returns (bool, uint256)
+*(BasicMathLib.sol, line 95)*
 
-   Subtract two numbers. Checks for underflow.
+Subtract two numbers. Checks for underflow.
 
-   #### Arguments
-   *uint256* numberOne   
-   *uint256* numberTwo   
+##### Arguments
+**uint256** a   
+**uint256** b  
 
-   #### Returns
-   *uint256* number   
+##### Returns
+**bool** err
+**uint256** res   

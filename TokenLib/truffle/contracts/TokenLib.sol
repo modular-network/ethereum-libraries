@@ -87,7 +87,8 @@ library TokenLib {
   /// @param _to Address to send tokens
   /// @param _value Number of tokens to send
   /// @return True if completed
-  function transfer(TokenStorage storage self, address _to, uint256 _value) public returns (bool) {
+  function transfer(TokenStorage storage self, address _to, uint256 _value) returns (bool) {
+    require(_to != address(0));
     bool err;
     uint256 balance;
 
