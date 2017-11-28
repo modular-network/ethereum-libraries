@@ -7,7 +7,7 @@ module.exports = function(deployer, network) {
   deployer.link(BasicMathLib, TokenLib);
   deployer.deploy(TokenLib, {overwrite: false});
 
-  if(network == "development"){
+  if(network === "development" || network === "coverage"){
     deployer.link(TokenLib, TokenLibTestContract);
     deployer.deploy(TokenLibTestContract, "0xb4e205cd196bbe4b1b3767a5e32e15f50eb79623", "Tester Token", "TST", 18, 100, true);
   }

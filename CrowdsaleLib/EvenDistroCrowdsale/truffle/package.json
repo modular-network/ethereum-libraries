@@ -2,8 +2,12 @@
   "name": "EvenDistroCrowdsale",
   "version": "2.0.1",
   "description": "Even distribution crowdsale used by crowdsale contracts",
+  "scripts": {
+    "test:coverage": "./node_modules/.bin/solidity-coverage"
+  },
   "devDependencies": {
     "truffle": "3.4.11",
-    "ethereumjs-testrpc": "4.1.1"
+    "ethereumjs-testrpc": "4.1.1",
+    "solidity-coverage": "^0.2.7"
   }
 }

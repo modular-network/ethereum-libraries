@@ -1,1 +1,4 @@
 /truffle.js
+**/node_modules
+**/coverage.json
+**/coverage

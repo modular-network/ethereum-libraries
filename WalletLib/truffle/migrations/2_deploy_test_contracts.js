@@ -20,7 +20,7 @@ module.exports = function(deployer, network) {
   deployer.link(BasicMathLib, ERC20Lib);
   deployer.deploy(ERC20Lib, {overwrite: false});
 
-  if(network == "development"){
+  if(network === "development" || network === "coverage"){
     deployer.link(WalletMainLib, WalletLibTestContract);
     deployer.link(WalletAdminLib, WalletLibTestContract);
     deployer.link(WalletGetterLib, WalletLibTestContract);

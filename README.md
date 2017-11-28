@@ -2,8 +2,11 @@ Majoolr Libraries
 =========================
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
+[![codecov](https://codecov.io/gh/Majoolr/ethereum-libraries/branch/master/graph/badge.svg)](https://codecov.io/gh/Majoolr/ethereum-libraries)
 [![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/Majoolr/ethereum-libraries.svg?columns=all)](https://waffle.io/Majoolr/ethereum-libraries)
+
 
 Majoolr Libraries is a group of packages built for use on blockchains utilizing the Ethereum Virtual Machine (EVM). All libraries are deployed and linkable in your smart contracts on both Rinkeby, Ropsten, and Ethereum Mainnet. [We also have an ethereum-contracts repository that currently holds ICO contracts](https://github.com/Majoolr/ethereum-contracts "Github link").  
 
@@ -20,6 +23,7 @@ Libraries and contracts are currently written in Solidity and Solidity Assembly.
   - [Feedback and Bug Reports](#feedback-and-bug-reports)
   - [Collaborations](#collaborations)
   - [Code Contributions](#code-contributions)
+  - [Code Quality](#code-quality)
 - [Why Libraries?](#why-libraries)
 - [In Conclusion](#in-conclusion)
 
@@ -65,6 +69,9 @@ If you see an issue in our repo or a piece of code in our Libraries you want to 
 6. Include the description of the changes on the Pull Request.
 7. When creating a pull request on the main repo, do not submit it to master.  Either submit it to an existing branch that was allocated for the changes, or submit it to a new branch you create with the PR.
 
+### Code Quality
+
+We strive to maintain high standards at Majoolr . To accomplish this, we have included unit tests and a coverage report tool. We are using the [solitidy-coverage](https://github.com/sc-forks/solidity-coverage) tool and [Codecov](https://codecov.io/gh/Majoolr/ethereum-libraries) to host our reports and analysis. Let's keep growing our coverage percentage as much as we can!
 
 ## Why Libraries?
 
