@@ -72,12 +72,12 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 ## Library Address
 
-### v1.2.0
+### v1.2.1
 
 **ENS**: TBD   
-**Main Ethereum Network**: 0x6d271cbF16be9E9D037DDA5F0dc507777bA27a1c   
-**Rinkeby Test Network**: 0x80b4028a4d6127838dd7bC8C74d7738b4b8EF111   
-**Ropsten Test Network**: 0xE6B2dEBa012F85Ef1C0D1b113c09A1353f3dC40c  
+**Main Ethereum Network**: 0x5462311485a381621D6B768c28157c2a70cBB55e   
+**Rinkeby Test Network**: 0xE563CD95728fEaA94f96a5D97AA9f1ad5A16c1a7   
+**Ropsten Test Network**: 0x276E7b5F6b03839Aa8E4aA8a6610a8E31f4E99f0  
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time. (We're still thinking about how to design and integrate the system.)*
@@ -379,7 +379,7 @@ Transfer tokens from msg.sender to another account.
 **bool** Returns true after successful transfer.     
 
 #### transferFrom(TokenLib.TokenStorage storage, address, address, uint256) public returns (bool)   
-*(TokenLib.sol, line 109)*
+*(TokenLib.sol, line 110)*
 
 Authorized spender, msg.sender, transfers tokens from one account to another.
 
@@ -393,7 +393,7 @@ Authorized spender, msg.sender, transfers tokens from one account to another.
 **bool**      
 
 #### balanceOf(TokenLib.TokenStorage storage, address) public vew returns (uint256)   
-*(TokenLib.sol, line 139)*   
+*(TokenLib.sol, line 140)*   
 
 Retrieve the token balance of the given account.
 
@@ -405,7 +405,7 @@ Retrieve the token balance of the given account.
 **uint256** `balance`    
 
 #### approve(TokenLib.TokenStorage storage, address, uint256) public returns (bool)   
-*(TokenLib.sol, line 148)*   
+*(TokenLib.sol, line 149)*   
 
 msg.sender approves a third party to spend up to `_value` in tokens.
 
@@ -418,7 +418,7 @@ msg.sender approves a third party to spend up to `_value` in tokens.
 **bool**   
 
 #### allowance(TokenLib.TokenStorage storage, address, address) public view returns (uint256)   
-*(TokenLib.sol, line 162)*
+*(TokenLib.sol, line 163)*
 
 Check the remaining allowance spender has from owner.
 
@@ -435,7 +435,7 @@ Check the remaining allowance spender has from owner.
 These are additional functions beyond the standard that can enhance token functionality.   
 
 #### approveChange(TokenLib.TokenStorage storage, address, uint256, bool) public returns (bool)   
-*(TokenLib.sol, line 176)*   
+*(TokenLib.sol, line 177)*   
 
 `msg.sender` approves a third party to spend tokens by increasing or decreasing the allowance by an amount equal to `_valueChange`. `_increase` should be `true` if increasing the approval amount and `false` if decreasing the approval amount. This is an enhancement to the `approve` function which subverts [the attack vector described here](https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit#heading=h.m9fhqynw2xvt "ERC20 approve attack vector") by acting on the allowance delta rather than the amount explicitly.   
 
@@ -449,7 +449,7 @@ These are additional functions beyond the standard that can enhance token functi
 **bool**   
 
 #### changeOwner(TokenLib.TokenStorage storage, address) public returns (bool)   
-*(TokenLib.sol, line 203)*   
+*(TokenLib.sol, line 204)*   
 
 Changes the owning address of the token contract.   
 
@@ -461,7 +461,7 @@ Changes the owning address of the token contract.
 **bool**   
 
 #### mintToken(TokenLib.TokenStorage storage, uint256) public returns (bool)   
-*(TokenLib.sol, line 215)*   
+*(TokenLib.sol, line 216)*   
 
 Mints new tokens if allowed, increases totalSupply. New tokens go to the token contract owner address.   
 
@@ -473,7 +473,7 @@ Mints new tokens if allowed, increases totalSupply. New tokens go to the token c
 **bool**    
 
 #### closeMint(TokenLib.TokenStorage storage) public returns (bool)   
-*(TokenLib.sol, line 232)*   
+*(TokenLib.sol, line 233)*   
 
 Permanently closes minting capability.   
 
@@ -484,7 +484,7 @@ Permanently closes minting capability.
 **bool**   
 
 #### burnToken(TokenLib.TokenStorage storage, uint256) public returns (bool)   
-*(TokenLib.sol, line 244)*   
+*(TokenLib.sol, line 245)*   
 
 Allows to permanently burn tokens, reduces totalSupply.   
 

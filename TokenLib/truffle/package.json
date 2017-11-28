@@ -1,6 +1,6 @@
 {
   "name": "TokenLib",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Token library used by token contracts",
   "scripts": {
     "test:coverage": "./node_modules/.bin/solidity-coverage"
