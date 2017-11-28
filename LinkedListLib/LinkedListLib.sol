@@ -8,7 +8,7 @@ pragma solidity ^0.4.15;
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
- *
+ * 
  * The LinkedListLib provides functionality for implementing data indexing using
  * a circlular linked list
  *
@@ -36,7 +36,7 @@ library LinkedListLib {
     uint256 constant HEAD = 0;
     bool constant PREV = false;
     bool constant NEXT = true;
-
+    
     struct LinkedList{
         mapping (uint256 => mapping (bool => uint256)) list;
     }
@@ -55,6 +55,24 @@ library LinkedListLib {
         }
     }
 
+    /// @dev returns true if the node exists
+    /// @param self stored linked list from contract
+    /// @param _node a node to search for
+    function nodeExists(LinkedList storage self, uint256 _node) 
+        internal
+        constant returns (bool)
+    {
+        if (self.list[_node][PREV] == HEAD && self.list[_node][NEXT] == HEAD) {
+            if (self.list[HEAD][NEXT] == _node) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    
     /// @dev Returns the number of elements in the list
     /// @param self stored linked list from contract
     function sizeOf(LinkedList storage self) internal constant returns (uint256 numElements) {
@@ -72,7 +90,7 @@ library LinkedListLib {
     function getNode(LinkedList storage self, uint256 _node)
         internal  constant returns (bool,uint256,uint256)
     {
-        if ((self.list[_node][NEXT] == 0) && (self.list[_node][PREV] == 0) && (self.list[self.list[_node][PREV]][NEXT] != _node)) {
+        if (!nodeExists(self,_node)) {
             return (false,0,0);
         } else {
             return (true,self.list[_node][PREV], self.list[_node][NEXT]);
@@ -99,6 +117,7 @@ library LinkedListLib {
         internal  constant returns (uint256)
     {
         if (sizeOf(self) == 0) { return 0; }
+        require((_node == 0) || nodeExists(self,_node));
         uint256 next = getAdjacent(self, _node, _direction);
         while  ((next != 0) && (_value != next) && ((_value < next) != _direction)) next = self.list[next][_direction];
         return next;
@@ -118,17 +137,22 @@ library LinkedListLib {
     /// @param _node existing node
     /// @param _new  new node to insert
     /// @param _direction direction to insert node in
-    function insert(LinkedList storage self, uint256 _node, uint256 _new, bool _direction) internal  {
-        uint256 c = self.list[_node][_direction];
-        createLink(self, _node, _new, _direction);
-        createLink(self, _new, c, _direction);
+    function insert(LinkedList storage self, uint256 _node, uint256 _new, bool _direction) internal returns (bool) {
+        if(!nodeExists(self,_new) && nodeExists(self,_node)) {
+            uint256 c = self.list[_node][_direction];
+            createLink(self, _node, _new, _direction);
+            createLink(self, _new, c, _direction);
+            return true;
+        } else {
+            return false;
+        }
     }
-
+    
     /// @dev removes an entry from the linked list
     /// @param self stored linked list from contract
     /// @param _node node to remove from the list
     function remove(LinkedList storage self, uint256 _node) internal returns (uint256) {
-        if ((_node == NULL) || ((self.list[_node][NEXT] == 0) && (self.list[_node][PREV] == 0) && (self.list[self.list[_node][PREV]][NEXT] != _node))) return;
+        if ((_node == NULL) || (!nodeExists(self,_node))) { return 0; }
         createLink(self, self.list[_node][PREV], self.list[_node][NEXT], NEXT);
         delete self.list[_node][PREV];
         delete self.list[_node][NEXT];
@@ -142,7 +166,7 @@ library LinkedListLib {
     function push(LinkedList storage self, uint256 _node, bool _direction) internal  {
         insert(self, HEAD, _node, _direction);
     }
-
+    
     /// @dev pops the first entry from the linked list
     /// @param self stored linked list from contract
     /// @param _direction pop from the head (NEXT) or the tail (PREV)
