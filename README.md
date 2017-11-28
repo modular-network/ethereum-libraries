@@ -23,6 +23,7 @@ Libraries and contracts are currently written in Solidity and Solidity Assembly.
   - [Feedback and Bug Reports](#feedback-and-bug-reports)
   - [Collaborations](#collaborations)
   - [Code Contributions](#code-contributions)
+  - [Code Quality](#code-quality)
 - [Why Libraries?](#why-libraries)
 - [In Conclusion](#in-conclusion)
 

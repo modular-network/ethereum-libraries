@@ -11,6 +11,6 @@ module.exports = {
       network_id: "*",
       gas: 0xfffffffffff,
       gasPrice: 0x01
-    },
+    }
   }
 };

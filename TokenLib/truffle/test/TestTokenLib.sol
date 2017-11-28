@@ -6,7 +6,12 @@ import "../contracts/ThrowProxy.sol";
 import "../contracts/TokenLibTestContract.sol";
 import "../contracts/TokenLibTestSpender.sol";
 
+// To call for test coverage
+import "../contracts/BasicMathLib.sol";
+
 contract TestTokenLib {
+  using BasicMathLib for uint256;
+
   TokenLibTestContract instance;
   ThrowProxy tokenThrow;
   TokenLibTestSpender spender;
@@ -149,5 +154,13 @@ contract TestTokenLib {
     uint256 ts = instance.totalSupply();
 
     Assert.equal(ts, 100, "Total supply should be reduced by 50");
+  }
+
+  function testRunBMLFuncsForCoverage() {
+    uint256 a = 2;
+    uint256 b = 2;
+
+    a.times(b);
+    a.dividedBy(b);
   }
 }
