@@ -24,18 +24,24 @@ contract TestLinkedListLib{
     instance = LinkedListTestContract(DeployedAddresses.LinkedListTestContract());
   }
 
-  function testInsert() {
-
+  function testEmptyExists() {
     bResult = instance.exists();
     Assert.isFalse(bResult, "The list is empty so result should be false!");
+  }
+
+  function testEmptySize() {
     result = instance.sizeOf();
     Assert.equal(result,0, "The size of the linked list should be zero!");
+  }
 
+  function testEmptySortedSpot() {
     result = instance.getSortedSpot(HEAD,2000,NEXT);
     Assert.equal(result,0, "The list is empty so spot to insert should be 0!");
+  }
+
+  function testInsert() {
 
     instance.insert(0,2000,NEXT);
-
 
     bResult = instance.exists();
     Assert.isTrue(bResult, "The list has one element so result should be true!");
@@ -46,9 +52,12 @@ contract TestLinkedListLib{
     Assert.isTrue(bResult, "The node 2000 should exist!");
   }
 
-  function testSortedInsert() {
+  function testGetSortedSpot() {
     result = instance.getSortedSpot(HEAD,1000,NEXT);
     Assert.equal(result,2000,"Spot to place new value should be 2000!");
+  }
+
+  function testSortedInsert() {
 
     instance.insert(result,1000,PREV);
     result = instance.sizeOf();
@@ -88,9 +97,47 @@ contract TestLinkedListLib{
     instance.insert(result,3000,PREV);
     result = instance.sizeOf();
     Assert.equal(result,3, "The size of the linked list should stay three because duplicates cant be added!");
+
+    result = instance.getSortedSpot(HEAD,2500,NEXT);
+    Assert.equal(result,3000, "Should return 3000 as the node next to the place for the new node!");
+
+    instance.insert(result,2500,PREV);
+    result = instance.sizeOf();
+    Assert.equal(result,4, "The size of the linked list should be four!");
+  }
+
+  function testGetAdjacent() {
+    (bResult,resultPrev) = instance.getAdjacent(3000,PREV);
+    Assert.isTrue(bResult, "The node should exist!");
+    Assert.equal(resultPrev, 2500, "The previous adjacent node should be 2500!");
+
+    (bResult,resultNext) = instance.getAdjacent(2000,NEXT);
+    Assert.isTrue(bResult, "The node should exist!");
+    Assert.equal(resultPrev, 2500, "The next adjacent node should be 2500!");
+
+    (bResult,resultNext) = instance.getAdjacent(1404,NEXT);
+    Assert.isFalse(bResult, "The node should not exist!");
+    Assert.equal(resultNext,0,"adjacent node should be 0!");
+
+    (bResult,resultPrev) = instance.getAdjacent(1204,PREV);
+    Assert.isFalse(bResult, "The node should not exist!");
+    Assert.equal(resultPrev,0,"adjacent node should be 0!");
+
+    (bResult,resultNext) = instance.getAdjacent(3000,NEXT);
+    Assert.isTrue(bResult, "The node should exist!");
+    Assert.equal(resultNext,0,"adjacent node should be 0!");
+
+    (bResult,resultPrev) = instance.getAdjacent(1000,PREV);
+    Assert.isTrue(bResult, "The node should exist!");
+    Assert.equal(resultPrev,0,"adjacent node should be 0!");
   }
 
   function testRemove() {
+    result = instance.remove(2500);
+    Assert.equal(result,2500, "2500 should have been deleted");
+    result = instance.sizeOf();
+    Assert.equal(result,3, "The size of the linked list should be 3!");
+
     result = instance.remove(4000);
     Assert.equal(result,0, "should return zero because that node doesnt exist");
 

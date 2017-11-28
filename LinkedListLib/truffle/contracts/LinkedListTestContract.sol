@@ -46,7 +46,7 @@ contract LinkedListTestContract {
     /// @param _node id of the node to step from
     /// @param _direction direction to step in
     function getAdjacent(uint256 _node, bool _direction)
-        constant returns (uint256)
+        constant returns (bool,uint256)
     {
         return list.getAdjacent(_node,_direction);
     }
