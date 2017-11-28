@@ -1,4 +1,4 @@
-EvenDistroCrowdsaleLib
+EvenDistroCrowdsaleLib **NEEDS UPDATE DO NOT USE**
 =========================   
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
@@ -88,9 +88,9 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 ### v2.0.0
 
 **ENS**: TBD   
-**Main Ethereum Network**: 0x8683e57d7277c8e12b938bcba617366262704c3b   
-**Rinkeby Test Network**: 0x0136a33eb0b3c3e5c112911be2f107d44bad8560   
-**Ropsten Test Network**: 0x6d7a3886047d7d5fb3773012ea2df593b7872574   
+**Main Ethereum Network**:    
+**Rinkeby Test Network**:    
+**Ropsten Test Network**:    
 
 ### v1.0.0
 *Note: No ENS address is provided for older versions at this time.*   

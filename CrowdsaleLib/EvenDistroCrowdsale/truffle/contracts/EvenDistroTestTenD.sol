@@ -1,20 +1,34 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
-/****************
-*
-*  Test contract for tesing libraries on networks
-*
-*****************/
+/**
+ * Even Distro Contract
+ *
+ * Majoolr provides smart contract services and security reviews for contract
+ * deployments in addition to working on open source projects in the Ethereum
+ * community. Our purpose is to test, document, and deploy reusable code onto the
+ * blockchain and improve both security and usability. We also educate non-profits,
+ * schools, and other community members about the application of blockchain
+ * technology.
+ * For further information: majoolr.io
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 import "./EvenDistroCrowdsaleLib.sol";
-import "./CrowdsaleToken.sol";
+import "./CrowdsaleTestTokenTenD.sol";
 
-contract EvenDistroCrowdsaleTestContract {
+contract EvenDistroTestTenD {
   using EvenDistroCrowdsaleLib for EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage;
 
   EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage sale;
 
-  function EvenDistroCrowdsaleTestContract(
+  function EvenDistroTestTenD(
     address owner,
     uint256[] saleData,
     uint256 fallbackExchangeRate,
@@ -28,11 +42,11 @@ contract EvenDistroCrowdsaleTestContract {
   	sale.init(owner, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressTokenCap, staticCap, token);
   }
 
-  event LogTokensBought(address indexed buyer, uint256 amount, uint256 time);
-  event LogAddressTokenCapExceeded(address indexed buyer, uint256 amount, string Msg);
+  event LogTokensBought(address buyer, uint256 amount);
   event LogUserRegistered(address registrant);
   event LogUserUnRegistered(address registrant);
-  event LogErrorMsg(address user, string Msg);
+  event LogErrorMsg(uint256 amount, string Msg);
+  event LogRegError(address user, string Msg);
   event LogAddressTokenCapChange(uint256 amount, string Msg);
   event LogTokenPriceChange(uint256 amount, string Msg);
   event LogAddressTokenCapCalculated(uint256 saleCap, uint256 numRegistered, uint256 cap, string Msg);
@@ -43,10 +57,10 @@ contract EvenDistroCrowdsaleTestContract {
 
   // fallback function can be used to buy tokens
   function () payable {
-    receivePurchase();
+    sendPurchase();
   }
 
-  function receivePurchase() payable returns (bool) {
+  function sendPurchase() payable returns (bool) {
   	return sale.receivePurchase(msg.value);
   }
 

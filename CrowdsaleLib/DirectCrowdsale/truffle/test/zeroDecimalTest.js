@@ -24,8 +24,8 @@ contract('CrowdsaleTestTokenZeroD', (accounts) => {
     const totalSupply = await token.totalSupply.call();
 
     assert.equal(name.valueOf(), 'Zero Decimals', "Name should be set to Zero Decimals.");
-    assert.equal(symbol.valueOf(), 'ZERO', "Symbol should be set to TST.");
-    assert.equal(decimals.valueOf(), 0, "Decimals should be set to 18.");
+    assert.equal(symbol.valueOf(), 'ZERO', "Symbol should be set to ETEEN.");
+    assert.equal(decimals.valueOf(), 0, "Decimals should be set to 0.");
     assert.equal(totalSupply.valueOf(), 50000000, "Total supply should reflect 50000000.");
   });
 });
@@ -45,7 +45,7 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
 
     assert.equal(owner.valueOf(), accounts[0], "Owner should be set to the account 0");
     assert.equal(tokensPerEth.valueOf(), 900, "Tokens per ETH should be 900");
-    assert.equal(capAmount.valueOf(), 201000000000000000000, "capAmount should be set to 301000000000000000000 wei");
+    assert.equal(capAmount.valueOf(), 201000000000000000000, "capAmount should be set to 201000000000000000000 wei");
     assert.equal(endTime.valueOf() - 2592000,startTime.valueOf(), "end time should be 30 days");
     assert.equal(exchangeRate.valueOf(),45000, "exchangeRate should be 45000");
     assert.equal(ownerBalance.valueOf(), 0, "Amount of wei raised in the crowdsale should be zero");

@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
  * @title DirectCrowdsaleLib
  * @author Majoolr.io
  *
- * version 2.1.0
+ * version 2.1.1
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -44,9 +44,8 @@ library DirectCrowdsaleLib {
   }
 
   event LogTokensBought(address indexed buyer, uint256 amount);
-  event LogAddressCapExceeded(address indexed buyer, uint256 amount, string Msg);
-  event LogErrorMsg(uint256 amount, string Msg);
   event LogTokenPriceChange(uint256 amount, string Msg);
+  event LogErrorMsg(uint256 amount, string Msg);
 
 
   /// @dev Called by a crowdsale contract upon creation.

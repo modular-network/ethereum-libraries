@@ -1,10 +1,10 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 /**
  * @title CrowdsaleLib
  * @author Majoolr.io
  *
- * version 2.0.0
+ * version 2.1.1
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -80,7 +80,7 @@ library CrowdsaleLib {
   event LogNoticeMsg(address _buyer, uint256 value, string Msg);
 
   // Indicates when an error has occurred in the execution of a function
-  event LogErrorMsg(string Msg);
+  event LogErrorMsg(uint256 amount, string Msg);
 
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
@@ -101,12 +101,13 @@ library CrowdsaleLib {
                 uint256 _endTime,
                 uint8 _percentBurn,
                 CrowdsaleToken _token)
+                public
   {
   	require(self.capAmount == 0);
   	require(self.owner == 0);
     require(_saleData.length > 0);
     require((_saleData.length%3) == 0); // ensure saleData is 3-item sets
-    require(_saleData[0] > (now + 3 days));
+    require(_saleData[0] > (now + 2 hours));
     require(_endTime > _saleData[0]);
     require(_capAmountInCents > 0);
     require(_owner > 0);
@@ -137,26 +138,26 @@ library CrowdsaleLib {
   /// @dev function to check if the crowdsale is currently active
   /// @param self Stored crowdsale from crowdsale contract
   /// @return success
-  function crowdsaleActive(CrowdsaleStorage storage self) constant returns (bool) {
+  function crowdsaleActive(CrowdsaleStorage storage self) public view returns (bool) {
   	return (now >= self.startTime && now <= self.endTime);
   }
 
   /// @dev function to check if the crowdsale has ended
   /// @param self Stored crowdsale from crowdsale contract
   /// @return success
-  function crowdsaleEnded(CrowdsaleStorage storage self) constant returns (bool) {
+  function crowdsaleEnded(CrowdsaleStorage storage self) public view returns (bool) {
   	return now > self.endTime;
   }
 
   /// @dev function to check if a purchase is valid
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if the transaction can buy tokens
-  function validPurchase(CrowdsaleStorage storage self) internal constant returns (bool) {
+  function validPurchase(CrowdsaleStorage storage self) internal returns (bool) {
     bool nonZeroPurchase = msg.value != 0;
     if (crowdsaleActive(self) && nonZeroPurchase) {
       return true;
     } else {
-      LogErrorMsg("Invalid Purchase! Check send time and amount of ether.");
+      LogErrorMsg(msg.value, "Invalid Purchase! Check start time and amount of ether.");
       return false;
     }
   }
@@ -164,17 +165,17 @@ library CrowdsaleLib {
   /// @dev Function called by purchasers to pull tokens
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if tokens were withdrawn
-  function withdrawTokens(CrowdsaleStorage storage self) returns (bool) {
+  function withdrawTokens(CrowdsaleStorage storage self) public returns (bool) {
     bool ok;
 
     if (self.withdrawTokensMap[msg.sender] == 0) {
-      LogErrorMsg("Sender has no tokens to withdraw!");
+      LogErrorMsg(0, "Sender has no tokens to withdraw!");
       return false;
     }
 
     if (msg.sender == self.owner) {
       if(!crowdsaleEnded(self)){
-        LogErrorMsg("Owner cannot withdraw extra tokens until after the sale!");
+        LogErrorMsg(0, "Owner cannot withdraw extra tokens until after the sale!");
         return false;
       } else {
         if(self.percentBurn > 0){
@@ -197,10 +198,9 @@ library CrowdsaleLib {
   /// @dev Function called by purchasers to pull leftover wei from their purchases
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if wei was withdrawn
-  function withdrawLeftoverWei(CrowdsaleStorage storage self) returns (bool) {
-    require(self.hasContributed[msg.sender] > 0);
+  function withdrawLeftoverWei(CrowdsaleStorage storage self) public returns (bool) {
     if (self.leftoverWei[msg.sender] == 0) {
-      LogErrorMsg("Sender has no extra wei to withdraw!");
+      LogErrorMsg(0, "Sender has no extra wei to withdraw!");
       return false;
     }
 
@@ -214,9 +214,9 @@ library CrowdsaleLib {
   /// @dev send ether from the completed crowdsale to the owners wallet address
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if owner withdrew eth
-  function withdrawOwnerEth(CrowdsaleStorage storage self) returns (bool) {
+  function withdrawOwnerEth(CrowdsaleStorage storage self) public returns (bool) {
     if ((!crowdsaleEnded(self)) && (self.token.balanceOf(this)>0)) {
-      LogErrorMsg("Cannot withdraw owner ether until after the sale!");
+      LogErrorMsg(0, "Cannot withdraw owner ether until after the sale!");
       return false;
     }
 
@@ -235,19 +235,21 @@ library CrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _newPrice new token price (amount of tokens per ether)
   /// @return true if the token price changed successfully
-  function changeTokenPrice(CrowdsaleStorage storage self,uint256 _newPrice) internal returns (bool) {
+  function changeTokenPrice(CrowdsaleStorage storage self,
+                            uint256 _newPrice)
+                            internal
+                            returns (bool)
+  {
   	require(_newPrice > 0);
 
+    bool err;
     uint256 result;
-    uint256 remainder;
 
-    result = self.exchangeRate / _newPrice;
-    remainder = self.exchangeRate % _newPrice;
-    if(remainder > 0) {
-      self.tokensPerEth = result + 1;
-    } else {
-      self.tokensPerEth = result;
-    }
+    (err, result) = self.exchangeRate.times(10**uint256(self.tokenDecimals));
+    require(!err);
+
+    self.tokensPerEth = result / _newPrice;
+
     return true;
   }
 
@@ -255,7 +257,10 @@ library CrowdsaleLib {
   /// @param self Stored Crowdsale from crowdsale contract
   /// @param _exchangeRate  ETH exchange rate expressed in cents/ETH
   /// @return true if the exchange rate has been set
-  function setTokenExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {
+  function setTokenExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate)
+                                public
+                                returns (bool)
+  {
     require(msg.sender == self.owner);
     require((now > (self.startTime - 3 days)) && (now < (self.startTime)));
     require(!self.rateSet);   // the exchange rate can only be set once!
@@ -263,31 +268,28 @@ library CrowdsaleLib {
     require(_exchangeRate > 0);
 
     uint256 _capAmountInCents;
-    uint256 _tokenBalance;
     bool err;
 
     (err, _capAmountInCents) = self.exchangeRate.times(self.capAmount);
     require(!err);
-
-    _tokenBalance = self.token.balanceOf(this);
-    self.withdrawTokensMap[msg.sender] = _tokenBalance;
-    self.startingTokenBalance = _tokenBalance;
-    self.tokensSet = true;
 
     self.exchangeRate = _exchangeRate;
     self.capAmount = (_capAmountInCents/_exchangeRate) + 1;
     changeTokenPrice(self,self.saleData[self.milestoneTimes[0]][0]);
     self.rateSet = true;
 
-    LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has sent the exchange Rate and tokens bought per ETH!");
+    err = !(setTokens(self));
+    require(!err);
+
+    LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has set the exchange Rate and tokens bought per ETH!");
     return true;
   }
 
   /// @dev fallback function to set tokens if the exchange rate function was not called
   /// @param self Stored Crowdsale from crowdsale contract
   /// @return true if tokens set successfully
-  function setTokens(CrowdsaleStorage storage self) returns (bool) {
-    require(msg.sender == self.owner);
+  function setTokens(CrowdsaleStorage storage self) public returns (bool) {
+    require((msg.sender == self.owner) || (msg.sender == address(this)));
     require(!self.tokensSet);
 
     uint256 _tokenBalance;
@@ -304,7 +306,11 @@ library CrowdsaleLib {
   /// @param self Stored Crowdsale from crowdsale contract
   /// @param timestamp Time during sale for which data is requested
   /// @return A 3-element array with 0 the timestamp, 1 the price in cents, 2 the address cap
-  function getSaleData(CrowdsaleStorage storage self, uint256 timestamp) constant returns (uint256[3]) {
+  function getSaleData(CrowdsaleStorage storage self, uint256 timestamp)
+                       public
+                       view
+                       returns (uint256[3])
+  {
     uint256[3] memory _thisData;
     uint256 index;
 
@@ -323,7 +329,7 @@ library CrowdsaleLib {
   /// @dev Gets the number of tokens sold thus far
   /// @param self Stored Crowdsale from crowdsale contract
   /// @return Number of tokens sold
-  function getTokensSold(CrowdsaleStorage storage self) constant returns (uint256) {
-    return self.startingTokenBalance - self.token.balanceOf(this);
+  function getTokensSold(CrowdsaleStorage storage self) public view returns (uint256) {
+    return self.startingTokenBalance - self.withdrawTokensMap[self.owner];
   }
 }
