@@ -76,9 +76,11 @@ library LinkedListLib {
     /// @dev Returns the number of elements in the list
     /// @param self stored linked list from contract
     function sizeOf(LinkedList storage self) internal constant returns (uint256 numElements) {
-        uint256 i = getAdjacent(self, HEAD, NEXT);
+        bool exists;
+        uint256 i;
+        (exists,i) = getAdjacent(self, HEAD, NEXT);
         while (i != HEAD) {
-            i = getAdjacent(self, i, NEXT);
+            (exists,i) = getAdjacent(self, i, NEXT);
             numElements++;
         }
         return;
@@ -102,9 +104,13 @@ library LinkedListLib {
     /// @param _node id of the node to step from
     /// @param _direction direction to step in
     function getAdjacent(LinkedList storage self, uint256 _node, bool _direction)
-        internal  constant returns (uint256)
+        internal  constant returns (bool,uint256)
     {
-        return self.list[_node][_direction];
+        if (!nodeExists(self,_node)) {
+            return (false,0);
+        } else {
+            return (true,self.list[_node][_direction]);
+        }
     }
 
     /// @dev Can be used before `insert` to build an ordered list
@@ -118,7 +124,9 @@ library LinkedListLib {
     {
         if (sizeOf(self) == 0) { return 0; }
         require((_node == 0) || nodeExists(self,_node));
-        uint256 next = getAdjacent(self, _node, _direction);
+        bool exists;
+        uint256 next;
+        (exists,next) = getAdjacent(self, _node, _direction);
         while  ((next != 0) && (_value != next) && ((_value < next) != _direction)) next = self.list[next][_direction];
         return next;
     }
@@ -171,6 +179,11 @@ library LinkedListLib {
     /// @param self stored linked list from contract
     /// @param _direction pop from the head (NEXT) or the tail (PREV)
     function pop(LinkedList storage self, bool _direction) internal returns (uint256) {
-        return remove(self, getAdjacent(self, HEAD, _direction));
+        bool exists;
+        uint256 adj;
+
+        (exists,adj) = getAdjacent(self, HEAD, _direction);
+
+        return remove(self, adj);
     }
 }
