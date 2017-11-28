@@ -70,9 +70,9 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 ## Library Address
 
-### v1.1.0
+### v1.1.1
 
-**ENS**: TokenLib.majoolr.eth   
+**ENS**: TBD   
 **Main Ethereum Network**: 0x02d509d0Af485c8dA54d8aEb42C624E7d9e2EEb6   
 **Rinkeby Test Network**: 0xAe5222Aa5112673A77F29a80b6659d9bE8b674A4   
 **Ropsten Test Network**: 0xaE1e80c332f78Df321E72BD3C5AAfc55766D83Cc   
@@ -369,7 +369,7 @@ The following is the list of functions available to use in your token contract.
 
    #### transferFrom(TokenLib.TokenStorage storage, address, address, uint256)   
                      returns (bool)   
-   *(TokenLib.sol, line 106)*
+   *(TokenLib.sol, line 107)*
 
    Authorized spender, msg.sender, transfers tokens from one account to another.
 
@@ -397,7 +397,7 @@ The following is the list of functions available to use in your token contract.
 
    #### approve(TokenLib.TokenStorage storage, address, uint256)    
                 returns (bool)   
-   *(TokenLib.sol, line 144)*   
+   *(TokenLib.sol, line 145)*   
 
    msg.sender approves a third party to spend up to _value in tokens.
 
@@ -411,7 +411,7 @@ The following is the list of functions available to use in your token contract.
 
    #### allowance(TokenLib.TokenStorage storage, address, address)   
                   constant returns (uint256)   
-   *(TokenLib.sol, line 155)*
+   *(TokenLib.sol, line 156)*
 
    Check the remaining allowance spender has from owner.
 
@@ -429,7 +429,7 @@ These are additional functions beyond the standard that can enhance token functi
 
    #### approveChange(TokenLib.TokenStorage storage, address, uint256, bool)   
                      returns (bool)   
-   *(TokenLib.sol, line 165)*   
+   *(TokenLib.sol, line 166)*   
 
    msg.sender approves a third party to spend tokens by increasing or decreasing the allowance by an amount equal to _valueChange. _increase should be true if increasing the approval amount and false if decreasing the approval amount. This is an enhancement to the `approve` function which subverts [the attack vector described here](https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit#heading=h.m9fhqynw2xvt "ERC20 approve attack vector") by acting on the allowance delta rather than the amount explicitly.   
 
@@ -444,7 +444,7 @@ These are additional functions beyond the standard that can enhance token functi
 
    #### changeOwner(TokenLib.TokenStorage storage, address)   
                      returns (bool)   
-   *(TokenLib.sol, line 193)*   
+   *(TokenLib.sol, line 194)*   
 
    Changes the owning address of the token contract.   
 
@@ -457,7 +457,7 @@ These are additional functions beyond the standard that can enhance token functi
 
    #### mintToken(TokenLib.TokenStorage storage, uint256)   
                      returns (bool)   
-   *(TokenLib.sol, line 205)*   
+   *(TokenLib.sol, line 206)*   
 
    Mints new tokens if allowed, increases totalSupply. New tokens go to the token contract owner address.   
 
@@ -470,7 +470,7 @@ These are additional functions beyond the standard that can enhance token functi
 
    #### closeMint(TokenLib.TokenStorage storage)   
                      returns (bool)   
-   *(TokenLib.sol, line 222)*   
+   *(TokenLib.sol, line 223)*   
 
    Permanently closes minting capability.   
 
@@ -482,7 +482,7 @@ These are additional functions beyond the standard that can enhance token functi
 
    #### burnToken(TokenLib.TokenStorage storage, uint256)   
                      returns (bool)   
-   *(TokenLib.sol, line 234)*   
+   *(TokenLib.sol, line 235)*   
 
    Allows to permanently burn tokens, reduces totalSupply.   
 

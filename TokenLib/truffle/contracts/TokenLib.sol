@@ -4,7 +4,7 @@ pragma solidity ^0.4.15;
  * @title TokenLib
  * @author Majoolr.io
  *
- * version 1.1.0
+ * version 1.1.1
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -85,6 +85,7 @@ library TokenLib {
   /// @param _value Number of tokens to send
   /// @return True if completed
   function transfer(TokenStorage storage self, address _to, uint256 _value) returns (bool) {
+    require(_to != address(0));
     bool err;
     uint256 balance;
 
