@@ -218,7 +218,7 @@ The bidirectional links consist of two State slots (2x uint256) which are writte
 The following is the list of functions available to use in your smart contract.
 
 #### exists(LinkedListLib.LinkedList storage)   
-*(LinkedListLib.sol, line 51)*
+*(LinkedListLib.sol, line 46)*
 
 Checks to see if the list exists. If there is only a head node, it does not exist.
 
@@ -229,7 +229,7 @@ Checks to see if the list exists. If there is only a head node, it does not exis
 **bool**   
 
 #### nodeExists(LinkedListLib.LinkedList storage)   
-*(LinkedListLib.sol, line 66)*
+*(LinkedListLib.sol, line 51)*
 
 Checks to see if a specific node exists.
 
@@ -241,7 +241,7 @@ Checks to see if a specific node exists.
 **bool**   
 
 #### sizeOf(LinkedListLib.LinkedList storage)   
-*(LinkedListLib.sol, line 83)*
+*(LinkedListLib.sol, line 78)*
 
 Finds the size of the linked list.  Head node does not count toward size.
 
@@ -252,7 +252,7 @@ Finds the size of the linked list.  Head node does not count toward size.
 **uint256**   
 
 #### getNode(LinkedListLib.LinkedList storage, uint256)   
-*(LinkedListLib.sol, line 95)*
+*(LinkedListLib.sol, line 92)*
 
 Returns the links of a node as a tuple.
 
@@ -261,10 +261,10 @@ Returns the links of a node as a tuple.
  **uint256** _node index of the node to look for
 
 ##### Returns
-**(uint256,uint256)** the PREV and NEXT node, in that order, both 0 if the node doesn't exist.  
+**(bool,uint256,uint256)** bool indicating if the node exists or not, then the PREV and NEXT node, in that order, both 0 if the node doesn't exist.  
 
 #### getAdjacent(LinkedListLib.LinkedList storage, uint256, bool)   
-*(LinkedListLib.sol, line 109)*
+*(LinkedListLib.sol, line 106)*
 
  Returns the link of a node `_node` in direction `_direction`.
 
@@ -274,10 +274,10 @@ Returns the links of a node as a tuple.
  **bool** _direction a direction to search in
 
 ##### Returns
-**uint256**   
+**(bool,uint256)**  bool indicating if the node exists, then the adjacent node 
 
 #### getSortedSpot(LinkedListLib.LinkedList storage, uint256, uint256, bool)   
-*(LinkedListLib.sol, line 121)*
+*(LinkedListLib.sol, line 122)*
 
 Finds the spot in a sorted list where 'value' can be inserted.  Used before insert to build a sorted list.
 
@@ -290,7 +290,7 @@ Finds the spot in a sorted list where 'value' can be inserted.  Used before inse
 **uint256**   
 
 #### createLink(LinkedListLib.LinkedList storage, uint256, uint256, bool)   
-*(LinkedListLib.sol, line 134)*
+*(LinkedListLib.sol, line 138)*
 
 Creates a bidirectional link between two nodes in direction `_direction`.
 
@@ -304,7 +304,7 @@ Creates a bidirectional link between two nodes in direction `_direction`.
 
 
 #### insert(LinkedListLib.LinkedList storage, uint256, uint256, bool)   
-*(LinkedListLib.sol, line 144)*
+*(LinkedListLib.sol, line 148)*
 
  Insert node `_new` beside existing node `_node` in direction `_direction`.
 
@@ -318,7 +318,7 @@ Creates a bidirectional link between two nodes in direction `_direction`.
 
 
 #### remove(LinkedListLib.LinkedList storage, uint256)   
-*(LinkedListLib.sol, line 155)*
+*(LinkedListLib.sol, line 162)*
 
 Removes node _node from the list.
 
@@ -330,7 +330,7 @@ Removes node _node from the list.
 **uint256**   
 
 #### push(LinkedListLib.LinkedList storage, uint256, bool)   
-*(LinkedListLib.sol, line 167)*
+*(LinkedListLib.sol, line 174)*
 
 pushes a new node to one end of the list.
 
@@ -343,7 +343,7 @@ pushes a new node to one end of the list.
 
 
 #### pop(LinkedListLib.LinkedList storage, bool)   
-*(LinkedListLib.sol, line 174)*
+*(LinkedListLib.sol, line 181)*
 
 Pops a node of an end of the list.
 

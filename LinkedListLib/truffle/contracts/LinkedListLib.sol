@@ -112,7 +112,7 @@ library LinkedListLib {
             return (true,self.list[_node][_direction]);
         }
     }
-
+    
     /// @dev Can be used before `insert` to build an ordered list
     /// @param self stored linked list from contract
     /// @param _node an existing node to search from, e.g. HEAD.
