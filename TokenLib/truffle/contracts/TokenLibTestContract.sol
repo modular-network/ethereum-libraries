@@ -37,12 +37,8 @@ contract TokenLibTestContract {
     return token.totalSupply;
   }
 
-  function stillMinting() constant returns (bool) {
-    return token.stillMinting;
-  }
-
   function initialSupply() constant returns (uint256) {
-    return token.INITIAL_SUPPLY;
+    return token.initialSupply;
   }
 
   function balanceOf(address who) constant returns (uint256) {
