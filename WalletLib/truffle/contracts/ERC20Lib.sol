@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.18;
 
 /**
  * @title ERC20Lib
@@ -52,8 +52,9 @@ library ERC20Lib {
   /// @dev Called by the Standard Token upon creation.
   /// @param self Stored token from token contract
   /// @param _initial_supply The initial token supply
-  function init(TokenStorage storage self, uint256 _initial_supply) {
+  function init(TokenStorage storage self, uint256 _initial_supply) public {
     require(self.totalSupply == 0);
+    require(_initial_supply > 0);
     self.totalSupply = _initial_supply;
     self.balances[msg.sender] = _initial_supply;
   }
@@ -63,7 +64,7 @@ library ERC20Lib {
   /// @param _to Address to send tokens
   /// @param _value Number of tokens to send
   /// @return success True if completed, false otherwise
-  function transfer(TokenStorage storage self, address _to, uint256 _value) returns (bool success) {
+  function transfer(TokenStorage storage self, address _to, uint256 _value) public returns (bool success) {
     bool err;
     uint256 balance;
 
@@ -89,6 +90,7 @@ library ERC20Lib {
                         address _from,
                         address _to,
                         uint256 _value)
+                        public
                         returns (bool success) {
     var _allowance = self.allowed[_from][msg.sender];
     bool err;
@@ -118,7 +120,7 @@ library ERC20Lib {
   /// @param self Stored token from token contract
   /// @param _owner Address to retrieve balance of
   /// @return balance The number of tokens in the subject account
-  function balanceOf(TokenStorage storage self, address _owner) constant returns (uint256 balance) {
+  function balanceOf(TokenStorage storage self, address _owner) public view returns (uint256 balance) {
     return self.balances[_owner];
   }
 
@@ -127,7 +129,7 @@ library ERC20Lib {
   /// @param _spender Address to authorize
   /// @param _value Number of tokens authorized account may send
   /// @return success True if completed, false otherwise
-  function approve(TokenStorage storage self, address _spender, uint256 _value) returns (bool success) {
+  function approve(TokenStorage storage self, address _spender, uint256 _value) public returns (bool success) {
     self.allowed[msg.sender][_spender] = _value;
     Approval(msg.sender, _spender, _value);
     return true;
@@ -138,7 +140,7 @@ library ERC20Lib {
   /// @param _owner Address of token holder
   /// @param _spender Address of authorized spender
   /// @return remaining Number of tokens spender has left in owner's account
-  function allowance(TokenStorage storage self, address _owner, address _spender) constant returns (uint256 remaining) {
+  function allowance(TokenStorage storage self, address _owner, address _spender) public view returns (uint256 remaining) {
     return self.allowed[_owner][_spender];
   }
 }

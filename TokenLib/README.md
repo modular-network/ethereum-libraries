@@ -12,7 +12,7 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 
 
 - [Library Address](#library-address)
-  - [v1.2.0](#v120)
+  - [v1.2.1](#v121)
   - [v1.0.0](#v100)
 - [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
@@ -29,7 +29,7 @@ A library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") t
 - [Basic Usage](#basic-usage)
   - [Usage Example](#usage-example)
 - [Change Log](#change-log)
-  - [v1.2.0](#v120-1)
+  - [v1.2.0](#v120)
   - [v1.1.0](#v110)
 - [Functions](#functions)
     - [Standard Token Functions](#standard-token-functions)

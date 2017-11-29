@@ -140,7 +140,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### Truffle Installation
 
-**version 3.4.11**   
+**version 4.0.1**   
 
 First install truffle via npm using `npm install -g truffle` .   
 
@@ -206,7 +206,7 @@ The following process will allow you to `truffle test` this library in your proj
 
 ### solc Installation
 
-**version 0.4.15**
+**version 0.4.18**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").   
 
@@ -271,7 +271,7 @@ Finally, if you have an unlinked binary already stored with the '____LibraryName
 
 ### solc-js Installation
 
-**version 0.4.15**
+**version 0.4.18**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.   
 
@@ -462,7 +462,7 @@ Confirms the specified pending transaction with the sender's signature.  If the 
 **bool**   
 
 #### revokeConfirm(WalletMainLib.WalletData storage, bytes32)   
-*(WalletMainLib.sol, line 397)*
+*(WalletMainLib.sol, line 398)*
 
 Revokes the sender's confirmation from a pending transaction.  If the transaction does not exist or has already succeeded, the call will fail.  The caller also needs to have already confirmed the transaction.
 
@@ -478,7 +478,7 @@ Revokes the sender's confirmation from a pending transaction.  If the transactio
 These functions are for performing actions that change the administrative settings of the Wallet contract such as owners, major/minor transaction threshholds, and number of signatures required. They behave almost exactly like ServeTx behaves above, but with requiredAdmin number of signatures required to execute changes.   
 
 #### changeOwner(WalletMainLib.WalletData storage, address, address, bool, bytes)   
-*(WalletAdminLib.sol, line 137)*
+*(WalletAdminLib.sol, line 139)*
 
 Changes owner address to a new address. bool should be true if confirming or initiating the transaction and false if revoking a confirmation. bytes parameter should be passed as msg.data from wallet contract.
 
@@ -494,7 +494,7 @@ Changes owner address to a new address. bool should be true if confirming or ini
 **bytes32**   
 
 #### addOwner(WalletMainLib.WalletData storage, address, bool, bytes)   
-*(WalletAdminLib.sol, line 206)*
+*(WalletAdminLib.sol, line 209)*
 
 Adds a new user as an owner of the wallet.
 
@@ -509,7 +509,7 @@ Adds a new user as an owner of the wallet.
 **bytes32**   
 
 #### removeOwner(WalletMainLib.WalletData storage, address, bool, bytes)   
-*(WalletAdminLib.sol, line 276)*
+*(WalletAdminLib.sol, line 280)*
 
 Removes an existing owner from the wallet.
 
@@ -524,7 +524,7 @@ Removes an existing owner from the wallet.
 **bytes32**   
 
 #### changeRequiredAdmin(WalletMainLib.WalletData storage, uint256, bool, bytes)   
-*(WalletAdminLib.sol, line 346)*
+*(WalletAdminLib.sol, line 351)*
 
 Changes the number of signatures required to confirm administrative changes.
 
@@ -539,7 +539,7 @@ Changes the number of signatures required to confirm administrative changes.
 **bytes32**   
 
 #### changeRequiredMajor(WalletMainLib.WalletData storage, uint256, bool, bytes)   
-*(WalletAdminLib.sol, line 412)*
+*(WalletAdminLib.sol, line 418)*
 
 Changes the number of signatures required to confirm major transactions.
 
@@ -554,7 +554,7 @@ Changes the number of signatures required to confirm major transactions.
 **bytes32**   
 
 #### changeRequiredMinor(WalletMainLib.WalletData storage, uint256, bool, bytes)   
-*(WalletAdminLib.sol, line 478)*
+*(WalletAdminLib.sol, line 485)*
 
 Changes the number of signatures required to confirm minor transactions.
 
@@ -569,7 +569,7 @@ Changes the number of signatures required to confirm minor transactions.
 **bytes32**   
 
 #### changeMajorThreshold(WalletMainLib.WalletData storage, address, address, bool, bytes)   
-*(WalletAdminLib.sol, line 545)*
+*(WalletAdminLib.sol, line 553)*
 
 Changes the threshold of tokens or wei spent per day that needs to be crossed for the transaction to be considered major.
 
