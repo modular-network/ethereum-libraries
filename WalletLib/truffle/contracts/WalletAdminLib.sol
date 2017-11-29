@@ -1,4 +1,4 @@
-pragma solidity 0.4.15;
+pragma solidity 0.4.18;
 
 /**
  * @title Wallet Admin Library
@@ -34,13 +34,13 @@ library WalletAdminLib {
   using WalletMainLib for WalletMainLib.WalletData;
 
   /*Events*/
-  event LogTransactionConfirmed(bytes32 txid, address sender, uint confirmsNeeded);
+  event LogTransactionConfirmed(bytes32 txid, address sender, uint256 confirmsNeeded);
   event LogOwnerAdded(address newOwner);
   event LogOwnerRemoved(address ownerRemoved);
   event LogOwnerChanged(address from, address to);
-  event LogRequirementChange(uint newRequired);
-  event LogThresholdChange(address token, uint newThreshold);
-  event LogErrMsg(string msg);
+  event LogRequirementChange(uint256 newRequired);
+  event LogThresholdChange(address token, uint256 newThreshold);
+  event LogErrorMsg(uint256 amount, string msg);
 
   /*Checks*/
 
@@ -48,13 +48,15 @@ library WalletAdminLib {
   /// @param _from Index of current owner removing
   /// @param _to Index of new potential owner, should be 0
   /// @return Returns true if check passes, false otherwise
-  function checkChangeOwnerArgs(uint _from, uint _to) constant returns (bool) {
+  function checkChangeOwnerArgs(uint256 _from, uint256 _to) 
+           private returns (bool) 
+  {
     if(_from == 0){
-      LogErrMsg("Change from address is not an owner");
+      LogErrorMsg(_from, "Change from address is not an owner");
       return false;
     }
     if(_to != 0){
-      LogErrMsg("Change to address is an owner");
+      LogErrorMsg(_to, "Change to address is an owner");
       return false;
     }
     return true;
@@ -64,15 +66,15 @@ library WalletAdminLib {
   /// @param _index Index of new owner, should be 0
   /// @param _length Current length of owner array
   /// @return Returns true if check passes, false otherwise
-  function checkNewOwnerArgs(uint _index, uint _length, uint _max)
-           constant returns (bool)
+  function checkNewOwnerArgs(uint256 _index, uint256 _length, uint256 _max)
+           private returns (bool)
   {
     if(_index != 0){
-      LogErrMsg("New owner already owner");
+      LogErrorMsg(_index, "New owner already owner");
       return false;
     }
     if((_length + 1) > _max){
-      LogErrMsg("Too many owners");
+      LogErrorMsg(_length, "Too many owners");
       return false;
     }
     return true;
@@ -83,15 +85,15 @@ library WalletAdminLib {
   /// @param _length Current number of owners
   /// @param _min Minimum owners currently required to meet sig requirements
   /// @return Returs true if check passes, false otherwise
-  function checkRemoveOwnerArgs(uint _index, uint _length, uint _min)
-           constant returns (bool)
+  function checkRemoveOwnerArgs(uint256 _index, uint256 _length, uint256 _min)
+           private returns (bool)
   {
     if(_index == 0){
-      LogErrMsg("Owner removing not an owner");
+      LogErrorMsg(_index, "Owner removing not an owner");
       return false;
     }
     if(_length - 1 < _min){
-      LogErrMsg("Must reduce requiredAdmin first");
+      LogErrorMsg(_index, "Must reduce requiredAdmin first");
       return false;
     }
     return true;
@@ -101,26 +103,26 @@ library WalletAdminLib {
   /// @param _newRequired The new sig requirement
   /// @param _length Current number of owners
   /// @return Returns true if checks pass, false otherwise
-  function checkRequiredChange(uint _newRequired, uint _length)
-           constant returns (bool)
+  function checkRequiredChange(uint256 _newRequired, uint256 _length)
+           private returns (bool)
   {
     if(_newRequired == 0){
-      LogErrMsg("Cant reduce to 0");
+      LogErrorMsg(_newRequired, "Cant reduce to 0");
       return false;
     }
     if(_length - 1 < _newRequired){
-      LogErrMsg("Making requirement too high");
+      LogErrorMsg(_length, "Making requirement too high");
       return false;
     }
     return true;
   }
 
   /*Utility Functions*/
-
+  
   /// @dev Used later to calculate the number of confirmations needed for tx
   /// @param _required Number of sigs required
   /// @param _count Current number of sigs
-  function calcConfirmsNeeded(uint _required, uint _count) constant returns (uint){
+  function calcConfirmsNeeded(uint256 _required, uint256 _count) private pure returns (uint256) {
     return _required - _count;
   }
 
@@ -139,10 +141,11 @@ library WalletAdminLib {
                        address _to,
                        bool _confirm,
                        bytes _data)
+                       public
                        returns (bool,bytes32)
   {
     bytes32 _id = sha3("changeOwner",_from,_to);
-    uint _number = self.transactionInfo[_id].length;
+    uint256 _number = self.transactionInfo[_id].length;
     bool allGood;
 
     if(msg.sender != address(this)){
@@ -177,7 +180,7 @@ library WalletAdminLib {
        self.transactionInfo[_id][_number].confirmRequired)
     {
       self.transactionInfo[_id][_number].success = true;
-      uint i = self.ownerIndex[_from];
+      uint256 i = self.ownerIndex[_from];
       self.ownerIndex[_from] = 0;
       self.owners[i] = _to;
       self.ownerIndex[_to] = i;
@@ -187,7 +190,7 @@ library WalletAdminLib {
       if(self.transactionInfo[_id][_number].data.length == 0)
         self.transactionInfo[_id][_number].data = _data;
 
-      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
                                                self.transactionInfo[_id][_number].confirmCount);
 
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
@@ -207,10 +210,11 @@ library WalletAdminLib {
                     address _newOwner,
                     bool _confirm,
                     bytes _data)
+                    public
                     returns (bool,bytes32)
   {
     bytes32 _id = sha3("addOwner",_newOwner);
-    uint _number = self.transactionInfo[_id].length;
+    uint256 _number = self.transactionInfo[_id].length;
     bool allGood;
 
     if(msg.sender != address(this)){
@@ -240,7 +244,7 @@ library WalletAdminLib {
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
       self.transactionInfo[_id][_number].confirmCount++;
     } else {
       _number--;
@@ -258,7 +262,7 @@ library WalletAdminLib {
       if(self.transactionInfo[_id][_number].data.length == 0)
         self.transactionInfo[_id][_number].data = _data;
 
-      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
                                                self.transactionInfo[_id][_number].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
@@ -277,10 +281,11 @@ library WalletAdminLib {
                        address _ownerRemoving,
                        bool _confirm,
                        bytes _data)
+                       public
                        returns (bool,bytes32)
   {
     bytes32 _id = sha3("removeOwner",_ownerRemoving);
-    uint _number = self.transactionInfo[_id].length;
+    uint256 _number = self.transactionInfo[_id].length;
     bool allGood;
 
     if(msg.sender != address(this)){
@@ -308,7 +313,7 @@ library WalletAdminLib {
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
       self.transactionInfo[_id][_number].confirmCount++;
     } else {
       _number--;
@@ -328,7 +333,7 @@ library WalletAdminLib {
       if(self.transactionInfo[_id][_number].data.length == 0)
         self.transactionInfo[_id][_number].data = _data;
 
-      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
                                                self.transactionInfo[_id][_number].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
@@ -344,13 +349,14 @@ library WalletAdminLib {
   /// @return bool Returns true if successful, false otherwise
   /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
   function changeRequiredAdmin(WalletMainLib.WalletData storage self,
-                               uint _requiredAdmin,
+                               uint256 _requiredAdmin,
                                bool _confirm,
                                bytes _data)
+                               public
                                returns (bool,bytes32)
   {
     bytes32 _id = sha3("changeRequiredAdmin",_requiredAdmin);
-    uint _number = self.transactionInfo[_id].length;
+    uint256 _number = self.transactionInfo[_id].length;
 
     if(msg.sender != address(this)){
       bool allGood;
@@ -377,7 +383,7 @@ library WalletAdminLib {
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
       self.transactionInfo[_id][_number].confirmCount++;
     } else {
       _number--;
@@ -394,7 +400,7 @@ library WalletAdminLib {
       if(self.transactionInfo[_id][_number].data.length == 0)
         self.transactionInfo[_id][_number].data = _data;
 
-      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
                                                self.transactionInfo[_id][_number].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
@@ -410,13 +416,14 @@ library WalletAdminLib {
   /// @return bool Returns true if successful, false otherwise
   /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
   function changeRequiredMajor(WalletMainLib.WalletData storage self,
-                               uint _requiredMajor,
+                               uint256 _requiredMajor,
                                bool _confirm,
                                bytes _data)
+                               public
                                returns (bool,bytes32)
   {
     bytes32 _id = sha3("changeRequiredMajor",_requiredMajor);
-    uint _number = self.transactionInfo[_id].length;
+    uint256 _number = self.transactionInfo[_id].length;
 
     if(msg.sender != address(this)){
       bool allGood;
@@ -443,7 +450,7 @@ library WalletAdminLib {
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
       self.transactionInfo[_id][_number].confirmCount++;
     } else {
       _number--;
@@ -460,7 +467,7 @@ library WalletAdminLib {
       if(self.transactionInfo[_id][_number].data.length == 0)
         self.transactionInfo[_id][_number].data = _data;
 
-      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
                                                self.transactionInfo[_id][_number].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
@@ -476,13 +483,14 @@ library WalletAdminLib {
   /// @return bool Returns true if successful, false otherwise
   /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
   function changeRequiredMinor(WalletMainLib.WalletData storage self,
-                               uint _requiredMinor,
+                               uint256 _requiredMinor,
                                bool _confirm,
                                bytes _data)
+                               public
                                returns (bool,bytes32)
   {
     bytes32 _id = sha3("changeRequiredMinor",_requiredMinor);
-    uint _number = self.transactionInfo[_id].length;
+    uint256 _number = self.transactionInfo[_id].length;
 
     if(msg.sender != address(this)){
       bool allGood;
@@ -509,7 +517,7 @@ library WalletAdminLib {
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
       self.transactionInfo[_id][_number].confirmCount++;
     } else {
       _number--;
@@ -526,7 +534,7 @@ library WalletAdminLib {
       if(self.transactionInfo[_id][_number].data.length == 0)
         self.transactionInfo[_id][_number].data = _data;
 
-      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
                                                self.transactionInfo[_id][_number].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
@@ -544,13 +552,14 @@ library WalletAdminLib {
   /// @return bytes32 Returns the tx ID, can be used for confirm/revoke functions
   function changeMajorThreshold(WalletMainLib.WalletData storage self,
                                 address _token,
-                                uint _majorThreshold,
+                                uint256 _majorThreshold,
                                 bool _confirm,
                                 bytes _data)
+                                public
                                 returns (bool,bytes32)
   {
     bytes32 _id = sha3("changeMajorThreshold", _token, _majorThreshold);
-    uint _number = self.transactionInfo[_id].length;
+    uint256 _number = self.transactionInfo[_id].length;
 
     if(msg.sender != address(this)){
       bool allGood;
@@ -574,7 +583,7 @@ library WalletAdminLib {
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint(msg.sender));
+      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
       self.transactionInfo[_id][_number].confirmCount++;
     } else {
       _number--;
@@ -591,7 +600,7 @@ library WalletAdminLib {
       if(self.transactionInfo[_id][_number].data.length == 0)
         self.transactionInfo[_id][_number].data = _data;
 
-      uint confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
                                                self.transactionInfo[_id][_number].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }

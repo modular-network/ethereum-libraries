@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 import "./WalletMainLib.sol";
 import "./WalletAdminLib.sol";
@@ -11,9 +11,22 @@ contract WalletLibTestContract {
 
   WalletMainLib.WalletData public wallet;
 
-  event Deposit(uint value);
+  event LogDeposit(uint256 value);
 
-  function WalletLibTestContract() {
+  /*Events*/
+  event LogTransactionConfirmed(bytes32 txid, address sender, uint256 confirmsNeeded);
+  event LogOwnerAdded(address newOwner);
+  event LogOwnerRemoved(address ownerRemoved);
+  event LogOwnerChanged(address from, address to);
+  event LogRequirementChange(uint256 newRequired);
+  event LogThresholdChange(address token, uint256 newThreshold);
+  event LogErrorMsg(uint256 amount, string msg);
+  event LogRevokeNotice(bytes32 txid, address sender, uint256 confirmsNeeded);
+  event LogTransactionFailed(bytes32 txid, address sender);
+  event LogTransactionComplete(bytes32 txid, address target, uint256 value, bytes data);
+  event LogContractCreated(address newContract, uint256 value);
+
+  function WalletLibTestContract() public {
     address[] memory _owners = new address[](5);
     _owners[0] = 0xb4e205cd196bbe4b1b3767a5e32e15f50eb79623;
     _owners[1] = 0x40333d950b4c682e8aad143c216af52877d828bf;
@@ -23,113 +36,113 @@ contract WalletLibTestContract {
     wallet.init(_owners,4,3,1,100000000000000000000);
   }
 
-  function() payable {
-    Deposit(msg.value);
+  function() public payable {
+    LogDeposit(msg.value);
   }
 
   /*Getters*/
 
-  function owners() constant returns (address[51]) {
+  function owners() public view returns (address[51]) {
     return wallet.getOwners();
   }
 
-  function ownerIndex(address _owner) constant returns (uint) {
+  function ownerIndex(address _owner) public view returns (uint256) {
     return wallet.getOwnerIndex(_owner);
   }
 
-  function maxOwners() constant returns (uint) {
+  function maxOwners() public view returns (uint256) {
     return wallet.getMaxOwners();
   }
 
-  function ownerCount() constant returns (uint) {
+  function ownerCount() public view returns (uint256) {
     return wallet.getOwnerCount();
   }
 
-  function requiredAdmin() constant returns (uint) {
+  function requiredAdmin() public view returns (uint256) {
     return wallet.getRequiredAdmin();
   }
 
-  function requiredMinor() constant returns (uint) {
+  function requiredMinor() public view returns (uint256) {
     return wallet.getRequiredMinor();
   }
 
-  function requiredMajor() constant returns (uint) {
+  function requiredMajor() public view returns (uint256) {
     return wallet.getRequiredMajor();
   }
 
-  function currentSpend(address _token) constant returns (uint[2]) {
+  function currentSpend(address _token) public view returns (uint256[2]) {
     return wallet.getCurrentSpend(_token);
   }
 
-  function majorThreshold(address _token) constant returns (uint) {
+  function majorThreshold(address _token) public view returns (uint256) {
     return wallet.getMajorThreshold(_token);
   }
 
-  function transactions(uint _date) constant returns (bytes32[10]) {
+  function transactions(uint256 _date) public view returns (bytes32[10]) {
     return wallet.getTransactions(_date);
   }
 
-  function transactionLength(bytes32 _id) constant returns (uint) {
+  function transactionLength(bytes32 _id) public view returns (uint256) {
     return wallet.getTransactionLength(_id);
   }
 
-  function transactionConfirms(bytes32 _id, uint _number) constant returns (uint256[50]) {
+  function transactionConfirms(bytes32 _id, uint256 _number) public view returns (uint256[50]) {
     return wallet.getTransactionConfirms(_id, _number);
   }
 
-  function transactionConfirmCount(bytes32 _id, uint _number) constant returns (uint) {
+  function transactionConfirmCount(bytes32 _id, uint256 _number) public view returns (uint256) {
     return wallet.getTransactionConfirmCount(_id, _number);
   }
 
-  function transactionSuccess(bytes32 _id, uint _number) constant returns (bool){
+  function transactionSuccess(bytes32 _id, uint256 _number) public view returns (bool){
     return wallet.getTransactionSuccess(_id, _number);
   }
 
   /*Changers*/
 
-  function changeOwner(address _from, address _to, bool _confirm) returns (bool,bytes32) {
+  function changeOwner(address _from, address _to, bool _confirm) public returns (bool,bytes32) {
     return wallet.changeOwner(_from, _to, _confirm, msg.data);
   }
 
-  function addOwner(address _newOwner, bool _confirm) returns (bool,bytes32) {
+  function addOwner(address _newOwner, bool _confirm) public returns (bool,bytes32) {
     return wallet.addOwner(_newOwner, _confirm, msg.data);
   }
 
-  function removeOwner(address _ownerRemoving, bool _confirm) returns (bool,bytes32) {
+  function removeOwner(address _ownerRemoving, bool _confirm) public returns (bool,bytes32) {
     return wallet.removeOwner(_ownerRemoving, _confirm, msg.data);
   }
 
-  function changeRequiredAdmin(uint _newRequired, bool _confirm) returns (bool,bytes32) {
+  function changeRequiredAdmin(uint256 _newRequired, bool _confirm) public returns (bool,bytes32) {
     return wallet.changeRequiredAdmin(_newRequired, _confirm, msg.data);
   }
 
-  function changeRequiredMajor(uint _newRequired, bool _confirm) returns (bool,bytes32) {
+  function changeRequiredMajor(uint256 _newRequired, bool _confirm) public returns (bool,bytes32) {
     return wallet.changeRequiredMajor(_newRequired, _confirm, msg.data);
   }
 
-  function changeRequiredMinor(uint _newRequired, bool _confirm) returns (bool,bytes32) {
+  function changeRequiredMinor(uint256 _newRequired, bool _confirm) public returns (bool,bytes32) {
     return wallet.changeRequiredMinor(_newRequired, _confirm, msg.data);
   }
 
-  function changeMajorThreshold(address _token, uint _newThreshold, bool _confirm) returns (bool,bytes32) {
+  function changeMajorThreshold(address _token, uint256 _newThreshold, bool _confirm) public returns (bool,bytes32) {
     return wallet.changeMajorThreshold(_token, _newThreshold, _confirm, msg.data);
   }
 
   /*Tx Execution*/
 
-  function serveTx(address _to, uint _value, bytes _txData, bool _confirm) returns (bool,bytes32) {
+  function serveTx(address _to, uint256 _value, bytes _txData, bool _confirm) public returns (bool,bytes32) {
     return wallet.serveTx(_to, _value, _txData, _confirm, msg.data);
   }
 
-  function confirmTx(bytes32 _id) returns (bool) {
+  function confirmTx(bytes32 _id) public returns (bool) {
     return wallet.confirmTx(_id);
   }
 
-  function revokeConfirm(bytes32 _id) returns (bool) {
+  function revokeConfirm(bytes32 _id) public returns (bool) {
     return wallet.revokeConfirm(_id);
   }
 
-  function checkNotConfirmed(bytes32 _id, uint _number) returns (bool) {
+  function checkNotConfirmed(bytes32 _id, uint256 _number) public returns (bool) {
     return wallet.checkNotConfirmed(_id, _number);
   }
 }
