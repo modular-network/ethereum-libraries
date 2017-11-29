@@ -20,30 +20,30 @@ contract TestLinkedListLib{
 
   event LogNotice(string Msg);
 
-  function beforeAll() {
+  function beforeAll() public {
     instance = LinkedListTestContract(DeployedAddresses.LinkedListTestContract());
   }
 
-  function testEmptyExists() {
-    bResult = instance.exists();
+  function testEmptyExists() public {
+    bResult = instance.listExists();
     Assert.isFalse(bResult, "The list is empty so result should be false!");
   }
 
-  function testEmptySize() {
+  function testEmptySize() public {
     result = instance.sizeOf();
     Assert.equal(result,0, "The size of the linked list should be zero!");
   }
 
-  function testEmptySortedSpot() {
+  function testEmptySortedSpot() public {
     result = instance.getSortedSpot(HEAD,2000,NEXT);
     Assert.equal(result,0, "The list is empty so spot to insert should be 0!");
   }
 
-  function testInsert() {
+  function testInsert() public {
 
     instance.insert(0,2000,NEXT);
 
-    bResult = instance.exists();
+    bResult = instance.listExists();
     Assert.isTrue(bResult, "The list has one element so result should be true!");
     result = instance.sizeOf();
     Assert.equal(result,1, "The size of the linked list should be one!");
@@ -52,12 +52,12 @@ contract TestLinkedListLib{
     Assert.isTrue(bResult, "The node 2000 should exist!");
   }
 
-  function testGetSortedSpot() {
+  function testGetSortedSpot() public {
     result = instance.getSortedSpot(HEAD,1000,NEXT);
     Assert.equal(result,2000,"Spot to place new value should be 2000!");
   }
 
-  function testSortedInsert() {
+  function testSortedInsert() public {
 
     instance.insert(result,1000,PREV);
     result = instance.sizeOf();
@@ -106,7 +106,7 @@ contract TestLinkedListLib{
     Assert.equal(result,4, "The size of the linked list should be four!");
   }
 
-  function testGetAdjacent() {
+  function testGetAdjacent() public {
     (bResult,resultPrev) = instance.getAdjacent(3000,PREV);
     Assert.isTrue(bResult, "The node should exist!");
     Assert.equal(resultPrev, 2500, "The previous adjacent node should be 2500!");
@@ -132,7 +132,7 @@ contract TestLinkedListLib{
     Assert.equal(resultPrev,0,"adjacent node should be 0!");
   }
 
-  function testRemove() {
+  function testRemove() public {
     result = instance.remove(2500);
     Assert.equal(result,2500, "2500 should have been deleted");
     result = instance.sizeOf();
@@ -169,7 +169,7 @@ contract TestLinkedListLib{
     Assert.equal(resultNext,0, "The next node should be HEAD!");
   }
 
-  function testPushPop(){
+  function testPushPop() public {
     instance.push(2000,NEXT);
     instance.push(3000,PREV);
     instance.push(1000,NEXT);

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 /**
  * @title LinkedListLib
@@ -43,9 +43,9 @@ library LinkedListLib {
 
     /// @dev returns true if the list exists
     /// @param self stored linked list from contract
-    function exists(LinkedList storage self)
+    function listExists(LinkedList storage self)
         internal
-        constant returns (bool)
+        view returns (bool)
     {
         // if the head nodes previous or next pointers both point to itself, then there are no items in the list
         if (self.list[HEAD][PREV] != HEAD || self.list[HEAD][NEXT] != HEAD) {
@@ -60,7 +60,7 @@ library LinkedListLib {
     /// @param _node a node to search for
     function nodeExists(LinkedList storage self, uint256 _node) 
         internal
-        constant returns (bool)
+        view returns (bool)
     {
         if (self.list[_node][PREV] == HEAD && self.list[_node][NEXT] == HEAD) {
             if (self.list[HEAD][NEXT] == _node) {
@@ -75,7 +75,7 @@ library LinkedListLib {
     
     /// @dev Returns the number of elements in the list
     /// @param self stored linked list from contract
-    function sizeOf(LinkedList storage self) internal constant returns (uint256 numElements) {
+    function sizeOf(LinkedList storage self) internal view returns (uint256 numElements) {
         bool exists;
         uint256 i;
         (exists,i) = getAdjacent(self, HEAD, NEXT);
@@ -90,7 +90,7 @@ library LinkedListLib {
     /// @param self stored linked list from contract
     /// @param _node id of the node to get
     function getNode(LinkedList storage self, uint256 _node)
-        internal  constant returns (bool,uint256,uint256)
+        internal view returns (bool,uint256,uint256)
     {
         if (!nodeExists(self,_node)) {
             return (false,0,0);
@@ -104,7 +104,7 @@ library LinkedListLib {
     /// @param _node id of the node to step from
     /// @param _direction direction to step in
     function getAdjacent(LinkedList storage self, uint256 _node, bool _direction)
-        internal  constant returns (bool,uint256)
+        internal view returns (bool,uint256)
     {
         if (!nodeExists(self,_node)) {
             return (false,0);
@@ -120,7 +120,7 @@ library LinkedListLib {
     /// @param _direction direction to seek in
     //  @return next first node beyond '_node' in direction `_direction`
     function getSortedSpot(LinkedList storage self, uint256 _node, uint256 _value, bool _direction)
-        internal  constant returns (uint256)
+        internal view returns (uint256)
     {
         if (sizeOf(self) == 0) { return 0; }
         require((_node == 0) || nodeExists(self,_node));

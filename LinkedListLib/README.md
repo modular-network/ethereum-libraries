@@ -25,7 +25,7 @@ A linked list library [provided by Majoolr](https://github.com/Majoolr "Majoolr'
   - [Basic Usage](#basic-usage)
   - [Mutations to State](#mutations-to-state)
 - [Functions](#functions)
-    - [exists(LinkedListLib.LinkedList storage)](#existslinkedlistliblinkedlist-storage)
+    - [listExists(LinkedListLib.LinkedList storage)](#listExistslinkedlistliblinkedlist-storage)
       - [Arguments](#arguments)
       - [Returns](#returns)
     - [nodeExists(LinkedListLib.LinkedList storage)](#nodeexistslinkedlistliblinkedlist-storage)
@@ -75,7 +75,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### Truffle Installation
 
-**version 3.4.9**   
+**version 4.0.1**   
 
 First install truffle via npm using `npm install -g truffle` .   
 
@@ -106,12 +106,14 @@ The following process will allow you to `truffle test` this library in your proj
 1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/LinkedListLib/truffle`.    
 2. Place each file in their respective directory in **your** truffle project.   
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
-3. [Start a testrpc node](https://github.com/ethereumjs/testrpc \"testrpc's Github\")   
-4. In your terminal go to your truffle project directory and run `truffle test`.   
+3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")
+4. In your terminal go to your truffle project directory and run `truffle migrate`.    +4. In your terminal go to your truffle project directory.
+5. After migration run `truffle test`.     +5. Ensure the `development` object in your truffle.js file points to the same port Ganache uses, default is 7545.
+6. Run `truffle test`.   
 
 ### solc Installation
 
-**version 0.4.15**
+**version 0.4.18**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").   
 
@@ -148,7 +150,7 @@ the compiler will not create unlinked binary.
 
 ### solc-js Installation
 
-**version 0.4.15**
+**version 0.4.18**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.   
 
@@ -217,7 +219,7 @@ The bidirectional links consist of two State slots (2x uint256) which are writte
 
 The following is the list of functions available to use in your smart contract.
 
-#### exists(LinkedListLib.LinkedList storage)   
+#### listExists(LinkedListLib.LinkedList storage)   
 *(LinkedListLib.sol, line 46)*
 
 Checks to see if the list exists. If there is only a head node, it does not exist.
