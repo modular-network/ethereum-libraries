@@ -1,11 +1,11 @@
 Majoolr Libraries
 =========================
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
-[![codecov](https://codecov.io/gh/Majoolr/ethereum-libraries/branch/master/graph/badge.svg)](https://codecov.io/gh/Majoolr/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
+[![codecov](https://codecov.io/gh/Modular-Network/ethereum-libraries/branch/master/graph/badge.svg)](https://codecov.io/gh/Modular-Network/ethereum-libraries)
+[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Modular-Network/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/Majoolr/ethereum-libraries.svg?columns=all)](https://waffle.io/Majoolr/ethereum-libraries)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/Modular-Network/ethereum-libraries.svg?columns=all)](https://waffle.io/Modular-Network/ethereum-libraries)
 
 
 Majoolr Libraries is a group of packages built for use on blockchains utilizing the Ethereum Virtual Machine (EVM). All libraries are deployed and linkable in your smart contracts on both Rinkeby, Ropsten, and Ethereum Mainnet. [We also have an ethereum-contracts repository that currently holds ICO contracts](https://github.com/Majoolr/ethereum-contracts "Github link").  
