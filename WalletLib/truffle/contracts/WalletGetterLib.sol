@@ -131,16 +131,16 @@ library WalletGetterLib {
   /// @dev Get list of confirmations for a tx, use getTransactionLength to get latest number
   /// @param self Wallet in contract storage
   /// @param _id ID of transaction requested
-  /// @param _number The transaction index number
+  /// @param _txIndex The transaction index number
   /// @return uint256[50] Returns list of confirmations, fixed at 50 until fork
   function getTransactionConfirms(WalletMainLib.WalletData storage self,
                                   bytes32 _id,
-                                  uint256 _number)
+                                  uint256 _txIndex)
                                   public view returns (uint256[50])
   {
     uint256[50] memory tc;
-    for(uint256 i = 0; i<self.transactionInfo[_id][_number].confirmedOwners.length; i++){
-      tc[i] = self.transactionInfo[_id][_number].confirmedOwners[i];
+    for(uint256 i = 0; i<self.transactionInfo[_id][_txIndex].confirmedOwners.length; i++){
+      tc[i] = self.transactionInfo[_id][_txIndex].confirmedOwners[i];
     }
     return tc;
   }
@@ -148,26 +148,26 @@ library WalletGetterLib {
   /// @dev Retrieve tx confirmation count
   /// @param self Wallet in contract storage
   /// @param _id ID of transaction requested
-  /// @param _number The transaction index number
+  /// @param _txIndex The transaction index number
   /// @return uint256 Returns the current number of tx confirmations
   function getTransactionConfirmCount(WalletMainLib.WalletData storage self,
                            bytes32 _id,
-                           uint256 _number)
+                           uint256 _txIndex)
                            public view returns(uint256)
   {
-    return self.transactionInfo[_id][_number].confirmCount;
+    return self.transactionInfo[_id][_txIndex].confirmCount;
   }
 
   /// @dev Retrieve if transaction was successful
   /// @param self Wallet in contract storage
   /// @param _id ID of transaction requested
-  /// @param _number The transaction index number
+  /// @param _txIndex The transaction index number
   /// @return bool Returns true if tx successfully executed, false otherwise
   function getTransactionSuccess(WalletMainLib.WalletData storage self,
                                  bytes32 _id,
-                                 uint256 _number)
+                                 uint256 _txIndex)
                                  public view returns (bool)
   {
-    return self.transactionInfo[_id][_number].success;
+    return self.transactionInfo[_id][_txIndex].success;
   }
 }

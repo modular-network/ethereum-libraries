@@ -46,9 +46,30 @@ contract('WalletLibTestContract', (accounts) => {
     const secondTransactionLenght = await contract.transactionLength(changeOwnerAccount0Id);
     const secondTransactionConfirmCount = await contract.transactionConfirmCount(changeOwnerAccount0Id, secondTransactionLenght - 1);
     
+    const badFromChangeOwner = await contract.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329e7",
+                           "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
+                           true, {from: accounts[2]});
+
+    const badToChangeOwner = await contract.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+                           "0x79b63228ff63659248b7c688870de388bdcf0c14",
+                           true, {from: accounts[2]});
+
     await contract.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[2]});
+
+    const thirdTransactionConfirmCount = await contract.transactionConfirmCount(changeOwnerAccount0Id, secondTransactionLenght - 1);
+
+    await contract.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+                           "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
+                           false, {from: accounts[2]});
+
+    const fourthTransactionConfirmCount = await contract.transactionConfirmCount(changeOwnerAccount0Id, secondTransactionLenght - 1);
+
+    await contract.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+                           "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
+                           true, {from: accounts[2]});
+
 
     await contract.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
@@ -68,9 +89,13 @@ contract('WalletLibTestContract', (accounts) => {
 
     assert.equal(revokeConfirm.logs[0].args.msg, 'Owner has not confirmed tx', "should give message that the owner hasn't confirmed the transaction yet");
     assert.equal(firstTransactionLength.valueOf(), 1, 'Should have 1 transaction with this ID');
+    assert.equal(badFromChangeOwner.logs[0].args.msg, 'Change from address is not an owner', "Should give a message that the from owner is invalid");
+    assert.equal(badToChangeOwner.logs[0].args.msg, 'Change to address is an owner', "Should give a message that the to owner is invalid");
     assert.equal(checkNotConfirmed.logs[0].args.msg,'Tx not initiated', "should return msg that the tx hasn't been initiated");
     assert.equal(transactionConfirmCount.valueOf(), 1, "Confirmation count should still be one b/c accounts[1] has not confirmed");
     assert.equal(secondTransactionConfirmCount.valueOf(), 1, "Confirmation count should still be one b/c accounts[2] has revoked");
+    assert.equal(thirdTransactionConfirmCount.valueOf(), 2, "Confirmation count should be two b/c accounts[2] has confirmed");
+    assert.equal(fourthTransactionConfirmCount.valueOf(), 1, "Confirmation count should still be one b/c accounts[2] has revoked");
     assert.equal(changeOwnerSecondAccount.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
     assert.equal(firstAccountCheckNotConfirmed.logs[0].args.msg,'Owner already confirmed', "should return msg that the owner has already confirmed");
     assert.equal(firstAccountTransactionConfirmCount.valueOf(), 3, "Confirmation count should still be three b/c accounts[1] has already confirmed");
@@ -85,6 +110,8 @@ contract('WalletLibTestContract', (accounts) => {
     await contract.addOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                          true, {from: accounts[0]});
     const addOwner = await contract.addOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+                         true, {from: accounts[0]});
+    const addOwnerAlreadyConfirmed = await contract.addOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                          true, {from: accounts[0]});
     const id = ""+addOwner.logs[0].args.txid+"";
     await contract.revokeConfirm(id, {from:accounts[0]});
@@ -107,6 +134,7 @@ contract('WalletLibTestContract', (accounts) => {
     await contract.confirmTx(id, {from:accounts[3]});
     const newOwnerIndex = await contract.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
 
+    assert.equal(addOwnerAlreadyConfirmed.logs[0].args.msg,'Owner already confirmed', "Should fail because accounts[0] has already confirmed the tx");
     assert.equal(firstTransactionLength.valueOf(), 0, "Revocation of only confirmation should delete tx");
     assert.equal(secondTransactionConfirmCount.valueOf(), 1, "Confirmation count should still be one b/c accounts[2] has not confirmed");
     assert.equal(thirdTransactionConfirmCount.valueOf(), 2, "Confirmation count should be two b/c accounts[0] revoked");
@@ -118,6 +146,8 @@ contract('WalletLibTestContract', (accounts) => {
     const contract = await WalletLibTestContract.deployed();
     await contract.removeOwner("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                          true, {from: accounts[1]});
+    const badRemoveOwnerFirstAccount = await contract.removeOwner("0x36994c7cff11859ba8b9715120a68aa9499329e7",
+                         true, {from: accounts[0]});
     const removeOwnerFirstAccount = await contract.removeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                          true, {from: accounts[0]});
     const removeOwnerFirstAccountId = ""+removeOwnerFirstAccount.logs[0].args.txid+"";
@@ -138,13 +168,18 @@ contract('WalletLibTestContract', (accounts) => {
 
     const lastOwnerIndex = await contract.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
     const removedOwnerIndex = await contract.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
+
+    //const badRemoveOwnerTooManyAdmin = await contract.removeOwner("0x79b63228ff63659248b7c688870de388bdcf0c14",
+    //                     true, {from: accounts[0]});
     
     await contract.owners.call();
 
+    assert.equal(badRemoveOwnerFirstAccount.logs[0].args.msg,'Owner removing not an owner', "Should fail because removing owner is not an owner");
     assert.equal(firstAccountTransactionLenght.valueOf(), 0, "Revocation of only confirmation should delete tx");
     assert.equal(secondTransactionConfirmCount.valueOf(), 2, "Confirmation count should still be two b/c accounts[2] has not confirmed");
     assert.equal(lastOwnerIndex.valueOf(), 5, "The index of the last owner should be moved to removed owner");
     assert.equal(removedOwnerIndex.valueOf(), 0, "The index of the removed owner should be 0");
+    //assert.equal(badRemoveOwnerTooManyAdmin.logs[0].args.msg,'Must reduce requiredAdmin first', "Should give error that admin sigs need to be less than number of owners");
     
   });
 
@@ -162,9 +197,11 @@ contract('WalletLibTestContract', (accounts) => {
     const changeSecondRequiredAdminId = ""+changeSecondRequiredAdmin.logs[0].args.txid+"";
     await contract.confirmTx(changeSecondRequiredAdminId, {from:accounts[2]});
     await contract.revokeConfirm(changeSecondRequiredAdminId, {from:accounts[3]});
+    const failChangeAdmin = await contract.revokeConfirm(1742, {from:accounts[3]});
     const secondTransactionLenght = await contract.transactionLength(changeSecondRequiredAdminId);
     const secondTransactionConfirmCount = await contract.transactionConfirmCount(changeSecondRequiredAdminId, secondTransactionLenght.valueOf() - 1);
     
+    const failConformTxNotInitiated = await contract.confirmTx(1742, {from:accounts[3]});
     await contract.confirmTx(changeSecondRequiredAdminId, {from:accounts[3]});
     await contract.confirmTx(changeSecondRequiredAdminId, {from:accounts[0]});
     const firstRequiredAdmin = await contract.requiredAdmin.call();
@@ -174,6 +211,7 @@ contract('WalletLibTestContract', (accounts) => {
     await contract.changeRequiredAdmin(3, true, {from: accounts[0]});
     const secondRequiredAdmin = await contract.requiredAdmin.call();
 
+    assert.equal(failChangeAdmin.logs[0].args.msg, "Tx not initiated","Should give error that the tx id has not been initiated");
     assert.equal(firstTransactionLength.valueOf(), 0, "Revocation of only confirmation should delete tx");
     assert.equal(secondTransactionConfirmCount.valueOf(), 2, "Confirmation count should still be two b/c accounts[3] has not confirmed");
     assert.equal(firstRequiredAdmin.valueOf(), 2, "New sig requirement for administrative tasks should be 2");
@@ -191,6 +229,7 @@ contract('WalletLibTestContract', (accounts) => {
     const transactionLength = await contract.transactionLength(changeSecondRequiredMajorId);
     
     const changeThirdRequiredMajor = await contract.changeRequiredMajor(4, true, {from: accounts[1]});
+    const changeThirdRequiredMajorFail = await contract.changeRequiredMajor(4, true, {from: accounts[1]});
     const changeThirdRequiredMajorId = ""+changeThirdRequiredMajor.logs[0].args.txid+"";
     await contract.confirmTx(changeThirdRequiredMajorId, {from:accounts[2]});
     await contract.revokeConfirm(changeThirdRequiredMajorId, {from:accounts[3]});
@@ -200,6 +239,7 @@ contract('WalletLibTestContract', (accounts) => {
     await contract.confirmTx(changeThirdRequiredMajorId, {from:accounts[3]});
     const requiredMajor = await contract.requiredMajor.call();
 
+    assert.equal(changeThirdRequiredMajorFail.logs[0].args.msg,"Owner already confirmed", "Should fail because accounts[1] already confirmed!");
     assert.equal(transactionLength.valueOf(), 0, "Revocation of only confirmation should delete tx");
     assert.equal(transactionConfirmCount.valueOf(), 2, "Confirmation count should still be two b/c accounts[3] has not confirmed");
     assert.equal(requiredMajor.valueOf(), 4, "New sig requirement for major tx should be 4");
@@ -218,6 +258,8 @@ contract('WalletLibTestContract', (accounts) => {
     
 
     const changeThirdRequiredMinor = await contract.changeRequiredMinor(2, true, {from: accounts[1]});
+    const changeThirdRequiredMinorFail = await contract.changeRequiredMinor(2, true, {from: accounts[1]});
+
     const changeThirdRequiredMinorId = ""+changeThirdRequiredMinor.logs[0].args.txid+"";
     await contract.confirmTx(changeThirdRequiredMinorId, {from:accounts[2]});
     await contract.changeRequiredMinor(2, false, {from: accounts[3]});
@@ -227,6 +269,7 @@ contract('WalletLibTestContract', (accounts) => {
     await contract.confirmTx(changeThirdRequiredMinorId, {from:accounts[3]});
     const requiredMinor = await contract.requiredMinor.call();
 
+    assert.equal(changeThirdRequiredMinorFail.logs[0].args.msg,"Owner already confirmed", "Should fail because accounts[1] already confirmed!");
     assert.equal(transactionLength.valueOf(), 0, "Revocation of only confirmation should delete tx");
     assert.equal(transactionConfirmCount.valueOf(), 2, "Confirmation count should still be two b/c accounts[3] has not confirmed");
     assert.equal(requiredMinor.valueOf(), 2, "New sig requirement for minor tx should be 2");
@@ -252,6 +295,10 @@ contract('WalletLibTestContract', (accounts) => {
     const count2 = await c.transactionConfirmCount(id, len2.valueOf() - 1);
     
     await c.changeMajorThreshold(tcAdd, 3, true, {from: accounts[1]});
+    await c.changeMajorThreshold(tcAdd, 3, false, {from: accounts[1]});
+    const countAfterRevoke = await c.transactionConfirmCount(id, len.valueOf() - 1);
+    await c.confirmTx(id, {from:accounts[1]});
+    const countAfterReConfirm = await c.transactionConfirmCount(id, len.valueOf() - 1);
     await c.confirmTx(id, {from:accounts[2]});
     const mt = await c.majorThreshold.call(tcAdd);
     
@@ -261,6 +308,8 @@ contract('WalletLibTestContract', (accounts) => {
     await c.confirmTx(id, {from:accounts[2]});
     const mt2 = await c.majorThreshold.call(0);
 
+    assert.equal(countAfterRevoke.valueOf(),1,"Confirmation count should be 0 because accounts[1] revoked!");
+    assert.equal(countAfterReConfirm.valueOf(),2,"confirmation count should be 1 becuase accounts[1] reconfirmed");
     assert.equal(count.valueOf(), 1, "Confirmation count should be one b/c accounts[1] revoked");
     assert.equal(count2.valueOf(), 1, "Confirmation count should still be one b/c accounts[0] already confirmed");
     assert.equal(mt.valueOf(), 3, "Major tx threshold for test token should be 3");
@@ -294,15 +343,33 @@ contract('WalletLibTestContract', (accounts) => {
     await contract.serveTx(testTokenAddress, 0, ""+testTokenTransferRequestData+"", true, {from: accounts[0]});
     const secondTestTokenServeTxTransactionLenght = await contract.transactionLength(testTokenServeTxId);
     const secondTestTokenServeTxtransactionConfirmCount = await contract.transactionConfirmCount(testTokenServeTxId, secondTestTokenServeTxTransactionLenght.valueOf() - 1);
+
+    var transactionConfirms = await contract.transactionConfirms(testTokenServeTxId, secondTestTokenServeTxTransactionLenght-1);
+
+    var transactionSuccessBefore = await contract.transactionSuccess(testTokenServeTxId, secondTestTokenServeTxTransactionLenght-1);
     
     await contract.serveTx(testTokenAddress, 0, ""+testTokenTransferRequestData+"", true, {from: accounts[2]});
     const testTokenBalance = await testToken.balanceOf(""+contract.address+"");
+
+    const receiverBalance = await testToken.balanceOf(accounts[5]);
+
+    var currentDaySpend = await contract.currentSpend(testTokenAddress);
+
+    var transactionSuccessAfter = await contract.transactionSuccess(testTokenServeTxId, secondTestTokenServeTxTransactionLenght-1);
+
+    //var lastTransactions = await contract.transactions(17501);
 
     assert.equal(balance, 100, "100 ether should be transferred to the wallet from accounts[5]");
     assert.equal(accountConfirmTx.logs[0].args.value.valueOf(), 10000000000000000000, "10 ether should be transferred to accounts[5] from the wallet with 2 sigs");
     assert.equal(testTokenTransactionConfirmCount.valueOf(), 1, "Confirmation count should be one b/c accounts[2] has not confirmed");
     assert.equal(secondTestTokenServeTxtransactionConfirmCount.valueOf(), 1, "Confirmation count should be one b/c accounts[0] has already confirmed");
     assert.equal(testTokenBalance.valueOf(), 8, "2 tokens should be transferred to accounts[5] after 2 sigs");
+    assert.equal(receiverBalance.valueOf(), 2, "accounts[5] should have received 2 tokens");
+    assert.equal(currentDaySpend[1],2,"Current day spend should be 2");
+    //assert.equal(lastTransactions,3030,"Last transactions");
+    //assert.equal(transactionConfirms[0],accounts[0],"First transaction confirm should be accounts[0]");
+    assert.equal(transactionSuccessBefore,false, "Transaction success should be false before last confirm");
+    assert.equal(transactionSuccessAfter,true, "Transaction success should be true after last confirm");
   });
   it("should execute major tx after requiredMajor number of confirmations and deny illegal requests", async () => {
 
@@ -318,7 +385,14 @@ contract('WalletLibTestContract', (accounts) => {
     
     const accountServeTx = await contract.serveTx(accounts[5], 60000000000000000000, 0, true, {from: accounts[0]});
     const accountServeTxId = ""+accountServeTx.logs[0].args.txid+"";
+    const accountServeTxIdLength = await contract.transactionLength(accountServeTxId);
+
     await contract.confirmTx(accountServeTxId, {from:accounts[2]});
+    await contract.serveTx(accounts[5], 60000000000000000000, 0, false, {from: accounts[2]});
+    const serveConfirms = await contract.transactionConfirmCount(accountServeTxId, accountServeTxIdLength.valueOf() - 1);
+    await contract.serveTx(accounts[5], 60000000000000000000, 0, true, {from: accounts[2]});
+    const serveConfirmsAfterReConfirm = await contract.transactionConfirmCount(accountServeTxId, accountServeTxIdLength.valueOf() - 1);
+
     const thirdAccountsBalance = await web3.eth.getBalance(accounts[5]);
     const thirdRealBalance = initialBalance - Math.floor(thirdAccountsBalance.valueOf()/10**18);
     
@@ -344,6 +418,8 @@ contract('WalletLibTestContract', (accounts) => {
     await contract.confirmTx(testTokenServeTxId, {from:accounts[1]});
     const addressBalance = await testToken.balanceOf(""+contract.address+"");
 
+    assert.equal(serveConfirms.valueOf(),1,"should be 0 confirms since accounts[2] revoked!");
+    assert.equal(serveConfirmsAfterReConfirm.valueOf(),2,"Should be 1 confirms since accounts[2] reconfirmed!");
     assert.equal(firstRealBalance, 100, "100 ether should be transferred to the wallet from accounts[5]");
     assert.equal(thirdRealBalance, 100, "No ether should be sent until 4 confirms");
     assert.equal(fourthRealBalance, 40, "60 ether should be transferred to accounts[5] from the wallet with 4 sigs");
