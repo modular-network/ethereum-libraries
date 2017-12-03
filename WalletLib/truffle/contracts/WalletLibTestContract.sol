@@ -86,16 +86,16 @@ contract WalletLibTestContract {
     return wallet.getTransactionLength(_id);
   }
 
-  function transactionConfirms(bytes32 _id, uint256 _number) public view returns (uint256[50]) {
-    return wallet.getTransactionConfirms(_id, _number);
+  function transactionConfirms(bytes32 _id, uint256 _txIndex) public view returns (uint256[50]) {
+    return wallet.getTransactionConfirms(_id, _txIndex);
   }
 
-  function transactionConfirmCount(bytes32 _id, uint256 _number) public view returns (uint256) {
-    return wallet.getTransactionConfirmCount(_id, _number);
+  function transactionConfirmCount(bytes32 _id, uint256 _txIndex) public view returns (uint256) {
+    return wallet.getTransactionConfirmCount(_id, _txIndex);
   }
 
-  function transactionSuccess(bytes32 _id, uint256 _number) public view returns (bool){
-    return wallet.getTransactionSuccess(_id, _number);
+  function transactionSuccess(bytes32 _id, uint256 _txIndex) public view returns (bool){
+    return wallet.getTransactionSuccess(_id, _txIndex);
   }
 
   /*Changers*/
@@ -142,7 +142,7 @@ contract WalletLibTestContract {
     return wallet.revokeConfirm(_id);
   }
 
-  function checkNotConfirmed(bytes32 _id, uint256 _number) public returns (bool) {
-    return wallet.checkNotConfirmed(_id, _number);
+  function checkNotConfirmed(bytes32 _id, uint256 _txIndex) public returns (bool) {
+    return wallet.checkNotConfirmed(_id, _txIndex);
   }
 }

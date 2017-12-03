@@ -92,7 +92,7 @@ library WalletAdminLib {
       LogErrorMsg(_index, "Owner removing not an owner");
       return false;
     }
-    if(_length - 1 < _min){
+    if(_length - 1 < _min) {
       LogErrorMsg(_index, "Must reduce requiredAdmin first");
       return false;
     }
@@ -144,8 +144,8 @@ library WalletAdminLib {
                        public
                        returns (bool,bytes32)
   {
-    bytes32 _id = sha3("changeOwner",_from,_to);
-    uint256 _number = self.transactionInfo[_id].length;
+    bytes32 _id = keccak256("changeOwner",_from,_to);
+    uint256 _txIndex = self.transactionInfo[_id].length;
     bool allGood;
 
     if(msg.sender != address(this)){
@@ -153,45 +153,45 @@ library WalletAdminLib {
         allGood = self.revokeConfirm(_id);
         return (allGood,_id);
       } else {
-        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+        if(_txIndex == 0 || self.transactionInfo[_id][_txIndex - 1].success){
           require(self.ownerIndex[msg.sender] > 0);
           allGood = checkChangeOwnerArgs(self.ownerIndex[_from], self.ownerIndex[_to]);
           if(!allGood)
             return (false,0);
 
           self.transactionInfo[_id].length++;
-          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
-          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactionInfo[_id][_txIndex].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_txIndex].day = now / 1 days;
           self.transactions[now / 1 days].push(_id);
         } else {
-          _number--;
-          allGood = self.checkNotConfirmed(_id, _number);
+          _txIndex--;
+          allGood = self.checkNotConfirmed(_id, _txIndex);
           if(!allGood)
             return (false,_id);
         }
       }
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-      self.transactionInfo[_id][_number].confirmCount++;
+      self.transactionInfo[_id][_txIndex].confirmedOwners.push(uint256(msg.sender));
+      self.transactionInfo[_id][_txIndex].confirmCount++;
     } else {
-      _number--;
+      _txIndex--;
     }
 
-    if(self.transactionInfo[_id][_number].confirmCount ==
-       self.transactionInfo[_id][_number].confirmRequired)
+    if(self.transactionInfo[_id][_txIndex].confirmCount ==
+       self.transactionInfo[_id][_txIndex].confirmRequired)
     {
-      self.transactionInfo[_id][_number].success = true;
+      self.transactionInfo[_id][_txIndex].success = true;
       uint256 i = self.ownerIndex[_from];
       self.ownerIndex[_from] = 0;
       self.owners[i] = _to;
       self.ownerIndex[_to] = i;
-      delete self.transactionInfo[_id][_number].data;
+      delete self.transactionInfo[_id][_txIndex].data;
       LogOwnerChanged(_from, _to);
     } else {
-      if(self.transactionInfo[_id][_number].data.length == 0)
-        self.transactionInfo[_id][_number].data = _data;
+      if(self.transactionInfo[_id][_txIndex].data.length == 0)
+        self.transactionInfo[_id][_txIndex].data = _data;
 
-      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                               self.transactionInfo[_id][_txIndex].confirmCount);
 
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
@@ -213,8 +213,8 @@ library WalletAdminLib {
                     public
                     returns (bool,bytes32)
   {
-    bytes32 _id = sha3("addOwner",_newOwner);
-    uint256 _number = self.transactionInfo[_id].length;
+    bytes32 _id = keccak256("addOwner",_newOwner);
+    uint256 _txIndex = self.transactionInfo[_id].length;
     bool allGood;
 
     if(msg.sender != address(this)){
@@ -224,7 +224,7 @@ library WalletAdminLib {
         allGood = self.revokeConfirm(_id);
         return (allGood,_id);
       } else {
-        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+        if(_txIndex == 0 || self.transactionInfo[_id][_txIndex - 1].success){
           require(self.ownerIndex[msg.sender] > 0);
           allGood = checkNewOwnerArgs(self.ownerIndex[_newOwner],
                                       self.owners.length,
@@ -233,37 +233,37 @@ library WalletAdminLib {
             return (false,0);
 
           self.transactionInfo[_id].length++;
-          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
-          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactionInfo[_id][_txIndex].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_txIndex].day = now / 1 days;
           self.transactions[now / 1 days].push(_id);
         } else {
-          _number--;
-          allGood = self.checkNotConfirmed(_id, _number);
+          _txIndex--;
+          allGood = self.checkNotConfirmed(_id, _txIndex);
           if(!allGood)
             return (false,_id);
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-      self.transactionInfo[_id][_number].confirmCount++;
+      self.transactionInfo[_id][_txIndex].confirmedOwners.push(uint256(msg.sender));
+      self.transactionInfo[_id][_txIndex].confirmCount++;
     } else {
-      _number--;
+      _txIndex--;
     }
 
-    if(self.transactionInfo[_id][_number].confirmCount ==
-       self.transactionInfo[_id][_number].confirmRequired)
+    if(self.transactionInfo[_id][_txIndex].confirmCount ==
+       self.transactionInfo[_id][_txIndex].confirmRequired)
     {
-      self.transactionInfo[_id][_number].success = true;
+      self.transactionInfo[_id][_txIndex].success = true;
       self.owners.push(_newOwner);
       self.ownerIndex[_newOwner] = self.owners.length - 1;
-      delete self.transactionInfo[_id][_number].data;
+      delete self.transactionInfo[_id][_txIndex].data;
       LogOwnerAdded(_newOwner);
     } else {
-      if(self.transactionInfo[_id][_number].data.length == 0)
-        self.transactionInfo[_id][_number].data = _data;
+      if(self.transactionInfo[_id][_txIndex].data.length == 0)
+        self.transactionInfo[_id][_txIndex].data = _data;
 
-      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                               self.transactionInfo[_id][_txIndex].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
 
@@ -284,8 +284,8 @@ library WalletAdminLib {
                        public
                        returns (bool,bytes32)
   {
-    bytes32 _id = sha3("removeOwner",_ownerRemoving);
-    uint256 _number = self.transactionInfo[_id].length;
+    bytes32 _id = keccak256("removeOwner",_ownerRemoving);
+    uint256 _txIndex = self.transactionInfo[_id].length;
     bool allGood;
 
     if(msg.sender != address(this)){
@@ -293,7 +293,7 @@ library WalletAdminLib {
         allGood = self.revokeConfirm(_id);
         return (allGood,_id);
       } else {
-        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+        if(_txIndex == 0 || self.transactionInfo[_id][_txIndex - 1].success){
           require(self.ownerIndex[msg.sender] > 0);
           allGood = checkRemoveOwnerArgs(self.ownerIndex[_ownerRemoving],
                                          self.owners.length,
@@ -302,39 +302,39 @@ library WalletAdminLib {
             return (false,0);
 
           self.transactionInfo[_id].length++;
-          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
-          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactionInfo[_id][_txIndex].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_txIndex].day = now / 1 days;
           self.transactions[now / 1 days].push(_id);
         } else {
-          _number--;
-          allGood = self.checkNotConfirmed(_id, _number);
+          _txIndex--;
+          allGood = self.checkNotConfirmed(_id, _txIndex);
           if(!allGood)
             return (false,_id);
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-      self.transactionInfo[_id][_number].confirmCount++;
+      self.transactionInfo[_id][_txIndex].confirmedOwners.push(uint256(msg.sender));
+      self.transactionInfo[_id][_txIndex].confirmCount++;
     } else {
-      _number--;
+      _txIndex--;
     }
 
-    if(self.transactionInfo[_id][_number].confirmCount ==
-       self.transactionInfo[_id][_number].confirmRequired)
+    if(self.transactionInfo[_id][_txIndex].confirmCount ==
+       self.transactionInfo[_id][_txIndex].confirmRequired)
     {
-      self.transactionInfo[_id][_number].success = true;
+      self.transactionInfo[_id][_txIndex].success = true;
       self.owners[self.ownerIndex[_ownerRemoving]] = self.owners[self.owners.length - 1];
       self.ownerIndex[self.owners[self.owners.length - 1]] = self.ownerIndex[_ownerRemoving];
       self.ownerIndex[_ownerRemoving] = 0;
       self.owners.length--;
-      delete self.transactionInfo[_id][_number].data;
+      delete self.transactionInfo[_id][_txIndex].data;
       LogOwnerRemoved(_ownerRemoving);
     } else {
-      if(self.transactionInfo[_id][_number].data.length == 0)
-        self.transactionInfo[_id][_number].data = _data;
+      if(self.transactionInfo[_id][_txIndex].data.length == 0)
+        self.transactionInfo[_id][_txIndex].data = _data;
 
-      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                               self.transactionInfo[_id][_txIndex].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
 
@@ -355,8 +355,8 @@ library WalletAdminLib {
                                public
                                returns (bool,bytes32)
   {
-    bytes32 _id = sha3("changeRequiredAdmin",_requiredAdmin);
-    uint256 _number = self.transactionInfo[_id].length;
+    bytes32 _id = keccak256("changeRequiredAdmin",_requiredAdmin);
+    uint256 _txIndex = self.transactionInfo[_id].length;
 
     if(msg.sender != address(this)){
       bool allGood;
@@ -365,43 +365,43 @@ library WalletAdminLib {
         allGood = self.revokeConfirm(_id);
         return (allGood,_id);
       } else {
-        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+        if(_txIndex == 0 || self.transactionInfo[_id][_txIndex - 1].success){
           require(self.ownerIndex[msg.sender] > 0);
           allGood = checkRequiredChange(_requiredAdmin, self.owners.length);
           if(!allGood)
             return (false,0);
 
           self.transactionInfo[_id].length++;
-          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
-          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactionInfo[_id][_txIndex].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_txIndex].day = now / 1 days;
           self.transactions[now / 1 days].push(_id);
         } else {
-          _number--;
-          allGood = self.checkNotConfirmed(_id, _number);
+          _txIndex--;
+          allGood = self.checkNotConfirmed(_id, _txIndex);
           if(!allGood)
             return (false,_id);
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-      self.transactionInfo[_id][_number].confirmCount++;
+      self.transactionInfo[_id][_txIndex].confirmedOwners.push(uint256(msg.sender));
+      self.transactionInfo[_id][_txIndex].confirmCount++;
     } else {
-      _number--;
+      _txIndex--;
     }
 
-    if(self.transactionInfo[_id][_number].confirmCount ==
-      self.transactionInfo[_id][_number].confirmRequired)
+    if(self.transactionInfo[_id][_txIndex].confirmCount ==
+      self.transactionInfo[_id][_txIndex].confirmRequired)
     {
-      self.transactionInfo[_id][_number].success = true;
+      self.transactionInfo[_id][_txIndex].success = true;
       self.requiredAdmin = _requiredAdmin;
-      delete self.transactionInfo[_id][_number].data;
+      delete self.transactionInfo[_id][_txIndex].data;
       LogRequirementChange(_requiredAdmin);
     } else {
-      if(self.transactionInfo[_id][_number].data.length == 0)
-        self.transactionInfo[_id][_number].data = _data;
+      if(self.transactionInfo[_id][_txIndex].data.length == 0)
+        self.transactionInfo[_id][_txIndex].data = _data;
 
-      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                               self.transactionInfo[_id][_txIndex].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
 
@@ -422,8 +422,8 @@ library WalletAdminLib {
                                public
                                returns (bool,bytes32)
   {
-    bytes32 _id = sha3("changeRequiredMajor",_requiredMajor);
-    uint256 _number = self.transactionInfo[_id].length;
+    bytes32 _id = keccak256("changeRequiredMajor",_requiredMajor);
+    uint256 _txIndex = self.transactionInfo[_id].length;
 
     if(msg.sender != address(this)){
       bool allGood;
@@ -432,43 +432,43 @@ library WalletAdminLib {
         allGood = self.revokeConfirm(_id);
         return (allGood,_id);
       } else {
-        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+        if(_txIndex == 0 || self.transactionInfo[_id][_txIndex - 1].success){
           require(self.ownerIndex[msg.sender] > 0);
           allGood = checkRequiredChange(_requiredMajor, self.owners.length);
           if(!allGood)
             return (false,0);
 
           self.transactionInfo[_id].length++;
-          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
-          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactionInfo[_id][_txIndex].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_txIndex].day = now / 1 days;
           self.transactions[now / 1 days].push(_id);
         } else {
-          _number--;
-          allGood = self.checkNotConfirmed(_id, _number);
+          _txIndex--;
+          allGood = self.checkNotConfirmed(_id, _txIndex);
           if(!allGood)
             return (false,_id);
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-      self.transactionInfo[_id][_number].confirmCount++;
+      self.transactionInfo[_id][_txIndex].confirmedOwners.push(uint256(msg.sender));
+      self.transactionInfo[_id][_txIndex].confirmCount++;
     } else {
-      _number--;
+      _txIndex--;
     }
 
-    if(self.transactionInfo[_id][_number].confirmCount ==
-       self.transactionInfo[_id][_number].confirmRequired)
+    if(self.transactionInfo[_id][_txIndex].confirmCount ==
+       self.transactionInfo[_id][_txIndex].confirmRequired)
     {
-      self.transactionInfo[_id][_number].success = true;
+      self.transactionInfo[_id][_txIndex].success = true;
       self.requiredMajor = _requiredMajor;
-      delete self.transactionInfo[_id][_number].data;
+      delete self.transactionInfo[_id][_txIndex].data;
       LogRequirementChange(_requiredMajor);
     } else {
-      if(self.transactionInfo[_id][_number].data.length == 0)
-        self.transactionInfo[_id][_number].data = _data;
+      if(self.transactionInfo[_id][_txIndex].data.length == 0)
+        self.transactionInfo[_id][_txIndex].data = _data;
 
-      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                               self.transactionInfo[_id][_txIndex].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
 
@@ -489,8 +489,8 @@ library WalletAdminLib {
                                public
                                returns (bool,bytes32)
   {
-    bytes32 _id = sha3("changeRequiredMinor",_requiredMinor);
-    uint256 _number = self.transactionInfo[_id].length;
+    bytes32 _id = keccak256("changeRequiredMinor",_requiredMinor);
+    uint256 _txIndex = self.transactionInfo[_id].length;
 
     if(msg.sender != address(this)){
       bool allGood;
@@ -499,43 +499,43 @@ library WalletAdminLib {
         allGood = self.revokeConfirm(_id);
         return (allGood,_id);
       } else {
-        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+        if(_txIndex == 0 || self.transactionInfo[_id][_txIndex - 1].success){
           require(self.ownerIndex[msg.sender] > 0);
           allGood = checkRequiredChange(_requiredMinor, self.owners.length);
           if(!allGood)
             return (false,0);
 
           self.transactionInfo[_id].length++;
-          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
-          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactionInfo[_id][_txIndex].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_txIndex].day = now / 1 days;
           self.transactions[now / 1 days].push(_id);
         } else {
-          _number--;
-          allGood = self.checkNotConfirmed(_id, _number);
+          _txIndex--;
+          allGood = self.checkNotConfirmed(_id, _txIndex);
           if(!allGood)
             return (false,_id);
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-      self.transactionInfo[_id][_number].confirmCount++;
+      self.transactionInfo[_id][_txIndex].confirmedOwners.push(uint256(msg.sender));
+      self.transactionInfo[_id][_txIndex].confirmCount++;
     } else {
-      _number--;
+      _txIndex--;
     }
 
-    if(self.transactionInfo[_id][_number].confirmCount ==
-       self.transactionInfo[_id][_number].confirmRequired)
+    if(self.transactionInfo[_id][_txIndex].confirmCount ==
+       self.transactionInfo[_id][_txIndex].confirmRequired)
     {
-      self.transactionInfo[_id][_number].success = true;
+      self.transactionInfo[_id][_txIndex].success = true;
       self.requiredMinor = _requiredMinor;
-      delete self.transactionInfo[_id][_number].data;
+      delete self.transactionInfo[_id][_txIndex].data;
       LogRequirementChange(_requiredMinor);
     } else {
-      if(self.transactionInfo[_id][_number].data.length == 0)
-        self.transactionInfo[_id][_number].data = _data;
+      if(self.transactionInfo[_id][_txIndex].data.length == 0)
+        self.transactionInfo[_id][_txIndex].data = _data;
 
-      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                               self.transactionInfo[_id][_txIndex].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
 
@@ -558,8 +558,8 @@ library WalletAdminLib {
                                 public
                                 returns (bool,bytes32)
   {
-    bytes32 _id = sha3("changeMajorThreshold", _token, _majorThreshold);
-    uint256 _number = self.transactionInfo[_id].length;
+    bytes32 _id = keccak256("changeMajorThreshold", _token, _majorThreshold);
+    uint256 _txIndex = self.transactionInfo[_id].length;
 
     if(msg.sender != address(this)){
       bool allGood;
@@ -568,40 +568,40 @@ library WalletAdminLib {
         allGood = self.revokeConfirm(_id);
         return (allGood,_id);
       } else {
-        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
+        if(_txIndex == 0 || self.transactionInfo[_id][_txIndex - 1].success){
           require(self.ownerIndex[msg.sender] > 0);
 
           self.transactionInfo[_id].length++;
-          self.transactionInfo[_id][_number].confirmRequired = self.requiredAdmin;
-          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactionInfo[_id][_txIndex].confirmRequired = self.requiredAdmin;
+          self.transactionInfo[_id][_txIndex].day = now / 1 days;
           self.transactions[now / 1 days].push(_id);
         } else {
-          _number--;
-          allGood = self.checkNotConfirmed(_id, _number);
+          _txIndex--;
+          allGood = self.checkNotConfirmed(_id, _txIndex);
           if(!allGood)
             return (false,_id);
         }
       }
 
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-      self.transactionInfo[_id][_number].confirmCount++;
+      self.transactionInfo[_id][_txIndex].confirmedOwners.push(uint256(msg.sender));
+      self.transactionInfo[_id][_txIndex].confirmCount++;
     } else {
-      _number--;
+      _txIndex--;
     }
 
-    if(self.transactionInfo[_id][_number].confirmCount ==
-       self.transactionInfo[_id][_number].confirmRequired)
+    if(self.transactionInfo[_id][_txIndex].confirmCount ==
+       self.transactionInfo[_id][_txIndex].confirmRequired)
     {
-      self.transactionInfo[_id][_number].success = true;
+      self.transactionInfo[_id][_txIndex].success = true;
       self.majorThreshold[_token] = _majorThreshold;
-      delete self.transactionInfo[_id][_number].data;
+      delete self.transactionInfo[_id][_txIndex].data;
       LogThresholdChange(_token, _majorThreshold);
     } else {
-      if(self.transactionInfo[_id][_number].data.length == 0)
-        self.transactionInfo[_id][_number].data = _data;
+      if(self.transactionInfo[_id][_txIndex].data.length == 0)
+        self.transactionInfo[_id][_txIndex].data = _data;
 
-      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                               self.transactionInfo[_id][_txIndex].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
 
