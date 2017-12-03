@@ -4,10 +4,10 @@ var WalletMainLib = artifacts.require("./WalletMainLib.sol");
 var WalletAdminLib = artifacts.require("./WalletAdminLib.sol");
 var WalletGetterLib = artifacts.require("./WalletGetterLib.sol");
 var WalletLibTestContract = artifacts.require("./WalletLibTestContract.sol");
-var ERC20Lib = artifacts.require("./ERC20Lib.sol");
+var TokenLib = artifacts.require("./TokenLib.sol");
 var TestToken = artifacts.require("./TestToken.sol");
 
-module.exports = function(deployer, network) {
+module.exports = function(deployer, network, accounts) {
   deployer.deploy(BasicMathLib,{overwrite: false});
   deployer.deploy(Array256Lib, {overwrite: false});
   deployer.link(BasicMathLib, WalletMainLib);
@@ -17,15 +17,15 @@ module.exports = function(deployer, network) {
   deployer.link(WalletMainLib,WalletGetterLib);
   deployer.deploy(WalletAdminLib,{overwrite: false});
   deployer.deploy(WalletGetterLib,{overwrite: false});
-  deployer.link(BasicMathLib, ERC20Lib);
-  deployer.deploy(ERC20Lib, {overwrite: false});
+  deployer.link(BasicMathLib, TokenLib);
+  deployer.deploy(TokenLib, {overwrite: false});
 
   if(network === "development" || network === "coverage"){
     deployer.link(WalletMainLib, WalletLibTestContract);
     deployer.link(WalletAdminLib, WalletLibTestContract);
     deployer.link(WalletGetterLib, WalletLibTestContract);
     deployer.deploy(WalletLibTestContract);
-    deployer.link(ERC20Lib, TestToken);
-    deployer.deploy(TestToken);
+    deployer.link(TokenLib, TestToken);
+    deployer.deploy(TestToken, accounts[1], "Tester Token", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]});
   }
 };

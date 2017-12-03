@@ -117,22 +117,22 @@ library WalletMainLib {
   /// @dev Verifies a confirming owner has not confirmed already
   /// @param self Contract wallet in storage
   /// @param _id ID of the tx being checked
-  /// @param _number Index number of this tx
+  /// @param _txIndex Index number of this tx
   /// @return Returns true if check passes, false otherwise
-  function checkNotConfirmed(WalletData storage self, bytes32 _id, uint256 _number)
+  function checkNotConfirmed(WalletData storage self, bytes32 _id, uint256 _txIndex)
            public returns (bool)
   {
     require(self.ownerIndex[msg.sender] > 0);
     uint256 _txLen = self.transactionInfo[_id].length;
 
-    if(_txLen == 0 || _number >= _txLen){
+    if(_txLen == 0 || _txIndex >= _txLen){
       LogErrorMsg(_txLen, "Tx not initiated");
       LogTransactionFailed(_id, msg.sender);
       return false;
     }
 
-    if(self.transactionInfo[_id][_number].success){
-      LogErrorMsg(_number, "Transaction already complete");
+    if(self.transactionInfo[_id][_txIndex].success){
+      LogErrorMsg(_txIndex, "Transaction already complete");
       LogTransactionFailed(_id, msg.sender);
       return false;
     }
@@ -140,7 +140,7 @@ library WalletMainLib {
     //Function from Majoolr.io array utility library
     bool found;
     uint256 index;
-    (found, index) = self.transactionInfo[_id][_number].confirmedOwners.indexOf(uint256(msg.sender), false);
+    (found, index) = self.transactionInfo[_id][_txIndex].confirmedOwners.indexOf(uint256(msg.sender), false);
     if(found){
       LogErrorMsg(index, "Owner already confirmed");
       LogTransactionFailed(_id, msg.sender);
@@ -271,8 +271,8 @@ library WalletMainLib {
                    bytes _data) 
                    public returns (bool,bytes32)
   {
-    bytes32 _id = sha3("serveTx",_to,_value,_txData);
-    uint256 _number = self.transactionInfo[_id].length;
+    bytes32 _id = keccak256("serveTx",_to,_value,_txData);
+    uint256 _txIndex = self.transactionInfo[_id].length;
     uint256 _required = self.requiredMajor;
 
     //Run checks if not called from generic confirm/revoke function
@@ -285,13 +285,13 @@ library WalletMainLib {
         allGood = revokeConfirm(self, _id);
         return (allGood,_id);
       } else { // else confirming the transaction
-        //if this is a new transaction id or if a previous identical transaction had already succeeded
-        if(_number == 0 || self.transactionInfo[_id][_number - 1].success){
-          require(self.ownerIndex[msg.sender] > 0);
+        //Reuse allGood due to stack limit
+        if(_to != 0)
+          (allGood,_amount) = getAmount(_txData);
 
-          //Reuse allGood due to stack limit
-          if(_to != 0)
-            (allGood,_amount) = getAmount(_txData);
+        //if this is a new transaction id or if a previous identical transaction had already succeeded
+        if(_txIndex == 0 || self.transactionInfo[_id][_txIndex - 1].success){
+          require(self.ownerIndex[msg.sender] > 0);
 
           _required = getRequired(self, _to, _value, allGood,_amount);
           if(_required == 0)
@@ -299,35 +299,35 @@ library WalletMainLib {
 
           // add this transaction to the wallets record and initialize the settings
           self.transactionInfo[_id].length++;
-          self.transactionInfo[_id][_number].confirmRequired = _required;
-          self.transactionInfo[_id][_number].day = now / 1 days;
+          self.transactionInfo[_id][_txIndex].confirmRequired = _required;
+          self.transactionInfo[_id][_txIndex].day = now / 1 days;
           self.transactions[now / 1 days].push(_id);
         } else { // else the transaction is already pending
-          _number--; // set the index to the index of the existing transaction
+          _txIndex--; // set the index to the index of the existing transaction
           //make sure the sender isn't already confirmed
-          allGood = checkNotConfirmed(self, _id, _number);
+          allGood = checkNotConfirmed(self, _id, _txIndex);
           if(!allGood)
             return (false,_id);
         }
       }
 
       // add the senders confirmation to the transaction
-      self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-      self.transactionInfo[_id][_number].confirmCount++;
+      self.transactionInfo[_id][_txIndex].confirmedOwners.push(uint256(msg.sender));
+      self.transactionInfo[_id][_txIndex].confirmCount++;
     } else {
       // else were calling from generic confirm/revoke function, set the
-      // _number index to the index of the existing transaction
-      _number--;
+      // _txIndex index to the index of the existing transaction
+      _txIndex--;
     }
 
     // if there are enough confirmations
-    if(self.transactionInfo[_id][_number].confirmCount ==
-       self.transactionInfo[_id][_number].confirmRequired)
+    if(self.transactionInfo[_id][_txIndex].confirmCount ==
+       self.transactionInfo[_id][_txIndex].confirmRequired)
     {
       // execute the transaction
       self.currentSpend[0][1] += _value;
       self.currentSpend[_to][1] += _amount;
-      self.transactionInfo[_id][_number].success = true;
+      self.transactionInfo[_id][_txIndex].success = true;
 
       if(_to == 0){
         //Failure is self contained in method
@@ -335,14 +335,14 @@ library WalletMainLib {
       } else {
         require(_to.call.value(_value)(_txData));
       }
-      delete self.transactionInfo[_id][_number].data;
+      delete self.transactionInfo[_id][_txIndex].data;
       LogTransactionComplete(_id, _to, _value, _data);
     } else {
-      if(self.transactionInfo[_id][_number].data.length == 0)
-        self.transactionInfo[_id][_number].data = _data;
+      if(self.transactionInfo[_id][_txIndex].data.length == 0)
+        self.transactionInfo[_id][_txIndex].data = _data;
 
-      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                               self.transactionInfo[_id][_txIndex].confirmCount);
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
     }
 
@@ -358,31 +358,31 @@ library WalletMainLib {
   function confirmTx(WalletData storage self, bytes32 _id) 
                      public returns (bool) {
     require(self.ownerIndex[msg.sender] > 0);
-    uint256 _number = self.transactionInfo[_id].length;
+    uint256 _txIndex = self.transactionInfo[_id].length;
     bool ret;
 
-    if(_number == 0){
-      LogErrorMsg(_number, "Tx not initiated");
+    if(_txIndex == 0){
+      LogErrorMsg(_txIndex, "Tx not initiated");
       LogTransactionFailed(_id, msg.sender);
       return false;
     }
 
-    _number--;
-    bool allGood = checkNotConfirmed(self, _id, _number);
+    _txIndex--;
+    bool allGood = checkNotConfirmed(self, _id, _txIndex);
     if(!allGood)
       return false;
 
-    self.transactionInfo[_id][_number].confirmedOwners.push(uint256(msg.sender));
-    self.transactionInfo[_id][_number].confirmCount++;
+    self.transactionInfo[_id][_txIndex].confirmedOwners.push(uint256(msg.sender));
+    self.transactionInfo[_id][_txIndex].confirmCount++;
 
-    if(self.transactionInfo[_id][_number].confirmCount ==
-       self.transactionInfo[_id][_number].confirmRequired)
+    if(self.transactionInfo[_id][_txIndex].confirmCount ==
+       self.transactionInfo[_id][_txIndex].confirmRequired)
     {
       address a = address(this);
-      require(a.call(self.transactionInfo[_id][_number].data));
+      require(a.call(self.transactionInfo[_id][_txIndex].data));
     } else {
-      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                               self.transactionInfo[_id][_number].confirmCount);
+      uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                               self.transactionInfo[_id][_txIndex].confirmCount);
 
       LogTransactionConfirmed(_id, msg.sender, confirmsNeeded);
       ret = true;
@@ -400,17 +400,17 @@ library WalletMainLib {
            returns (bool)
   {
     require(self.ownerIndex[msg.sender] > 0);
-    uint256 _number = self.transactionInfo[_id].length;
+    uint256 _txIndex = self.transactionInfo[_id].length;
 
-    if(_number == 0){
-      LogErrorMsg(_number, "Tx not initiated");
+    if(_txIndex == 0){
+      LogErrorMsg(_txIndex, "Tx not initiated");
       LogTransactionFailed(_id, msg.sender);
       return false;
     }
 
-    _number--;
-    if(self.transactionInfo[_id][_number].success){
-      LogErrorMsg(_number, "Transaction already complete");
+    _txIndex--;
+    if(self.transactionInfo[_id][_txIndex].success){
+      LogErrorMsg(_txIndex, "Transaction already complete");
       LogTransactionFailed(_id, msg.sender);
       return false;
     }
@@ -418,19 +418,19 @@ library WalletMainLib {
     //Function from Majoolr.io array utility library
     bool found;
     uint256 index;
-    (found, index) = self.transactionInfo[_id][_number].confirmedOwners.indexOf(uint256(msg.sender), false);
+    (found, index) = self.transactionInfo[_id][_txIndex].confirmedOwners.indexOf(uint256(msg.sender), false);
     if(!found){
       LogErrorMsg(index, "Owner has not confirmed tx");
       LogTransactionFailed(_id, msg.sender);
       return false;
     }
-    self.transactionInfo[_id][_number].confirmedOwners[index] = 0;
-    self.transactionInfo[_id][_number].confirmCount--;
+    self.transactionInfo[_id][_txIndex].confirmedOwners[index] = 0;
+    self.transactionInfo[_id][_txIndex].confirmCount--;
 
-    uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_number].confirmRequired,
-                                             self.transactionInfo[_id][_number].confirmCount);
+    uint256 confirmsNeeded = calcConfirmsNeeded(self.transactionInfo[_id][_txIndex].confirmRequired,
+                                             self.transactionInfo[_id][_txIndex].confirmCount);
     //Transaction removed if all sigs revoked but id remains in wallet transaction list
-    if(self.transactionInfo[_id][_number].confirmCount == 0)
+    if(self.transactionInfo[_id][_txIndex].confirmCount == 0)
       self.transactionInfo[_id].length--;
 
     LogRevokeNotice(_id, msg.sender, confirmsNeeded);
