@@ -2,22 +2,22 @@ pragma solidity 0.4.18;
 
 /**
  * @title Wallet Admin Library
- * @author Majoolr.io
+ * @author Modular.network
  *
  * version 1.0.0
- * Copyright (c) 2017 Majoolr, LLC
+ * Copyright (c) 2017 Modular, Inc
  * The MIT License (MIT)
- * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  *
  * The Wallet Library family is inspired by the multisig wallets built by Consensys
  * at https://github.com/ConsenSys/MultiSigWallet and Parity at
  * https://github.com/paritytech/contracts/blob/master/Wallet.sol with added
- * functionality. Majoolr works on open source projects in the Ethereum
+ * functionality. Modular works on open source projects in the Ethereum
  * community with the purpose of testing, documenting, and deploying reusable
  * code onto the blockchain to improve security and usability of smart contracts.
- * Majoolr also strives to educate non-profits, schools, and other community
+ * Modular also strives to educate non-profits, schools, and other community
  * members about the application of blockchain technology. For further
- * information: majoolr.io, consensys.net, paritytech.io
+ * information: modular.io, consensys.net, paritytech.io
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
