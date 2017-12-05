@@ -2,22 +2,22 @@ pragma solidity ^0.4.18;
 
 /**
  * @title LinkedListLib
- * @author Majoolr.io
+ * @author Modular.network
  *
  * version 1.0.0
- * Copyright (c) 2017 Majoolr, LLC
+ * Copyright (c) 2017 Modular Inc.
  * The MIT License (MIT)
- * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-network/ethereum-libraries/blob/master/LICENSE
  * 
  * The LinkedListLib provides functionality for implementing data indexing using
  * a circlular linked list
  *
- * Majoolr provides smart contract services and security reviews for contract
+ * Modular provides smart contract services and security reviews for contract
  * deployments in addition to working on open source projects in the Ethereum
  * community. Our purpose is to test, document, and deploy reusable code onto the
  * blockchain and improve both security and usability. We also educate non-profits,
  * schools, and other community members about the application of blockchain
- * technology. For further information: majoolr.io
+ * technology. For further information: modular.network
  *
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
@@ -112,7 +112,7 @@ library LinkedListLib {
             return (true,self.list[_node][_direction]);
         }
     }
-
+    
     /// @dev Can be used before `insert` to build an ordered list
     /// @param self stored linked list from contract
     /// @param _node an existing node to search from, e.g. HEAD.
