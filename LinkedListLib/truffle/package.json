@@ -6,8 +6,8 @@
     "test:coverage": "./node_modules/.bin/solidity-coverage"
   },
   "devDependencies": {
-    "truffle": "3.4.9",
-    "ethereumjs-testrpc": "4.1.1",
+    "truffle": "4.0.1",
+    "ethereumjs-testrpc": "4.0.0",
     "solidity-coverage": "^0.2.7"
   }
 }
