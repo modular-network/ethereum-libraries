@@ -2,22 +2,22 @@ pragma solidity ^0.4.18;
 
 /**
  * @title Wallet Main Library
- * @author Majoolr.io
+ * @author Modular.network
  *
  * version 1.0.0
- * Copyright (c) 2017 Majoolr, LLC
+ * Copyright (c) 2017 Modular, LLC
  * The MIT License (MIT)
- * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-network/ethereum-libraries/blob/master/LICENSE
  *
  * The Wallet Library family is inspired by the multisig wallets built by Consensys
  * at https://github.com/ConsenSys/MultiSigWallet and Parity at
  * https://github.com/paritytech/contracts/blob/master/Wallet.sol with added
- * functionality. Majoolr works on open source projects in the Ethereum
+ * functionality. Modular works on open source projects in the Ethereum
  * community with the purpose of testing, documenting, and deploying reusable
  * code onto the blockchain to improve security and usability of smart contracts.
- * Majoolr also strives to educate non-profits, schools, and other community
+ * Modular also strives to educate non-profits, schools, and other community
  * members about the application of blockchain technology. For further
- * information: majoolr.io, consensys.net, paritytech.io
+ * information: Modular.network, consensys.net, paritytech.io
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -137,7 +137,7 @@ library WalletMainLib {
       return false;
     }
 
-    //Function from Majoolr.io array utility library
+    //Function from Modular.io array utility library
     bool found;
     uint256 index;
     (found, index) = self.transactionInfo[_id][_txIndex].confirmedOwners.indexOf(uint256(msg.sender), false);
@@ -415,7 +415,7 @@ library WalletMainLib {
       return false;
     }
 
-    //Function from Majoolr.io array utility library
+    //Function from Modular.io array utility library
     bool found;
     uint256 index;
     (found, index) = self.transactionInfo[_id][_txIndex].confirmedOwners.indexOf(uint256(msg.sender), false);

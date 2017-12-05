@@ -1,11 +1,11 @@
 WalletLib
 =========================   
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
+[![Join the chat at https://gitter.im/Modular-Network/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Modular-Network/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
 
-A wallet library family [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") composed of 3 libraries to use for multisig wallet contract deployment.   
+A wallet library family [provided by Modular-Network](https://github.com/Modular-Network "Modular-Network's Github") composed of 3 libraries to use for multisig wallet contract deployment.   
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -133,7 +133,7 @@ A wallet library family [provided by Majoolr](https://github.com/Majoolr "Majool
 
 ## License and Warranty   
 
-Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:   
+Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:   
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ## How to install
@@ -151,8 +151,8 @@ Please [visit Truffle's installation guide](http://truffleframework.com/docs/get
 This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development.   
 
 1. Place the following files in your truffle `contracts/` directory.
-  * BasicMathLib.sol - [From our BasicMathLib directory](https://github.com/Majoolr/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link")
-  * Array256Lib.sol - [From our ArrayUtilsLib directory](https://github.com/Majoolr/ethereum-libraries/tree/master/ArrayUtilsLib "ArrayUtilsLib link")
+  * BasicMathLib.sol - [From our BasicMathLib directory](https://github.com/Modular-Network/ethereum-libraries/tree/master/BasicMathLib "BasicMathLib link")
+  * Array256Lib.sol - [From our ArrayUtilsLib directory](https://github.com/Modular-Network/ethereum-libraries/tree/master/ArrayUtilsLib "ArrayUtilsLib link")
   * WalletMainLib.sol
   * WalletAdminLib.sol
   * WalletGetterLib.sol
@@ -193,7 +193,7 @@ module.exports = function(deployer) {
 
 The following process will allow you to `truffle test` this library in your project.
 
-1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/WalletLib/truffle`.    
+1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Modular-Network/ethereum-libraries/trunk/WalletLib/truffle`.    
    Each folder in the truffle directory correlates to the folders in your truffle project.   
 2. Go into the WalletLib truffle directory on your computer and place each file in their respective directory in **your** truffle project.
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
@@ -357,11 +357,11 @@ The wallet generated will have some of these benefits and characteristics:
    * Any new token will automatically have a major threshold of 0 until a threshold is defined by the wallet owners.
    * Allows signatures to be revoked at any point in time prior to the transaction confirming.
 
-The wallet contract should put the `init` function from the WalletMainLib in the constructor with the required parameters given. Once deployed, owners can initiate any transaction by calling the appropriate function with the required data for admin functions, transfer or value data for token or ether transactions, or contract data for deploying new contracts. Most transaction requests end with a `bool` and `bytes` parameter. The `bool` parameter should be true for any transaction being initiated or confirmed and false for any signature revocation. The `bytes` parameter should be the msg.data passed automatically by the wallet contract. [See our example wallet contract](https://www.github.com/Majoolr/ethereum-contracts "Majoolr repo") to get a better idea of its implementation.
+The wallet contract should put the `init` function from the WalletMainLib in the constructor with the required parameters given. Once deployed, owners can initiate any transaction by calling the appropriate function with the required data for admin functions, transfer or value data for token or ether transactions, or contract data for deploying new contracts. Most transaction requests end with a `bool` and `bytes` parameter. The `bool` parameter should be true for any transaction being initiated or confirmed and false for any signature revocation. The `bytes` parameter should be the msg.data passed automatically by the wallet contract. [See our example wallet contract](https://www.github.com/Modular-Network/ethereum-contracts "Modular-Network repo") to get a better idea of its implementation.
 
 Most functions return two parameters, a `bool` and a `bytes32`. The transaction and admin functions will generally return false and log an error event when submitted parameters are either wrong or the call will not work. In the case of a non-owner attempting to submit a transaction or any failure during actual execution, the function will throw a standard out of gas error with no reason in order to successfully revert changes. These functions will return true if any confirm or revocation call is successful. The functions that return a `bytes32` will also log this value in an event. Owners may choose to use the generic `confirmTx` or `revokeConfirm` functions by providing the id for any transaction already initiated, a concept artfully developed by Gav of York himself.
 
-**DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, a non-owners ability to gain access to your wallet, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://majoolr.io "Majoolr website") if you have discovered any issues or vulnerabilities with this library.
+**DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, a non-owners ability to gain access to your wallet, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://modular.network "Modular-Network website") if you have discovered any issues or vulnerabilities with this library.
 
 ### Usage Example
 
@@ -408,7 +408,7 @@ contract YourWalletContract {
 }
 ```
 
-**[See our contract repo](https://www.github.com/Majoolr/ethereum-contracts "Majoolr repo") for a full implementation example of this library**
+**[See our contract repo](https://www.github.com/Modular-Network/ethereum-contracts "Modular-Network repo") for a full implementation example of this library**
 
 ## Functions
 
