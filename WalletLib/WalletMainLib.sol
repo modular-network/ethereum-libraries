@@ -211,10 +211,7 @@ library WalletMainLib {
     }
 
     (err, res) = self.currentSpend[0][1].plus(_value);
-    if(err){
-      LogErrorMsg(res, "Overflow eth spend");
-      return 0;
-    }
+    require(!err);
 
     if(res < self.majorThreshold[0])
       major = false;
@@ -226,10 +223,8 @@ library WalletMainLib {
       }
 
       (err, res) = self.currentSpend[_to][1].plus(_amount);
-      if(err){
-        LogErrorMsg(res, "Overflow token spend");
-        return 0;
-      }
+      require(!err);
+
       if(res >= self.majorThreshold[_to])
         major = true;
     }
