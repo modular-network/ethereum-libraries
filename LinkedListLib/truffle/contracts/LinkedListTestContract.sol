@@ -58,6 +58,13 @@ contract LinkedListTestContract {
         return list.getSortedSpot(_node,_value,_direction);
     }
 
+    /// @dev Creates a bidirectional link between two nodes on direction `_direction`
+    /// @param _node first node for linking
+    /// @param _link  node to link to in the _direction
+    function createLink(uint256 _node, uint256 _link, bool _direction) public {
+        list.createLink(_node,_link,_direction);
+    }
+
     /// @dev Insert node `_new` beside existing node `_node` in direction `_direction`.
     /// @param _node existing node
     /// @param _new  new node to insert
