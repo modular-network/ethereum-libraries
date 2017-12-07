@@ -273,7 +273,7 @@
                             "declaration": 4,
                             "isOffset": false,
                             "isSlot": true,
-                            "src": "1574:9:0",
+                            "src": "1623:9:0",
                             "valueSize": 1
                           }
                         },
@@ -284,9 +284,7 @@
                             "isSlot": true,
                             "src": "1623:9:0",
                             "valueSize": 1
-                          }
-                        },
-                        {
+                          },
                           "sum": {
                             "declaration": 7,
                             "isOffset": false,
@@ -301,6 +299,22 @@
                             "isOffset": false,
                             "isSlot": false,
                             "src": "1664:3:0",
+                            "valueSize": 1
+                          }
+                        },
+                        {
+                          "sum": {
+                            "declaration": 7,
+                            "isOffset": false,
+                            "isSlot": false,
+                            "src": "1664:3:0",
+                            "valueSize": 1
+                          },
+                          "self_slot": {
+                            "declaration": 4,
+                            "isOffset": false,
+                            "isSlot": true,
+                            "src": "1574:9:0",
                             "valueSize": 1
                           }
                         }
@@ -427,9 +441,39 @@
                             "isSlot": false,
                             "src": "2027:8:0",
                             "valueSize": 1
+                          },
+                          "self_slot": {
+                            "declaration": 14,
+                            "isOffset": false,
+                            "isSlot": true,
+                            "src": "2010:9:0",
+                            "valueSize": 1
                           }
                         },
                         {
+                          "self_slot": {
+                            "declaration": 14,
+                            "isOffset": false,
+                            "isSlot": true,
+                            "src": "2100:9:0",
+                            "valueSize": 1
+                          },
+                          "maxValue": {
+                            "declaration": 17,
+                            "isOffset": false,
+                            "isSlot": false,
+                            "src": "2027:8:0",
+                            "valueSize": 1
+                          }
+                        },
+                        {
+                          "maxValue": {
+                            "declaration": 17,
+                            "isOffset": false,
+                            "isSlot": false,
+                            "src": "2219:8:0",
+                            "valueSize": 1
+                          },
                           "self_slot": {
                             "declaration": 14,
                             "isOffset": false,
@@ -448,20 +492,18 @@
                           }
                         },
                         {
-                          "maxValue": {
-                            "declaration": 17,
-                            "isOffset": false,
-                            "isSlot": false,
-                            "src": "2182:8:0",
-                            "valueSize": 1
-                          }
-                        },
-                        {
                           "self_slot": {
                             "declaration": 14,
                             "isOffset": false,
                             "isSlot": true,
                             "src": "2010:9:0",
+                            "valueSize": 1
+                          },
+                          "maxValue": {
+                            "declaration": 17,
+                            "isOffset": false,
+                            "isSlot": false,
+                            "src": "2182:8:0",
                             "valueSize": 1
                           }
                         }
@@ -597,6 +639,13 @@
                             "isSlot": false,
                             "src": "2784:8:0",
                             "valueSize": 1
+                          },
+                          "self_slot": {
+                            "declaration": 24,
+                            "isOffset": false,
+                            "isSlot": true,
+                            "src": "2665:9:0",
+                            "valueSize": 1
                           }
                         },
                         {
@@ -614,6 +663,13 @@
                             "isOffset": false,
                             "isSlot": true,
                             "src": "2665:9:0",
+                            "valueSize": 1
+                          },
+                          "minValue": {
+                            "declaration": 27,
+                            "isOffset": false,
+                            "isSlot": false,
+                            "src": "2784:8:0",
                             "valueSize": 1
                           }
                         },
@@ -854,6 +910,13 @@
                             "isSlot": false,
                             "src": "3686:5:0",
                             "valueSize": 1
+                          },
+                          "self_slot": {
+                            "declaration": 34,
+                            "isOffset": false,
+                            "isSlot": true,
+                            "src": "4111:9:0",
+                            "valueSize": 1
                           }
                         },
                         {
@@ -861,7 +924,7 @@
                             "declaration": 36,
                             "isOffset": false,
                             "isSlot": false,
-                            "src": "3828:5:0",
+                            "src": "3686:5:0",
                             "valueSize": 1
                           }
                         },
@@ -871,6 +934,13 @@
                             "isOffset": false,
                             "isSlot": true,
                             "src": "4111:9:0",
+                            "valueSize": 1
+                          },
+                          "value": {
+                            "declaration": 36,
+                            "isOffset": false,
+                            "isSlot": false,
+                            "src": "3828:5:0",
                             "valueSize": 1
                           }
                         },
@@ -6556,5 +6626,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-04T19:31:40.935Z"
+  "updatedAt": "2017-12-07T15:31:50.995Z"
 }
