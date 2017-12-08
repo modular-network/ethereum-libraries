@@ -1,4 +1,4 @@
-DirectCrowdsaleLib
+DirectCrowdsaleLib - WIP DON'T USE
 =========================   
 
 [![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
@@ -73,16 +73,9 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 ### v2.0.0
 
 **ENS**: TBD
-**Main Ethereum Network**: 0xf0d145598e099e487ad71e70bf8845c116f982d5   
-**Rinkeby Test Network**: 0x6b3f746fc43f5f5ca63e8f02335c991eb89a82a3   
-**Ropsten Test Network**: 0x9fba2bb27f03f618d1b88d4bfd1fe2cb4788eeb5   
-
-### v1.0.0
-*Note: No ENS address is provided for older versions at this time.*   
-
-**Main Ethereum Network**: 0x49a4dfad9797a1726da60098a1c06616cacfc1ec   
-**Ropsten Test Network**: 0xbcaa0de389454de19ae7692e0832a116bc5b44ea   
-**Rinkeby Test Network**: 0xc1593efa265ae1a01672f344de8fcaca21946db5   
+**Main Ethereum Network**:    
+**Rinkeby Test Network**:    
+**Ropsten Test Network**:      
 
 ## License and Warranty   
 
