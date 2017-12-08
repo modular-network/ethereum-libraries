@@ -10272,6 +10272,13 @@
     "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {
+    "1": {
+      "links": {
+        "BasicMathLib": "0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"
+      },
+      "address": "0x5462311485a381621D6B768c28157c2a70cBB55e",
+      "update_at": 1511836339971
+    },
     "3": {
       "links": {
         "BasicMathLib": "0xAff3FC5478c30736a7c5Aa69747E314D0165C38e"
