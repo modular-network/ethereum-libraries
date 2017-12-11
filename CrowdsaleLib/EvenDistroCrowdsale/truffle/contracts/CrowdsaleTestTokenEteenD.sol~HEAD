@@ -25,12 +25,12 @@ import "./TokenLib.sol";
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-contract CrowdsaleToken {
+contract CrowdsaleTestTokenEteenD {
   using TokenLib for TokenLib.TokenStorage;
 
   TokenLib.TokenStorage public token;
 
-  function CrowdsaleToken(address owner,
+  function CrowdsaleTestTokenEteenD(address owner,
                                    string name,
                                    string symbol,
                                    uint8 decimals,

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 import "./TokenLib.sol";
 
@@ -8,11 +8,6 @@ import "./TokenLib.sol";
  * https://github.com/ethereum/EIPs/issues/20
  * Based on code by FirstBlood:
  * https://github.com/Firstbloodio/token/blob/master/smart_contract/FirstBloodToken.sol
- *
- * This is an example token contract built using the Majoolr token library at
- * https://github.com/Majoolr/ethereum-libraries/tree/master/TokenLib. This
- * example does not use all of the functionality available, it is only
- * a barebones example of a basic ERC20 token contract.
  *
  * Majoolr provides smart contract services and security reviews for contract
  * deployments in addition to working on open source projects in the Ethereum
@@ -30,66 +25,74 @@ import "./TokenLib.sol";
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-contract CrowdsaleToken2 {
+contract CrowdsaleTestTokenEteenD {
   using TokenLib for TokenLib.TokenStorage;
 
   TokenLib.TokenStorage public token;
 
-  function CrowdsaleToken2(address owner,
-                                string name,
-                                string symbol,
-                                uint8 decimals,
-                                uint256 initialSupply,
-                                bool allowMinting)
+  function CrowdsaleTestTokenEteenD(address owner,
+                                   string name,
+                                   string symbol,
+                                   uint8 decimals,
+                                   uint256 initialSupply,
+                                   bool allowMinting)
+                                   public
   {
     token.init(owner, name, symbol, decimals, initialSupply, allowMinting);
   }
 
-  function name() constant returns (string) {
+  function name() public view returns (string) {
     return token.name;
   }
 
-  function symbol() constant returns (string) {
+  function symbol() public view returns (string) {
     return token.symbol;
   }
 
-  function decimals() constant returns (uint8) {
+  function decimals() public view returns (uint8) {
     return token.decimals;
   }
 
-  function totalSupply() constant returns (uint256) {
+  function totalSupply() public view returns (uint256) {
     return token.totalSupply;
   }
 
-  function initialSupply() constant returns (uint256) {
-    return token.INITIAL_SUPPLY;
+  function initialSupply() public view returns (uint256) {
+    return token.initialSupply;
   }
 
-  function balanceOf(address who) constant returns (uint256) {
+  function balanceOf(address who) public view returns (uint256) {
     return token.balanceOf(who);
   }
 
-  function allowance(address owner, address spender) constant returns (uint256) {
+  function allowance(address owner, address spender) public view returns (uint256) {
     return token.allowance(owner, spender);
   }
 
-  function transfer(address to, uint value) returns (bool ok) {
+  function transfer(address to, uint256 value) public returns (bool ok) {
     return token.transfer(to, value);
   }
 
-  function transferFrom(address from, address to, uint value) returns (bool ok) {
+  function transferFrom(address from, address to, uint value) public returns (bool ok) {
     return token.transferFrom(from, to, value);
   }
 
-  function approve(address spender, uint value) returns (bool ok) {
+  function approve(address spender, uint256 value) public returns (bool ok) {
     return token.approve(spender, value);
   }
 
-  function changeOwner(address newOwner) returns (bool ok) {
+  function approveChange(address spender, uint256 valueChange, bool increase)
+                         public
+                         returns (bool)
+  {
+    return token.approveChange(spender, valueChange, increase);
+  }
+
+  function changeOwner(address newOwner) public returns (bool ok) {
     return token.changeOwner(newOwner);
   }
 
-  function burnToken(uint256 amount) returns (bool ok) {
+  function burnToken(uint256 amount) public returns (bool ok) {
     return token.burnToken(amount);
   }
 }
