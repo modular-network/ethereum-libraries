@@ -8,6 +8,7 @@
   "devDependencies": {
     "truffle": "4.0.1",
     "ethereumjs-testrpc": "4.1.1",
-    "solidity-coverage": "0.3.5"
+    "solidity-coverage": "0.3.5",
+    "bluebird": "3.5.1"
   }
 }
