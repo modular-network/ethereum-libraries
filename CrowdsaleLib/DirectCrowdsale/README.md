@@ -1,10 +1,9 @@
 DirectCrowdsaleLib
 =========================   
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
+[![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)   
 
-A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for direct token/eth crowdsale contract deployment.   
+A crowdsale library [provided by Modular](https://modular.network "Modular's Website") to use for direct token/eth crowdsale contract deployment.   
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -73,20 +72,13 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
 ### v2.1.0
 
 **ENS**: TBD
-**Main Ethereum Network**: 0x8F43b453f187658e9519b04AC221ebc9478218c4   
-**Rinkeby Test Network**: 0xBc0357401c12DeAEa0D7487d629B6Bc024651F63   
-**Ropsten Test Network**: 0x2B16fD0cd43d5Ac5D886931Dd559126B8B5c206D   
-
-### v1.0.0
-*Note: No ENS address is provided for older versions at this time.*   
-
-**Main Ethereum Network**: 0x49a4dfad9797a1726da60098a1c06616cacfc1ec   
-**Ropsten Test Network**: 0xbcaa0de389454de19ae7692e0832a116bc5b44ea   
-**Rinkeby Test Network**: 0xc1593efa265ae1a01672f344de8fcaca21946db5   
+**Main Ethereum Network**: 0x3EdD6A60355909262F9f44ac88D47CDd53623a81   
+**Ropsten Test Network**: 0x9991d7394d86141Ee6B5D59459778332cFDc8154   
+**Rinkeby Test Network**: 0xCD8ad8370fa95369104a2Ccb49352Ac8182fFE1A   
 
 ## License and Warranty   
 
-Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:   
+Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:   
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
@@ -130,14 +122,14 @@ module.exports = function(deployer) {
 
 The following process will allow you to `truffle test` this library in your project.
 
-1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/CrowdsaleLib/DirectCrowdsaleLib/truffle`.    
+1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Modular-Network/ethereum-libraries/trunk/CrowdsaleLib/DirectCrowdsaleLib/truffle`.    
    Each folder in the truffle directory correlates to the folders in your truffle project.    
 2. Place each file in their respective directory in **your** truffle project. Be sure to grab the base CrowdsaleLib.sol and CrowdsaleLib.json files from the root CrowdsaleLib directory and put them in the appropriate directories as well.   
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
-   3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")
-   4. In your terminal go to your truffle project directory.
-   5. Ensure the `development` object in your truffle.js file points to the same port Ganache uses, default is 7545.
-   5. Run `truffle test`.   
+3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")
+4. In your terminal go to your truffle project directory.
+5. Ensure the `development` object in your truffle.js file points to the same port Ganache uses, default is 7545.
+6. Run `truffle test`.   
 
 ### solc Installation
 
@@ -170,8 +162,8 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "DirectCrowdsaleLib": "0xf0d145598e099e487ad71e70bf8845c116f982d5"
+        "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
+        "DirectCrowdsaleLib": "0x3EdD6A60355909262F9f44ac88D47CDd53623a81"
       }
     }
   }
@@ -183,8 +175,8 @@ For direction and instructions on how the Solidity command line compiler works [
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include both deployed libraries in your bytecode create a file with one library string per line  as follows:    
 
 ```
-"CrowdsaleLib:0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1"
-"DirectCrowdsaleLib:0xf0d145598e099e487ad71e70bf8845c116f982d5"
+"CrowdsaleLib:0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260"
+"DirectCrowdsaleLib:0x3EdD6A60355909262F9f44ac88D47CDd53623a81"
 ```
 
 then add the following flag to your command:
@@ -234,8 +226,8 @@ var input = {
     ...
     "libraries": {
       "YourCrowdsaleContract.sol": {
-        "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "DirectCrowdsaleLib": "0xf0d145598e099e487ad71e70bf8845c116f982d5"
+        "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
+        "DirectCrowdsaleLib": "0x3EdD6A60355909262F9f44ac88D47CDd53623a81"
       }
     }
     ...
@@ -252,7 +244,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
 ```js
-bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1' });
+bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260' });
 ```
 
 #### Solc-js documentation
@@ -271,7 +263,7 @@ The Direct Crowdsale library provides functionality needed to launch an ETH in/t
 
 The crowdsale contract should put the `init` function in the constructor with the required parameters given. The crowdsale library functions will generally return false and log an error event when submitted parameters are either wrong or the call will not work.
 
-**DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://majoolr.io "Majoolr website") if you have discovered any issues or vulnerabilities with this library.
+**DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://modular.network "Modular's Website") if you have discovered any issues or vulnerabilities with this library.
 
 ## Change Log
 

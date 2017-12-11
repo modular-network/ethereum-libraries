@@ -273,7 +273,7 @@
                             "declaration": 4,
                             "isOffset": false,
                             "isSlot": true,
-                            "src": "1623:9:0",
+                            "src": "1574:9:0",
                             "valueSize": 1
                           }
                         },
@@ -282,7 +282,7 @@
                             "declaration": 4,
                             "isOffset": false,
                             "isSlot": true,
-                            "src": "1574:9:0",
+                            "src": "1623:9:0",
                             "valueSize": 1
                           },
                           "sum": {
@@ -441,9 +441,7 @@
                             "isSlot": false,
                             "src": "2182:8:0",
                             "valueSize": 1
-                          }
-                        },
-                        {
+                          },
                           "self_slot": {
                             "declaration": 14,
                             "isOffset": false,
@@ -453,11 +451,27 @@
                           }
                         },
                         {
+                          "self_slot": {
+                            "declaration": 14,
+                            "isOffset": false,
+                            "isSlot": true,
+                            "src": "2010:9:0",
+                            "valueSize": 1
+                          },
                           "maxValue": {
                             "declaration": 17,
                             "isOffset": false,
                             "isSlot": false,
-                            "src": "2219:8:0",
+                            "src": "2182:8:0",
+                            "valueSize": 1
+                          }
+                        },
+                        {
+                          "maxValue": {
+                            "declaration": 17,
+                            "isOffset": false,
+                            "isSlot": false,
+                            "src": "2027:8:0",
                             "valueSize": 1
                           },
                           "self_slot": {
@@ -470,10 +484,10 @@
                         },
                         {
                           "self_slot": {
-                            "declaration": 527,
+                            "declaration": 14,
                             "isOffset": false,
                             "isSlot": true,
-                            "src": "2100:9:2",
+                            "src": "2100:9:0",
                             "valueSize": 1
                           },
                           "maxValue": {
@@ -489,7 +503,7 @@
                             "declaration": 17,
                             "isOffset": false,
                             "isSlot": false,
-                            "src": "2182:8:0",
+                            "src": "2219:8:0",
                             "valueSize": 1
                           },
                           "self_slot": {
@@ -644,7 +658,7 @@
                             "declaration": 27,
                             "isOffset": false,
                             "isSlot": false,
-                            "src": "2592:8:0",
+                            "src": "2747:8:0",
                             "valueSize": 1
                           }
                         },
@@ -685,7 +699,7 @@
                             "declaration": 27,
                             "isOffset": false,
                             "isSlot": false,
-                            "src": "2747:8:0",
+                            "src": "2784:8:0",
                             "valueSize": 1
                           }
                         }
@@ -6740,5 +6754,5 @@
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-08T02:12:01.777Z"
+  "updatedAt": "2017-12-11T01:15:09.207Z"
 }
