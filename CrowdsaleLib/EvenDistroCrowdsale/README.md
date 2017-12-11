@@ -1,4 +1,4 @@
-EvenDistroCrowdsaleLib **NEEDS UPDATE DO NOT USE**
+EvenDistroCrowdsaleLib
 =========================   
 
 [![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)   
