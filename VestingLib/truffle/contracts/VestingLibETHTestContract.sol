@@ -27,100 +27,100 @@ contract VestingLibETHTestContract {
                 bool _isToken,
                 uint256 _startTime,
                 uint256 _endTime,
-                uint256 _numReleases)
+                uint256 _numReleases) public 
   {
     vesting.init(_owner, _isToken, _startTime, _endTime, _numReleases);
   }
 
-  function() payable {}
+  function() payable public {}
 
-  function initializeETHBalance() payable returns (bool) {
+  function initializeETHBalance() payable public returns (bool) {
     return vesting.initializeETHBalance(msg.value);
   }
 
-  function registerUser(address _registrant, uint256 _vestAmount, uint256 _bonus) returns (bool) {
+  function registerUser(address _registrant, uint256 _vestAmount, uint256 _bonus) public returns (bool) {
     return vesting.registerUser(_registrant, _vestAmount, _bonus);
   }
 
-  function registerUsers(address[] _registrants, uint256 _vestAmount, uint256 _bonus) returns (bool) {
+  function registerUsers(address[] _registrants, uint256 _vestAmount, uint256 _bonus) public returns (bool) {
     return vesting.registerUsers(_registrants, _vestAmount, _bonus);
   }
 
-  function unregisterUser(address _registrant) returns (bool) {
+  function unregisterUser(address _registrant) public returns (bool) {
     return vesting.unregisterUser(_registrant);
   }
 
-  function unregisterUsers(address[] _registrants) returns (bool) {
+  function unregisterUsers(address[] _registrants) public returns (bool) {
     return vesting.unregisterUsers(_registrants);
   }
 
-  function swapRegistration(address _replacementRegistrant) returns (bool) {
+  function swapRegistration(address _replacementRegistrant) public returns (bool) {
     return vesting.swapRegistration(_replacementRegistrant);
   }
 
-  function withdrawETH() returns (bool) {
+  function withdrawETH() public returns (bool) {
     return vesting.withdrawETH();
   }
 
-  function sendETH(address _beneficiary) returns (bool) {
+  function sendETH(address _beneficiary) public returns (bool) {
     return vesting.sendETH(_beneficiary);
   }
 
-  function ownerWithdrawExtraETH() returns (bool) {
+  function ownerWithdrawExtraETH() public returns (bool) {
     return vesting.ownerWithdrawExtraETH();
   }
 
   /*Getters*/
 
-  function getOwner() constant returns (address) {
+  function getOwner() public view returns (address) {
     return vesting.owner;
   }
 
-  function getTotalSupply() constant returns (uint256) {
+  function getTotalSupply() public view returns (uint256) {
     return vesting.totalSupply;
   }
 
-  function getContractBalance() constant returns (uint256) {
+  function getContractBalance() public view returns (uint256) {
     return vesting.contractBalance;
   }
 
-  function getIsToken() constant returns (bool) {
+  function getIsToken() public view returns (bool) {
     return vesting.isToken;
   }
 
-  function getStartTime() constant returns (uint256) {
+  function getStartTime() public view returns (uint256) {
     return vesting.startTime;
   }
 
-  function getEndTime() constant returns (uint256) {
+  function getEndTime() public view returns (uint256) {
     return vesting.endTime;
   }
 
-  function getNumRegistered() constant returns (uint256) {
+  function getNumRegistered() public view returns (uint256) {
     return vesting.numRegistered;
   }
 
-  function getTimeInterval() constant returns (uint256) {
+  function getTimeInterval() public view returns (uint256) {
     return vesting.timeInterval;
   }
 
-  function getPercentPerInterval() constant returns (uint256) {
+  function getPercentPerInterval() public view returns (uint256) {
     return vesting.percentPerInterval;
   }
 
-  function getPercentReleased() constant returns (uint256) {
+  function getPercentReleased() public view returns (uint256) {
     return vesting.getPercentReleased();
   }
 
-  function getHasWithdrawn(address _participant) constant returns (uint256) {
+  function getHasWithdrawn(address _participant) public view returns (uint256) {
     return vesting.hasWithdrawn[_participant];
   }
 
-  function getVestingAmount(address _participant) constant returns (uint256) {
+  function getVestingAmount(address _participant) public view returns (uint256) {
     return vesting.holdingAmount[_participant][0];
   }
 
-  function getBonusAmount(address _participant) constant returns (uint256) {
+  function getBonusAmount(address _participant) public view returns (uint256) {
     return vesting.holdingAmount[_participant][1];
   }
 }
