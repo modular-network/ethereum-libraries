@@ -509,6 +509,7 @@ library VestingLib {
     LogTokensWithdrawn(self.owner,_contractBalance);
   }
 
+  /// @dev Returns the percentage of the vesting that has been released at the current moment
   function getPercentReleased(VestingStorage storage self) public view returns(uint256) {
     require(now > self.startTime);
     return self.percentPerInterval * ((now-self.startTime)/self.timeInterval);
