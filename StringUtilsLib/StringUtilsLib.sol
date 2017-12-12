@@ -1,10 +1,10 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.18;
 
 /*
  * @title String & slice utility library for Solidity contracts.
  * @author Nick Johnson <arachnid@notdot.net>
  *
- * version 1.1.0
+ * version 1.2.0
  * Copyright 2016 Nick Johnson
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +20,15 @@ pragma solidity ^0.4.13;
  *
  * This utility library was forked from https://github.com/Arachnid/solidity-stringutils
  * into the Majoolr ethereum-libraries repo at https://github.com/Majoolr/ethereum-libraries
- * with permission. It has been updated by Joshua Hannan to be more compatible
- * with solidity 0.4.13 coding patterns.
+ * with permission. It has been updated to be more compatible with solidity 0.4.18
+ * coding patterns.
  *
- * Majoolr works on open source projects in the Ethereum community with the
- * purpose of testing, documenting, and deploying reusable code onto the
- * blockchain to improve security and usability of smart contracts. Majoolr
- * also strives to educate non-profits, schools, and other community members
- * about the application of blockchain technology.
- * For further information: majoolr.io
+ * Majoolr provides smart contract services and security reviews for contract
+ * deployments in addition to working on open source projects in the Ethereum
+ * community. Our purpose is to test, document, and deploy reusable code onto the
+ * blockchain and improve both security and usability. We also educate non-profits,
+ * schools, and other community members about the application of blockchain
+ * technology. For further information: majoolr.io
  *
  * @dev Functionality in this library is largely implemented using an
  *      abstraction called a 'slice'. A slice represents a part of a string -
@@ -68,7 +68,7 @@ library StringUtilsLib {
         uint _ptr;
     }
 
-    function memcpy(uint dest, uint src, uint len) private {
+    function memcpy(uint dest, uint src, uint len) private pure {
         // Copy word-length chunks while possible
         for(; len >= 32; len -= 32) {
             assembly {
@@ -163,7 +163,7 @@ library StringUtilsLib {
      * @param self The slice to copy.
      * @return A newly allocated string containing the slice's text.
      */
-    function toString(slice self) internal returns (string) {
+    function toString(slice self) internal view returns (string) {
         var ret = new string(self._len);
         uint retptr;
         assembly { retptr := add(ret, 32) }
@@ -180,13 +180,16 @@ library StringUtilsLib {
      * @param self The slice to operate on.
      * @return The length of the slice in runes.
      */
-    function len(slice self) internal returns (uint) {
+
+    function len(slice self) internal view returns (uint) {
         // Starting at ptr-31 means the LSB will be the byte we care about
         var ptr = self._ptr - 31;
         var end = ptr + self._len;
         for (uint len = 0; ptr < end; len++) {
             uint8 b;
-            assembly { b := and(mload(ptr), 0xFF) }
+            assembly {
+                b := and(mload(ptr), 0xFF)
+            }
             if (b < 0x80) {
                 ptr += 1;
             } else if(b < 0xE0) {
@@ -209,7 +212,7 @@ library StringUtilsLib {
      * @param self The slice to operate on.
      * @return True if the slice is empty, False otherwise.
      */
-    function empty(slice self) internal returns (bool) {
+    function empty(slice self) internal view returns (bool) {
         return self._len == 0;
     }
 
@@ -222,7 +225,7 @@ library StringUtilsLib {
      * @param other The second slice to compare.
      * @return The result of the comparison.
      */
-    function compare(slice self, slice other) internal returns (int) {
+    function compare(slice self, slice other) internal view returns (int) {
         uint shortest = self._len;
         if (other._len < self._len)
             shortest = other._len;
@@ -255,7 +258,7 @@ library StringUtilsLib {
      * @param self The second slice to compare.
      * @return True if the slices are equal, false otherwise.
      */
-    function equals(slice self, slice other) internal returns (bool) {
+    function equals(slice self, slice other) internal view returns (bool) {
         return compare(self, other) == 0;
     }
 
@@ -317,7 +320,7 @@ library StringUtilsLib {
      * @param self The slice to operate on.
      * @return The number of the first codepoint in the slice.
      */
-    function ord(slice self) internal returns (uint ret) {
+    function ord(slice self) internal view returns (uint ret) {
         if (self._len == 0) {
             return 0;
         }
@@ -366,7 +369,7 @@ library StringUtilsLib {
      * @param self The slice to hash.
      * @return The hash of the slice.
      */
-    function keccak(slice self) internal returns (bytes32 ret) {
+    function keccak(slice self) internal view returns (bytes32 ret) {
         assembly {
             ret := sha3(mload(add(self, 32)), mload(self))
         }
@@ -378,7 +381,7 @@ library StringUtilsLib {
      * @param needle The slice to search for.
      * @return True if the slice starts with the provided text, false otherwise.
      */
-    function startsWith(slice self, slice needle) internal returns (bool) {
+    function startsWith(slice self, slice needle) internal view returns (bool) {
         if (self._len < needle._len) {
             return false;
         }
@@ -433,7 +436,7 @@ library StringUtilsLib {
      * @param needle The slice to search for.
      * @return True if the slice starts with the provided text, false otherwise.
      */
-    function endsWith(slice self, slice needle) internal returns (bool) {
+    function endsWith(slice self, slice needle) internal view returns (bool) {
         if (self._len < needle._len) {
             return false;
         }
@@ -485,7 +488,11 @@ library StringUtilsLib {
 
     // Returns the memory address of the first byte of the first occurrence of
     // `needle` in `self`, or the first byte after `self` if not found.
-    function findPtr(uint selflen, uint selfptr, uint needlelen, uint needleptr) private returns (uint) {
+    function findPtr(uint selflen, uint selfptr, uint needlelen, uint needleptr)
+      private
+      view
+      returns (uint)
+    {
         uint ptr;
         uint idx;
 
@@ -533,7 +540,11 @@ library StringUtilsLib {
 
     // Returns the memory address of the first byte after the last occurrence of
     // `needle` in `self`, or the address of `self` if not found.
-    function rfindPtr(uint selflen, uint selfptr, uint needlelen, uint needleptr) private returns (uint) {
+    function rfindPtr(uint selflen, uint selfptr, uint needlelen, uint needleptr)
+      private
+      view
+      returns (uint)
+    {
         uint ptr;
 
         if (needlelen <= selflen) {
@@ -688,7 +699,7 @@ library StringUtilsLib {
      * @param needle The text to search for in `self`.
      * @return The number of occurrences of `needle` found in `self`.
      */
-    function count(slice self, slice needle) internal returns (uint count) {
+    function count(slice self, slice needle) internal view returns (uint count) {
         uint ptr = findPtr(self._len, self._ptr, needle._len, needle._ptr) + needle._len;
         while (ptr <= self._ptr + self._len) {
             count++;
@@ -702,7 +713,7 @@ library StringUtilsLib {
      * @param needle The text to search for in `self`.
      * @return True if `needle` is found in `self`, false otherwise.
      */
-    function contains(slice self, slice needle) internal returns (bool) {
+    function contains(slice self, slice needle) internal view returns (bool) {
         return rfindPtr(self._len, self._ptr, needle._len, needle._ptr) != self._ptr;
     }
 
@@ -713,7 +724,7 @@ library StringUtilsLib {
      * @param other The second slice to concatenate.
      * @return The concatenation of the two strings.
      */
-    function concat(slice self, slice other) internal returns (string) {
+    function concat(slice self, slice other) internal view returns (string) {
         var ret = new string(self._len + other._len);
         uint retptr;
         assembly { retptr := add(ret, 32) }
@@ -730,7 +741,7 @@ library StringUtilsLib {
      * @return A newly allocated string containing all the slices in `parts`,
      *         joined with `self`.
      */
-    function join(slice self, slice[] parts) internal returns (string) {
+    function join(slice self, slice[] parts) internal view returns (string) {
         if (parts.length == 0)
             return "";
 

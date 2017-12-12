@@ -1,15 +1,11 @@
 var BasicMathLib = artifacts.require("./BasicMathLib.sol");
 var Array256Lib = artifacts.require("./Array256Lib.sol");
 var TokenLib = artifacts.require("./TokenLib.sol");
-var CrowdsaleToken = artifacts.require("./CrowdsaleToken.sol");
 var CrowdsaleLib = artifacts.require("./CrowdsaleLib.sol");
 var DirectCrowdsaleLib = artifacts.require("./DirectCrowdsaleLib.sol");
-var DirectCrowdsaleTestContract = artifacts.require("./DirectCrowdsaleTestContract.sol");
 
-//testrpc contracts
-var TestCrowdsaleLib = artifacts.require("./TestCrowdsaleLib.sol");
-var TestDirectCrowdsaleLib = artifacts.require("./TestDirectCrowdsaleLib.sol");
-var TimeDirectCrowdsaleTestContract = artifacts.require("./TimeDirectCrowdsaleTestContract.sol");
+var CrowdsaleTestTokenZeroD = artifacts.require("./CrowdsaleTestTokenZeroD");
+var DirectCrowdsaleTestZeroD = artifacts.require("./DirectCrowdsaleTestZeroD");
 
 module.exports = function(deployer, network, accounts) {
   deployer.deploy(BasicMathLib,{overwrite: false});
@@ -24,23 +20,41 @@ module.exports = function(deployer, network, accounts) {
   deployer.link(CrowdsaleLib,DirectCrowdsaleLib);
   deployer.deploy(DirectCrowdsaleLib, {overwrite:false});
 
-  if(network == "development"){
-    deployer.link(BasicMathLib,TestCrowdsaleLib);
-    deployer.link(TokenLib,TestCrowdsaleLib);
-    deployer.deploy(TestCrowdsaleLib);
-    deployer.link(BasicMathLib,TestDirectCrowdsaleLib);
-    deployer.link(TokenLib,TestDirectCrowdsaleLib);
-    deployer.link(TestCrowdsaleLib,TestDirectCrowdsaleLib);
-    deployer.deploy(TestDirectCrowdsaleLib);
-    deployer.link(TokenLib,CrowdsaleToken);
-    deployer.link(TestCrowdsaleLib,TimeDirectCrowdsaleTestContract);
-    deployer.link(TestDirectCrowdsaleLib, TimeDirectCrowdsaleTestContract);
-    deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 20000000000000000000000000, false, {from:accounts[5]}).then(function() {
-      // right now it is configured to use accounts[5] as the owner and for the token price to increase periodically by 50 cents
-      var purchaseData =[105,141,0,
-                         110,155,0,
-                         115,165,0];
- 	    return deployer.deploy(TimeDirectCrowdsaleTestContract, accounts[5], 100, purchaseData, 29000, 1700000000, 125, 50, CrowdsaleToken.address,{from:accounts[5]});
+  if(network === "development" || network === "coverage"){
+    deployer.link(TokenLib,CrowdsaleTestTokenZeroD);
+    deployer.link(CrowdsaleLib,DirectCrowdsaleTestZeroD);
+    deployer.link(DirectCrowdsaleLib, DirectCrowdsaleTestZeroD);
+
+    // startTime 3 days + 1 hour in the future
+    var startTime = (Math.floor((new Date().valueOf()/1000))) + 262800;
+    // first price step in 7 days
+    var stepOne = startTime + 604800;
+    // second price step in 14 days
+    var stepTwo = stepOne + 604800;
+    // endTime in 30 days
+    var endTime = startTime + 2592000;
+    deployer.deploy(CrowdsaleTestTokenZeroD,
+                    accounts[0],
+                    "Zero Decimals",
+                    "ZERO",
+                    0,
+                    50000000,
+                    false,
+                    {from:accounts[4]})
+    .then(function() {
+      console.log(CrowdsaleTestTokenZeroD.address);
+      var purchaseData =[startTime,50,0,
+                         stepOne,75,0,
+                         stepTwo,100,0];
+ 	    return deployer.deploy(DirectCrowdsaleTestZeroD,
+                             accounts[0],
+                             purchaseData,
+                             45000,
+                             9000000,
+                             endTime,
+                             50,
+                             CrowdsaleTestTokenZeroD.address,
+                             {from:accounts[4]})
     });
   }
 };

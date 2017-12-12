@@ -3,9 +3,11 @@ pragma solidity ^0.4.13;
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/ArrayUtilsTestContract.sol";
+import "../contracts/ArrayUtilsTestContractTwo.sol";
 
 contract TestArrayUtilsLib{
   ArrayUtilsTestContract instance;
+  ArrayUtilsTestContractTwo instanceTwo;
   uint[] expectedArray;
   uint[] resultArray;
   bool bResult;
@@ -14,6 +16,7 @@ contract TestArrayUtilsLib{
 
   function beforeAll(){
     instance = ArrayUtilsTestContract(DeployedAddresses.ArrayUtilsTestContract());
+    instanceTwo = ArrayUtilsTestContractTwo(DeployedAddresses.ArrayUtilsTestContractTwo());
   }
 
   function testSumElementsFunction(){
@@ -30,6 +33,14 @@ contract TestArrayUtilsLib{
       result = instance.getSumElements64();
 
       Assert.equal(result,expected,"The sumElements64 function should add all array elements together and return the sum.");
+
+      result = instance.getSumElements32();
+
+      Assert.equal(result,expected,"The sumElements32 function should add all array elements together and return the sum.");
+
+      result = instance.getSumElements16();
+
+      Assert.equal(result,expected,"The sumElements16 function should add all array elements together and return the sum.");
 
       result = instance.getSumElements8();
 
@@ -52,6 +63,14 @@ contract TestArrayUtilsLib{
 
     Assert.equal(result,expected,"The getMax64 function should return the max value in an array where the max is in the middle of the array");
 
+    result = instance.getGetMaxMiddle32();
+
+    Assert.equal(result,expected,"The getMax32 function should return the max value in an array where the max is in the middle of the array");
+
+    result = instance.getGetMaxMiddle16();
+
+    Assert.equal(result,expected,"The getMax16 function should return the max value in an array where the max is in the middle of the array");
+
     expected = 152;
     result = instance.getGetMaxMiddle8();
 
@@ -73,6 +92,14 @@ contract TestArrayUtilsLib{
 
     Assert.equal(result,expected,"The getMin64 function should return the min value in an array where the min is in the middle of the array");
 
+    result = instance.getGetMinMiddle32();
+
+    Assert.equal(result,expected,"The getMin32 function should return the min value in an array where the min is in the middle of the array");
+
+    result = instance.getGetMinMiddle16();
+
+    Assert.equal(result,expected,"The getMin16 function should return the min value in an array where the min is in the middle of the array");
+
     result = instance.getGetMinMiddle8();
 
     Assert.equal(result,expected,"The getMin8 function should return the min value in an array where the min is in the middle of the array");
@@ -80,104 +107,54 @@ contract TestArrayUtilsLib{
 
   function testSortedIndexOfFunction(){
     expected = 1;
-    (bResult, result) = instance.getSortedIndexOf256(3);
+    (bResult, result) = instanceTwo.getSortedIndexOf256(3);
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index 1 of the given value");
 
     expected = 6;
-    (bResult, result) = instance.getSortedIndexOf256(1095);
+    (bResult, result) = instanceTwo.getSortedIndexOf256(1095);
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index 5 of the given value");
 
     expected = 0;
-    (bResult, result) = instance.getSortedIndexOf256(1);
+    (bResult, result) = instanceTwo.getSortedIndexOf256(1);
 
     Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf function should return the index 0 of the given value");
 
-
-
     for (uint128 i = 0; i < 4; i++) {
       expected = i;
-      (bResult, result) = instance.getSortedIndexOf128(i);
+      (bResult, result) = instanceTwo.getSortedIndexOf128(i);
 
       Assert.isTrue(bResult,"The indexOf128 function should return true if array contains value");
-      Assert.equal(result,expected,"The indexOf128 function should return the index 4 of the given value");
+      Assert.equal(result,expected,"The indexOf128 function should return the index of the given value");
     }
 
-    /*expected = 4;
-    (bResult, result) = instance.getSortedIndexOf64(4);
-
-    Assert.isTrue(bResult,"The indexOf64 function should return true if array contains value");
-    Assert.equal(result,expected,"The indexOf64 function should return the index 4 of the given value");*/
-  }
-
-  function testUnsortedIndexOfFunction() {
-    expected = 0;
-    (bResult, result) = instance.getUnsortedIndexOf256(7);
-
-    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
-    Assert.equal(result,expected,"The indexOf function should return the index of the given value");
-
-    expected = 3;
-    (bResult, result) = instance.getUnsortedIndexOf256(1);
-
-    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
-    Assert.equal(result,expected,"The indexOf function should return the index of the given value");
-
-    expected = 5;
-    (bResult, result) = instance.getUnsortedIndexOf256(1095);
-
-    Assert.isTrue(bResult,"The indexOf function should return true if array contains value");
-    Assert.equal(result,expected,"The indexOf function should return the index of the given value");
-
-    (bResult, result) = instance.getUnsortedIndexOf64(1095);
+    expected = 4;
+    (bResult, result) = instanceTwo.getSortedIndexOf64(4);
 
     Assert.isTrue(bResult,"The indexOf64 function should return true if array contains value");
     Assert.equal(result,expected,"The indexOf64 function should return the index of the given value");
-  }
 
-  function testNoIndexOfFunction() {
-    expected = 0;
-    (bResult, result) = instance.getNoIndexOf256(10,true);
+    expected = 4;
+    (bResult, result) = instanceTwo.getSortedIndexOf32(4);
 
-    Assert.isFalse(bResult,"The indexOf function should return false if array does not contain value");
-    Assert.equal(result,expected,"The indexOf function should return 0 if array does not contain value");
+    Assert.isTrue(bResult,"The indexOf32 function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf32 function should return the index of the given value");
 
-    expected = 0;
-    (bResult, result) = instance.getNoIndexOf256(39482,false);
+    expected = 4;
+    (bResult, result) = instanceTwo.getSortedIndexOf16(4);
 
-    Assert.isFalse(bResult,"The indexOf function should return false if array does not contain value");
-    Assert.equal(result,expected,"The indexOf function should return 0 if array does not contain value");
+    Assert.isTrue(bResult,"The indexOf16 function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf16 function should return the index of the given value");
 
-    (bResult, result) = instance.getNoIndexOf64(39482,false);
+    expected = 4;
+    (bResult, result) = instanceTwo.getSortedIndexOf8(4);
 
-    Assert.isFalse(bResult,"The indexOf64 function should return false if array does not contain value");
-    Assert.equal(result,expected,"The indexOf64 function should return 0 if array does not contain value");
-  }
-
-  function testHeapSortFunction(){
-    expectedArray.push(0);
-    expectedArray.push(1);
-    expectedArray.push(1);
-    expectedArray.push(3);
-    expectedArray.push(4);
-    expectedArray.push(4);
-    expectedArray.push(7);
-    expectedArray.push(9);
-    expectedArray.push(1095);
-    expectedArray.push(0xff3);
-    uint[10] memory r1;
-    r1 = instance.getHeapSort256();
-    resultArray = r1;
-    Assert.equal(resultArray, expectedArray, "heapSort");
-
-    uint64[10] memory r2;
-    r2 = instance.getHeapSort64();
-    resultArray = r2;
-    Assert.equal(resultArray, expectedArray, "heapSort");
+    Assert.isTrue(bResult,"The indexOf8 function should return true if array contains value");
+    Assert.equal(result,expected,"The indexOf8 function should return the index of the given value");
   }
 
 }

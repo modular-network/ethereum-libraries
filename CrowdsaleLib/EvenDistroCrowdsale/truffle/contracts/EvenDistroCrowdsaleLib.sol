@@ -1,25 +1,25 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 /**
  * @title EvenDistroCrowdsaleLib
- * @author Majoolr.io
+ * @author Modular Inc, https://modular.network
  *
- * version 2.0.1
- * Copyright (c) 2017 Majoolr, LLC
+ * version 2.1.0
+ * Copyright (c) 2017 Modular Inc
  * The MIT License (MIT)
- * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  *
  * The EvenDistroCrowdsale Library provides functionality to create a initial coin offering
  * for a standard token sale with high demand where the amount of ether a single address
  * can contribute is calculated by dividing the sale's contribution cap by the number
  * of addresses who register before the sale starts
  *
- * Majoolr provides smart contract services and security reviews for contract
+ * Modular provides smart contract services and security reviews for contract
  * deployments in addition to working on open source projects in the Ethereum
  * community. Our purpose is to test, document, and deploy reusable code onto the
  * blockchain and improve both security and usability. We also educate non-profits,
  * schools, and other community members about the application of blockchain
- * technology. For further information: majoolr.io
+ * technology. For further information: modular.network
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -54,11 +54,9 @@ library EvenDistroCrowdsaleLib {
   }
 
 
-  // Indicates when tokens are bought during the sale
-  event LogTokensBought(address indexed buyer, uint256 amount, uint256 time);
-
-  // Logs when a buyer has exceeded the address cap and tells them to withdraw their leftover wei
-  event LogAddressTokenCapExceeded(address indexed buyer, uint256 amount, string Msg);
+  event LogTokensBought(address buyer, uint256 amount);
+  event LogTokenPriceChange(uint256 amount, string Msg);
+  event LogErrorMsg(uint256 amount, string Msg);
 
   // Logs when a user is registered in the system before the sale
   event LogUserRegistered(address registrant);
@@ -66,14 +64,11 @@ library EvenDistroCrowdsaleLib {
   // Logs when a user is unregistered from the system before the sale
   event LogUserUnRegistered(address registrant);
 
-  // Logs when there is an error
-  event LogErrorMsg(address user, string Msg);
+  // Logs when there is an error with user registration
+  event LogRegError(address user, string Msg);
 
   // Logs when there is an increase in the contribution cap per address
   event LogAddressTokenCapChange(uint256 amount, string Msg);
-
-  // Logs when there is a change in price
-  event LogTokenPriceChange(uint256 amount, string Msg);
 
   // Logs when the address cap is initially calculated
   event LogAddressTokenCapCalculated(uint256 saleCap, uint256 numRegistered, uint256 cap, string Msg);
@@ -100,6 +95,7 @@ library EvenDistroCrowdsaleLib {
                 uint256 _initialAddressTokenCap,
                 bool _staticCap,
                 CrowdsaleToken _token)
+                public
   {
   	self.base.init(_owner,
                    _saleData,
@@ -109,7 +105,6 @@ library EvenDistroCrowdsaleLib {
                    _percentBurn,
                    _token);
 
-    require(_initialAddressTokenCap > 0);
     self.addressTokenCap = _initialAddressTokenCap;
     self.staticCap = _staticCap;
   }
@@ -118,15 +113,19 @@ library EvenDistroCrowdsaleLib {
   /// puts their address in the registered mapping and increments the numRegistered
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _registrant address to be registered for the sale
-  function registerUser(EvenDistroCrowdsaleStorage storage self, address _registrant) returns (bool) {
+  function registerUser(EvenDistroCrowdsaleStorage storage self, address _registrant)
+                        public
+                        returns (bool)
+  {
     require((msg.sender == self.base.owner) || (msg.sender == address(this)));
-    // if the change interval is 0, then registration is allowed throughout the sale since a cap doesn't need to be calculated
-    if ((!self.staticCap) && (now >= self.base.startTime - 3 days)) {
-      LogErrorMsg(_registrant, "Can only register users earlier than 3 days before the sale!");
+    // if the change interval is 0, then registration is allowed throughout the
+    // sale since a cap doesn't need to be calculated
+    if ((!self.staticCap) && (now >= self.base.startTime - 2 hours)) {
+      LogRegError(_registrant, "Can only register users earlier than 2 hours before the sale!");
       return false;
     }
     if(self.isRegistered[_registrant]) {
-      LogErrorMsg(_registrant, "Registrant address is already registered for the sale!");
+      LogRegError(_registrant, "Registrant address is already registered for the sale!");
       return false;
     }
 
@@ -146,27 +145,32 @@ library EvenDistroCrowdsaleLib {
   /// @dev registers multiple users at the same time
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _registrants addresses to register for the sale
-  function registerUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants) returns (bool) {
+  function registerUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants)
+                         public
+                         returns (bool)
+  {
     require(msg.sender == self.base.owner);
-    bool ok;
 
     for (uint256 i = 0; i < _registrants.length; i++) {
-      ok = registerUser(self,_registrants[i]);
+      registerUser(self,_registrants[i]);
     }
-    return ok;
+    return true;
   }
 
   /// @dev Cancels a user's registration status can only be called by the owner when a user cancels their registration.
   /// sets their address field in the registered mapping to false and decrements the numRegistered
   /// @param self Stored crowdsale from crowdsale contract
-  function unregisterUser(EvenDistroCrowdsaleStorage storage self, address _registrant) returns (bool) {
+  function unregisterUser(EvenDistroCrowdsaleStorage storage self, address _registrant)
+                          public
+                          returns (bool)
+  {
     require((msg.sender == self.base.owner) || (msg.sender == address(this)));
-    if ((!self.staticCap) && (now >= self.base.startTime - 3 days)) {
-      LogErrorMsg(_registrant, "Can only register and unregister users earlier than 3 days before the sale!");
+    if ((!self.staticCap) && (now >= self.base.startTime - 2 hours)) {
+      LogRegError(_registrant, "Can only unregister users earlier than 2 hours before the sale!");
       return false;
     }
     if(!self.isRegistered[_registrant]) {
-      LogErrorMsg(_registrant, "Registrant address not registered for the sale!");
+      LogRegError(_registrant, "Registrant address not registered for the sale!");
       return false;
     }
 
@@ -186,25 +190,28 @@ library EvenDistroCrowdsaleLib {
   /// @dev unregisters multiple users at the same time
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _registrants addresses to unregister for the sale
-  function unregisterUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants) returns (bool) {
+  function unregisterUsers(EvenDistroCrowdsaleStorage storage self, address[] _registrants)
+                           public
+                           returns (bool)
+  {
     require(msg.sender == self.base.owner);
-    bool ok;
 
     for (uint256 i = 0; i < _registrants.length; i++) {
-      ok = unregisterUser(self,_registrants[i]);
+      unregisterUser(self,_registrants[i]);
     }
-    return ok;
+    return true;
   }
 
   /// @dev function that calculates address cap from the number of users registered
   /// @param self Stored crowdsale from crowdsale contract
-  function calculateAddressTokenCap(EvenDistroCrowdsaleStorage storage self) internal returns (bool) {
+  function calculateAddressTokenCap(EvenDistroCrowdsaleStorage storage self)
+                                    internal
+                                    returns (bool)
+  {
     require(self.numRegistered > 0);
     require(self.base.token.balanceOf(this) > 0);
 
-    // can only calculate the address cap within 3 days before the sale starts.
-    // Also, if the change interval is 0, the address cap should not be calculated because there is a static cap
-    if ((now > self.base.startTime) || (now < (self.base.startTime - 3 days)) || (self.staticCap))  {
+    if (self.staticCap)  {
       return false;
     }
     require(!self.base.rateSet);  // makes sure this can only be called once
@@ -228,7 +235,7 @@ library EvenDistroCrowdsaleLib {
   /// @dev utility function for the receivePurchase function. returns the lower number
   /// @param a first argument
   /// @param b second argument
-  function getMin(uint256 a, uint256 b) internal constant returns (uint256) {
+  function getMin(uint256 a, uint256 b) internal pure returns (uint256) {
     if (a<b) { return a; } else { return b; }
   }
 
@@ -237,14 +244,13 @@ library EvenDistroCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _amount amound of wei that the buyer is sending
   /// @return true on succesful purchase
-  function receivePurchase(EvenDistroCrowdsaleStorage storage self, uint256 _amount) returns (bool) {
+  function receivePurchase(EvenDistroCrowdsaleStorage storage self, uint256 _amount)
+                           public
+                           returns (bool)
+  {
     require(msg.sender != self.base.owner);
+    require(self.base.validPurchase());
     require(self.isRegistered[msg.sender]);
-  	require(self.base.validPurchase());
-    require((self.base.ownerBalance + _amount) <= self.base.capAmount);
-
-    bool err;
-    uint256 result;
 
   	// if the address cap increase interval has passed, update the current day and change the address cap
   	if ((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
@@ -265,65 +271,55 @@ library EvenDistroCrowdsaleLib {
   	}
 
     uint256 _numTokens; //number of tokens that will be purchased
-    uint256 _zeros; //for calculating token
-    uint256 _leftoverWei; //wei change for purchaser if they went over the address cap
-    uint256 _remainder; //temp calc holder for division remainder for leftover wei and then later for tokens remaining for the owner
+    uint256 _newBalance; //the new balance of the owner of the crowdsale
+    uint256 _weiTokens; //temp calc holder
+    uint256 _leftoverWei; //wei change for purchaser
+    uint256 _remainder; //temp calc holder
     uint256 _allowedWei;  // tells how much more the buyer can contribute up to their cap
-    uint256 _allowedTokens; // number of tokens the buyer is allowed to purchase
+    bool err;
 
-    if(self.base.tokenDecimals <= 18) {
-      _zeros = 10**(18-uint256(self.base.tokenDecimals));
-    } else {
-      _zeros = 10**(uint256(self.base.tokenDecimals)-18);
+    if((self.base.ownerBalance + _amount) > self.base.capAmount){
+      _leftoverWei = (self.base.ownerBalance + _amount) - self.base.capAmount;
+      _amount = _amount - _leftoverWei;
     }
 
     if(self.addressTokenCap > 0) {
       //_allowedWei represents tokens first, recycle variable to prevent stack depth issues
       _allowedWei = self.addressTokenCap - self.tokensBought[msg.sender];
-      if(_allowedWei == 0){
-        LogErrorMsg(msg.sender, "Cannot but anymore tokens!");
-        return false;
-      }
 
-      if(self.base.tokenDecimals <= 18){
-        _allowedWei = (_allowedWei * _zeros)/self.base.tokensPerEth;
-      } else {
-        _allowedWei = (_allowedWei * self.base.tokensPerEth)/_zeros;
-      }
+      (err, _allowedWei) = _allowedWei.times(1000000000000000000);
+      require(!err);
 
+      _allowedWei = _allowedWei/self.base.tokensPerEth;
     } else {
       // if addressTokenCap is zero then there is no cap
       _allowedWei = _amount;
     }
-
+    require(_allowedWei > 0);
     _allowedWei = getMin(_amount,_allowedWei);
-    _leftoverWei = _amount - _allowedWei;
+    _leftoverWei = _leftoverWei + (_amount - _allowedWei);
 
     // Find the number of tokens as a function in wei
-    (err,result) = _allowedWei.times(self.base.tokensPerEth);
+    (err,_weiTokens) = _allowedWei.times(self.base.tokensPerEth);
     require(!err);
 
-    if(self.base.tokenDecimals <= 18){
-      _numTokens = result/_zeros;
-      if((result % _zeros) > 0){
-        _remainder = _allowedWei - ((result-(result%_zeros))/self.base.tokensPerEth);
-      }
-    } else {
-      _numTokens = result * _zeros;
-    }
-
-    self.base.leftoverWei[msg.sender] += _leftoverWei + _remainder;
-    if(_leftoverWei > 0) {
-      LogAddressTokenCapExceeded(msg.sender,self.base.leftoverWei[msg.sender],"Cap Per Address has been exceeded! Please withdraw leftover Wei!");
-    }
+    _numTokens = _weiTokens / 1000000000000000000;
+    _remainder = _weiTokens % 1000000000000000000;
+    _remainder = _remainder / self.base.tokensPerEth;
+    _leftoverWei = _leftoverWei + _remainder;
+    _amount = _amount - _remainder;
+    self.base.leftoverWei[msg.sender] += _leftoverWei;
 
     // can't overflow because it is under the cap
     self.base.hasContributed[msg.sender] += _allowedWei - _remainder;
 
-    require(_numTokens <= self.base.token.balanceOf(this));
+    assert(_numTokens <= self.base.token.balanceOf(this));
 
-    // calculate the amout of ether in the owners balance and "deposit" it
-    self.base.ownerBalance = self.base.ownerBalance + (_allowedWei - _remainder);
+    // calculate the amount of ether in the owners balance
+    (err,_newBalance) = self.base.ownerBalance.plus(_amount);
+    require(!err);
+
+    self.base.ownerBalance = _newBalance;   // "deposit" the amount
 
     // can't overflow because it will be under the cap
     self.base.withdrawTokensMap[msg.sender] += _numTokens;
@@ -334,52 +330,55 @@ library EvenDistroCrowdsaleLib {
     require(!err);
     self.base.withdrawTokensMap[self.base.owner] = _remainder;
 
-    LogTokensBought(msg.sender, _numTokens, now);
+    LogTokensBought(msg.sender, _numTokens);
 
     return true;
   }
 
   /*Functions "inherited" from CrowdsaleLib library*/
 
-  function setTokenExchangeRate(EvenDistroCrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {
+  function setTokenExchangeRate(EvenDistroCrowdsaleStorage storage self, uint256 _exchangeRate)
+                                public
+                                returns (bool)
+  {
     bool ok = calculateAddressTokenCap(self);
-
     return self.base.setTokenExchangeRate(_exchangeRate) && ok;
   }
 
-  function setTokens(EvenDistroCrowdsaleStorage storage self) returns (bool) {
+  function setTokens(EvenDistroCrowdsaleStorage storage self) public returns (bool) {
+    bool ok = calculateAddressTokenCap(self);
     return self.base.setTokens();
   }
 
-  function getSaleData(EvenDistroCrowdsaleStorage storage self, uint256 timestamp) returns (uint256[3]) {
-    return self.base.getSaleData(timestamp);
-  }
-
-  function getTokensSold(EvenDistroCrowdsaleStorage storage self) constant returns (uint256) {
-    return self.base.getTokensSold();
-  }
-
-  function withdrawTokens(EvenDistroCrowdsaleStorage storage self) returns (bool) {
+  function withdrawTokens(EvenDistroCrowdsaleStorage storage self) public returns (bool) {
     return self.base.withdrawTokens();
   }
 
-  function withdrawLeftoverWei(EvenDistroCrowdsaleStorage storage self) returns (bool) {
+  function withdrawLeftoverWei(EvenDistroCrowdsaleStorage storage self) public returns (bool) {
     return self.base.withdrawLeftoverWei();
   }
 
-  function withdrawOwnerEth(EvenDistroCrowdsaleStorage storage self) returns (bool) {
+  function withdrawOwnerEth(EvenDistroCrowdsaleStorage storage self) public returns (bool) {
     return self.base.withdrawOwnerEth();
   }
 
-  function crowdsaleActive(EvenDistroCrowdsaleStorage storage self) constant returns (bool) {
+  function getSaleData(EvenDistroCrowdsaleStorage storage self, uint256 timestamp)
+                       public
+                       view
+                       returns (uint256[3])
+  {
+    return self.base.getSaleData(timestamp);
+  }
+
+  function getTokensSold(EvenDistroCrowdsaleStorage storage self) public view returns (uint256) {
+    return self.base.getTokensSold();
+  }
+
+  function crowdsaleActive(EvenDistroCrowdsaleStorage storage self) public view returns (bool) {
     return self.base.crowdsaleActive();
   }
 
-  function crowdsaleEnded(EvenDistroCrowdsaleStorage storage self) constant returns (bool) {
+  function crowdsaleEnded(EvenDistroCrowdsaleStorage storage self) public view returns (bool) {
     return self.base.crowdsaleEnded();
-  }
-
-  function validPurchase(EvenDistroCrowdsaleStorage storage self) constant returns (bool) {
-    return self.base.validPurchase();
   }
 }

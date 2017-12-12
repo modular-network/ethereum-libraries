@@ -2,8 +2,12 @@
   "name": "LinkedListLib",
   "version": "1.0.0",
   "description": "A linked list library for using linked list data structures in your project.",
+  "scripts": {
+    "test:coverage": "./node_modules/.bin/solidity-coverage"
+  },
   "devDependencies": {
-    "truffle": "3.4.9",
-    "ethereumjs-testrpc": "4.1.1"
+    "truffle": "4.0.1",
+    "ethereumjs-testrpc": "4.0.0",
+    "solidity-coverage": "^0.2.7"
   }
 }

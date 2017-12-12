@@ -1,47 +1,20 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [CrowdsaleLib](#crowdsalelib)
-  - [Library Address](#library-address)
-    - [CrowdsaleLib](#crowdsalelib-1)
-    - [v2.0.0](#v200)
-    - [v1.0.0](#v100)
-  - [How to Use](#how-to-use)
-  - [Crowdsale Types](#crowdsale-types)
-    - [Direct Crowdsale](#direct-crowdsale)
-    - [Even Distribution Crowdsale](#even-distribution-crowdsale)
-  - [License and Warranty](#license-and-warranty)
-  - [Change Log](#change-log)
-    - [v2.0.0](#v200-1)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 CrowdsaleLib
 =========================
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
 
-Crowdsale libraries [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for crowdsale contract deployment.
+Crowdsale libraries [provided by Modular](https://modular.network "Modular's Website") to use for crowdsale contract deployment.
 
 ## Library Address
 
 ### CrowdsaleLib   
 
-### v2.0.0
+### v2.1.0
 
 **ENS**: TBD   
-**Main Ethereum Network**: 0x8b90e3937a5db939f15da38af99579b3c213d02a   
-**Rinkeby Test Network**: 0x7b6b4b6becc07238d42465bccd393d510a795e34   
-**Ropsten Test Network**: 0x23846ed79fc461095fc13ab60df4f3e1e6a07ded   
-
-### v1.0.0
-*Note: No ENS address is provided for older versions at this time.*   
-
-**Main Ethereum Network**: 0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1   
-**Rinkeby Test Network**: 0x33a5bb89721af20d992732bf16f7f17e7553f3ff   
-**Ropsten Test Network**: 0x37ea7b78992192ebbbf848294f6af338ae7ea1c5   
+**Main Ethereum Network**: 0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260   
+**Ropsten Test Network**: 0xD088524CA79184411a78C51982E08276528C76FF   
+**Rinkeby Test Network**: 0xAdaCc992cE92030a7Cc4E4987Fe1f253F4fCD4Fd   
 
 ## How to Use
 
@@ -59,11 +32,15 @@ The EvenDistroCrowdsale is for auctions that pre-register buyers before the sale
 
 ## License and Warranty
 
-Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:
+Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Change Log
+
+### v2.1.0
+
+* Update compiler to 0.4.18 and explicitly define function scopes, minor fixes from audit.
 
 ### v2.0.0
 

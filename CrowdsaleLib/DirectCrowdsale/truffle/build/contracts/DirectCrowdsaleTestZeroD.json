@@ -1,0 +1,4130 @@
+{
+  "contractName": "DirectCrowdsaleTestZeroD",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "crowdsaleActive",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdrawOwnerEth",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_buyer",
+          "type": "address"
+        }
+      ],
+      "name": "getContribution",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "crowdsaleEnded",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getEthRaised",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_buyer",
+          "type": "address"
+        }
+      ],
+      "name": "getLeftoverWei",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getEndTime",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "setTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "sendPurchase",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getTokensPerEth",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSaleData",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[3]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getOwner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdrawTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdrawLeftoverWei",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getPercentBurn",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getStartTime",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_exchangeRate",
+          "type": "uint256"
+        }
+      ],
+      "name": "setTokenExchangeRate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getCapAmount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getExchangeRate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getTokensSold",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_buyer",
+          "type": "address"
+        }
+      ],
+      "name": "getTokenPurchase",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "name": "saleData",
+          "type": "uint256[]"
+        },
+        {
+          "name": "fallbackExchangeRate",
+          "type": "uint256"
+        },
+        {
+          "name": "capAmountInCents",
+          "type": "uint256"
+        },
+        {
+          "name": "endTime",
+          "type": "uint256"
+        },
+        {
+          "name": "percentBurn",
+          "type": "uint8"
+        },
+        {
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "fallback"
+    }
+  ],
+  "bytecode": "0x6060604052341561000f57600080fd5b604051610f3a380380610f3a83398101604052808051906020019091908051820191906020018051906020019091908051906020019091908051906020019091908051906020019091908051906020019091905050600073__DirectCrowdsaleLib____________________637de64c899091898989898989896040518963ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808981526020018873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001806020018781526020018681526020018581526020018460ff1660ff1681526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825288818151815260200191508051906020019060200280838360005b8381101561017f578082015181840152602081019050610164565b50505050905001995050505050505050505060006040518083038186803b15156101a857600080fd5b6102c65a03f415156101b957600080fd5b50505050505050505050610d68806101d26000396000f30060606040526004361061011d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630b87cf10146101285780630c1ca1ba1461015557806321eff7fc146101825780632367f35d146101cf57806329dacb60146101fc578063413100e014610225578063439f5ac214610272578063559ed3391461029b57806367532c8e146102c85780636893f63f146102ea57806386630b7b14610313578063893d20e8146103725780638d8f2adb146103c75780639fac6ddc146103f4578063bdf1211e14610421578063c828371e1461044a578063cb7b867314610473578063d8ad1c5c146104ae578063e6aa216c146104d7578063ee7c0db014610500578063f59ae82c14610529575b610125610576565b50005b341561013357600080fd5b61013b610615565b604051808215151515815260200191505060405180910390f35b341561016057600080fd5b6101686106ac565b604051808215151515815260200191505060405180910390f35b341561018d57600080fd5b6101b9600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610743565b6040518082815260200191505060405180910390f35b34156101da57600080fd5b6101e2610791565b604051808215151515815260200191505060405180910390f35b341561020757600080fd5b61020f610828565b6040518082815260200191505060405180910390f35b341561023057600080fd5b61025c600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610837565b6040518082815260200191505060405180910390f35b341561027d57600080fd5b610285610885565b6040518082815260200191505060405180910390f35b34156102a657600080fd5b6102ae610894565b604051808215151515815260200191505060405180910390f35b6102d0610576565b604051808215151515815260200191505060405180910390f35b34156102f557600080fd5b6102fd61092b565b6040518082815260200191505060405180910390f35b341561031e57600080fd5b610334600480803590602001909190505061093a565b6040518082600360200280838360005b8381101561035f578082015181840152602081019050610344565b5050505090500191505060405180910390f35b341561037d57600080fd5b6103856109e5565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103d257600080fd5b6103da610a14565b604051808215151515815260200191505060405180910390f35b34156103ff57600080fd5b610407610aab565b604051808215151515815260200191505060405180910390f35b341561042c57600080fd5b610434610b42565b6040518082815260200191505060405180910390f35b341561045557600080fd5b61045d610b61565b6040518082815260200191505060405180910390f35b341561047e57600080fd5b6104946004808035906020019091905050610b70565b604051808215151515815260200191505060405180910390f35b34156104b957600080fd5b6104c1610c11565b6040518082815260200191505060405180910390f35b34156104e257600080fd5b6104ea610c20565b6040518082815260200191505060405180910390f35b341561050b57600080fd5b610513610c2f565b6040518082815260200191505060405180910390f35b341561053457600080fd5b610560600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610cc6565b6040518082815260200191505060405180910390f35b60008073__DirectCrowdsaleLib____________________63e1f0a45a9091346000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018281526020019250505060206040518083038186803b15156105f557600080fd5b6102c65a03f4151561060657600080fd5b50505060405180519050905090565b60008073__DirectCrowdsaleLib____________________63aae1288a90916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b151561068c57600080fd5b6102c65a03f4151561069d57600080fd5b50505060405180519050905090565b60008073__DirectCrowdsaleLib____________________638e7a533690916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b151561072357600080fd5b6102c65a03f4151561073457600080fd5b50505060405180519050905090565b600080600001600b0160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008073__DirectCrowdsaleLib____________________630acfb98590916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b151561080857600080fd5b6102c65a03f4151561081957600080fd5b50505060405180519050905090565b60008060000160060154905090565b600080600001600d0160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008060000160040154905090565b60008073__DirectCrowdsaleLib____________________63112c1e9090916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b151561090b57600080fd5b6102c65a03f4151561091c57600080fd5b50505060405180519050905090565b60008060000160010154905090565b610942610d14565b600073__DirectCrowdsaleLib____________________630239796e9091846000604051606001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018281526020019250505060606040518083038186803b15156109c057600080fd5b6102c65a03f415156109d157600080fd5b505050604051806060016040529050919050565b60008060000160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60008073__DirectCrowdsaleLib____________________637b84bfb590916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610a8b57600080fd5b6102c65a03f41515610a9c57600080fd5b50505060405180519050905090565b60008073__DirectCrowdsaleLib____________________63eb40c0d690916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610b2257600080fd5b6102c65a03f41515610b3357600080fd5b50505060405180519050905090565b60008060000160090160029054906101000a900460ff1660ff16905090565b60008060000160030154905090565b60008073__DirectCrowdsaleLib____________________63d99083f39091846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018281526020019250505060206040518083038186803b1515610bef57600080fd5b6102c65a03f41515610c0057600080fd5b505050604051805190509050919050565b60008060000160020154905090565b60008060000160050154905090565b60008073__DirectCrowdsaleLib____________________63eabf1a1390916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610ca657600080fd5b6102c65a03f41515610cb757600080fd5b50505060405180519050905090565b600080600001600c0160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b6060604051908101604052806003905b6000815260200190600190039081610d2457905050905600a165627a7a7230582077a35ea1676bd23ad5f1484468a070c6f075c883abd90fdfd813da4c91b1890a0029",
+  "deployedBytecode": "0x60606040526004361061011d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630b87cf10146101285780630c1ca1ba1461015557806321eff7fc146101825780632367f35d146101cf57806329dacb60146101fc578063413100e014610225578063439f5ac214610272578063559ed3391461029b57806367532c8e146102c85780636893f63f146102ea57806386630b7b14610313578063893d20e8146103725780638d8f2adb146103c75780639fac6ddc146103f4578063bdf1211e14610421578063c828371e1461044a578063cb7b867314610473578063d8ad1c5c146104ae578063e6aa216c146104d7578063ee7c0db014610500578063f59ae82c14610529575b610125610576565b50005b341561013357600080fd5b61013b610615565b604051808215151515815260200191505060405180910390f35b341561016057600080fd5b6101686106ac565b604051808215151515815260200191505060405180910390f35b341561018d57600080fd5b6101b9600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610743565b6040518082815260200191505060405180910390f35b34156101da57600080fd5b6101e2610791565b604051808215151515815260200191505060405180910390f35b341561020757600080fd5b61020f610828565b6040518082815260200191505060405180910390f35b341561023057600080fd5b61025c600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610837565b6040518082815260200191505060405180910390f35b341561027d57600080fd5b610285610885565b6040518082815260200191505060405180910390f35b34156102a657600080fd5b6102ae610894565b604051808215151515815260200191505060405180910390f35b6102d0610576565b604051808215151515815260200191505060405180910390f35b34156102f557600080fd5b6102fd61092b565b6040518082815260200191505060405180910390f35b341561031e57600080fd5b610334600480803590602001909190505061093a565b6040518082600360200280838360005b8381101561035f578082015181840152602081019050610344565b5050505090500191505060405180910390f35b341561037d57600080fd5b6103856109e5565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103d257600080fd5b6103da610a14565b604051808215151515815260200191505060405180910390f35b34156103ff57600080fd5b610407610aab565b604051808215151515815260200191505060405180910390f35b341561042c57600080fd5b610434610b42565b6040518082815260200191505060405180910390f35b341561045557600080fd5b61045d610b61565b6040518082815260200191505060405180910390f35b341561047e57600080fd5b6104946004808035906020019091905050610b70565b604051808215151515815260200191505060405180910390f35b34156104b957600080fd5b6104c1610c11565b6040518082815260200191505060405180910390f35b34156104e257600080fd5b6104ea610c20565b6040518082815260200191505060405180910390f35b341561050b57600080fd5b610513610c2f565b6040518082815260200191505060405180910390f35b341561053457600080fd5b610560600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610cc6565b6040518082815260200191505060405180910390f35b60008073__DirectCrowdsaleLib____________________63e1f0a45a9091346000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018281526020019250505060206040518083038186803b15156105f557600080fd5b6102c65a03f4151561060657600080fd5b50505060405180519050905090565b60008073__DirectCrowdsaleLib____________________63aae1288a90916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b151561068c57600080fd5b6102c65a03f4151561069d57600080fd5b50505060405180519050905090565b60008073__DirectCrowdsaleLib____________________638e7a533690916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b151561072357600080fd5b6102c65a03f4151561073457600080fd5b50505060405180519050905090565b600080600001600b0160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008073__DirectCrowdsaleLib____________________630acfb98590916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b151561080857600080fd5b6102c65a03f4151561081957600080fd5b50505060405180519050905090565b60008060000160060154905090565b600080600001600d0160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008060000160040154905090565b60008073__DirectCrowdsaleLib____________________63112c1e9090916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b151561090b57600080fd5b6102c65a03f4151561091c57600080fd5b50505060405180519050905090565b60008060000160010154905090565b610942610d14565b600073__DirectCrowdsaleLib____________________630239796e9091846000604051606001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018281526020019250505060606040518083038186803b15156109c057600080fd5b6102c65a03f415156109d157600080fd5b505050604051806060016040529050919050565b60008060000160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60008073__DirectCrowdsaleLib____________________637b84bfb590916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610a8b57600080fd5b6102c65a03f41515610a9c57600080fd5b50505060405180519050905090565b60008073__DirectCrowdsaleLib____________________63eb40c0d690916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610b2257600080fd5b6102c65a03f41515610b3357600080fd5b50505060405180519050905090565b60008060000160090160029054906101000a900460ff1660ff16905090565b60008060000160030154905090565b60008073__DirectCrowdsaleLib____________________63d99083f39091846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018281526020019250505060206040518083038186803b1515610bef57600080fd5b6102c65a03f41515610c0057600080fd5b505050604051805190509050919050565b60008060000160020154905090565b60008060000160050154905090565b60008073__DirectCrowdsaleLib____________________63eabf1a1390916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610ca657600080fd5b6102c65a03f41515610cb757600080fd5b50505060405180519050905090565b600080600001600c0160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b6060604051908101604052806003905b6000815260200190600190039081610d2457905050905600a165627a7a7230582077a35ea1676bd23ad5f1484468a070c6f075c883abd90fdfd813da4c91b1890a0029",
+  "sourceMap": "1080:2860:6:-;;;1244:426;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1570:4;:9;;;;1580:5;1587:8;1597:20;1619:16;1637:7;1646:11;1659:5;1570:95;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1244:426:6;;;;;;;1080:2860;;;;;;",
+  "deployedSourceMap": "1080:2860:6:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1756:14;:12;:14::i;:::-;;1080:2860;2171:94;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2076:91;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3251:120;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2269:92;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3153:94;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3503:117;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3062:87;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2502:77;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1779:102;;;;;;;;;;;;;;;;;;;;;;;;;;;2670:97;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3624:118;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;2583:83:6;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1885:86;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1975:97;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3843:95;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2967:91;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2365:133;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2872:91;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2771:97;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3746:93;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3375:124;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1779:102;1827:4;1845;:20;;;;1866:9;1845:31;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1838:38;;1779:102;:::o;2171:94::-;2219:4;2238;:20;;;;:22;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2231:29;;2171:94;:::o;2076:91::-;2120:4;2139;:21;;;;:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2132:30;;2076:91;:::o;3251:120::-;3313:7;3334:4;:9;;:24;;:32;3359:6;3334:32;;;;;;;;;;;;;;;;3327:39;;3251:120;;;:::o;2269:92::-;2316:4;2335;:19;;;;:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2328:28;;2269:92;:::o;3153:94::-;3198:7;3220:4;:9;;:22;;;3213:29;;3153:94;:::o;3503:117::-;3564:7;3586:4;:9;;:21;;:29;3608:6;3586:29;;;;;;;;;;;;;;;;3579:36;;3503:117;;;:::o;3062:87::-;3105:7;3127:4;:9;;:17;;;3120:24;;3062:87;:::o;2502:77::-;2539:4;2558;:14;;;;:16;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2551:23;;2502:77;:::o;2670:97::-;2718:7;2740:4;:9;;:22;;;2733:29;;2670:97;:::o;3624:118::-;3685:10;;:::i;:::-;3710:4;:16;;;;3727:9;3710:27;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3703:34;;3624:118;;;:::o;2583:83::-;2624:7;2646:4;:9;;:15;;;;;;;;;;;;2639:22;;2583:83;:::o;1885:86::-;1927:4;1945;:19;;;;:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1938:28;;1885:86;:::o;1975:97::-;2022:4;2041;:24;;;;:26;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2034:33;;1975:97;:::o;3843:95::-;3890:7;3912:4;:9;;:21;;;;;;;;;;;;3905:28;;;;3843:95;:::o;2967:91::-;3012:7;3034:4;:9;;:19;;;3027:26;;2967:91;:::o;2365:133::-;2434:4;2453;:25;;;;2479:13;2453:40;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2446:47;;2365:133;;;:::o;2872:91::-;2917:7;2939:4;:9;;:19;;;2932:26;;2872:91;:::o;2771:97::-;2819:7;2841:4;:9;;:22;;;2834:29;;2771:97;:::o;3746:93::-;3792:7;3814:4;:18;;;;:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3807:27;;3746:93;:::o;3375:124::-;3438:7;3459:4;:9;;:27;;:35;3487:6;3459:35;;;;;;;;;;;;;;;;3452:42;;3375:124;;;:::o;1080:2860::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.18;\n\n/**\n * Direct Crowdsale Contract\n *\n * Majoolr provides smart contract services and security reviews for contract\n * deployments in addition to working on open source projects in the Ethereum\n * community. Our purpose is to test, document, and deploy reusable code onto the\n * blockchain and improve both security and usability. We also educate non-profits,\n * schools, and other community members about the application of blockchain\n * technology.\n * For further information: majoolr.io\n *\n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS\n * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\n * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\n * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY\n * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,\n * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE\n * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n */\n\nimport \"./DirectCrowdsaleLib.sol\";\nimport \"./CrowdsaleTestTokenZeroD.sol\";\n\ncontract DirectCrowdsaleTestZeroD {\n  using DirectCrowdsaleLib for DirectCrowdsaleLib.DirectCrowdsaleStorage;\n\n  DirectCrowdsaleLib.DirectCrowdsaleStorage sale;\n\n  function DirectCrowdsaleTestZeroD(\n                address owner,\n                uint256[] saleData,\n                uint256 fallbackExchangeRate,\n                uint256 capAmountInCents,\n                uint256 endTime,\n                uint8 percentBurn,\n                CrowdsaleToken token)\n                public\n  {\n  \tsale.init(owner, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, token);\n  }\n\n  // fallback function can be used to buy tokens\n  function () payable public {\n    sendPurchase();\n  }\n\n  function sendPurchase() payable public returns (bool) {\n  \treturn sale.receivePurchase(msg.value);\n  }\n\n  function withdrawTokens() public returns (bool) {\n  \treturn sale.withdrawTokens();\n  }\n\n  function withdrawLeftoverWei() public returns (bool) {\n    return sale.withdrawLeftoverWei();\n  }\n\n  function withdrawOwnerEth() public returns (bool) {\n    return sale.withdrawOwnerEth();\n  }\n\n  function crowdsaleActive() public view returns (bool) {\n    return sale.crowdsaleActive();\n  }\n\n  function crowdsaleEnded() public view returns (bool) {\n    return sale.crowdsaleEnded();\n  }\n\n  function setTokenExchangeRate(uint256 _exchangeRate) public returns (bool) {\n    return sale.setTokenExchangeRate(_exchangeRate);\n  }\n\n  function setTokens() public returns (bool) {\n    return sale.setTokens();\n  }\n\n  function getOwner() public view returns (address) {\n    return sale.base.owner;\n  }\n\n  function getTokensPerEth() public view returns (uint256) {\n    return sale.base.tokensPerEth;\n  }\n\n  function getExchangeRate() public view returns (uint256) {\n    return sale.base.exchangeRate;\n  }\n\n  function getCapAmount() public view returns (uint256) {\n    return sale.base.capAmount;\n  }\n\n  function getStartTime() public view returns (uint256) {\n    return sale.base.startTime;\n  }\n\n  function getEndTime() public view returns (uint256) {\n    return sale.base.endTime;\n  }\n\n  function getEthRaised() public view returns (uint256) {\n    return sale.base.ownerBalance;\n  }\n\n  function getContribution(address _buyer) public view returns (uint256) {\n  \treturn sale.base.hasContributed[_buyer];\n  }\n\n  function getTokenPurchase(address _buyer) public view returns (uint256) {\n  \treturn sale.base.withdrawTokensMap[_buyer];\n  }\n\n  function getLeftoverWei(address _buyer) public view returns (uint256) {\n    return sale.base.leftoverWei[_buyer];\n  }\n\n  function getSaleData(uint256 timestamp) public view returns (uint256[3]) {\n    return sale.getSaleData(timestamp);\n  }\n\n  function getTokensSold() public view returns (uint256) {\n    return sale.getTokensSold();\n  }\n\n  function getPercentBurn() public view returns (uint256) {\n    return sale.base.percentBurn;\n  }\n}\n",
+  "sourcePath": "/Users/hackdom/Projects/ethereum-libraries/CrowdsaleLib/DirectCrowdsale/truffle/contracts/DirectCrowdsaleTestZeroD.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/Users/hackdom/Projects/ethereum-libraries/CrowdsaleLib/DirectCrowdsale/truffle/contracts/DirectCrowdsaleTestZeroD.sol",
+      "exportedSymbols": {
+        "DirectCrowdsaleTestZeroD": [
+          2771
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 2493,
+        "name": "PragmaDirective",
+        "src": "0:24:6"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 2492,
+          "absolutePath": "/Users/hackdom/Projects/ethereum-libraries/CrowdsaleLib/DirectCrowdsale/truffle/contracts/DirectCrowdsaleLib.sol",
+          "file": "./DirectCrowdsaleLib.sol",
+          "scope": 2772,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 2494,
+        "name": "ImportDirective",
+        "src": "1004:34:6"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 1767,
+          "absolutePath": "/Users/hackdom/Projects/ethereum-libraries/CrowdsaleLib/DirectCrowdsale/truffle/contracts/CrowdsaleTestTokenZeroD.sol",
+          "file": "./CrowdsaleTestTokenZeroD.sol",
+          "scope": 2772,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 2495,
+        "name": "ImportDirective",
+        "src": "1039:39:6"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            2771
+          ],
+          "name": "DirectCrowdsaleTestZeroD",
+          "scope": 2772
+        },
+        "children": [
+          {
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "DirectCrowdsaleLib",
+                  "referencedDeclaration": 2491,
+                  "type": "library DirectCrowdsaleLib"
+                },
+                "id": 2496,
+                "name": "UserDefinedTypeName",
+                "src": "1124:18:6"
+              },
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "DirectCrowdsaleLib.DirectCrowdsaleStorage",
+                  "referencedDeclaration": 1986,
+                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer"
+                },
+                "id": 2497,
+                "name": "UserDefinedTypeName",
+                "src": "1147:41:6"
+              }
+            ],
+            "id": 2498,
+            "name": "UsingForDirective",
+            "src": "1118:71:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "sale",
+              "scope": 2771,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "DirectCrowdsaleLib.DirectCrowdsaleStorage",
+                  "referencedDeclaration": 1986,
+                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer"
+                },
+                "id": 2499,
+                "name": "UserDefinedTypeName",
+                "src": "1193:41:6"
+              }
+            ],
+            "id": 2500,
+            "name": "VariableDeclaration",
+            "src": "1193:46:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": true,
+              "modifiers": [
+                null
+              ],
+              "name": "DirectCrowdsaleTestZeroD",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "owner",
+                      "scope": 2531,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2501,
+                        "name": "ElementaryTypeName",
+                        "src": "1295:7:6"
+                      }
+                    ],
+                    "id": 2502,
+                    "name": "VariableDeclaration",
+                    "src": "1295:13:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "saleData",
+                      "scope": 2531,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256[] memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "length": null,
+                          "type": "uint256[] storage pointer"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "uint256",
+                              "type": "uint256"
+                            },
+                            "id": 2503,
+                            "name": "ElementaryTypeName",
+                            "src": "1326:7:6"
+                          }
+                        ],
+                        "id": 2504,
+                        "name": "ArrayTypeName",
+                        "src": "1326:9:6"
+                      }
+                    ],
+                    "id": 2505,
+                    "name": "VariableDeclaration",
+                    "src": "1326:18:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "fallbackExchangeRate",
+                      "scope": 2531,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2506,
+                        "name": "ElementaryTypeName",
+                        "src": "1362:7:6"
+                      }
+                    ],
+                    "id": 2507,
+                    "name": "VariableDeclaration",
+                    "src": "1362:28:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "capAmountInCents",
+                      "scope": 2531,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2508,
+                        "name": "ElementaryTypeName",
+                        "src": "1408:7:6"
+                      }
+                    ],
+                    "id": 2509,
+                    "name": "VariableDeclaration",
+                    "src": "1408:24:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "endTime",
+                      "scope": 2531,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2510,
+                        "name": "ElementaryTypeName",
+                        "src": "1450:7:6"
+                      }
+                    ],
+                    "id": 2511,
+                    "name": "VariableDeclaration",
+                    "src": "1450:15:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "percentBurn",
+                      "scope": 2531,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 2512,
+                        "name": "ElementaryTypeName",
+                        "src": "1483:5:6"
+                      }
+                    ],
+                    "id": 2513,
+                    "name": "VariableDeclaration",
+                    "src": "1483:17:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "token",
+                      "scope": 2531,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "contract CrowdsaleToken",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "CrowdsaleToken",
+                          "referencedDeclaration": 1972,
+                          "type": "contract CrowdsaleToken"
+                        },
+                        "id": 2514,
+                        "name": "UserDefinedTypeName",
+                        "src": "1518:14:6"
+                      }
+                    ],
+                    "id": 2515,
+                    "name": "VariableDeclaration",
+                    "src": "1518:20:6"
+                  }
+                ],
+                "id": 2516,
+                "name": "ParameterList",
+                "src": "1277:262:6"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2517,
+                "name": "ParameterList",
+                "src": "1565:0:6"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                },
+                                {
+                                  "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                                  "typeString": "uint256[] memory"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint8",
+                                  "typeString": "uint8"
+                                },
+                                {
+                                  "typeIdentifier": "t_contract$_CrowdsaleToken_$1972",
+                                  "typeString": "contract CrowdsaleToken"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "init",
+                              "referencedDeclaration": 2047,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer,address,uint256[] memory,uint256,uint256,uint256,uint8,contract CrowdsaleToken)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2518,
+                                "name": "Identifier",
+                                "src": "1570:4:6"
+                              }
+                            ],
+                            "id": 2520,
+                            "name": "MemberAccess",
+                            "src": "1570:9:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2502,
+                              "type": "address",
+                              "value": "owner"
+                            },
+                            "id": 2521,
+                            "name": "Identifier",
+                            "src": "1580:5:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2505,
+                              "type": "uint256[] memory",
+                              "value": "saleData"
+                            },
+                            "id": 2522,
+                            "name": "Identifier",
+                            "src": "1587:8:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2507,
+                              "type": "uint256",
+                              "value": "fallbackExchangeRate"
+                            },
+                            "id": 2523,
+                            "name": "Identifier",
+                            "src": "1597:20:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2509,
+                              "type": "uint256",
+                              "value": "capAmountInCents"
+                            },
+                            "id": 2524,
+                            "name": "Identifier",
+                            "src": "1619:16:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2511,
+                              "type": "uint256",
+                              "value": "endTime"
+                            },
+                            "id": 2525,
+                            "name": "Identifier",
+                            "src": "1637:7:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2513,
+                              "type": "uint8",
+                              "value": "percentBurn"
+                            },
+                            "id": 2526,
+                            "name": "Identifier",
+                            "src": "1646:11:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2515,
+                              "type": "contract CrowdsaleToken",
+                              "value": "token"
+                            },
+                            "id": 2527,
+                            "name": "Identifier",
+                            "src": "1659:5:6"
+                          }
+                        ],
+                        "id": 2528,
+                        "name": "FunctionCall",
+                        "src": "1570:95:6"
+                      }
+                    ],
+                    "id": 2529,
+                    "name": "ExpressionStatement",
+                    "src": "1570:95:6"
+                  }
+                ],
+                "id": 2530,
+                "name": "Block",
+                "src": "1565:105:6"
+              }
+            ],
+            "id": 2531,
+            "name": "FunctionDefinition",
+            "src": "1244:426:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "",
+              "payable": true,
+              "scope": 2771,
+              "stateMutability": "payable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2532,
+                "name": "ParameterList",
+                "src": "1732:2:6"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2533,
+                "name": "ParameterList",
+                "src": "1750:0:6"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2550,
+                              "type": "function () returns (bool)",
+                              "value": "sendPurchase"
+                            },
+                            "id": 2534,
+                            "name": "Identifier",
+                            "src": "1756:12:6"
+                          }
+                        ],
+                        "id": 2535,
+                        "name": "FunctionCall",
+                        "src": "1756:14:6"
+                      }
+                    ],
+                    "id": 2536,
+                    "name": "ExpressionStatement",
+                    "src": "1756:14:6"
+                  }
+                ],
+                "id": 2537,
+                "name": "Block",
+                "src": "1750:25:6"
+              }
+            ],
+            "id": 2538,
+            "name": "FunctionDefinition",
+            "src": "1723:52:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "sendPurchase",
+              "payable": true,
+              "scope": 2771,
+              "stateMutability": "payable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2539,
+                "name": "ParameterList",
+                "src": "1800:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2550,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2540,
+                        "name": "ElementaryTypeName",
+                        "src": "1827:4:6"
+                      }
+                    ],
+                    "id": 2541,
+                    "name": "VariableDeclaration",
+                    "src": "1827:4:6"
+                  }
+                ],
+                "id": 2542,
+                "name": "ParameterList",
+                "src": "1826:6:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2542
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "receivePurchase",
+                              "referencedDeclaration": 2365,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer,uint256) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2543,
+                                "name": "Identifier",
+                                "src": "1845:4:6"
+                              }
+                            ],
+                            "id": 2544,
+                            "name": "MemberAccess",
+                            "src": "1845:20:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "value",
+                              "referencedDeclaration": null,
+                              "type": "uint256"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 4289,
+                                  "type": "msg",
+                                  "value": "msg"
+                                },
+                                "id": 2545,
+                                "name": "Identifier",
+                                "src": "1866:3:6"
+                              }
+                            ],
+                            "id": 2546,
+                            "name": "MemberAccess",
+                            "src": "1866:9:6"
+                          }
+                        ],
+                        "id": 2547,
+                        "name": "FunctionCall",
+                        "src": "1845:31:6"
+                      }
+                    ],
+                    "id": 2548,
+                    "name": "Return",
+                    "src": "1838:38:6"
+                  }
+                ],
+                "id": 2549,
+                "name": "Block",
+                "src": "1833:48:6"
+              }
+            ],
+            "id": 2550,
+            "name": "FunctionDefinition",
+            "src": "1779:102:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "withdrawTokens",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2551,
+                "name": "ParameterList",
+                "src": "1908:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2560,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2552,
+                        "name": "ElementaryTypeName",
+                        "src": "1927:4:6"
+                      }
+                    ],
+                    "id": 2553,
+                    "name": "VariableDeclaration",
+                    "src": "1927:4:6"
+                  }
+                ],
+                "id": 2554,
+                "name": "ParameterList",
+                "src": "1926:6:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2554
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "withdrawTokens",
+                              "referencedDeclaration": 2407,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2555,
+                                "name": "Identifier",
+                                "src": "1945:4:6"
+                              }
+                            ],
+                            "id": 2556,
+                            "name": "MemberAccess",
+                            "src": "1945:19:6"
+                          }
+                        ],
+                        "id": 2557,
+                        "name": "FunctionCall",
+                        "src": "1945:21:6"
+                      }
+                    ],
+                    "id": 2558,
+                    "name": "Return",
+                    "src": "1938:28:6"
+                  }
+                ],
+                "id": 2559,
+                "name": "Block",
+                "src": "1933:38:6"
+              }
+            ],
+            "id": 2560,
+            "name": "FunctionDefinition",
+            "src": "1885:86:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "withdrawLeftoverWei",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2561,
+                "name": "ParameterList",
+                "src": "2003:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2570,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2562,
+                        "name": "ElementaryTypeName",
+                        "src": "2022:4:6"
+                      }
+                    ],
+                    "id": 2563,
+                    "name": "VariableDeclaration",
+                    "src": "2022:4:6"
+                  }
+                ],
+                "id": 2564,
+                "name": "ParameterList",
+                "src": "2021:6:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2564
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "withdrawLeftoverWei",
+                              "referencedDeclaration": 2420,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2565,
+                                "name": "Identifier",
+                                "src": "2041:4:6"
+                              }
+                            ],
+                            "id": 2566,
+                            "name": "MemberAccess",
+                            "src": "2041:24:6"
+                          }
+                        ],
+                        "id": 2567,
+                        "name": "FunctionCall",
+                        "src": "2041:26:6"
+                      }
+                    ],
+                    "id": 2568,
+                    "name": "Return",
+                    "src": "2034:33:6"
+                  }
+                ],
+                "id": 2569,
+                "name": "Block",
+                "src": "2028:44:6"
+              }
+            ],
+            "id": 2570,
+            "name": "FunctionDefinition",
+            "src": "1975:97:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "withdrawOwnerEth",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2571,
+                "name": "ParameterList",
+                "src": "2101:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2580,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2572,
+                        "name": "ElementaryTypeName",
+                        "src": "2120:4:6"
+                      }
+                    ],
+                    "id": 2573,
+                    "name": "VariableDeclaration",
+                    "src": "2120:4:6"
+                  }
+                ],
+                "id": 2574,
+                "name": "ParameterList",
+                "src": "2119:6:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2574
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "withdrawOwnerEth",
+                              "referencedDeclaration": 2433,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2575,
+                                "name": "Identifier",
+                                "src": "2139:4:6"
+                              }
+                            ],
+                            "id": 2576,
+                            "name": "MemberAccess",
+                            "src": "2139:21:6"
+                          }
+                        ],
+                        "id": 2577,
+                        "name": "FunctionCall",
+                        "src": "2139:23:6"
+                      }
+                    ],
+                    "id": 2578,
+                    "name": "Return",
+                    "src": "2132:30:6"
+                  }
+                ],
+                "id": 2579,
+                "name": "Block",
+                "src": "2126:41:6"
+              }
+            ],
+            "id": 2580,
+            "name": "FunctionDefinition",
+            "src": "2076:91:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "crowdsaleActive",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2581,
+                "name": "ParameterList",
+                "src": "2195:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2590,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2582,
+                        "name": "ElementaryTypeName",
+                        "src": "2219:4:6"
+                      }
+                    ],
+                    "id": 2583,
+                    "name": "VariableDeclaration",
+                    "src": "2219:4:6"
+                  }
+                ],
+                "id": 2584,
+                "name": "ParameterList",
+                "src": "2218:6:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2584
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "crowdsaleActive",
+                              "referencedDeclaration": 2477,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer) view returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2585,
+                                "name": "Identifier",
+                                "src": "2238:4:6"
+                              }
+                            ],
+                            "id": 2586,
+                            "name": "MemberAccess",
+                            "src": "2238:20:6"
+                          }
+                        ],
+                        "id": 2587,
+                        "name": "FunctionCall",
+                        "src": "2238:22:6"
+                      }
+                    ],
+                    "id": 2588,
+                    "name": "Return",
+                    "src": "2231:29:6"
+                  }
+                ],
+                "id": 2589,
+                "name": "Block",
+                "src": "2225:40:6"
+              }
+            ],
+            "id": 2590,
+            "name": "FunctionDefinition",
+            "src": "2171:94:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "crowdsaleEnded",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2591,
+                "name": "ParameterList",
+                "src": "2292:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2600,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2592,
+                        "name": "ElementaryTypeName",
+                        "src": "2316:4:6"
+                      }
+                    ],
+                    "id": 2593,
+                    "name": "VariableDeclaration",
+                    "src": "2316:4:6"
+                  }
+                ],
+                "id": 2594,
+                "name": "ParameterList",
+                "src": "2315:6:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2594
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "crowdsaleEnded",
+                              "referencedDeclaration": 2490,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer) view returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2595,
+                                "name": "Identifier",
+                                "src": "2335:4:6"
+                              }
+                            ],
+                            "id": 2596,
+                            "name": "MemberAccess",
+                            "src": "2335:19:6"
+                          }
+                        ],
+                        "id": 2597,
+                        "name": "FunctionCall",
+                        "src": "2335:21:6"
+                      }
+                    ],
+                    "id": 2598,
+                    "name": "Return",
+                    "src": "2328:28:6"
+                  }
+                ],
+                "id": 2599,
+                "name": "Block",
+                "src": "2322:39:6"
+              }
+            ],
+            "id": 2600,
+            "name": "FunctionDefinition",
+            "src": "2269:92:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "setTokenExchangeRate",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_exchangeRate",
+                      "scope": 2613,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2601,
+                        "name": "ElementaryTypeName",
+                        "src": "2395:7:6"
+                      }
+                    ],
+                    "id": 2602,
+                    "name": "VariableDeclaration",
+                    "src": "2395:21:6"
+                  }
+                ],
+                "id": 2603,
+                "name": "ParameterList",
+                "src": "2394:23:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2613,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2604,
+                        "name": "ElementaryTypeName",
+                        "src": "2434:4:6"
+                      }
+                    ],
+                    "id": 2605,
+                    "name": "VariableDeclaration",
+                    "src": "2434:4:6"
+                  }
+                ],
+                "id": 2606,
+                "name": "ParameterList",
+                "src": "2433:6:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2606
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "setTokenExchangeRate",
+                              "referencedDeclaration": 2381,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer,uint256) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2607,
+                                "name": "Identifier",
+                                "src": "2453:4:6"
+                              }
+                            ],
+                            "id": 2608,
+                            "name": "MemberAccess",
+                            "src": "2453:25:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2602,
+                              "type": "uint256",
+                              "value": "_exchangeRate"
+                            },
+                            "id": 2609,
+                            "name": "Identifier",
+                            "src": "2479:13:6"
+                          }
+                        ],
+                        "id": 2610,
+                        "name": "FunctionCall",
+                        "src": "2453:40:6"
+                      }
+                    ],
+                    "id": 2611,
+                    "name": "Return",
+                    "src": "2446:47:6"
+                  }
+                ],
+                "id": 2612,
+                "name": "Block",
+                "src": "2440:58:6"
+              }
+            ],
+            "id": 2613,
+            "name": "FunctionDefinition",
+            "src": "2365:133:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "setTokens",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2614,
+                "name": "ParameterList",
+                "src": "2520:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2623,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2615,
+                        "name": "ElementaryTypeName",
+                        "src": "2539:4:6"
+                      }
+                    ],
+                    "id": 2616,
+                    "name": "VariableDeclaration",
+                    "src": "2539:4:6"
+                  }
+                ],
+                "id": 2617,
+                "name": "ParameterList",
+                "src": "2538:6:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2617
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "setTokens",
+                              "referencedDeclaration": 2394,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2618,
+                                "name": "Identifier",
+                                "src": "2558:4:6"
+                              }
+                            ],
+                            "id": 2619,
+                            "name": "MemberAccess",
+                            "src": "2558:14:6"
+                          }
+                        ],
+                        "id": 2620,
+                        "name": "FunctionCall",
+                        "src": "2558:16:6"
+                      }
+                    ],
+                    "id": 2621,
+                    "name": "Return",
+                    "src": "2551:23:6"
+                  }
+                ],
+                "id": 2622,
+                "name": "Block",
+                "src": "2545:34:6"
+              }
+            ],
+            "id": 2623,
+            "name": "FunctionDefinition",
+            "src": "2502:77:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getOwner",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2624,
+                "name": "ParameterList",
+                "src": "2600:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2633,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2625,
+                        "name": "ElementaryTypeName",
+                        "src": "2624:7:6"
+                      }
+                    ],
+                    "id": 2626,
+                    "name": "VariableDeclaration",
+                    "src": "2624:7:6"
+                  }
+                ],
+                "id": 2627,
+                "name": "ParameterList",
+                "src": "2623:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2627
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "owner",
+                          "referencedDeclaration": 522,
+                          "type": "address"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "base",
+                              "referencedDeclaration": 1985,
+                              "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2628,
+                                "name": "Identifier",
+                                "src": "2646:4:6"
+                              }
+                            ],
+                            "id": 2629,
+                            "name": "MemberAccess",
+                            "src": "2646:9:6"
+                          }
+                        ],
+                        "id": 2630,
+                        "name": "MemberAccess",
+                        "src": "2646:15:6"
+                      }
+                    ],
+                    "id": 2631,
+                    "name": "Return",
+                    "src": "2639:22:6"
+                  }
+                ],
+                "id": 2632,
+                "name": "Block",
+                "src": "2633:33:6"
+              }
+            ],
+            "id": 2633,
+            "name": "FunctionDefinition",
+            "src": "2583:83:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getTokensPerEth",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2634,
+                "name": "ParameterList",
+                "src": "2694:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2643,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2635,
+                        "name": "ElementaryTypeName",
+                        "src": "2718:7:6"
+                      }
+                    ],
+                    "id": 2636,
+                    "name": "VariableDeclaration",
+                    "src": "2718:7:6"
+                  }
+                ],
+                "id": 2637,
+                "name": "ParameterList",
+                "src": "2717:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2637
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "tokensPerEth",
+                          "referencedDeclaration": 524,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "base",
+                              "referencedDeclaration": 1985,
+                              "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2638,
+                                "name": "Identifier",
+                                "src": "2740:4:6"
+                              }
+                            ],
+                            "id": 2639,
+                            "name": "MemberAccess",
+                            "src": "2740:9:6"
+                          }
+                        ],
+                        "id": 2640,
+                        "name": "MemberAccess",
+                        "src": "2740:22:6"
+                      }
+                    ],
+                    "id": 2641,
+                    "name": "Return",
+                    "src": "2733:29:6"
+                  }
+                ],
+                "id": 2642,
+                "name": "Block",
+                "src": "2727:40:6"
+              }
+            ],
+            "id": 2643,
+            "name": "FunctionDefinition",
+            "src": "2670:97:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getExchangeRate",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2644,
+                "name": "ParameterList",
+                "src": "2795:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2653,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2645,
+                        "name": "ElementaryTypeName",
+                        "src": "2819:7:6"
+                      }
+                    ],
+                    "id": 2646,
+                    "name": "VariableDeclaration",
+                    "src": "2819:7:6"
+                  }
+                ],
+                "id": 2647,
+                "name": "ParameterList",
+                "src": "2818:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2647
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "exchangeRate",
+                          "referencedDeclaration": 532,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "base",
+                              "referencedDeclaration": 1985,
+                              "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2648,
+                                "name": "Identifier",
+                                "src": "2841:4:6"
+                              }
+                            ],
+                            "id": 2649,
+                            "name": "MemberAccess",
+                            "src": "2841:9:6"
+                          }
+                        ],
+                        "id": 2650,
+                        "name": "MemberAccess",
+                        "src": "2841:22:6"
+                      }
+                    ],
+                    "id": 2651,
+                    "name": "Return",
+                    "src": "2834:29:6"
+                  }
+                ],
+                "id": 2652,
+                "name": "Block",
+                "src": "2828:40:6"
+              }
+            ],
+            "id": 2653,
+            "name": "FunctionDefinition",
+            "src": "2771:97:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getCapAmount",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2654,
+                "name": "ParameterList",
+                "src": "2893:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2663,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2655,
+                        "name": "ElementaryTypeName",
+                        "src": "2917:7:6"
+                      }
+                    ],
+                    "id": 2656,
+                    "name": "VariableDeclaration",
+                    "src": "2917:7:6"
+                  }
+                ],
+                "id": 2657,
+                "name": "ParameterList",
+                "src": "2916:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2657
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "capAmount",
+                          "referencedDeclaration": 526,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "base",
+                              "referencedDeclaration": 1985,
+                              "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2658,
+                                "name": "Identifier",
+                                "src": "2939:4:6"
+                              }
+                            ],
+                            "id": 2659,
+                            "name": "MemberAccess",
+                            "src": "2939:9:6"
+                          }
+                        ],
+                        "id": 2660,
+                        "name": "MemberAccess",
+                        "src": "2939:19:6"
+                      }
+                    ],
+                    "id": 2661,
+                    "name": "Return",
+                    "src": "2932:26:6"
+                  }
+                ],
+                "id": 2662,
+                "name": "Block",
+                "src": "2926:37:6"
+              }
+            ],
+            "id": 2663,
+            "name": "FunctionDefinition",
+            "src": "2872:91:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getStartTime",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2664,
+                "name": "ParameterList",
+                "src": "2988:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2673,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2665,
+                        "name": "ElementaryTypeName",
+                        "src": "3012:7:6"
+                      }
+                    ],
+                    "id": 2666,
+                    "name": "VariableDeclaration",
+                    "src": "3012:7:6"
+                  }
+                ],
+                "id": 2667,
+                "name": "ParameterList",
+                "src": "3011:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2667
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "startTime",
+                          "referencedDeclaration": 528,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "base",
+                              "referencedDeclaration": 1985,
+                              "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2668,
+                                "name": "Identifier",
+                                "src": "3034:4:6"
+                              }
+                            ],
+                            "id": 2669,
+                            "name": "MemberAccess",
+                            "src": "3034:9:6"
+                          }
+                        ],
+                        "id": 2670,
+                        "name": "MemberAccess",
+                        "src": "3034:19:6"
+                      }
+                    ],
+                    "id": 2671,
+                    "name": "Return",
+                    "src": "3027:26:6"
+                  }
+                ],
+                "id": 2672,
+                "name": "Block",
+                "src": "3021:37:6"
+              }
+            ],
+            "id": 2673,
+            "name": "FunctionDefinition",
+            "src": "2967:91:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getEndTime",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2674,
+                "name": "ParameterList",
+                "src": "3081:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2683,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2675,
+                        "name": "ElementaryTypeName",
+                        "src": "3105:7:6"
+                      }
+                    ],
+                    "id": 2676,
+                    "name": "VariableDeclaration",
+                    "src": "3105:7:6"
+                  }
+                ],
+                "id": 2677,
+                "name": "ParameterList",
+                "src": "3104:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2677
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "endTime",
+                          "referencedDeclaration": 530,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "base",
+                              "referencedDeclaration": 1985,
+                              "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2678,
+                                "name": "Identifier",
+                                "src": "3127:4:6"
+                              }
+                            ],
+                            "id": 2679,
+                            "name": "MemberAccess",
+                            "src": "3127:9:6"
+                          }
+                        ],
+                        "id": 2680,
+                        "name": "MemberAccess",
+                        "src": "3127:17:6"
+                      }
+                    ],
+                    "id": 2681,
+                    "name": "Return",
+                    "src": "3120:24:6"
+                  }
+                ],
+                "id": 2682,
+                "name": "Block",
+                "src": "3114:35:6"
+              }
+            ],
+            "id": 2683,
+            "name": "FunctionDefinition",
+            "src": "3062:87:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getEthRaised",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2684,
+                "name": "ParameterList",
+                "src": "3174:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2693,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2685,
+                        "name": "ElementaryTypeName",
+                        "src": "3198:7:6"
+                      }
+                    ],
+                    "id": 2686,
+                    "name": "VariableDeclaration",
+                    "src": "3198:7:6"
+                  }
+                ],
+                "id": 2687,
+                "name": "ParameterList",
+                "src": "3197:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2687
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "ownerBalance",
+                          "referencedDeclaration": 534,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "base",
+                              "referencedDeclaration": 1985,
+                              "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2688,
+                                "name": "Identifier",
+                                "src": "3220:4:6"
+                              }
+                            ],
+                            "id": 2689,
+                            "name": "MemberAccess",
+                            "src": "3220:9:6"
+                          }
+                        ],
+                        "id": 2690,
+                        "name": "MemberAccess",
+                        "src": "3220:22:6"
+                      }
+                    ],
+                    "id": 2691,
+                    "name": "Return",
+                    "src": "3213:29:6"
+                  }
+                ],
+                "id": 2692,
+                "name": "Block",
+                "src": "3207:40:6"
+              }
+            ],
+            "id": 2693,
+            "name": "FunctionDefinition",
+            "src": "3153:94:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getContribution",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_buyer",
+                      "scope": 2707,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2694,
+                        "name": "ElementaryTypeName",
+                        "src": "3276:7:6"
+                      }
+                    ],
+                    "id": 2695,
+                    "name": "VariableDeclaration",
+                    "src": "3276:14:6"
+                  }
+                ],
+                "id": 2696,
+                "name": "ParameterList",
+                "src": "3275:16:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2707,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2697,
+                        "name": "ElementaryTypeName",
+                        "src": "3313:7:6"
+                      }
+                    ],
+                    "id": 2698,
+                    "name": "VariableDeclaration",
+                    "src": "3313:7:6"
+                  }
+                ],
+                "id": 2699,
+                "name": "ParameterList",
+                "src": "3312:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2699
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "hasContributed",
+                              "referencedDeclaration": 559,
+                              "type": "mapping(address => uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "base",
+                                  "referencedDeclaration": 1985,
+                                  "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 2500,
+                                      "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                      "value": "sale"
+                                    },
+                                    "id": 2700,
+                                    "name": "Identifier",
+                                    "src": "3334:4:6"
+                                  }
+                                ],
+                                "id": 2701,
+                                "name": "MemberAccess",
+                                "src": "3334:9:6"
+                              }
+                            ],
+                            "id": 2702,
+                            "name": "MemberAccess",
+                            "src": "3334:24:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2695,
+                              "type": "address",
+                              "value": "_buyer"
+                            },
+                            "id": 2703,
+                            "name": "Identifier",
+                            "src": "3359:6:6"
+                          }
+                        ],
+                        "id": 2704,
+                        "name": "IndexAccess",
+                        "src": "3334:32:6"
+                      }
+                    ],
+                    "id": 2705,
+                    "name": "Return",
+                    "src": "3327:39:6"
+                  }
+                ],
+                "id": 2706,
+                "name": "Block",
+                "src": "3322:49:6"
+              }
+            ],
+            "id": 2707,
+            "name": "FunctionDefinition",
+            "src": "3251:120:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getTokenPurchase",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_buyer",
+                      "scope": 2721,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2708,
+                        "name": "ElementaryTypeName",
+                        "src": "3401:7:6"
+                      }
+                    ],
+                    "id": 2709,
+                    "name": "VariableDeclaration",
+                    "src": "3401:14:6"
+                  }
+                ],
+                "id": 2710,
+                "name": "ParameterList",
+                "src": "3400:16:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2721,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2711,
+                        "name": "ElementaryTypeName",
+                        "src": "3438:7:6"
+                      }
+                    ],
+                    "id": 2712,
+                    "name": "VariableDeclaration",
+                    "src": "3438:7:6"
+                  }
+                ],
+                "id": 2713,
+                "name": "ParameterList",
+                "src": "3437:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2713
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "withdrawTokensMap",
+                              "referencedDeclaration": 563,
+                              "type": "mapping(address => uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "base",
+                                  "referencedDeclaration": 1985,
+                                  "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 2500,
+                                      "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                      "value": "sale"
+                                    },
+                                    "id": 2714,
+                                    "name": "Identifier",
+                                    "src": "3459:4:6"
+                                  }
+                                ],
+                                "id": 2715,
+                                "name": "MemberAccess",
+                                "src": "3459:9:6"
+                              }
+                            ],
+                            "id": 2716,
+                            "name": "MemberAccess",
+                            "src": "3459:27:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2709,
+                              "type": "address",
+                              "value": "_buyer"
+                            },
+                            "id": 2717,
+                            "name": "Identifier",
+                            "src": "3487:6:6"
+                          }
+                        ],
+                        "id": 2718,
+                        "name": "IndexAccess",
+                        "src": "3459:35:6"
+                      }
+                    ],
+                    "id": 2719,
+                    "name": "Return",
+                    "src": "3452:42:6"
+                  }
+                ],
+                "id": 2720,
+                "name": "Block",
+                "src": "3447:52:6"
+              }
+            ],
+            "id": 2721,
+            "name": "FunctionDefinition",
+            "src": "3375:124:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getLeftoverWei",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_buyer",
+                      "scope": 2735,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2722,
+                        "name": "ElementaryTypeName",
+                        "src": "3527:7:6"
+                      }
+                    ],
+                    "id": 2723,
+                    "name": "VariableDeclaration",
+                    "src": "3527:14:6"
+                  }
+                ],
+                "id": 2724,
+                "name": "ParameterList",
+                "src": "3526:16:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2735,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2725,
+                        "name": "ElementaryTypeName",
+                        "src": "3564:7:6"
+                      }
+                    ],
+                    "id": 2726,
+                    "name": "VariableDeclaration",
+                    "src": "3564:7:6"
+                  }
+                ],
+                "id": 2727,
+                "name": "ParameterList",
+                "src": "3563:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2727
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "leftoverWei",
+                              "referencedDeclaration": 567,
+                              "type": "mapping(address => uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "base",
+                                  "referencedDeclaration": 1985,
+                                  "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 2500,
+                                      "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                      "value": "sale"
+                                    },
+                                    "id": 2728,
+                                    "name": "Identifier",
+                                    "src": "3586:4:6"
+                                  }
+                                ],
+                                "id": 2729,
+                                "name": "MemberAccess",
+                                "src": "3586:9:6"
+                              }
+                            ],
+                            "id": 2730,
+                            "name": "MemberAccess",
+                            "src": "3586:21:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2723,
+                              "type": "address",
+                              "value": "_buyer"
+                            },
+                            "id": 2731,
+                            "name": "Identifier",
+                            "src": "3608:6:6"
+                          }
+                        ],
+                        "id": 2732,
+                        "name": "IndexAccess",
+                        "src": "3586:29:6"
+                      }
+                    ],
+                    "id": 2733,
+                    "name": "Return",
+                    "src": "3579:36:6"
+                  }
+                ],
+                "id": 2734,
+                "name": "Block",
+                "src": "3573:47:6"
+              }
+            ],
+            "id": 2735,
+            "name": "FunctionDefinition",
+            "src": "3503:117:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getSaleData",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "timestamp",
+                      "scope": 2750,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2736,
+                        "name": "ElementaryTypeName",
+                        "src": "3645:7:6"
+                      }
+                    ],
+                    "id": 2737,
+                    "name": "VariableDeclaration",
+                    "src": "3645:17:6"
+                  }
+                ],
+                "id": 2738,
+                "name": "ParameterList",
+                "src": "3644:19:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2750,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256[3] memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "type": "uint256[3] storage pointer"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "uint256",
+                              "type": "uint256"
+                            },
+                            "id": 2739,
+                            "name": "ElementaryTypeName",
+                            "src": "3685:7:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "33",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "number",
+                              "type": "int_const 3",
+                              "value": "3"
+                            },
+                            "id": 2740,
+                            "name": "Literal",
+                            "src": "3693:1:6"
+                          }
+                        ],
+                        "id": 2741,
+                        "name": "ArrayTypeName",
+                        "src": "3685:10:6"
+                      }
+                    ],
+                    "id": 2742,
+                    "name": "VariableDeclaration",
+                    "src": "3685:10:6"
+                  }
+                ],
+                "id": 2743,
+                "name": "ParameterList",
+                "src": "3684:12:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2743
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "uint256[3] memory",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "getSaleData",
+                              "referencedDeclaration": 2451,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer,uint256) view returns (uint256[3] memory)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2744,
+                                "name": "Identifier",
+                                "src": "3710:4:6"
+                              }
+                            ],
+                            "id": 2745,
+                            "name": "MemberAccess",
+                            "src": "3710:16:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2737,
+                              "type": "uint256",
+                              "value": "timestamp"
+                            },
+                            "id": 2746,
+                            "name": "Identifier",
+                            "src": "3727:9:6"
+                          }
+                        ],
+                        "id": 2747,
+                        "name": "FunctionCall",
+                        "src": "3710:27:6"
+                      }
+                    ],
+                    "id": 2748,
+                    "name": "Return",
+                    "src": "3703:34:6"
+                  }
+                ],
+                "id": 2749,
+                "name": "Block",
+                "src": "3697:45:6"
+              }
+            ],
+            "id": 2750,
+            "name": "FunctionDefinition",
+            "src": "3624:118:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getTokensSold",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2751,
+                "name": "ParameterList",
+                "src": "3768:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2760,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2752,
+                        "name": "ElementaryTypeName",
+                        "src": "3792:7:6"
+                      }
+                    ],
+                    "id": 2753,
+                    "name": "VariableDeclaration",
+                    "src": "3792:7:6"
+                  }
+                ],
+                "id": 2754,
+                "name": "ParameterList",
+                "src": "3791:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2754
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "uint256",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "getTokensSold",
+                              "referencedDeclaration": 2464,
+                              "type": "function (struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage pointer) view returns (uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2755,
+                                "name": "Identifier",
+                                "src": "3814:4:6"
+                              }
+                            ],
+                            "id": 2756,
+                            "name": "MemberAccess",
+                            "src": "3814:18:6"
+                          }
+                        ],
+                        "id": 2757,
+                        "name": "FunctionCall",
+                        "src": "3814:20:6"
+                      }
+                    ],
+                    "id": 2758,
+                    "name": "Return",
+                    "src": "3807:27:6"
+                  }
+                ],
+                "id": 2759,
+                "name": "Block",
+                "src": "3801:38:6"
+              }
+            ],
+            "id": 2760,
+            "name": "FunctionDefinition",
+            "src": "3746:93:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getPercentBurn",
+              "payable": false,
+              "scope": 2771,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2761,
+                "name": "ParameterList",
+                "src": "3866:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2770,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2762,
+                        "name": "ElementaryTypeName",
+                        "src": "3890:7:6"
+                      }
+                    ],
+                    "id": 2763,
+                    "name": "VariableDeclaration",
+                    "src": "3890:7:6"
+                  }
+                ],
+                "id": 2764,
+                "name": "ParameterList",
+                "src": "3889:9:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2764
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "percentBurn",
+                          "referencedDeclaration": 545,
+                          "type": "uint8"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "base",
+                              "referencedDeclaration": 1985,
+                              "type": "struct CrowdsaleLib.CrowdsaleStorage storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2500,
+                                  "type": "struct DirectCrowdsaleLib.DirectCrowdsaleStorage storage ref",
+                                  "value": "sale"
+                                },
+                                "id": 2765,
+                                "name": "Identifier",
+                                "src": "3912:4:6"
+                              }
+                            ],
+                            "id": 2766,
+                            "name": "MemberAccess",
+                            "src": "3912:9:6"
+                          }
+                        ],
+                        "id": 2767,
+                        "name": "MemberAccess",
+                        "src": "3912:21:6"
+                      }
+                    ],
+                    "id": 2768,
+                    "name": "Return",
+                    "src": "3905:28:6"
+                  }
+                ],
+                "id": 2769,
+                "name": "Block",
+                "src": "3899:39:6"
+              }
+            ],
+            "id": 2770,
+            "name": "FunctionDefinition",
+            "src": "3843:95:6"
+          }
+        ],
+        "id": 2771,
+        "name": "ContractDefinition",
+        "src": "1080:2860:6"
+      }
+    ],
+    "id": 2772,
+    "name": "SourceUnit",
+    "src": "0:3941:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-12-08T02:12:01.802Z"
+}

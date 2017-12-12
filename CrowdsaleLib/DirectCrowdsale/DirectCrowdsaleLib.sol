@@ -1,24 +1,24 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 /**
  * @title DirectCrowdsaleLib
- * @author Majoolr.io
+ * @author Modular Inc, https://modular.network
  *
- * version 2.0.0
- * Copyright (c) 2017 Majoolr, LLC
+ * version 2.1.1
+ * Copyright (c) 2017 Modular Inc
  * The MIT License (MIT)
- * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  *
  * The DirectCrowdsale Library provides functionality to create a initial coin offering
  * for a standard token sale with high supply where there is a direct ether to
  * token transfer.
  *
- * Majoolr provides smart contract services and security reviews for contract
+ * Modular provides smart contract services and security reviews for contract
  * deployments in addition to working on open source projects in the Ethereum
  * community. Our purpose is to test, document, and deploy reusable code onto the
  * blockchain and improve both security and usability. We also educate non-profits,
  * schools, and other community members about the application of blockchain
- * technology. For further information: majoolr.io
+ * technology. For further information: modular.network
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -44,9 +44,8 @@ library DirectCrowdsaleLib {
   }
 
   event LogTokensBought(address indexed buyer, uint256 amount);
-  event LogAddressCapExceeded(address indexed buyer, uint256 amount, string Msg);
-  event LogErrorMsg(uint256 amount, string Msg);
   event LogTokenPriceChange(uint256 amount, string Msg);
+  event LogErrorMsg(uint256 amount, string Msg);
 
 
   /// @dev Called by a crowdsale contract upon creation.
@@ -68,6 +67,7 @@ library DirectCrowdsaleLib {
                 uint256 _endTime,
                 uint8 _percentBurn,
                 CrowdsaleToken _token)
+                public
   {
   	self.base.init(_owner,
                 _saleData,
@@ -82,11 +82,12 @@ library DirectCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _amount amount of wei that the buyer is sending
   /// @return true on succesful purchase
-  function receivePurchase(DirectCrowdsaleStorage storage self, uint256 _amount) returns (bool) {
+  function receivePurchase(DirectCrowdsaleStorage storage self, uint256 _amount)
+                           public
+                           returns (bool)
+  {
     require(msg.sender != self.base.owner);
   	require(self.base.validPurchase());
-
-    require((self.base.ownerBalance + _amount) <= self.base.capAmount);
 
   	// if the token price increase interval has passed, update the current day and change the token price
   	if ((self.base.milestoneTimes.length > self.base.currentMilestone + 1) &&
@@ -105,32 +106,33 @@ library DirectCrowdsaleLib {
   	uint256 _numTokens; //number of tokens that will be purchased
     uint256 _newBalance; //the new balance of the owner of the crowdsale
     uint256 _weiTokens; //temp calc holder
-    uint256 _zeros; //for calculating token
     uint256 _leftoverWei; //wei change for purchaser
     uint256 _remainder; //temp calc holder
     bool err;
+
+    if((self.base.ownerBalance + _amount) > self.base.capAmount){
+      _leftoverWei = (self.base.ownerBalance + _amount) - self.base.capAmount;
+      _amount = _amount - _leftoverWei;
+    }
 
     // Find the number of tokens as a function in wei
     (err,_weiTokens) = _amount.times(self.base.tokensPerEth);
     require(!err);
 
-    if(self.base.tokenDecimals <= 18){
-      _zeros = 10**(18-uint256(self.base.tokenDecimals));
-      _numTokens = _weiTokens/_zeros;
-      _leftoverWei = _weiTokens % _zeros;
-      self.base.leftoverWei[msg.sender] += _leftoverWei;
-    } else {
-      _zeros = 10**(uint256(self.base.tokenDecimals)-18);
-      _numTokens = _weiTokens*_zeros;
-    }
+    _numTokens = _weiTokens / 1000000000000000000;
+    _remainder = _weiTokens % 1000000000000000000;
+    _remainder = _remainder / self.base.tokensPerEth;
+    _leftoverWei = _leftoverWei + _remainder;
+    _amount = _amount - _remainder;
+    self.base.leftoverWei[msg.sender] += _leftoverWei;
 
     // can't overflow because it is under the cap
-    self.base.hasContributed[msg.sender] += _amount - _leftoverWei;
+    self.base.hasContributed[msg.sender] += _amount;
 
-    require(_numTokens <= self.base.token.balanceOf(this));
+    assert(_numTokens <= self.base.token.balanceOf(this));
 
     // calculate the amount of ether in the owners balance
-    (err,_newBalance) = self.base.ownerBalance.plus(_amount-_leftoverWei);
+    (err,_newBalance) = self.base.ownerBalance.plus(_amount);
     require(!err);
 
     self.base.ownerBalance = _newBalance;   // "deposit" the amount
@@ -140,6 +142,7 @@ library DirectCrowdsaleLib {
 
     //subtract tokens from owner's share
     (err,_remainder) = self.base.withdrawTokensMap[self.base.owner].minus(_numTokens);
+    require(!err);
     self.base.withdrawTokensMap[self.base.owner] = _remainder;
 
 	  LogTokensBought(msg.sender, _numTokens);
@@ -149,43 +152,46 @@ library DirectCrowdsaleLib {
 
   /*Functions "inherited" from CrowdsaleLib library*/
 
-  function setTokenExchangeRate(DirectCrowdsaleStorage storage self, uint256 _exchangeRate) returns (bool) {
+  function setTokenExchangeRate(DirectCrowdsaleStorage storage self, uint256 _exchangeRate)
+                                public
+                                returns (bool)
+  {
     return self.base.setTokenExchangeRate(_exchangeRate);
   }
 
-  function setTokens(DirectCrowdsaleStorage storage self) returns (bool) {
+  function setTokens(DirectCrowdsaleStorage storage self) public returns (bool) {
     return self.base.setTokens();
   }
 
-  function getSaleData(DirectCrowdsaleStorage storage self, uint256 timestamp) returns (uint256[3]) {
-    return self.base.getSaleData(timestamp);
-  }
-
-  function getTokensSold(DirectCrowdsaleStorage storage self) constant returns (uint256) {
-    return self.base.getTokensSold();
-  }
-
-  function withdrawTokens(DirectCrowdsaleStorage storage self) returns (bool) {
+  function withdrawTokens(DirectCrowdsaleStorage storage self) public returns (bool) {
     return self.base.withdrawTokens();
   }
 
-  function withdrawLeftoverWei(DirectCrowdsaleStorage storage self) returns (bool) {
+  function withdrawLeftoverWei(DirectCrowdsaleStorage storage self) public returns (bool) {
     return self.base.withdrawLeftoverWei();
   }
 
-  function withdrawOwnerEth(DirectCrowdsaleStorage storage self) returns (bool) {
+  function withdrawOwnerEth(DirectCrowdsaleStorage storage self) public returns (bool) {
     return self.base.withdrawOwnerEth();
   }
 
-  function crowdsaleActive(DirectCrowdsaleStorage storage self) constant returns (bool) {
+  function getSaleData(DirectCrowdsaleStorage storage self, uint256 timestamp)
+                       public
+                       view
+                       returns (uint256[3])
+  {
+    return self.base.getSaleData(timestamp);
+  }
+
+  function getTokensSold(DirectCrowdsaleStorage storage self) public view returns (uint256) {
+    return self.base.getTokensSold();
+  }
+
+  function crowdsaleActive(DirectCrowdsaleStorage storage self) public view returns (bool) {
     return self.base.crowdsaleActive();
   }
 
-  function crowdsaleEnded(DirectCrowdsaleStorage storage self) constant returns (bool) {
+  function crowdsaleEnded(DirectCrowdsaleStorage storage self) public view returns (bool) {
     return self.base.crowdsaleEnded();
-  }
-
-  function validPurchase(DirectCrowdsaleStorage storage self) constant returns (bool) {
-    return self.base.validPurchase();
   }
 }

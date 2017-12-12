@@ -1,18 +1,16 @@
 DirectCrowdsaleLib
 =========================   
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
+[![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)   
 
-A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's Github") to use for direct token/eth crowdsale contract deployment.   
+A crowdsale library [provided by Modular](https://modular.network "Modular's Website") to use for direct token/eth crowdsale contract deployment.   
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
 - [Library Address](#library-address)
-  - [v2.0.0](#v200)
-  - [v1.0.0](#v100)
+  - [v2.1.0](#v210)
 - [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
   - [Truffle Installation](#truffle-installation)
@@ -27,7 +25,8 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
     - [Solc-js documentation](#solc-js-documentation)
   - [Basic Usage](#basic-usage)
 - [Change Log](#change-log)
-  - [v2.0.0](#v200-1)
+  - [v2.1.0](#v210-1)
+  - [v2.0.0](#v200)
 - [Functions](#functions)
     - [init(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, address, uint256[], uint256, uint256, uint256, uint8, CrowdsaleToken)](#initdirectcrowdsalelibdirectcrowdsalestorage-storage-address-uint256-uint256-uint256-uint256-uint8-crowdsaletoken)
       - [Arguments](#arguments)
@@ -41,19 +40,19 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
     - [setTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#settokensdirectcrowdsalelibdirectcrowdsalestorage-storage)
       - [Arguments](#arguments-3)
       - [Returns](#returns-3)
-    - [getSaleData(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#getsaledatadirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [withdrawTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#withdrawtokensdirectcrowdsalelibdirectcrowdsalestorage-storage)
       - [Arguments](#arguments-4)
       - [Returns](#returns-4)
-    - [getTokensSold(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#gettokenssolddirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [withdrawLeftoverWei(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#withdrawleftoverweidirectcrowdsalelibdirectcrowdsalestorage-storage)
       - [Arguments](#arguments-5)
       - [Returns](#returns-5)
-    - [withdrawTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#withdrawtokensdirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [withdrawOwnerEth(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#withdrawownerethdirectcrowdsalelibdirectcrowdsalestorage-storage)
       - [Arguments](#arguments-6)
       - [Returns](#returns-6)
-    - [withdrawLeftoverWei(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#withdrawleftoverweidirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [getSaleData(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#getsaledatadirectcrowdsalelibdirectcrowdsalestorage-storage)
       - [Arguments](#arguments-7)
       - [Returns](#returns-7)
-    - [withdrawOwnerEth(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#withdrawownerethdirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [getTokensSold(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#gettokenssolddirectcrowdsalelibdirectcrowdsalestorage-storage)
       - [Arguments](#arguments-8)
       - [Returns](#returns-8)
     - [crowdsaleActive(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#crowdsaleactivedirectcrowdsalelibdirectcrowdsalestorage-storage)
@@ -62,31 +61,21 @@ A crowdsale library [provided by Majoolr](https://github.com/Majoolr "Majoolr's 
     - [crowdsaleEnded(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#crowdsaleendeddirectcrowdsalelibdirectcrowdsalestorage-storage)
       - [Arguments](#arguments-10)
       - [Returns](#returns-10)
-    - [validPurchase(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#validpurchasedirectcrowdsalelibdirectcrowdsalestorage-storage)
-      - [Arguments](#arguments-11)
-      - [Returns](#returns-11)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address   
 
-### v2.0.0
+### v2.1.0
 
 **ENS**: TBD
-**Main Ethereum Network**: 0xf0d145598e099e487ad71e70bf8845c116f982d5   
-**Rinkeby Test Network**: 0x6b3f746fc43f5f5ca63e8f02335c991eb89a82a3   
-**Ropsten Test Network**: 0x9fba2bb27f03f618d1b88d4bfd1fe2cb4788eeb5   
-
-### v1.0.0
-*Note: No ENS address is provided for older versions at this time.*   
-
-**Main Ethereum Network**: 0x49a4dfad9797a1726da60098a1c06616cacfc1ec   
-**Ropsten Test Network**: 0xbcaa0de389454de19ae7692e0832a116bc5b44ea   
-**Rinkeby Test Network**: 0xc1593efa265ae1a01672f344de8fcaca21946db5   
+**Main Ethereum Network**: 0x3EdD6A60355909262F9f44ac88D47CDd53623a81   
+**Ropsten Test Network**: 0x9991d7394d86141Ee6B5D59459778332cFDc8154   
+**Rinkeby Test Network**: 0xCD8ad8370fa95369104a2Ccb49352Ac8182fFE1A   
 
 ## License and Warranty   
 
-Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:   
+Be advised that while we strive to provide professional grade, tested code we cannot guarantee its fitness for your application. This is released under [The MIT License (MIT)](https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE "MIT License") and as such we will not be held liable for lost funds, etc. Please use your best judgment and note the following:   
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
@@ -94,7 +83,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### Truffle Installation
 
-**version 3.4.9**   
+**version 4.0.1**   
 
 First install truffle via npm using `npm install -g truffle` .   
 
@@ -130,20 +119,18 @@ module.exports = function(deployer) {
 
 The following process will allow you to `truffle test` this library in your project.
 
-1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/CrowdsaleLib/DirectCrowdsaleLib/truffle`.    
+1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Modular-Network/ethereum-libraries/trunk/CrowdsaleLib/DirectCrowdsaleLib/truffle`.    
    Each folder in the truffle directory correlates to the folders in your truffle project.    
 2. Place each file in their respective directory in **your** truffle project. Be sure to grab the base CrowdsaleLib.sol and CrowdsaleLib.json files from the root CrowdsaleLib directory and put them in the appropriate directories as well.   
    **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
-3. [Start a testrpc node](https://github.com/ethereumjs/testrpc \"testrpc's Github\")   
-   This particular library needs specific flags set due to gas requirements. Use the following string when starting the testrpc:   
-
-   `testrpc --gasLimit 0xffffffffffff --account="0xfacec5711eb0a84bbd13b9782df26083fc68cf41b2210681e4d478687368fdc3,100000000000000000000000000" --account="0xb7d90a23546b263a9a68a26ed7045cd6ce7d3b0dfa7d3c7b66434a4a89453cf7,100000000000000000000000000" --account="0x58823bde84d19ad2bdb6739f9ef1fc8ca4ba0c617ecc9a1fa675282175a9bc02,100000000000000000000000000" --account="0x42891283028bba9611583fcaa0dea947251b9f980a1e3d9858cd33b0e8077195,100000000000000000000000000" --account="0x6009fc3fda6c5976cfecc36b9c0c9423f78bcc971ade88f32c0e016225c1601a,100000000000000000000000000" --account="0xe598179ebee08a9b1f1afaef6ac526e5cfe615d87831aed8b080c988773bda6d,100000000000000000000000000"`
-
-4. In your terminal go to your truffle project directory and run `truffle test`.   
+3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")
+4. In your terminal go to your truffle project directory.
+5. Ensure the `development` object in your truffle.js file points to the same port Ganache uses, default is 7545.
+6. Run `truffle test`.   
 
 ### solc Installation
 
-**version 0.4.15**
+**version 0.4.18**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").   
 
@@ -172,8 +159,8 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "DirectCrowdsaleLib": "0xf0d145598e099e487ad71e70bf8845c116f982d5"
+        "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
+        "DirectCrowdsaleLib": "0x3EdD6A60355909262F9f44ac88D47CDd53623a81"
       }
     }
   }
@@ -185,8 +172,8 @@ For direction and instructions on how the Solidity command line compiler works [
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include both deployed libraries in your bytecode create a file with one library string per line  as follows:    
 
 ```
-"CrowdsaleLib:0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1"
-"DirectCrowdsaleLib:0xf0d145598e099e487ad71e70bf8845c116f982d5"
+"CrowdsaleLib:0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260"
+"DirectCrowdsaleLib:0x3EdD6A60355909262F9f44ac88D47CDd53623a81"
 ```
 
 then add the following flag to your command:
@@ -203,7 +190,7 @@ Finally, if you have an unlinked binary already stored with the '__LibraryName__
 
 ### solc-js Installation
 
-**version 0.4.15**
+**version 0.4.18**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.   
 
@@ -236,8 +223,8 @@ var input = {
     ...
     "libraries": {
       "YourCrowdsaleContract.sol": {
-        "CrowdsaleLib": "0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1",
-        "DirectCrowdsaleLib": "0xf0d145598e099e487ad71e70bf8845c116f982d5"
+        "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
+        "DirectCrowdsaleLib": "0x3EdD6A60355909262F9f44ac88D47CDd53623a81"
       }
     }
     ...
@@ -254,7 +241,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
 ```js
-bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0xcd9e2e077d7f4e94812c6fd6ecc1e22e267c52e1' });
+bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260' });
 ```
 
 #### Solc-js documentation
@@ -273,9 +260,13 @@ The Direct Crowdsale library provides functionality needed to launch an ETH in/t
 
 The crowdsale contract should put the `init` function in the constructor with the required parameters given. The crowdsale library functions will generally return false and log an error event when submitted parameters are either wrong or the call will not work.
 
-**DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://majoolr.io \"Majoolr website\") if you have discovered any issues or vulnerabilities with this library.
+**DISCLAIMER:** As always, please ensure you review this code thoroughly for your team's use. We strive to make our code as solid, clean, and well documented as possible but will not accept liability for unforeseen circumstances in which value is lost or stolen. This includes but not limited to any inability to meet signature requirements to move funds, loss of private keys, transactions you deem unauthorized from an owner's account, etc. The library code has been thoroughly tested by our team and believe it to be suitable enough to be posted in our open source repository, however, you are still responsible for its implementation and security in your smart contract. Please use your best judgment. Please [let us know immediately](https://modular.network "Modular's Website") if you have discovered any issues or vulnerabilities with this library.
 
 ## Change Log
+
+### v2.1.0
+
+* Update compiler to 0.4.18 and explicitly define function scopes, minor fixes from audit.
 
 ### v2.0.0
 
@@ -292,56 +283,89 @@ Constructor. Initialize the crowdsale with owner, sale data, fall back exchange 
 
 ##### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** self   
-**address[]** _owner Address of crowdsale owner   
-**uint256[]** _saleData Array of 3 item sets such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, this value should be set to 0 for a direct crowdsale. The very first item should be the timestamp for the auction start.      
-**uint256** _fallbackExchangeRate Used as a last resort if this is not set prior to the sale.   
-**uint256** _capAmountInCents For example, $300/ETH should be 30000   
-**uint256** _endTime Timestamp of the end time.   
-**uint8** _percentBurn Percentage of extra tokens to burn after the sale.   
-**CrowdsaleToken** _token Token being sold in the crowdsale.
+**address[]** `_owner` Address of crowdsale owner   
+**uint256[]** `_saleData` Array of 3 item sets such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, this value should be set to 0 for a direct crowdsale. The very first item should be the timestamp for the auction start.      
+**uint256** `_fallbackExchangeRate` Used as a last resort if this is not set prior to the sale.   
+**uint256** `_capAmountInCents` For example, $300/ETH should be 30000   
+**uint256** `_endTime Timestamp` of the end time.   
+**uint8** `_percentBurn` Percentage of extra tokens to burn after the sale.   
+**CrowdsaleToken** `_token` Token being sold in the crowdsale.
 
 ##### Returns
 No return   
 
 #### receivePurchase(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, uint256)   
-*(DirectCrowdsaleLib.sol, line 85)*
+*(DirectCrowdsaleLib.sol, line 86)*
 
 Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  This also updates the token's price when the time milestone passes.   
 
 Tokens purchased are calculated by multiplying the wei contributed by the tokensPerEth value, then moving the decimal place to reflect the token's specified granularity.  Mappings for buyer contribution, tokens purchased, and any leftover wei are updated, as well as total wei raised in the sale.
 
 ##### Arguments
-**DirectCrowdsaleLib.DirectCrowdsaleStorage** self The data storage in the calling contract.   
-**uint256** _amount Amount being paid in terms of wei.
+**DirectCrowdsaleLib.DirectCrowdsaleStorage** `self` The data storage in the calling contract.   
+**uint256** `_amount` Amount being paid in terms of wei.
 
 ##### Returns
 **bool** True if transaction confirmed or revoked successfully.   
 
 #### setTokenExchangeRate(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, uint256)   
-*(DirectCrowdsaleLib.sol, line 152)*
+*(DirectCrowdsaleLib.sol, line 156)*
 
-Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
+Function that is called by the owner to set the exchange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
 
 ##### Arguments
-**DirectCrowdsaleLib.DirectCrowdsaleStorage** self   
-**uint256** _amount
+**DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`   
+**uint256** `_amount`
 
 ##### Returns
 **bool**   
 
 #### setTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 156)*
+*(DirectCrowdsaleLib.sol, line 163)*
 
 Used as a last resort function in case the exchange rate is not set prior to the sale start.
 
 ##### Arguments
-**DirectCrowdsaleLib.DirectCrowdsaleStorage** self
+**DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`
+
+##### Returns
+**bool**   
+
+#### withdrawTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 167)*
+
+Allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some.  The token's transferFrom function is called so that the token contract transfers tokens from the owners address to the buyer's address.  The owner can also call this function after the sale is over to withdraw the remaining tokens that were not sold and trigger the functionality to burn unwanted tokens.
+
+##### Arguments
+**DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`
+
+##### Returns
+**bool**   
+
+#### withdrawLeftoverWei(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 171)*
+
+If a user had sent wei that didn't add up exactly to a whole number of tokens, the leftover wei will be recorded in the leftoverWei mapping for that user.  This function allows the user to withdraw the excess.
+
+##### Arguments
+**DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`
+
+##### Returns
+**bool**   
+
+#### withdrawOwnerEth(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 175)*
+
+Allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.  ETH must have been contributed in the sale.  It sets the owner's balance to 0 and transfers all the ETH.
+
+##### Arguments
+**DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`
 
 ##### Returns
 **bool**   
 
 #### getSaleData(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 160)*   
+*(DirectCrowdsaleLib.sol, line 179)*   
 
 Returns a 3 element array with index-0 being the timestamp, index-1 being the current token price in cents, and index-2 being the address token purchase cap.   
 
@@ -352,7 +376,7 @@ Returns a 3 element array with index-0 being the timestamp, index-1 being the cu
 **uint256[3]**    
 
 #### getTokensSold(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 164)*   
+*(DirectCrowdsaleLib.sol, line 187)*   
 
 Returns the total amount of tokens sold at the time of calling.   
 
@@ -362,41 +386,8 @@ Returns the total amount of tokens sold at the time of calling.
 ##### Returns
 **uint256**    
 
-#### withdrawTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 168)*
-
-Allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some.  The token's transferFrom function is called so that the token contract transfers tokens from the owners address to the buyer's address.  The owner can also call this function after the sale is over to withdraw the remaining tokens that were not sold and trigger the functionality to burn unwanted tokens.
-
-##### Arguments
-**DirectCrowdsaleLib.DirectCrowdsaleStorage** self
-
-##### Returns
-**bool**   
-
-#### withdrawLeftoverWei(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 172)*
-
-If a user had sent wei that didn't add up exactly to a whole number of tokens, the leftover wei will be recorded in the leftoverWei mapping for that user.  This function allows the user to withdraw the excess.
-
-##### Arguments
-**DirectCrowdsaleLib.DirectCrowdsaleStorage** self
-
-##### Returns
-**bool**   
-
-#### withdrawOwnerEth(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 176)*
-
-Allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.  ETH must have been contributed in the sale.  It sets the owner's balance to 0 and transfers all the ETH.
-
-##### Arguments
-**DirectCrowdsaleLib.DirectCrowdsaleStorage** self
-
-##### Returns
-**bool**   
-
 #### crowdsaleActive(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 180)*
+*(DirectCrowdsaleLib.sol, line 191)*
 
 Returns true if the crowdsale is currently active. (If now is between the start and end time)
 
@@ -407,20 +398,9 @@ Returns true if the crowdsale is currently active. (If now is between the start 
 **bool**   
 
 #### crowdsaleEnded(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 184)*
+*(DirectCrowdsaleLib.sol, line 195)*
 
 Returns true if the crowdsale is over. (now is after the end time)
-
-##### Arguments
-**DirectCrowdsaleLib.DirectCrowdsaleStorage** self
-
-##### Returns
-**bool**   
-
-#### validPurchase(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 188)*
-
-Returns true if a purchase is valid, by checking that it is during the active crowdsale and the amount of ether sent is more than 0.
 
 ##### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** self

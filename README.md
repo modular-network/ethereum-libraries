@@ -1,11 +1,14 @@
-Majoolr Libraries
+Modular Libraries
 =========================
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
+[![codecov](https://codecov.io/gh/Modular-Network/ethereum-libraries/branch/master/graph/badge.svg)](https://codecov.io/gh/Modular-Network/ethereum-libraries)
+[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Modular-Network/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/Modular-Network/ethereum-libraries.svg?columns=all)](https://waffle.io/Modular-Network/ethereum-libraries)
 
-Majoolr Libraries is a group of packages built for use on blockchains utilizing the Ethereum Virtual Machine (EVM). All libraries are deployed and linkable in your smart contracts on both Rinkeby, Ropsten, and Ethereum Mainnet. [We also have an ethereum-contracts repository that currently holds ICO contracts](https://github.com/Majoolr/ethereum-contracts "Github link").  
+
+Modular Libraries is a group of packages built for use on blockchains utilizing the Ethereum Virtual Machine (EVM). All libraries are deployed and linkable in your smart contracts on both Rinkeby, Ropsten, and Ethereum Mainnet. [We also have an ethereum-contracts repository that currently holds ICO contracts](https://github.com/Majoolr/ethereum-contracts "Github link").  
 
 Libraries and contracts are currently written in Solidity and Solidity Assembly. If you are not familiar with the workings of Ethereum, smart contracts, or Solidity [please educate yourself by clicking here before proceeding](https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html "Solidity link").
 
@@ -14,12 +17,13 @@ Libraries and contracts are currently written in Solidity and Solidity Assembly.
 
 
 - [About Us](#about-us)
-- [Why Majoolr Libraries?](#why-majoolr-libraries)
+- [Why Modular Libraries?](#why-majoolr-libraries)
 - [How to use](#how-to-use)
 - [How to Contribute](#how-to-contribute)
   - [Feedback and Bug Reports](#feedback-and-bug-reports)
   - [Collaborations](#collaborations)
   - [Code Contributions](#code-contributions)
+  - [Code Quality](#code-quality)
 - [Why Libraries?](#why-libraries)
 - [In Conclusion](#in-conclusion)
 
@@ -27,11 +31,11 @@ Libraries and contracts are currently written in Solidity and Solidity Assembly.
 
 ## About Us
 
-Majoolr is hitting the ground running in becoming a valuable partner in the Ethereum community. We are not currently open for business but we are open for collaboration and seeking opportunities. [To learn more about Majoolr, our mission, as well as contributing please click here](https://majoolr.io "Majoolr website").
+Modular is hitting the ground running in becoming a valuable partner in the Ethereum community. Our new website is going up shortly because we just went through an identity crisis. [To learn more about Modular on our old website, our mission, as well as contributing please click here](https://majoolr.io "Majoolr website").
 
-## Why Majoolr Libraries?
+## Why Modular Libraries?
 
-Majoolr Libraries aims to supplement current projects such as [Open-Zeppelin](https://github.com/OpenZeppelin/ "Zeppelin github") and others by utilizing the facilities Ethereum has in place to provide reusable source code on-chain. Our library code has been tested, documented, and deployed with the purpose of being used in Ethereum smart contracts. Be sure to familiarize yourself with libraries as well as the benefits and drawbacks to ensure you pick solutions that best fits your needs.  
+Modular Libraries aims to supplement current projects such as [Open-Zeppelin](https://github.com/OpenZeppelin/ "Zeppelin github") and others by utilizing the facilities Ethereum has in place to provide reusable source code on-chain. Our library code has been tested, documented, and deployed with the purpose of being used in Ethereum smart contracts. Be sure to familiarize yourself with libraries as well as the benefits and drawbacks to ensure you pick solutions that best fits your needs.  
 
 **DISCLAIMER**  
 
@@ -41,7 +45,7 @@ While we make every effort to write, review, secure, test, and document professi
 
 ## How to use
 
-Majoolr Libraries has been packaged such that each library is available independently from any other library. You can browse each folder and pick the library or libraries that you need for your smart contracts.  
+Modular Libraries has been packaged such that each library is available independently from any other library. You can browse each folder and pick the library or libraries that you need for your smart contracts.  
 
 The README in each library contains the Rinkeby, Ropsten, and Mainnet address of the deployed library to link in your contract. You will find documentation for the functions and installation instructions for development and deployment use as well. Additionally, each library has as an ENS domain which is not of much use now but will provide a better experience as development proceeds. All deployed source code has been verified on etherscan.io for your viewing pleasure.   
 
@@ -65,6 +69,9 @@ If you see an issue in our repo or a piece of code in our Libraries you want to 
 6. Include the description of the changes on the Pull Request.
 7. When creating a pull request on the main repo, do not submit it to master.  Either submit it to an existing branch that was allocated for the changes, or submit it to a new branch you create with the PR.
 
+### Code Quality
+
+We strive to maintain high standards at Majoolr . To accomplish this, we have included unit tests and a coverage report tool. We are using the [solitidy-coverage](https://github.com/sc-forks/solidity-coverage) tool and [Codecov](https://codecov.io/gh/Majoolr/ethereum-libraries) to host our reports and analysis. Let's keep growing our coverage percentage as much as we can!
 
 ## Why Libraries?
 

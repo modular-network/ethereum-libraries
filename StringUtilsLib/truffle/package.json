@@ -2,8 +2,12 @@
   "name": "StringUtilsLib",
   "version": "1.1.0",
   "description": "String utility library for Ethereum smart contracts",
+  "scripts": {
+    "test:coverage": "./node_modules/.bin/solidity-coverage"
+  },
   "devDependencies": {
-    "truffle": "^3.4.5",
-    "ethereumjs-testrpc": "^4.0.0"
+    "ethereumjs-testrpc": "4.0.0",
+    "solidity-coverage": "^0.2.7",
+    "truffle": "4.0.1"
   }
 }
