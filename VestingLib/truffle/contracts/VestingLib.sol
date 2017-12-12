@@ -492,6 +492,8 @@ library VestingLib {
 
     self.owner.transfer(_contractBalance);
     LogETHWithdrawn(self.owner,_contractBalance);
+
+    return true;
   }
 
   /// @dev Allows the owner to withdraw any tokens left in the contractBalance
@@ -507,6 +509,8 @@ library VestingLib {
 
     token.transfer(self.owner,_contractBalance);
     LogTokensWithdrawn(self.owner,_contractBalance);
+
+    return true;
   }
 
   /// @dev Returns the percentage of the vesting that has been released at the current moment
