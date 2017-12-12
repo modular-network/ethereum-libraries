@@ -12,6 +12,7 @@ env:
   - TEST_DIR=CrowdsaleLib/DirectCrowdsale/truffle
   - TEST_DIR=CrowdsaleLib/EvenDistroCrowdsale/truffle
   - TEST_DIR=LinkedListLib/truffle
+  - TEST_DIR=VestingLib/truffle
 
 script:
   - 'cd $TEST_DIR && npm install'
