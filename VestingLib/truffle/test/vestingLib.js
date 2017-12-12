@@ -1,25 +1,12 @@
+// import {advanceBlock} from './helpers/advanceToBlock'
+// import {increaseTimeTo, duration} from './helpers/increaseTime'
+// import latestTime from './helpers/latestTime'
+// const { should } = require('./helpers/utils')
+
 const VestingLibTokenTestContract = artifacts.require("VestingLibTokenTestContract");
 const VestingLibETHTestContract = artifacts.require("VestingLibETHTestContract");
 const CrowdsaleToken = artifacts.require("CrowdsaleToken");
 const timeout = ms => new Promise(res => setTimeout(res, ms));
-
-contract('CrowdsaleToken', (accounts) => {
-  it("should properly initialize token data", async () => {
-    const c = await CrowdsaleToken.deployed();
-    const name = await c.name.call();
-    const symbol = await c.symbol.call();
-    const decimals = await c.decimals.call();
-    const totalSupply = await c.totalSupply.call();
-
-    assert.equal(name.valueOf(), 'Tester Token', "Name should be set to Tester Token.");
-    assert.equal(symbol.valueOf(), 'TST', "Symbol should be set to TST.");
-    assert.equal(decimals.valueOf(), 18, "Decimals should be set to 18.");
-    assert.equal(totalSupply.valueOf(), 2000000000000, "Total supply should reflect 2000000000000.");
-  });
-});
-
-/*************************************************************************
-**************************************************************************/
 
 contract('VestingLibTokenTestContract', (accounts) => {
   it("should initialize the vesting contract data correctly", async () => {
@@ -46,7 +33,7 @@ contract('VestingLibTokenTestContract', (accounts) => {
     assert.equal(percentPerInterval.valueOf(), 20, "Percentage of Tokens to be released every vesting period should be 20!");
   });
 
-  it("should initialize the token balance and accept registrations before the vesting starts", async () => {
+  it("should initialize the token balance", async () => {
     const c = await VestingLibTokenTestContract.deployed();
     const t = await CrowdsaleToken.deployed();
 
@@ -54,22 +41,73 @@ contract('VestingLibTokenTestContract', (accounts) => {
 
     await c.initializeTokenBalance(t.address, 1100000, {from:accounts[5]});
 
-    await c.registerUsers([accounts[0],accounts[1],accounts[2],accounts[3]], 200000, 0, {from:accounts[5]});
-
     const totalSupply = await c.getTotalSupply.call();
-    const contractBalance = await c.getContractBalance.call();
-    const numRegistered = await c.getNumRegistered.call();
 
     assert.equal(totalSupply.valueOf(), 1100000, "Total supply should be 1100000.");
-    assert.equal(contractBalance.valueOf(), 300000, "contract balance should be 300000");
-    assert.equal(numRegistered.valueOf(),4, "numRegistered should be 4!");
+  });
 
+  it("should accept group user registrations", async () => {
+    const c = await VestingLibTokenTestContract.deployed();
+
+    await c.registerUsers([accounts[0],accounts[1],accounts[2],accounts[3]], 200000, 0, {from:accounts[5]});
+
+    const numRegistered = await c.getNumRegistered.call();
+    const contractBalance = await c.getContractBalance.call();
+
+    assert.equal(numRegistered.valueOf(),4, "numRegistered should be 4!");
+    assert.equal(contractBalance.valueOf(), 300000, "contract balance should be 300000");
+  });
+
+  it("should deny invalid registrations", async () => {
+    const c = await VestingLibTokenTestContract.deployed();
+
+    const alreadyRegistered = await c.registerUser(accounts[0], 2000, 200, {from:accounts[5]});
+
+    const bigBonus = await c.registerUser(accounts[4],2000,200000, {from:accounts[5]});
+
+    assert.equal(alreadyRegistered.logs[0].args.Msg,"Registrant address is already registered for the vesting!", "should fail because accounts[0] is already registered");
+    assert.equal(bigBonus.logs[0].args.Msg,"Bonus is larger than vest amount, please reduce bonus!","should fail because bonus is larger than vest amount");
+  });
+
+  it("should deny invalid un-registrations", async () => {
+    const c = await VestingLibTokenTestContract.deployed();
+
+    const notRegistered = await c.unregisterUser(accounts[4],{from:accounts[5]});
+
+    assert.equal(notRegistered.logs[0].args.Msg,"Registrant address not registered for the vesting!", "should fail because the address is not registered");
+  });
+
+  it("should accept group user un-registrations", async () => {
+    const c = await VestingLibTokenTestContract.deployed();
+
+    await c.unregisterUsers([accounts[0],accounts[1],accounts[2],accounts[3]],{from:accounts[5]});
+
+    const numRegisteredbefore = await c.getNumRegistered.call();
+    const contractBalancebefore = await c.getContractBalance.call();
+
+    assert.equal(numRegisteredbefore.valueOf(),0, "numRegistered should be 0!");
+    assert.equal(contractBalancebefore.valueOf(), 1100000, "contract balance should be 1100000");
+
+    await c.registerUsers([accounts[0],accounts[1],accounts[2],accounts[3]], 200000, 0, {from:accounts[5]});
+
+    const numRegisteredafter = await c.getNumRegistered.call();
+    const contractBalanceafter = await c.getContractBalance.call();
+
+    assert.equal(numRegisteredafter.valueOf(),4, "numRegistered should be 4!");
+    assert.equal(contractBalanceafter.valueOf(), 300000, "contract balance should be 300000");
   });
 
   it("should allow participants to withdraw vested tokens and swap registrations", async () => {
     const c = await VestingLibTokenTestContract.deployed();
     const t = await CrowdsaleToken.deployed();
     await timeout(12000);
+
+    const badRegistrationTiming = await c.registerUser(accounts[4],20000,200, {from:accounts[5]});
+    assert.equal(badRegistrationTiming.logs[0].args.Msg,"Can only register users before the vesting starts!","should fail because vesting has started");
+
+    const badUnregistrationTiming = await c.unregisterUser(accounts[0],{from:accounts[5]});
+    assert.equal(badUnregistrationTiming.logs[0].args.Msg,"Can only register and unregister users before the vesting starts!","should fail because vesting has started");
+
     // withdraw tokens after first vest
     await c.withdrawTokens(t.address, {from:accounts[0]});
     var tokenBalance = await t.balanceOf(accounts[0]);

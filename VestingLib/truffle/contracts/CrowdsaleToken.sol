@@ -40,56 +40,56 @@ contract CrowdsaleToken {
                                 string symbol,
                                 uint8 decimals,
                                 uint256 initialSupply,
-                                bool allowMinting)
+                                bool allowMinting) public
   {
     token.init(owner, name, symbol, decimals, initialSupply, allowMinting);
   }
 
-  function name() constant returns (string) {
+  function name() public view returns (string) {
     return token.name;
   }
 
-  function symbol() constant returns (string) {
+  function symbol() public view returns (string) {
     return token.symbol;
   }
 
-  function decimals() constant returns (uint8) {
+  function decimals() public view returns (uint8) {
     return token.decimals;
   }
 
-  function totalSupply() constant returns (uint256) {
+  function totalSupply() public view returns (uint256) {
     return token.totalSupply;
   }
 
-  function initialSupply() constant returns (uint256) {
-    return token.INITIAL_SUPPLY;
+  function initialSupply() public view returns (uint256) {
+    return token.initialSupply;
   }
 
-  function balanceOf(address who) constant returns (uint256) {
+  function balanceOf(address who) public view returns (uint256) {
     return token.balanceOf(who);
   }
 
-  function allowance(address owner, address spender) constant returns (uint256) {
+  function allowance(address owner, address spender) public view returns (uint256) {
     return token.allowance(owner, spender);
   }
 
-  function transfer(address to, uint value) returns (bool ok) {
+  function transfer(address to, uint value) public returns (bool ok) {
     return token.transfer(to, value);
   }
 
-  function transferFrom(address from, address to, uint value) returns (bool ok) {
+  function transferFrom(address from, address to, uint value) public returns (bool ok) {
     return token.transferFrom(from, to, value);
   }
 
-  function approve(address spender, uint value) returns (bool ok) {
+  function approve(address spender, uint value) public returns (bool ok) {
     return token.approve(spender, value);
   }
 
-  function changeOwner(address newOwner) returns (bool ok) {
+  function changeOwner(address newOwner) public returns (bool ok) {
     return token.changeOwner(newOwner);
   }
 
-  function burnToken(uint256 amount) returns (bool ok) {
+  function burnToken(uint256 amount) public returns (bool ok) {
     return token.burnToken(amount);
   }
 }
