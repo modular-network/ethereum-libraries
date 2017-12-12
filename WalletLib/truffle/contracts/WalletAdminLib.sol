@@ -4,7 +4,7 @@ pragma solidity 0.4.18;
  * @title Wallet Admin Library
  * @author Modular.network
  *
- * version 1.0.0
+ * version 1.1.0
  * Copyright (c) 2017 Modular, Inc
  * The MIT License (MIT)
  * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
@@ -17,7 +17,7 @@ pragma solidity 0.4.18;
  * code onto the blockchain to improve security and usability of smart contracts.
  * Modular also strives to educate non-profits, schools, and other community
  * members about the application of blockchain technology. For further
- * information: modular.io, consensys.net, paritytech.io
+ * information: modular.network, consensys.net, paritytech.io
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -48,8 +48,8 @@ library WalletAdminLib {
   /// @param _from Index of current owner removing
   /// @param _to Index of new potential owner, should be 0
   /// @return Returns true if check passes, false otherwise
-  function checkChangeOwnerArgs(uint256 _from, uint256 _to) 
-           private returns (bool) 
+  function checkChangeOwnerArgs(uint256 _from, uint256 _to)
+           private returns (bool)
   {
     if(_from == 0){
       LogErrorMsg(_from, "Change from address is not an owner");
@@ -92,7 +92,7 @@ library WalletAdminLib {
       LogErrorMsg(_index, "Owner removing not an owner");
       return false;
     }
-    if(_length - 1 < _min) {
+    if(_length - 2 < _min) {
       LogErrorMsg(_index, "Must reduce requiredAdmin first");
       return false;
     }
@@ -110,7 +110,7 @@ library WalletAdminLib {
       LogErrorMsg(_newRequired, "Cant reduce to 0");
       return false;
     }
-    if(_length - 1 < _newRequired){
+    if(_length - 2 < _newRequired){
       LogErrorMsg(_length, "Making requirement too high");
       return false;
     }
@@ -118,7 +118,7 @@ library WalletAdminLib {
   }
 
   /*Utility Functions*/
-  
+
   /// @dev Used later to calculate the number of confirmations needed for tx
   /// @param _required Number of sigs required
   /// @param _count Current number of sigs

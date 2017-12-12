@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
  * @title Wallet Main Library
  * @author Modular.network
  *
- * version 1.0.0
+ * version 1.1.0
  * Copyright (c) 2017 Modular, LLC
  * The MIT License (MIT)
  * https://github.com/Modular-network/ethereum-libraries/blob/master/LICENSE
@@ -263,7 +263,7 @@ library WalletMainLib {
                    uint256 _value,
                    bytes _txData,
                    bool _confirm,
-                   bytes _data) 
+                   bytes _data)
                    public returns (bool,bytes32)
   {
     bytes32 _id = keccak256("serveTx",_to,_value,_txData);
@@ -289,8 +289,6 @@ library WalletMainLib {
           require(self.ownerIndex[msg.sender] > 0);
 
           _required = getRequired(self, _to, _value, allGood,_amount);
-          if(_required == 0)
-            return (false, _id);
 
           // add this transaction to the wallets record and initialize the settings
           self.transactionInfo[_id].length++;
@@ -350,7 +348,7 @@ library WalletMainLib {
   /// @param self Wallet in contract storage
   /// @param _id ID of the transaction
   /// @return Returns true if successful, false otherwise
-  function confirmTx(WalletData storage self, bytes32 _id) 
+  function confirmTx(WalletData storage self, bytes32 _id)
                      public returns (bool) {
     require(self.ownerIndex[msg.sender] > 0);
     uint256 _txIndex = self.transactionInfo[_id].length;

@@ -2,7 +2,7 @@ LinkedListLib
 =========================   
 
 [![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
-[![Join the chat at https://gitter.im/Modular-Network/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Modular-Network/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
+[![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)    
 
 A linked list library [provided by Modular-Network](https://github.com/Modular-Network "Modular-Network's Github") for using linked list data structures in your project.   
 
@@ -276,7 +276,7 @@ Returns the links of a node as a tuple.
  **bool** _direction a direction to search in
 
 ##### Returns
-**(bool,uint256)**  bool indicating if the node exists, then the adjacent node 
+**(bool,uint256)**  bool indicating if the node exists, then the adjacent node
 
 #### getSortedSpot(LinkedListLib.LinkedList storage, uint256, uint256, bool)   
 *(LinkedListLib.sol, line 122)*

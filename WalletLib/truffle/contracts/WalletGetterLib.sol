@@ -4,7 +4,7 @@ pragma solidity 0.4.18;
  * @title Wallet Getter Library
  * @author Modular.network
  *
- * version 1.0.0
+ * version 1.1.0
  * Copyright (c) 2017 Modular, LLC
  * The MIT License (MIT)
  * https://github.com/Modular-network/ethereum-libraries/blob/master/LICENSE
@@ -105,19 +105,6 @@ library WalletGetterLib {
   /// @return uint256 Threshold amount
   function getMajorThreshold(WalletMainLib.WalletData storage self, address _token) public view returns (uint256) {
     return self.majorThreshold[_token];
-  }
-
-  /// @dev Get last 10 transactions for the day, fixed at 10 until fork
-  /// @param self Wallet in contract storage
-  /// @param _date Timestamp of day requested
-  /// @return bytes32[10] Last 10 tx's starting with latest
-  function getTransactions(WalletMainLib.WalletData storage self, uint256 _date) public view returns (bytes32[10]) {
-    bytes32[10] memory t;
-    uint256 li = self.transactions[_date].length - 1;
-    for(uint256 i = li; i >= 0; i--){
-      t[li - i] = self.transactions[_date][i];
-    }
-    return t;
   }
 
   /// @dev Get the number of tx's with the same id

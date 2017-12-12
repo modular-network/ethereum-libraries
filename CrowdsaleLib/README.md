@@ -2,6 +2,7 @@ CrowdsaleLib
 =========================
 
 [![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
+[![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
 
 Crowdsale libraries [provided by Modular](https://modular.network "Modular's Website") to use for crowdsale contract deployment.
 

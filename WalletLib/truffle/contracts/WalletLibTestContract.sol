@@ -78,10 +78,6 @@ contract WalletLibTestContract {
     return wallet.getMajorThreshold(_token);
   }
 
-  function transactions(uint256 _date) public view returns (bytes32[10]) {
-    return wallet.getTransactions(_date);
-  }
-
   function transactionLength(bytes32 _id) public view returns (uint256) {
     return wallet.getTransactionLength(_id);
   }
