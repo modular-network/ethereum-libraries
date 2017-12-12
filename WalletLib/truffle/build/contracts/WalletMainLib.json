@@ -19661,14 +19661,6 @@
       "address": "0x89B5B861dcb455483f48a87bf430bFA48CC6F385",
       "update_at": 1513057900082
     },
-    "3": {
-      "links": {
-        "BasicMathLib": "0xAff3FC5478c30736a7c5Aa69747E314D0165C38e",
-        "Array256Lib": "0x2a54B21BA120BEd011356EAF11Dc6e5CA8132B91"
-      },
-      "address": "0xC9130b9542185bF0d5432b0701D6203A685e9671",
-      "update_at": 1513055244675
-    },
     "4": {
       "links": {
         "BasicMathLib": "0xEbDD4DfEe8cd0348476a0DcA736344B9DDd0BCA2",

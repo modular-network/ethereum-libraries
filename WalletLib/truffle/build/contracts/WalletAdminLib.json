@@ -33542,6 +33542,11 @@
     "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {
+    "1": {
+      "links": {},
+      "address": "0xfdCe6712cC14Cff1D17e43Cdd1FE2B29ADe2fBEB",
+      "update_at": 1513057044180
+    },
     "4": {
       "links": {
         "WalletMainLib": "0xcC6809041E55ce4977046a685a3195989049750c"
