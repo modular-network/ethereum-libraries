@@ -17,7 +17,7 @@ module.exports = function(deployer, network, accounts) {
   deployer.link(TokenLib, VestingLib);
   deployer.deploy(VestingLib, {overwrite: false});
 
-  if(network == "development"){
+  if(network == "development" || network === "coverage"){
 
     deployer.link(TokenLib,CrowdsaleToken);
     deployer.link(BasicMathLib,VestingLibTokenTestContract);
