@@ -2,7 +2,7 @@ LinkedListLib
 =========================   
 
 [![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
-[![Join the chat at https://gitter.im/Modular-Network/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Modular-Network/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)    
+[![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)    
 
 A linked list library [provided by Modular-Network](https://github.com/Modular-Network "Modular-Network's Github") for using linked list data structures in your project.   
 
@@ -194,9 +194,10 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 
 ### Basic Usage
 
-The Linked List library provides functionality needed to create and manipulate a Circular Linked List Data structure by allowing a multitude of different functions to be used to interact with the struct.  Functions like push() and pop() can be used to create a FILO stack or FIFO ring buffer.  step() can also be used to iterate over the list.  Brief description of functionality:
+The Linked List library provides functionality needed to create and manipulate a Circular Linked List Data structure by allowing a multitude of different functions to be used to interact with the struct.  Functions like push() and pop() can be used to create a FILO stack or FIFO ring buffer.  getAdjacent() can also be used to iterate over the list.  Brief description of functionality:
 
    * Can check if the list exists and find the size.
+   * Can check if a certain node exists.
    * Gets adjacent nodes to a specified node.
    * Finds a spot in a sorted list for a new node to be placed.
    * Insert nodes and create links between nodes.
@@ -206,7 +207,7 @@ LinkedList is a nested mapping with the first key being the node index (uint256)
 
 ```
     struct LinkedList{
-        mapping (uint => mapping (bool => uint)) cll;
+        mapping (uint256 => mapping (bool => uint256)) cll;
     }
 ```
 ### Mutations to State
@@ -276,7 +277,7 @@ Returns the links of a node as a tuple.
  **bool** _direction a direction to search in
 
 ##### Returns
-**(bool,uint256)**  bool indicating if the node exists, then the adjacent node 
+**(bool,uint256)**  bool indicating if the node exists, then the adjacent node
 
 #### getSortedSpot(LinkedListLib.LinkedList storage, uint256, uint256, bool)   
 *(LinkedListLib.sol, line 122)*

@@ -84,7 +84,7 @@ A crowdsale library [provided by Modular](https://modular.network "Modular's Web
 ### v2.1.0
 
 **ENS**: TBD   
-**Main Ethereum Network**: 0x2218C2A2FAce71f0c45EB950e42ecE57BE30aA8f   
+**Main Ethereum Network**: 0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB   
 **Ropsten Test Network**: 0xa2b6871f358D11Ab7DBa9b69396d743C20A50Db5   
 **Rinkeby Test Network**: 0x862e885BF2AbfE78F8856206B0e5d08d68D1f1CF   
 
@@ -174,7 +174,7 @@ For direction and instructions on how the Solidity command line compiler works [
     "libraries": {
       "YourCrowdsaleContract.sol": {
         "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
-        "EvenDistroCrowdsaleLib": "0x2218C2A2FAce71f0c45EB950e42ecE57BE30aA8f"
+        "EvenDistroCrowdsaleLib": "0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB"
       }
     }
   }
@@ -187,7 +187,7 @@ When creating unlinked binary, the compiler currently leaves special substrings 
 
 ```
 "CrowdsaleLib:0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260"
-"EvenDistroCrowdsaleLib:0x2218C2A2FAce71f0c45EB950e42ecE57BE30aA8f"
+"EvenDistroCrowdsaleLib:0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB"
 ```
 
 then add the following flag to your command:
@@ -238,7 +238,7 @@ var input = {
     "libraries": {
       "YourCrowdsaleContract.sol": {
         "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
-        "EvenDistroCrowdsaleLib": "0x2218C2A2FAce71f0c45EB950e42ecE57BE30aA8f"
+        "EvenDistroCrowdsaleLib": "0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB"
       }
     }
     ...

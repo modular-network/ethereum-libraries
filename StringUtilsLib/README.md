@@ -1,11 +1,10 @@
 StringUtilsLib
 =========================
 
-[![Build Status](https://travis-ci.org/Majoolr/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Majoolr/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Majoolr/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
 
-A library [provided by Arachnid](https://github.com/Arachnid "Arachnid's Github") and [forked here by Majoolr](https://github.com/Majoolr "Majoolr's Github") to provide internal string utility functions for smart contracts on an Ethereum network. Big thanks to Nick Johnson for allowing us to add
+A library [provided by Arachnid](https://github.com/Arachnid "Arachnid's Github") and [forked here by Modular](https://modular.network "Modular's Website") to provide internal string utility functions for smart contracts on an Ethereum network. Big thanks to Nick Johnson for allowing us to add
 this to our collective library repository. The library is currently an exact copy
 of the original however we are in the process of adding external functionality
 for utf-8 byte arrays in contract storage.   
@@ -167,7 +166,7 @@ module.exports = function(deployer) {
 
 The following process will allow you to `truffle test` this library in your project.
 
-1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Majoolr/ethereum-libraries/trunk/StringUtilsLib/truffle`.    
+1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Modular-Network/ethereum-libraries/trunk/StringUtilsLib/truffle`.    
    Each folder in the truffle directory correlates to the folders in your truffle project.   
 2. Go into the StringUtilsLib truffle directory on your computer and place each file in their respective directory in **your** truffle project.
 3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")   

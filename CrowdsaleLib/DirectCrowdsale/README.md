@@ -1,7 +1,8 @@
 DirectCrowdsaleLib
 =========================   
 
-[![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)   
+[![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
+[![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
 
 A crowdsale library [provided by Modular](https://modular.network "Modular's Website") to use for direct token/eth crowdsale contract deployment.   
 
