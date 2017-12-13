@@ -6,8 +6,72 @@ VestingLib
 
 A Vesting library [provided by Modular-Network](https://github.com/Modular-Network "Modular's Github") for setting up a contract that can vest ETH or tokens linearly over a set period of time.  
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Library Address](#library-address)
+- [License and Warranty](#license-and-warranty)
+- [How to install](#how-to-install)
+  - [Truffle Installation](#truffle-installation)
+    - [Manual Install](#manual-install)
+    - [Testing the library in truffle](#testing-the-library-in-truffle)
+  - [solc Installation](#solc-installation)
+    - [With standard JSON input](#with-standard-json-input)
+    - [solc without standard JSON input](#solc-without-standard-json-input)
+    - [solc documentation](#solc-documentation)
+  - [solc-js Installation](#solc-js-installation)
+    - [Solc-js Installation via Linking](#solc-js-installation-via-linking)
+    - [Solc-js documentation](#solc-js-documentation)
+  - [Basic Usage](#basic-usage)
+- [Functions](#functions)
+    - [init(VestingLib.VestingStorage storage, address, bool, uint256, uint256, uint256)](#initvestinglibvestingstorage-storage-address-bool-uint256-uint256-uint256)
+      - [Arguments](#arguments)
+      - [Returns](#returns)
+    - [initializeETHBalance(VestingLib.VestingStorage storage, uint256)](#initializeethbalancevestinglibvestingstorage-storage-uint256)
+      - [Arguments](#arguments-1)
+      - [Returns](#returns-1)
+    - [initializeTokenBalance(VestingLib.VestingStorage storage, CrowdsaleToken token, uint256)](#initializetokenbalancevestinglibvestingstorage-storage-crowdsaletoken-token-uint256)
+      - [Arguments](#arguments-2)
+      - [Returns](#returns-2)
+    - [registerUser(VestingLib.VestingStorage storage, address, uint256, uint256)](#registeruservestinglibvestingstorage-storage-address-uint256-uint256)
+      - [Arguments](#arguments-3)
+      - [Returns](#returns-3)
+    - [registerUsers(VestingLib.VestingStorage storage, address[], uint256, uint256)](#registerusersvestinglibvestingstorage-storage-address-uint256-uint256)
+      - [Arguments](#arguments-4)
+      - [Returns](#returns-4)
+    - [unregisterUser(VestingLib.VestingStorage storage, address)](#unregisteruservestinglibvestingstorage-storage-address)
+      - [Arguments](#arguments-5)
+      - [Returns](#returns-5)
+    - [unregisterUsers(VestingLib.VestingStorage storage, address[])](#unregisterusersvestinglibvestingstorage-storage-address)
+      - [Arguments](#arguments-6)
+      - [Returns](#returns-6)
+    - [swapRegistration(VestingLib.VestingStorage storage, address)](#swapregistrationvestinglibvestingstorage-storage-address)
+      - [Arguments](#arguments-7)
+      - [Returns](#returns-7)
+    - [withdrawETH(VestingLib.VestingStorage storage)](#withdrawethvestinglibvestingstorage-storage)
+      - [Arguments](#arguments-8)
+      - [Returns](#returns-8)
+    - [withdrawTokens(VestingLib.VestingStorage storage, CrowdsaleToken)](#withdrawtokensvestinglibvestingstorage-storage-crowdsaletoken)
+      - [Arguments](#arguments-9)
+      - [Returns](#returns-9)
+    - [sendETH(VestingLib.VestingStorage storage, address)](#sendethvestinglibvestingstorage-storage-address)
+      - [Arguments](#arguments-10)
+      - [Returns](#returns-10)
+    - [sendTokens(VestingLib.VestingStorage storage, CrowdsaleToken, address)](#sendtokensvestinglibvestingstorage-storage-crowdsaletoken-address)
+      - [Arguments](#arguments-11)
+      - [Returns](#returns-11)
+    - [ownerWithdrawExtraETH(VestingLib.VestingStorage storage)](#ownerwithdrawextraethvestinglibvestingstorage-storage)
+      - [Arguments](#arguments-12)
+      - [Returns](#returns-12)
+    - [ownerWithdrawExtraTokens(VestingLib.VestingStorage storage, CrowdsaleToken)](#ownerwithdrawextratokensvestinglibvestingstorage-storage-crowdsaletoken)
+      - [Arguments](#arguments-13)
+      - [Returns](#returns-13)
+    - [getPercentReleased(VestingLib.VestingStorage storage)](#getpercentreleasedvestinglibvestingstorage-storage)
+      - [Arguments](#arguments-14)
+      - [Returns](#returns-14)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address   
 

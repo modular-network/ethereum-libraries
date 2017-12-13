@@ -6,6 +6,7 @@
     "test:coverage": "./node_modules/.bin/solidity-coverage"
   },
   "devDependencies": {
+    "bluebird": "^3.5.0",
     "@babel/preset-env": "^7.0.0-beta.32",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",

@@ -2,11 +2,11 @@
 // import {increaseTimeTo, duration} from './helpers/increaseTime'
 // import latestTime from './helpers/latestTime'
 // const { should } = require('./helpers/utils')
-
+var time = require('../helpers/time');
 const VestingLibTokenTestContract = artifacts.require("VestingLibTokenTestContract");
 const VestingLibETHTestContract = artifacts.require("VestingLibETHTestContract");
 const CrowdsaleToken = artifacts.require("CrowdsaleToken");
-const timeout = ms => new Promise(res => setTimeout(res, ms));
+//const timeout = ms => new Promise(res => setTimeout(res, ms));
 
 contract('VestingLibTokenTestContract', (accounts) => {
   it("should initialize the vesting contract data correctly", async () => {
@@ -100,7 +100,9 @@ contract('VestingLibTokenTestContract', (accounts) => {
   it("should allow participants to withdraw vested tokens and swap registrations", async () => {
     const c = await VestingLibTokenTestContract.deployed();
     const t = await CrowdsaleToken.deployed();
-    await timeout(12000);
+    //move time two hours
+    await time.move(web3, 12);
+    await web3.eth.sendTransaction({from: accounts[3]});
 
     const badRegistrationTiming = await c.registerUser(accounts[4],20000,200, {from:accounts[5]});
     assert.equal(badRegistrationTiming.logs[0].args.Msg,"Can only register users before the vesting starts!","should fail because vesting has started");
@@ -120,7 +122,9 @@ contract('VestingLibTokenTestContract', (accounts) => {
     await c.sendTokens(t.address, accounts[2], {from:accounts[5]});
     tokenBalance = await t.balanceOf(accounts[2]);
     assert.equal(tokenBalance.valueOf(),40000, "accounts[2] token balance should be 40000!");
-    await timeout(6000);
+    
+    await time.move(web3, 6);
+    await web3.eth.sendTransaction({from: accounts[3]});
 
     await c.sendTokens(t.address, accounts[0], {from:accounts[5]});
     tokenBalance = await t.balanceOf(accounts[0]);
@@ -138,7 +142,9 @@ contract('VestingLibTokenTestContract', (accounts) => {
     assert.equal(hasWithdrawn.valueOf(),40000, "accounts[4] should have the withdrawn amount!");
     assert.equal(noVestingAmount.valueOf(), 0, "accounts[2] should not have the vested amount!");
     assert.equal(noHasWithdrawn.valueOf(),0, "accounts[2] should not have the withdrawn amount!");
-    await timeout(6000);
+    //move time two hours
+    await time.move(web3, 6);
+    await web3.eth.sendTransaction({from: accounts[3]});
 
     await c.sendTokens(t.address, accounts[4], {from:accounts[5]});
     hasWithdrawn = await c.getHasWithdrawn.call(accounts[4]);
@@ -146,7 +152,9 @@ contract('VestingLibTokenTestContract', (accounts) => {
 
     assert.equal(hasWithdrawn.valueOf(),120000, "accounts[4] should have withdrawn 120000 tokens!");
     assert.equal(tokenBalance.valueOf(),80000, "accounts[4] token balance should be 80000!");
-    await timeout(6000);
+    //move time two hours
+    await time.move(web3, 6);
+    await web3.eth.sendTransaction({from: accounts[3]});
 
     hasWithdrawn = await c.getHasWithdrawn.call(accounts[3]);
     assert.equal(hasWithdrawn.valueOf(),0, "accounts[3] should have no tokens withdrawn!");
@@ -155,7 +163,9 @@ contract('VestingLibTokenTestContract', (accounts) => {
     tokenBalance = await t.balanceOf(accounts[3]);
 
     assert.equal(tokenBalance.valueOf(),160000, "accounts[3] token balance should be 160000!");
-    await timeout(10000);
+    //move time two hours
+    await time.move(web3, 10);
+    await web3.eth.sendTransaction({from: accounts[3]});
 
     await c.ownerWithdrawExtraTokens(t.address, {from:accounts[5]});
     tokenBalance = await t.balanceOf(accounts[5]);
@@ -213,7 +223,8 @@ contract('VestingLibETHTestContract', (accounts) => {
   it("should allow participants to withdraw vested ETH and swap registrations", async () => {
     const c = await VestingLibETHTestContract.deployed();
 
-    await timeout(10000);
+    await time.move(web3, 10);
+    await web3.eth.sendTransaction({from: accounts[3]});
     // withdraw ETH after first vest
     let ret = await c.withdrawETH({from:accounts[0]});
     assert.equal(ret.logs[0].args.amount, 40000, "accounts[0] should have withdrawn 40000 wei!");
@@ -223,7 +234,9 @@ contract('VestingLibETHTestContract', (accounts) => {
 
     ret = await c.sendETH(accounts[2], {from:accounts[5]});
     assert.equal(ret.logs[0].args.amount, 40000, "accounts[2] should have withdrawn 40000 wei!");
-    await timeout(6000);
+    
+    await time.move(web3, 6);
+    await web3.eth.sendTransaction({from: accounts[3]});
 
     ret = await c.sendETH(accounts[0], {from:accounts[5]});
     assert.equal(ret.logs[0].args.amount, 40000, "accounts[0] should have withdrawn 40000 wei!");
@@ -240,21 +253,27 @@ contract('VestingLibETHTestContract', (accounts) => {
     assert.equal(hasWithdrawn.valueOf(),40000, "accounts[4] should have the withdrawn amount!");
     assert.equal(noVestingAmount.valueOf(), 0, "accounts[2] should not have the vested amount!");
     assert.equal(noHasWithdrawn.valueOf(),0, "accounts[2] should not have the withdrawn amount!");
-    await timeout(6000);
+    
+    await time.move(web3, 6);
+    await web3.eth.sendTransaction({from: accounts[3]});
 
     ret = await c.sendETH(accounts[4], {from:accounts[5]});
     hasWithdrawn = await c.getHasWithdrawn.call(accounts[4]);
 
     assert.equal(hasWithdrawn.valueOf(),120000, "accounts[4] should have withdrawn 120000 tokens!");
     assert.equal(ret.logs[0].args.amount, 80000, "accounts[0] should have withdrawn 80000 wei!");
-    await timeout(6000);
+    
+    await time.move(web3, 6);
+    await web3.eth.sendTransaction({from: accounts[3]});
 
     hasWithdrawn = await c.getHasWithdrawn.call(accounts[3]);
     assert.equal(hasWithdrawn.valueOf(),0, "accounts[3] should have no tokens withdrawn!");
 
     ret = await c.withdrawETH({from:accounts[3]});
     assert.equal(ret.logs[0].args.amount, 160000, "accounts[3] should have withdrawn 160000 wei!");
-    await timeout(10000);
+    
+    await time.move(web3, 10);
+    await web3.eth.sendTransaction({from: accounts[3]});
 
     ret = await c.ownerWithdrawExtraETH({from:accounts[5]});
     assert.equal(ret.logs[0].args.amount, 200000, "owner should have withdrawn all the extra ETH!");

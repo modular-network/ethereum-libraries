@@ -25,7 +25,7 @@ A linked list library [provided by Modular-Network](https://github.com/Modular-N
   - [Basic Usage](#basic-usage)
   - [Mutations to State](#mutations-to-state)
 - [Functions](#functions)
-    - [listExists(LinkedListLib.LinkedList storage)](#listExistslinkedlistliblinkedlist-storage)
+    - [listExists(LinkedListLib.LinkedList storage)](#listexistslinkedlistliblinkedlist-storage)
       - [Arguments](#arguments)
       - [Returns](#returns)
     - [nodeExists(LinkedListLib.LinkedList storage)](#nodeexistslinkedlistliblinkedlist-storage)

@@ -17,7 +17,7 @@ Libraries and contracts are currently written in Solidity and Solidity Assembly.
 
 
 - [About Us](#about-us)
-- [Why Modular Libraries?](#why-majoolr-libraries)
+- [Why Modular Libraries?](#why-modular-libraries)
 - [How to use](#how-to-use)
 - [How to Contribute](#how-to-contribute)
   - [Feedback and Bug Reports](#feedback-and-bug-reports)
