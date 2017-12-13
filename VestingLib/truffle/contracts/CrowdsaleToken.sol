@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 import "./TokenLib.sol";
 
@@ -8,11 +8,6 @@ import "./TokenLib.sol";
  * https://github.com/ethereum/EIPs/issues/20
  * Based on code by FirstBlood:
  * https://github.com/Firstbloodio/token/blob/master/smart_contract/FirstBloodToken.sol
- *
- * This is an example token contract built using the Majoolr token library at
- * https://github.com/Majoolr/ethereum-libraries/tree/master/TokenLib. This
- * example does not use all of the functionality available, it is only
- * a barebones example of a basic ERC20 token contract.
  *
  * Majoolr provides smart contract services and security reviews for contract
  * deployments in addition to working on open source projects in the Ethereum
@@ -36,11 +31,12 @@ contract CrowdsaleToken {
   TokenLib.TokenStorage public token;
 
   function CrowdsaleToken(address owner,
-                                string name,
-                                string symbol,
-                                uint8 decimals,
-                                uint256 initialSupply,
-                                bool allowMinting) public
+                                   string name,
+                                   string symbol,
+                                   uint8 decimals,
+                                   uint256 initialSupply,
+                                   bool allowMinting)
+                                   public
   {
     token.init(owner, name, symbol, decimals, initialSupply, allowMinting);
   }
@@ -73,7 +69,7 @@ contract CrowdsaleToken {
     return token.allowance(owner, spender);
   }
 
-  function transfer(address to, uint value) public returns (bool ok) {
+  function transfer(address to, uint256 value) public returns (bool ok) {
     return token.transfer(to, value);
   }
 
@@ -81,8 +77,15 @@ contract CrowdsaleToken {
     return token.transferFrom(from, to, value);
   }
 
-  function approve(address spender, uint value) public returns (bool ok) {
+  function approve(address spender, uint256 value) public returns (bool ok) {
     return token.approve(spender, value);
+  }
+
+  function approveChange(address spender, uint256 valueChange, bool increase)
+                         public
+                         returns (bool)
+  {
+    return token.approveChange(spender, valueChange, increase);
   }
 
   function changeOwner(address newOwner) public returns (bool ok) {

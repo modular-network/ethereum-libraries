@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 import "./VestingLib.sol";
 
@@ -27,7 +27,7 @@ contract VestingLibETHTestContract {
                 bool _isToken,
                 uint256 _startTime,
                 uint256 _endTime,
-                uint256 _numReleases) public 
+                uint256 _numReleases) public
   {
     vesting.init(_owner, _isToken, _startTime, _endTime, _numReleases);
   }

@@ -100,7 +100,7 @@ contract('VestingLibTokenTestContract', (accounts) => {
   it("should allow participants to withdraw vested tokens and swap registrations", async () => {
     const c = await VestingLibTokenTestContract.deployed();
     const t = await CrowdsaleToken.deployed();
-    //move time two hours
+
     await time.move(web3, 12);
     await web3.eth.sendTransaction({from: accounts[3]});
 
@@ -122,7 +122,7 @@ contract('VestingLibTokenTestContract', (accounts) => {
     await c.sendTokens(t.address, accounts[2], {from:accounts[5]});
     tokenBalance = await t.balanceOf(accounts[2]);
     assert.equal(tokenBalance.valueOf(),40000, "accounts[2] token balance should be 40000!");
-    
+
     await time.move(web3, 5);
     await web3.eth.sendTransaction({from: accounts[3]});
 
@@ -142,7 +142,7 @@ contract('VestingLibTokenTestContract', (accounts) => {
     assert.equal(hasWithdrawn.valueOf(),40000, "accounts[4] should have the withdrawn amount!");
     assert.equal(noVestingAmount.valueOf(), 0, "accounts[2] should not have the vested amount!");
     assert.equal(noHasWithdrawn.valueOf(),0, "accounts[2] should not have the withdrawn amount!");
-    //move time two hours
+
     await time.move(web3, 6);
     await web3.eth.sendTransaction({from: accounts[3]});
 
@@ -152,7 +152,7 @@ contract('VestingLibTokenTestContract', (accounts) => {
 
     assert.equal(hasWithdrawn.valueOf(),120000, "accounts[4] should have withdrawn 120000 tokens!");
     assert.equal(tokenBalance.valueOf(),80000, "accounts[4] token balance should be 80000!");
-    //move time two hours
+
     await time.move(web3, 6);
     await web3.eth.sendTransaction({from: accounts[3]});
 
@@ -234,7 +234,7 @@ contract('VestingLibETHTestContract', (accounts) => {
 
     ret = await c.sendETH(accounts[2], {from:accounts[5]});
     assert.equal(ret.logs[0].args.amount, 40000, "accounts[2] should have withdrawn 40000 wei!");
-    
+
     await time.move(web3, 6);
     await web3.eth.sendTransaction({from: accounts[3]});
 
@@ -253,7 +253,7 @@ contract('VestingLibETHTestContract', (accounts) => {
     assert.equal(hasWithdrawn.valueOf(),40000, "accounts[4] should have the withdrawn amount!");
     assert.equal(noVestingAmount.valueOf(), 0, "accounts[2] should not have the vested amount!");
     assert.equal(noHasWithdrawn.valueOf(),0, "accounts[2] should not have the withdrawn amount!");
-    
+
     await time.move(web3, 6);
     await web3.eth.sendTransaction({from: accounts[3]});
 
@@ -262,7 +262,7 @@ contract('VestingLibETHTestContract', (accounts) => {
 
     assert.equal(hasWithdrawn.valueOf(),120000, "accounts[4] should have withdrawn 120000 tokens!");
     assert.equal(ret.logs[0].args.amount, 80000, "accounts[0] should have withdrawn 80000 wei!");
-    
+
     await time.move(web3, 6);
     await web3.eth.sendTransaction({from: accounts[3]});
 
@@ -271,7 +271,7 @@ contract('VestingLibETHTestContract', (accounts) => {
 
     ret = await c.withdrawETH({from:accounts[3]});
     assert.equal(ret.logs[0].args.amount, 160000, "accounts[3] should have withdrawn 160000 wei!");
-    
+
     await time.move(web3, 10);
     await web3.eth.sendTransaction({from: accounts[3]});
 
