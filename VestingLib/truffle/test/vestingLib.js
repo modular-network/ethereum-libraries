@@ -123,7 +123,7 @@ contract('VestingLibTokenTestContract', (accounts) => {
     tokenBalance = await t.balanceOf(accounts[2]);
     assert.equal(tokenBalance.valueOf(),40000, "accounts[2] token balance should be 40000!");
     
-    await time.move(web3, 6);
+    await time.move(web3, 5);
     await web3.eth.sendTransaction({from: accounts[3]});
 
     await c.sendTokens(t.address, accounts[0], {from:accounts[5]});
@@ -223,7 +223,7 @@ contract('VestingLibETHTestContract', (accounts) => {
   it("should allow participants to withdraw vested ETH and swap registrations", async () => {
     const c = await VestingLibETHTestContract.deployed();
 
-    await time.move(web3, 10);
+    await time.move(web3, 12);
     await web3.eth.sendTransaction({from: accounts[3]});
     // withdraw ETH after first vest
     let ret = await c.withdrawETH({from:accounts[0]});
