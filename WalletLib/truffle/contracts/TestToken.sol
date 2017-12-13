@@ -1,39 +1,52 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.18;
 
-import "./ERC20Lib.sol";
+import "./TokenLib.sol";
 
 contract TestToken {
-  using ERC20Lib for ERC20Lib.TokenStorage;
+  using TokenLib for TokenLib.TokenStorage;
 
-  ERC20Lib.TokenStorage token;
+  event Transfer(address indexed from, address indexed to, uint256 value);
+  event Approval(address indexed owner, address indexed spender, uint256 value);
+  event OwnerChange(address from, address to);
+  event Burn(address indexed burner, uint256 value);
+  event MintingClosed(bool mintingClosed);
+  event ErrorMsg(string msg);
 
-  uint public INITIAL_SUPPLY = 10;
+  TokenLib.TokenStorage token;
 
-  function TestToken() {
-    token.init(INITIAL_SUPPLY);
+  function TestToken(
+                address _owner,
+                string _name,
+                string _symbol,
+                uint8 _decimals,
+                uint256 _initial_supply,
+                bool _allowMinting) 
+                public 
+  {
+    token.init(_owner,_name,_symbol,_decimals,_initial_supply,_allowMinting);
   }
 
-  function totalSupply() constant returns (uint) {
+  function totalSupply() public view returns (uint) {
     return token.totalSupply;
   }
 
-  function balanceOf(address who) constant returns (uint) {
+  function balanceOf(address who) public view returns (uint) {
     return token.balanceOf(who);
   }
 
-  function allowance(address owner, address spender) constant returns (uint) {
+  function allowance(address owner, address spender) public view returns (uint) {
     return token.allowance(owner, spender);
   }
 
-  function transfer(address to, uint value) returns (bool ok) {
+  function transfer(address to, uint value) public returns (bool ok) {
     return token.transfer(to, value);
   }
 
-  function transferFrom(address from, address to, uint value) returns (bool ok) {
+  function transferFrom(address from, address to, uint value) public returns (bool ok) {
     return token.transferFrom(from, to, value);
   }
 
-  function approve(address spender, uint value) returns (bool ok) {
+  function approve(address spender, uint value) public returns (bool ok) {
     return token.approve(spender, value);
   }
 
