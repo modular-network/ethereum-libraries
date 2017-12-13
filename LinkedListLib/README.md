@@ -194,7 +194,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 
 ### Basic Usage
 
-The Linked List library provides functionality needed to create and manipulate a Circular Linked List Data structure by allowing a multitude of different functions to be used to interact with the struct.  Functions like push() and pop() can be used to create a FILO stack or FIFO ring buffer.  getAdjactent() can also be used to iterate over the list.  Brief description of functionality:
+The Linked List library provides functionality needed to create and manipulate a Circular Linked List Data structure by allowing a multitude of different functions to be used to interact with the struct.  Functions like push() and pop() can be used to create a FILO stack or FIFO ring buffer.  getAdjacent() can also be used to iterate over the list.  Brief description of functionality:
 
    * Can check if the list exists and find the size.
    * Can check if a certain node exists.
