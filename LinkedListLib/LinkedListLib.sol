@@ -6,7 +6,7 @@ pragma solidity ^0.4.18;
  * 
  * This utility library was forked from https://github.com/o0ragman0o/LibCLL
  * into the Modular-Network ethereum-libraries repo at https://github.com/Modular-Network/ethereum-libraries
- * It has been updated to add additional functionality, fix bugs, and be more compatible with solidity 0.4.18
+ * It has been updated to add additional functionality and be more compatible with solidity 0.4.18
  * coding patterns.
  *
  * version 1.0.0
