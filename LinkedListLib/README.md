@@ -6,6 +6,10 @@ LinkedListLib
 
 A linked list library [provided by Modular-Network](https://github.com/Modular-Network "Modular-Network's Github") for using linked list data structures in your project.   
 
+This utility library was forked from https://github.com/o0ragman0o/LibCLL into the Modular-Network ethereum-libraries repo at https://github.com/Modular-Network/ethereum-libraries
+
+It has been updated to add additional functionality and be more compatible with solidity 0.4.18 coding patterns.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
