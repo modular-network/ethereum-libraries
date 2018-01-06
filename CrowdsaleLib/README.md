@@ -10,12 +10,12 @@ Crowdsale libraries [provided by Modular](https://modular.network "Modular's Web
 
 ### CrowdsaleLib   
 
-### v2.1.0
+### v2.2.0
 
 **ENS**: TBD   
-**Main Ethereum Network**: 0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260   
-**Ropsten Test Network**: 0xD088524CA79184411a78C51982E08276528C76FF   
-**Rinkeby Test Network**: 0xAdaCc992cE92030a7Cc4E4987Fe1f253F4fCD4Fd   
+**Main Ethereum Network**:    
+**Ropsten Test Network**:    
+**Rinkeby Test Network**:    
 
 ## How to Use
 
@@ -38,6 +38,10 @@ Be advised that while we strive to provide professional grade, tested code we ca
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Change Log
+
+### v2.2.0
+
+* Removed raise caps from the sale contracts.
 
 ### v2.1.0
 
