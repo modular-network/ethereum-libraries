@@ -27,16 +27,16 @@ A utility library [provided by Modular](https://modular.network "Modular's Websi
   - [Usage Example](#usage-example)
   - [Usage Note](#usage-note)
 - [Functions](#functions)
-    - [times(numberOne, numberTwo) public view returns (bool, uint256)](#timesnumberone-numbertwo-public-view-returns-bool-uint256)
+    - [times](#timesnumberone-numbertwo-public-pure-returns-bool-uint256)
       - [Arguments](#arguments)
       - [Returns](#returns)
-    - [dividedBy(uint256, uint256) constant returns (bool, uint256)](#dividedbyuint256-uint256-constant-returns-bool-uint256)
+    - [dividedBy](#dividedbyuint256-uint256-public-pure-returns-bool-uint256)
       - [Arguments](#arguments-1)
       - [Returns](#returns-1)
-    - [plus(uint256, uint256) constant returns (bool, uint256)](#plusuint256-uint256-constant-returns-bool-uint256)
+    - [plus](#plusuint256-uint256-public-pure-returns-bool-uint256)
       - [Arguments](#arguments-2)
       - [Returns](#returns-2)
-    - [minus(uint256, uint256) constant returns (bool, uint256)](#minusuint256-uint256-constant-returns-bool-uint256)
+    - [minus](#minusuint256-uint256-public-pure-returns-bool-uint256)
       - [Arguments](#arguments-3)
       - [Returns](#returns-3)
 
@@ -45,9 +45,9 @@ A utility library [provided by Modular](https://modular.network "Modular's Websi
 ## Library Address
 
 **ENS**: Coming Soon   
-**Main Ethereum Network**: 0x01671229Bbf99b30203F9807C5A577a7B8C358Fc   
-**Rinkeby Test Network**: 0xEbDD4DfEe8cd0348476a0DcA736344B9DDd0BCA2  
-**Ropsten Test Network**: 0xAff3FC5478c30736a7c5Aa69747E314D0165C38e
+**Main Ethereum Network**: 0x19259EdDc53136c1045b557d8E8a8cFf64121550   
+**Ropsten Test Network**: Not available at this time.   
+**Rinkeby Test Network**: 0x39090B6e52E8f555AB6FC79e8E7ADB2145476950   
 
 ## License and Warranty
 
@@ -224,7 +224,7 @@ Solc-js also provides a linking method if you have compiled binary code already 
 
 ## Basic Usage
 
-*Disclaimer: While we make every effort to produce professional grade code we can not guarantee the security and performance of these libraries in your smart contracts. Please use good judgement and security practices while developing, we do not take responsibility for any issues you, your customers, or your applications encounter when using these open source resources.
+*Disclaimer: While we make every effort to produce professional grade code we can not guarantee the security and performance of these libraries in your smart contracts. Please use good judgement and security practices while developing, we do not take responsibility for any issues you, your customers, or your applications encounter when using these open source resources.*
 
 For a detailed explanation on how libraries are used please read the following from the Solidity documentation:
 
@@ -287,7 +287,7 @@ but wish to preserve the value, you need to use a temporary variable to hold
 that value until checks pass. Consider the following code:
 
 ```
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.18;
 
 import "./BasicMathLib.sol";
 
@@ -321,54 +321,54 @@ contract YourContract {
 
 The following is the list of functions available to use in your smart contract.
 
-#### times(numberOne, numberTwo) public view returns (bool, uint256)
+### times(numberOne, numberTwo) public pure returns (bool, uint256)
 *(BasicMathLib.sol, line 38)*
 
 Multiply two numbers. Checks for overflow.
 
-##### Arguments
-**uint256** a   
-**uint256** b   
+#### Arguments
+**uint256** `a`   
+**uint256** `b`   
 
-##### Returns
-**bool** err
-**uint256** res   
+#### Returns
+**bool** `err`
+**uint256** `res`   
 
-#### dividedBy(uint256, uint256) constant returns (bool, uint256)
+### dividedBy(uint256, uint256) public pure returns (bool, uint256)
 *(BasicMathLib.sol, line 55)*
 
 Divide two numbers. Checks for 0 divisor.
 
-##### Arguments
-**uint256** a   
-**uint256** b   
+#### Arguments
+**uint256** `a`   
+**uint256** `b`   
 
-##### Returns
-**bool** err
-**uint256** res   
+#### Returns
+**bool** `err`
+**uint256** `res`   
 
-#### plus(uint256, uint256) constant returns (bool, uint256)
+### plus(uint256, uint256) public pure returns (bool, uint256)
 *(BasicMathLib.sol, line 78)*
 
 Add two numbers. Checks for overflow.
 
-##### Arguments
-**uint256** a   
-**uint256** b    
+#### Arguments
+**uint256** `a`   
+**uint256** `b`    
 
-##### Returns
-**bool** err
-**uint256** res   
+#### Returns
+**bool** `err`
+**uint256** `res`   
 
-#### minus(uint256, uint256) constant returns (bool, uint256)
+### minus(uint256, uint256) public pure returns (bool, uint256)
 *(BasicMathLib.sol, line 95)*
 
 Subtract two numbers. Checks for underflow.
 
-##### Arguments
-**uint256** a   
-**uint256** b  
+#### Arguments
+**uint256** `a`   
+**uint256** `b`  
 
-##### Returns
-**bool** err
-**uint256** res   
+#### Returns
+**bool** `err`
+**uint256** `res`   
