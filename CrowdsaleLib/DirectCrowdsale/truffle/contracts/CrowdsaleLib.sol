@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
  * @title CrowdsaleLib
  * @author Modular Inc, https://modular.network
  *
- * version 2.1.1
+ * version 2.2.1
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -39,7 +39,6 @@ library CrowdsaleLib {
   	address owner;     //owner of the crowdsale
 
   	uint256 tokensPerEth;  //number of tokens received per ether
-  	uint256 capAmount; //Maximum amount to be raised in wei
   	uint256 startTime; //ICO start time, timestamp
   	uint256 endTime; //ICO end time, timestamp automatically calculated
     uint256 exchangeRate; //cents/ETH exchange rate at the time of the sale
@@ -89,7 +88,6 @@ library CrowdsaleLib {
   /// set, 1 is timestamp, 2 is price in cents at that time,
   /// 3 is address token purchase cap at that time, 0 if no address cap
   /// @param _fallbackExchangeRate Exchange rate of cents/ETH
-  /// @param _capAmountInCents Total to be raised in cents
   /// @param _endTime Timestamp of sale end time
   /// @param _percentBurn Percentage of extra tokens to burn
   /// @param _token Token being sold
@@ -97,24 +95,20 @@ library CrowdsaleLib {
                 address _owner,
                 uint256[] _saleData,
                 uint256 _fallbackExchangeRate,
-                uint256 _capAmountInCents,
                 uint256 _endTime,
                 uint8 _percentBurn,
                 CrowdsaleToken _token)
                 public
   {
-  	require(self.capAmount == 0);
   	require(self.owner == 0);
     require(_saleData.length > 0);
     require((_saleData.length%3) == 0); // ensure saleData is 3-item sets
     require(_saleData[0] > (now + 2 hours));
     require(_endTime > _saleData[0]);
-    require(_capAmountInCents > 0);
     require(_owner > 0);
     require(_fallbackExchangeRate > 0);
     require(_percentBurn <= 100);
     self.owner = _owner;
-    self.capAmount = ((_capAmountInCents/_fallbackExchangeRate) + 1)*(10**18);
     self.startTime = _saleData[0];
     self.endTime = _endTime;
     self.token = _token;
@@ -267,14 +261,9 @@ library CrowdsaleLib {
     require(self.token.balanceOf(this) > 0);
     require(_exchangeRate > 0);
 
-    uint256 _capAmountInCents;
     bool err;
 
-    (err, _capAmountInCents) = self.exchangeRate.times(self.capAmount);
-    require(!err);
-
     self.exchangeRate = _exchangeRate;
-    self.capAmount = (_capAmountInCents/_exchangeRate) + 1;
     changeTokenPrice(self,self.saleData[self.milestoneTimes[0]][0]);
     self.rateSet = true;
 
