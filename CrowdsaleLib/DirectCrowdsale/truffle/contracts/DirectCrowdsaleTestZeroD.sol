@@ -80,10 +80,6 @@ contract DirectCrowdsaleTestZeroD {
     return sale.base.tokensPerEth;
   }
 
-  function getCapAmount() public view returns (uint256) {
-    return sale.base.capAmount;
-  }
-
   function getStartTime() public view returns (uint256) {
     return sale.base.startTime;
   }
