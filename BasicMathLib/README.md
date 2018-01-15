@@ -137,7 +137,7 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"
+        "BasicMathLib": "0x19259EdDc53136c1045b557d8E8a8cFf64121550"
       }
     }
   }
@@ -149,11 +149,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "BasicMathLib:0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"`
+`--libraries "BasicMathLib:0x19259EdDc53136c1045b557d8E8a8cFf64121550"`
 
 Additionally, if you have multiple libraries, you can create a file with one library string per line and include this library as follows:
 
-`"BasicMathLib:0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"`
+`"BasicMathLib:0x19259EdDc53136c1045b557d8E8a8cFf64121550"`
 
 then add the following flag to your command:
 
@@ -161,7 +161,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "BasicMathLib:0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"`
+`--libraries "BasicMathLib:0x19259EdDc53136c1045b557d8E8a8cFf64121550"`
 
 #### solc documentation
 
@@ -198,7 +198,7 @@ var input = {
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x01671229Bbf99b30203F9807C5A577a7B8C358Fc"
+        "BasicMathLib": "0x19259EdDc53136c1045b557d8E8a8cFf64121550"
       }
     }
     ...
@@ -215,7 +215,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'BasicMathLib': '0x01671229Bbf99b30203F9807C5A577a7B8C358Fc' });
+ bytecode = solc.linkBytecode(bytecode, { 'BasicMathLib': '0x19259EdDc53136c1045b557d8E8a8cFf64121550' });
  ```
 
 #### Solc-js documentation

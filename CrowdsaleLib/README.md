@@ -13,9 +13,9 @@ Crowdsale libraries [provided by Modular](https://modular.network "Modular's Web
 ### v2.2.1
 
 **ENS**: TBD   
-**Main Ethereum Network**:    
-**Ropsten Test Network**:    
-**Rinkeby Test Network**:    
+**Main Ethereum Network**: 0x4A0a5236E4D1aE19fc00C167E1D33f37870f53b1    
+**Ropsten Test Network**: Not available at this time.    
+**Rinkeby Test Network**: 0x0B40E5f22cfd3c53eaE0aE819F0E0bADcBE93866    
 
 ## How to Use
 

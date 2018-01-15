@@ -82,9 +82,9 @@ A crowdsale library [provided by Modular](https://modular.network "Modular's Web
 ### v2.2.1
 
 **ENS**: TBD   
-**Main Ethereum Network**:    
-**Ropsten Test Network**:    
-**Rinkeby Test Network**:    
+**Main Ethereum Network**: 0x7A1Bc60B7FfAD01aCEB258e72B4ecec6573EA4f9    
+**Ropsten Test Network**: Not available at this time.    
+**Rinkeby Test Network**: 0x664DE7B68af5fAB00aB92942F722De286823F4aE    
 
 ## License and Warranty   
 
@@ -171,8 +171,8 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourCrowdsaleContract.sol": {
-        "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
-        "EvenDistroCrowdsaleLib": "0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB"
+        "CrowdsaleLib": "0x4A0a5236E4D1aE19fc00C167E1D33f37870f53b1",
+        "EvenDistroCrowdsaleLib": "0x7A1Bc60B7FfAD01aCEB258e72B4ecec6573EA4f9"
       }
     }
   }
@@ -184,8 +184,8 @@ For direction and instructions on how the Solidity command line compiler works [
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include both deployed libraries in your bytecode create a file with one library string per line  as follows:    
 
 ```
-"CrowdsaleLib:0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260"
-"EvenDistroCrowdsaleLib:0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB"
+"CrowdsaleLib:0x4A0a5236E4D1aE19fc00C167E1D33f37870f53b1"
+"EvenDistroCrowdsaleLib:0x7A1Bc60B7FfAD01aCEB258e72B4ecec6573EA4f9"
 ```
 
 then add the following flag to your command:
@@ -235,8 +235,8 @@ var input = {
     ...
     "libraries": {
       "YourCrowdsaleContract.sol": {
-        "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
-        "EvenDistroCrowdsaleLib": "0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB"
+        "CrowdsaleLib": "0x4A0a5236E4D1aE19fc00C167E1D33f37870f53b1",
+        "EvenDistroCrowdsaleLib": "0x7A1Bc60B7FfAD01aCEB258e72B4ecec6573EA4f9"
       }
     }
     ...
@@ -253,7 +253,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
 ```js
-bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260' });
+bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0x4A0a5236E4D1aE19fc00C167E1D33f37870f53b1' });
 ```
 
 #### Solc-js documentation
