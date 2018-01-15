@@ -10,7 +10,7 @@ Crowdsale libraries [provided by Modular](https://modular.network "Modular's Web
 
 ### CrowdsaleLib   
 
-### v2.2.0
+### v2.2.1
 
 **ENS**: TBD   
 **Main Ethereum Network**:    
@@ -39,8 +39,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Change Log
 
-### v2.2.0
+### v2.2.1
 
+* Removes exchange rates for just tokens/eth pricing
 * Removed raise caps from the sale contracts.
 
 ### v2.1.0
