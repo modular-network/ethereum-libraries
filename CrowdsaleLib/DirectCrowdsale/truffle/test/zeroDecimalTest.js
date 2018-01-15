@@ -35,19 +35,15 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
   it("should initialize the direct crowdsale contract data", async () => {
     const owner = await saleContract.getOwner.call();
     const tokensPerEth = await saleContract.getTokensPerEth.call();
-    const capAmount = await saleContract.getCapAmount.call();
     const startTime = await saleContract.getStartTime.call();
     const endTime = await saleContract.getEndTime.call();
-    const exchangeRate = await saleContract.getExchangeRate.call();
     const ownerBalance = await saleContract.getEthRaised.call();
     const saleData = await saleContract.getSaleData.call(0);
     const saleDataEnd = await saleContract.getSaleData.call(endTime.valueOf());
 
     assert.equal(owner.valueOf(), accounts[0], "Owner should be set to the account 0");
     assert.equal(tokensPerEth.valueOf(), 900, "Tokens per ETH should be 900");
-    assert.equal(capAmount.valueOf(), 201000000000000000000, "capAmount should be set to 201000000000000000000 wei");
     assert.equal(endTime.valueOf() - 2592000,startTime.valueOf(), "end time should be 30 days");
-    assert.equal(exchangeRate.valueOf(),45000, "exchangeRate should be 45000");
     assert.equal(ownerBalance.valueOf(), 0, "Amount of wei raised in the crowdsale should be zero");
   });
 
@@ -97,44 +93,21 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     const tokenPurchase = await saleContract.getTokenPurchase.call(accounts[1]);
     assert.equal(tokenPurchase.valueOf(), 0,"accounts[1] token balance should be 0");
 
-    try{
-      const tokenExchangeRate = await saleContract.setTokenExchangeRate(45000, { from: accounts[0] });
-    } catch(e) {
-      errorThrown = true;
-    }
-    assert.isTrue(errorThrown, "should give an error message because we're not within 3 days");
     errorThrown = false;
 
     //move time two hours
     await time.move(web3, 7200);
     await web3.eth.sendTransaction({from: accounts[3]});
 
-    const tokenExchangeRate = await saleContract.setTokenExchangeRate(45000, { from: accounts[0] });
-    assert.equal(tokenExchangeRate.logs[0].args.Msg,
-                "Owner has set the exchange Rate and tokens bought per ETH!",
-                "Should give success message that the exchange rate was set.");
+    await saleContract.setTokens({ from: accounts[0] });
 
     try{
-      const tokenExchangeRateBack = await saleContract.setTokenExchangeRate(30000, { from:accounts[0] });
+      await saleContract.setTokens({ from:accounts[0] });
     } catch(e) {
       errorThrown = true;
     }
-    assert.isTrue(errorThrown, "should give an error message since exchange rate is set");
+    assert.isTrue(errorThrown, "should give an error message since tokens are set");
     errorThrown = false;
-
-    try{
-      const tokenSet = await saleContract.setTokens({ from:accounts[0] });
-    } catch(e) {
-      errorThrown = true;
-    }
-    assert.isTrue(errorThrown, "should give an error message since exchange rate is set");
-    errorThrown = false;
-
-    const exchangeRate = await saleContract.getExchangeRate.call();
-    assert.equal(exchangeRate.valueOf(), 45000, "exchangeRate should have been set to 45000!");
-
-    const capAmount = await saleContract.getCapAmount.call();
-    assert.equal(capAmount.valueOf(), 201000000000000000000, "capAmount should be set to 301000000000000000000 wei");
 
     const tokensPerEth = await saleContract.getTokensPerEth.call();
     assert.equal(tokensPerEth.valueOf(), 900, "tokensPerEth should have been set to 900!");
