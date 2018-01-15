@@ -31,14 +31,12 @@ contract DirectCrowdsaleTestZeroD {
   function DirectCrowdsaleTestZeroD(
                 address owner,
                 uint256[] saleData,
-                uint256 fallbackExchangeRate,
-                uint256 capAmountInCents,
                 uint256 endTime,
                 uint8 percentBurn,
                 CrowdsaleToken token)
                 public
   {
-  	sale.init(owner, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, token);
+  	sale.init(owner, saleData, endTime, percentBurn, token);
   }
 
   // fallback function can be used to buy tokens
@@ -70,10 +68,6 @@ contract DirectCrowdsaleTestZeroD {
     return sale.crowdsaleEnded();
   }
 
-  function setTokenExchangeRate(uint256 _exchangeRate) public returns (bool) {
-    return sale.setTokenExchangeRate(_exchangeRate);
-  }
-
   function setTokens() public returns (bool) {
     return sale.setTokens();
   }
@@ -84,14 +78,6 @@ contract DirectCrowdsaleTestZeroD {
 
   function getTokensPerEth() public view returns (uint256) {
     return sale.base.tokensPerEth;
-  }
-
-  function getExchangeRate() public view returns (uint256) {
-    return sale.base.exchangeRate;
-  }
-
-  function getCapAmount() public view returns (uint256) {
-    return sale.base.capAmount;
   }
 
   function getStartTime() public view returns (uint256) {

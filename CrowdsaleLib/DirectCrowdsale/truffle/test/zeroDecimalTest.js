@@ -35,19 +35,15 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
   it("should initialize the direct crowdsale contract data", async () => {
     const owner = await saleContract.getOwner.call();
     const tokensPerEth = await saleContract.getTokensPerEth.call();
-    const capAmount = await saleContract.getCapAmount.call();
     const startTime = await saleContract.getStartTime.call();
     const endTime = await saleContract.getEndTime.call();
-    const exchangeRate = await saleContract.getExchangeRate.call();
     const ownerBalance = await saleContract.getEthRaised.call();
     const saleData = await saleContract.getSaleData.call(0);
     const saleDataEnd = await saleContract.getSaleData.call(endTime.valueOf());
 
     assert.equal(owner.valueOf(), accounts[0], "Owner should be set to the account 0");
     assert.equal(tokensPerEth.valueOf(), 900, "Tokens per ETH should be 900");
-    assert.equal(capAmount.valueOf(), 201000000000000000000, "capAmount should be set to 201000000000000000000 wei");
     assert.equal(endTime.valueOf() - 2592000,startTime.valueOf(), "end time should be 30 days");
-    assert.equal(exchangeRate.valueOf(),45000, "exchangeRate should be 45000");
     assert.equal(ownerBalance.valueOf(), 0, "Amount of wei raised in the crowdsale should be zero");
   });
 
@@ -97,44 +93,21 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     const tokenPurchase = await saleContract.getTokenPurchase.call(accounts[1]);
     assert.equal(tokenPurchase.valueOf(), 0,"accounts[1] token balance should be 0");
 
-    try{
-      const tokenExchangeRate = await saleContract.setTokenExchangeRate(45000, { from: accounts[0] });
-    } catch(e) {
-      errorThrown = true;
-    }
-    assert.isTrue(errorThrown, "should give an error message because we're not within 3 days");
     errorThrown = false;
 
     //move time two hours
     await time.move(web3, 7200);
     await web3.eth.sendTransaction({from: accounts[3]});
 
-    const tokenExchangeRate = await saleContract.setTokenExchangeRate(45000, { from: accounts[0] });
-    assert.equal(tokenExchangeRate.logs[0].args.Msg,
-                "Owner has set the exchange Rate and tokens bought per ETH!",
-                "Should give success message that the exchange rate was set.");
+    await saleContract.setTokens({ from: accounts[0] });
 
     try{
-      const tokenExchangeRateBack = await saleContract.setTokenExchangeRate(30000, { from:accounts[0] });
+      await saleContract.setTokens({ from:accounts[0] });
     } catch(e) {
       errorThrown = true;
     }
-    assert.isTrue(errorThrown, "should give an error message since exchange rate is set");
+    assert.isTrue(errorThrown, "should give an error message since tokens are set");
     errorThrown = false;
-
-    try{
-      const tokenSet = await saleContract.setTokens({ from:accounts[0] });
-    } catch(e) {
-      errorThrown = true;
-    }
-    assert.isTrue(errorThrown, "should give an error message since exchange rate is set");
-    errorThrown = false;
-
-    const exchangeRate = await saleContract.getExchangeRate.call();
-    assert.equal(exchangeRate.valueOf(), 45000, "exchangeRate should have been set to 45000!");
-
-    const capAmount = await saleContract.getCapAmount.call();
-    assert.equal(capAmount.valueOf(), 201000000000000000000, "capAmount should be set to 301000000000000000000 wei");
 
     const tokensPerEth = await saleContract.getTokensPerEth.call();
     assert.equal(tokensPerEth.valueOf(), 900, "tokensPerEth should have been set to 900!");
@@ -265,9 +238,9 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     await time.move(web3, 691200);
     await web3.eth.sendTransaction({from: accounts[3]});
 
-    const finalTokenPurchase = await saleContract.sendPurchase({ value: 70000000000000000000, from: accounts[2] });
+    const finalTokenPurchase = await saleContract.sendPurchase({ value: 31000000000000000000, from: accounts[2] });
     const finalContribution = await saleContract.getContribution.call(accounts[2], { from: accounts[0] });
-    assert.equal(finalContribution.valueOf(), 31000000000000000000, "accounts[2] amount of wei went over cap and contributed should be 31000000000000000000 wei");
+    assert.equal(finalContribution.valueOf(), 31000000000000000000, "accounts[2] amount of wei contributed should be 31000000000000000000 wei");
 
   });
 
@@ -326,7 +299,7 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     assert.equal(ownerEthRaised.valueOf(), 0, "Owner's ether balance in the contract should be zero!");
 
     const tokensSold = await saleContract.getTokensSold.call();
-    assert.equal(tokensSold.valueOf(), 171600, "Tokens sold should be 195000");
+    assert.equal(tokensSold.valueOf(), 173925, "Tokens sold should be 173925");
 
     /******************
     * TOKEN CONTRACT BALANCE CHECKS
@@ -338,7 +311,7 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     assert.equal(tokenBalanceOfSecondAccount.valueOf(), 72000, "accounts[1] token balance should be 72000");
 
     const tokenBalanceOfThirdAccount = await token.balanceOf.call(accounts[2], { from: accounts[2] });
-    assert.equal(tokenBalanceOfThirdAccount.valueOf(), 18600, "accounts2 token balance should be 0");
+    assert.equal(tokenBalanceOfThirdAccount.valueOf(), 20925, "accounts2 token balance should be 20925");
 
     const tokenBalanceOfFourthAccount = await token.balanceOf.call(accounts[3], { from: accounts[3] });
     assert.equal(tokenBalanceOfFourthAccount.valueOf(), 81000, "accounts3 token balance should be 81000");
@@ -347,14 +320,14 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     assert.equal(tokenBalanceOfFivethAccount.valueOf(), 0, "accounts4 token balance should be 0");
 
     const crowdsaleTokenBalance = await token.balanceOf.call(saleContract.address);
-    assert.equal(crowdsaleTokenBalance.valueOf(), 49828400,  "crowdsale's token balance should be 49847000!");
+    assert.equal(crowdsaleTokenBalance.valueOf(), 49826075,  "crowdsale's token balance should be 49826075!");
 
     await saleContract.withdrawTokens({ from: accounts[0] });
     const fivethTokenPurchase = await saleContract.getTokenPurchase.call(accounts[0], { from: accounts[0] });
     assert.equal(fivethTokenPurchase.valueOf(), 0, "Owner should have withdrawn all the leftover tokens from the sale!");
 
     const tokenBalanceOfAfterWithdraw = await token.balanceOf.call(accounts[0], { from: accounts[0] });
-    assert.equal(tokenBalanceOfAfterWithdraw.valueOf(), 24914200, "accounts[0] token balance should be 24923500");
+    assert.equal(tokenBalanceOfAfterWithdraw.valueOf(), 24913038, "accounts[0] token balance should be 24913038");
 
     const crowdsaleTokenBalanceAfterWithdraw = await token.balanceOf.call(saleContract.address);
     assert.equal(crowdsaleTokenBalanceAfterWithdraw.valueOf(), 0,  "crowdsale's token balance should be 0!");
@@ -363,6 +336,6 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     assert.equal(tokenInitialSupply.valueOf(), 50000000,  "The token's initial supply was 50M");
 
     const tokenTotalSupply = await token.totalSupply();
-    assert.equal(tokenTotalSupply.valueOf(), 25085800,  "The token's new supply is 25076500");
+    assert.equal(tokenTotalSupply.valueOf(), 25086963,  "The token's new supply is 25086963");
   });
 });

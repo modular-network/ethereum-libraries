@@ -43,14 +43,12 @@ module.exports = function(deployer, network, accounts) {
                     {from:accounts[4]})
     .then(function() {
       console.log(CrowdsaleTestTokenZeroD.address);
-      var purchaseData =[startTime,50,0,
-                         stepOne,75,0,
-                         stepTwo,100,0];
+      var purchaseData =[startTime,900,0,
+                         stepOne,675,0,
+                         stepTwo,450,0];
  	    return deployer.deploy(DirectCrowdsaleTestZeroD,
                              accounts[0],
                              purchaseData,
-                             45000,
-                             9000000,
                              endTime,
                              50,
                              CrowdsaleTestTokenZeroD.address,

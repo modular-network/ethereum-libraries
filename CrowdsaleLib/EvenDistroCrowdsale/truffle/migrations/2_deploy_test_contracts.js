@@ -48,14 +48,12 @@ module.exports = function(deployer, network, accounts) {
                     false,
                     {from:accounts[5]})
     .then(function() {
-      var purchaseData =[startTime,50,100,
-                         stepOne,75,100,
-                         stepTwo,100,0];
+      var purchaseData =[startTime,600000000000000000000,100,
+                         stepOne,600000000000000000000,100,
+                         stepTwo,300000000000000000000,0];
  	    return deployer.deploy(EvenDistroTestEteenD,
                              accounts[5],
                              purchaseData,
-                             45000,
-                             9000000,
                              endTime,
                              100,
                              10000000000000000000000,
@@ -80,14 +78,12 @@ module.exports = function(deployer, network, accounts) {
       stepTwo = stepOne + 604800;
       endTime = startTime + 2592000;
 
-      purchaseData =[startTime,100,0,
-                     stepOne,200,20000000000000,
-                     stepTwo,400,0];
+      purchaseData =[startTime,4000000000000,0,
+                     stepOne,8000000000000,20000000000000,
+                     stepTwo,16000000000000,0];
  	    return deployer.deploy(EvenDistroTestTenD,
                              accounts[0],
                              purchaseData,
-                             40000,
-                             400000,
                              endTime,
                              25,
                              0,

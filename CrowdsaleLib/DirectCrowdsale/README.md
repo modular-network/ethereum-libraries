@@ -11,7 +11,7 @@ A crowdsale library [provided by Modular](https://modular.network "Modular's Web
 
 
 - [Library Address](#library-address)
-  - [v2.1.0](#v210)
+  - [v2.2.1](#v221)
 - [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
   - [Truffle Installation](#truffle-installation)
@@ -26,53 +26,51 @@ A crowdsale library [provided by Modular](https://modular.network "Modular's Web
     - [Solc-js documentation](#solc-js-documentation)
   - [Basic Usage](#basic-usage)
 - [Change Log](#change-log)
-  - [v2.1.0](#v210-1)
+  - [v2.2.1](#v221-1)
+  - [v2.1.0](#v210)
   - [v2.0.0](#v200)
 - [Functions](#functions)
-    - [init(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, address, uint256[], uint256, uint256, uint256, uint8, CrowdsaleToken)](#initdirectcrowdsalelibdirectcrowdsalestorage-storage-address-uint256-uint256-uint256-uint256-uint8-crowdsaletoken)
-      - [Arguments](#arguments)
-      - [Returns](#returns)
-    - [receivePurchase(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, uint256)](#receivepurchasedirectcrowdsalelibdirectcrowdsalestorage-storage-uint256)
-      - [Arguments](#arguments-1)
-      - [Returns](#returns-1)
-    - [setTokenExchangeRate(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, uint256)](#settokenexchangeratedirectcrowdsalelibdirectcrowdsalestorage-storage-uint256)
-      - [Arguments](#arguments-2)
-      - [Returns](#returns-2)
-    - [setTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#settokensdirectcrowdsalelibdirectcrowdsalestorage-storage)
-      - [Arguments](#arguments-3)
-      - [Returns](#returns-3)
-    - [withdrawTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#withdrawtokensdirectcrowdsalelibdirectcrowdsalestorage-storage)
-      - [Arguments](#arguments-4)
-      - [Returns](#returns-4)
-    - [withdrawLeftoverWei(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#withdrawleftoverweidirectcrowdsalelibdirectcrowdsalestorage-storage)
-      - [Arguments](#arguments-5)
-      - [Returns](#returns-5)
-    - [withdrawOwnerEth(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#withdrawownerethdirectcrowdsalelibdirectcrowdsalestorage-storage)
-      - [Arguments](#arguments-6)
-      - [Returns](#returns-6)
-    - [getSaleData(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#getsaledatadirectcrowdsalelibdirectcrowdsalestorage-storage)
-      - [Arguments](#arguments-7)
-      - [Returns](#returns-7)
-    - [getTokensSold(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#gettokenssolddirectcrowdsalelibdirectcrowdsalestorage-storage)
-      - [Arguments](#arguments-8)
-      - [Returns](#returns-8)
-    - [crowdsaleActive(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#crowdsaleactivedirectcrowdsalelibdirectcrowdsalestorage-storage)
-      - [Arguments](#arguments-9)
-      - [Returns](#returns-9)
-    - [crowdsaleEnded(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)](#crowdsaleendeddirectcrowdsalelibdirectcrowdsalestorage-storage)
-      - [Arguments](#arguments-10)
-      - [Returns](#returns-10)
+  - [init](#initdirectcrowdsalelibdirectcrowdsalestorage-storage-address-uint256-uint256-uint256-uint256-uint8-crowdsaletoken)
+    - [Arguments](#arguments)
+    - [Returns](#returns)
+  - [receivePurchase](#receivepurchasedirectcrowdsalelibdirectcrowdsalestorage-storage-uint256)
+    - [Arguments](#arguments-1)
+    - [Returns](#returns-1)
+  - [setTokens](#settokensdirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [Arguments](#arguments-2)
+    - [Returns](#returns-2)
+  - [withdrawTokens](#withdrawtokensdirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [Arguments](#arguments-3)
+    - [Returns](#returns-3)
+  - [withdrawLeftoverWei](#withdrawleftoverweidirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [Arguments](#arguments-4)
+    - [Returns](#returns-4)
+  - [withdrawOwnerEth](#withdrawownerethdirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [Arguments](#arguments-5)
+    - [Returns](#returns-5)
+  - [getSaleData](#getsaledatadirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [Arguments](#arguments-6)
+    - [Returns](#returns-6)
+  - [getTokensSold](#gettokenssolddirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [Arguments](#arguments-7)
+    - [Returns](#returns-7)
+  - [crowdsaleActive](#crowdsaleactivedirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [Arguments](#arguments-8)
+    - [Returns](#returns-8)
+  - [crowdsaleEnded](#crowdsaleendeddirectcrowdsalelibdirectcrowdsalestorage-storage)
+    - [Arguments](#arguments-9)
+    - [Returns](#returns-9)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address   
 
-### v2.1.0
+### v2.2.1
 
 **ENS**: TBD
-**Main Ethereum Network**: 0x3EdD6A60355909262F9f44ac88D47CDd53623a81   
-**Ropsten Test Network**: 0x9991d7394d86141Ee6B5D59459778332cFDc8154   
-**Rinkeby Test Network**: 0xCD8ad8370fa95369104a2Ccb49352Ac8182fFE1A   
+**Main Ethereum Network**:    
+**Ropsten Test Network**:    
+**Rinkeby Test Network**:    
 
 ## License and Warranty   
 
@@ -265,6 +263,11 @@ The crowdsale contract should put the `init` function in the constructor with th
 
 ## Change Log
 
+### v2.2.1
+
+* Removes exchange rates for just tokens/eth pricing
+* Removes explicit cap since the sale is capped by the number of tokens being sold
+
 ### v2.1.0
 
 * Update compiler to 0.4.18 and explicitly define function scopes, minor fixes from audit.
@@ -277,134 +280,120 @@ The crowdsale contract should put the `init` function in the constructor with th
 
 The following is the list of functions available to use in your smart contract.
 
-#### init(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, address, uint256[], uint256, uint256, uint256, uint8, CrowdsaleToken)   
-*(DirectCrowdsaleLib.sol, line 63)*
+### init(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, address, uint256[], uint256, uint8, CrowdsaleToken)   
+*(DirectCrowdsaleLib.sol, line 60)*
 
-Constructor. Initialize the crowdsale with owner, sale data, fall back exchange rate, raise cap (in cents), endTime, burn percentage of leftover tokens, and the address of the deployed token contract. Passes some values to the base constructor then sets the direct crowdsale specific storage variables. The sale data consists of an array of 3-item "sets" such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, this value should be set to 0 for a direct crowdsale.    
+Constructor. Initialize the crowdsale with owner, sale data, endTime, burn percentage of leftover tokens, and the address of the deployed token contract. Passes some values to the base constructor then sets the direct crowdsale specific storage variables. The sale data consists of an array of 3-item "sets" such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, this value should be set to 0 for a direct crowdsale.    
 
-##### Arguments
+#### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** self   
 **address[]** `_owner` Address of crowdsale owner   
-**uint256[]** `_saleData` Array of 3 item sets such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, this value should be set to 0 for a direct crowdsale. The very first item should be the timestamp for the auction start.      
-**uint256** `_fallbackExchangeRate` Used as a last resort if this is not set prior to the sale.   
-**uint256** `_capAmountInCents` For example, $300/ETH should be 30000   
+**uint256[]** `_saleData` Array of 3 item sets such that, in each 3 element set, 1 is timestamp, 2 is price in tokens/ETH at that time, 3 is address purchase cap at that time, this value should be set to 0 for a direct crowdsale. The very first item should be the timestamp for the auction start.      
 **uint256** `_endTime Timestamp` of the end time.   
 **uint8** `_percentBurn` Percentage of extra tokens to burn after the sale.   
 **CrowdsaleToken** `_token` Token being sold in the crowdsale.
 
-##### Returns
+#### Returns
 No return   
 
-#### receivePurchase(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, uint256)   
-*(DirectCrowdsaleLib.sol, line 86)*
+### receivePurchase(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, uint256)   
+*(DirectCrowdsaleLib.sol, line 79)*
 
 Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  This also updates the token's price when the time milestone passes.   
 
 Tokens purchased are calculated by multiplying the wei contributed by the tokensPerEth value, then moving the decimal place to reflect the token's specified granularity.  Mappings for buyer contribution, tokens purchased, and any leftover wei are updated, as well as total wei raised in the sale.
 
-##### Arguments
+#### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** `self` The data storage in the calling contract.   
 **uint256** `_amount` Amount being paid in terms of wei.
 
-##### Returns
+#### Returns
 **bool** True if transaction confirmed or revoked successfully.   
 
-#### setTokenExchangeRate(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, uint256)   
-*(DirectCrowdsaleLib.sol, line 156)*
+### setTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 144)*
 
-Function that is called by the owner to set the exchange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
+Used to the token balance after transferring tokens to the sale contract. This should be called after depositing the tokens and before the sale begins.
 
-##### Arguments
-**DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`   
-**uint256** `_amount`
-
-##### Returns
-**bool**   
-
-#### setTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 163)*
-
-Used as a last resort function in case the exchange rate is not set prior to the sale start.
-
-##### Arguments
+#### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`
 
-##### Returns
+#### Returns
 **bool**   
 
-#### withdrawTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 167)*
+### withdrawTokens(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 148)*
 
 Allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some.  The token's transferFrom function is called so that the token contract transfers tokens from the owners address to the buyer's address.  The owner can also call this function after the sale is over to withdraw the remaining tokens that were not sold and trigger the functionality to burn unwanted tokens.
 
-##### Arguments
+#### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`
 
-##### Returns
+#### Returns
 **bool**   
 
-#### withdrawLeftoverWei(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 171)*
+### withdrawLeftoverWei(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 152)*
 
 If a user had sent wei that didn't add up exactly to a whole number of tokens, the leftover wei will be recorded in the leftoverWei mapping for that user.  This function allows the user to withdraw the excess.
 
-##### Arguments
+#### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`
 
-##### Returns
+#### Returns
 **bool**   
 
-#### withdrawOwnerEth(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 175)*
+### withdrawOwnerEth(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 156)*
 
 Allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.  ETH must have been contributed in the sale.  It sets the owner's balance to 0 and transfers all the ETH.
 
-##### Arguments
+#### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** `self`
 
-##### Returns
+#### Returns
 **bool**   
 
-#### getSaleData(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 179)*   
+### getSaleData(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 160)*   
 
 Returns a 3 element array with index-0 being the timestamp, index-1 being the current token price in cents, and index-2 being the address token purchase cap.   
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 
-##### Returns
+#### Returns
 **uint256[3]**    
 
-#### getTokensSold(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 187)*   
+### getTokensSold(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 168)*   
 
 Returns the total amount of tokens sold at the time of calling.   
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 
-##### Returns
+#### Returns
 **uint256**    
 
-#### crowdsaleActive(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 191)*
+### crowdsaleActive(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 172)*
 
 Returns true if the crowdsale is currently active. (If now is between the start and end time)
 
-##### Arguments
+#### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** self
 
-##### Returns
+#### Returns
 **bool**   
 
-#### crowdsaleEnded(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
-*(DirectCrowdsaleLib.sol, line 195)*
+### crowdsaleEnded(DirectCrowdsaleLib.DirectCrowdsaleStorage storage)   
+*(DirectCrowdsaleLib.sol, line 176)*
 
 Returns true if the crowdsale is over. (now is after the end time)
 
-##### Arguments
+#### Arguments
 **DirectCrowdsaleLib.DirectCrowdsaleStorage** self
 
-##### Returns
+#### Returns
 **bool**   
