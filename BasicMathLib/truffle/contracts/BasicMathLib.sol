@@ -2,22 +2,22 @@ pragma solidity ^0.4.18;
 
 /**
  * @title Basic Math Library
- * @author Majoolr.io
+ * @author Modular, Inc
  *
- * version 1.2.0
- * Copyright (c) 2017 Majoolr, LLC
+ * version 1.2.1
+ * Copyright (c) 2017 Modular, Inc
  * The MIT License (MIT)
- * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  *
  * The Basic Math Library is inspired by the Safe Math library written by
  * OpenZeppelin at https://github.com/OpenZeppelin/zeppelin-solidity/ .
- * Majoolr provides smart contract services and security reviews for contract
+ * Modular provides smart contract services and security reviews for contract
  * deployments in addition to working on open source projects in the Ethereum
  * community. Our purpose is to test, document, and deploy reusable code onto the
  * blockchain and improve both security and usability. We also educate non-profits,
  * schools, and other community members about the application of blockchain
  * technology.
- * For further information: majoolr.io, openzeppelin.org
+ * For further information: modular.network, openzeppelin.org
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -35,7 +35,7 @@ library BasicMathLib {
   /// @param b Second number
   /// @return err False normally, or true if there is overflow
   /// @return res The product of a and b, or 0 if there is overflow
-  function times(uint256 a, uint256 b) public view returns (bool err,uint256 res) {
+  function times(uint256 a, uint256 b) public pure returns (bool err,uint256 res) {
     assembly{
       res := mul(a,b)
       switch or(iszero(b), eq(div(res,b), a))
@@ -52,7 +52,7 @@ library BasicMathLib {
   /// @param b Second number
   /// @return err False normally, or true if `b` is 0
   /// @return res The quotient of a and b, or 0 if `b` is 0
-  function dividedBy(uint256 a, uint256 b) public view returns (bool err,uint256 i) {
+  function dividedBy(uint256 a, uint256 b) public pure returns (bool err,uint256 i) {
     uint256 res;
     assembly{
       switch iszero(b)
@@ -75,7 +75,7 @@ library BasicMathLib {
   /// @param b Second number
   /// @return err False normally, or true if there is overflow
   /// @return res The sum of a and b, or 0 if there is overflow
-  function plus(uint256 a, uint256 b) public view returns (bool err, uint256 res) {
+  function plus(uint256 a, uint256 b) public pure returns (bool err, uint256 res) {
     assembly{
       res := add(a,b)
       switch and(eq(sub(res,b), a), or(gt(res,b),eq(res,b)))
@@ -92,7 +92,7 @@ library BasicMathLib {
   /// @param b Second number
   /// @return err False normally, or true if there is underflow
   /// @return res The difference between a and b, or 0 if there is underflow
-  function minus(uint256 a, uint256 b) public view returns (bool err,uint256 res) {
+  function minus(uint256 a, uint256 b) public pure returns (bool err,uint256 res) {
     assembly{
       res := sub(a,b)
       switch eq(and(eq(add(res,b), a), or(lt(res,a), eq(res,a))), 1)

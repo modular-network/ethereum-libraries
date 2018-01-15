@@ -10,7 +10,7 @@ A crowdsale library [provided by Modular](https://modular.network "Modular's Web
 
 
 - [Library Address](#library-address)
-  - [v2.1.0](#v210)
+  - [v2.2.1](#v221)
 - [License and Warranty](#license-and-warranty)
 - [How to install](#how-to-install)
   - [Truffle Installation](#truffle-installation)
@@ -25,68 +25,66 @@ A crowdsale library [provided by Modular](https://modular.network "Modular's Web
     - [Solc-js documentation](#solc-js-documentation)
   - [Basic Usage](#basic-usage)
 - [Change Log](#change-log)
-  - [v2.1.0](#v210-1)
+  - [v2.2.1](#v221-1)
+  - [v2.1.0](#v210)
   - [v2.0.0](#v200)
 - [Functions](#functions)
-    - [init(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address, uint256[], uint256, uint256, uint256,uint8, uint256, bool, CrowdsaleToken)](#initevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address-uint256-uint256-uint256-uint256uint8-uint256-bool-crowdsaletoken)
-      - [Arguments](#arguments)
-      - [Returns](#returns)
-    - [registerUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)](#registeruserevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
-      - [Arguments](#arguments-1)
-      - [Returns](#returns-1)
-    - [registerUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])](#registerusersevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
-      - [Arguments](#arguments-2)
-      - [Returns](#returns-2)
-    - [unregisterUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)](#unregisteruserevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
-      - [Arguments](#arguments-3)
-      - [Returns](#returns-3)
-    - [unregisterUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])](#unregisterusersevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
-      - [Arguments](#arguments-4)
-      - [Returns](#returns-4)
-    - [calculateAddressTokenCap(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#calculateaddresstokencapevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
-      - [Arguments](#arguments-5)
-      - [Returns](#returns-5)
-    - [receivePurchase(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)](#receivepurchaseevendistrocrowdsalelibevendistrocrowdsalestorage-storage-uint256)
-      - [Arguments](#arguments-6)
-      - [Returns](#returns-6)
-    - [setTokenExchangeRate(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)](#settokenexchangerateevendistrocrowdsalelibevendistrocrowdsalestorage-storage-uint256)
-      - [Arguments](#arguments-7)
-      - [Returns](#returns-7)
-    - [setTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#settokensevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
-      - [Arguments](#arguments-8)
-      - [Returns](#returns-8)
-    - [withdrawTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#withdrawtokensevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
-      - [Arguments](#arguments-9)
-      - [Returns](#returns-9)
-    - [withdrawLeftoverWei(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#withdrawleftoverweievendistrocrowdsalelibevendistrocrowdsalestorage-storage)
-      - [Arguments](#arguments-10)
-      - [Returns](#returns-10)
-    - [withdrawOwnerEth(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#withdrawownerethevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
-      - [Arguments](#arguments-11)
-      - [Returns](#returns-11)
-    - [getSaleData(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#getsaledataevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
-      - [Arguments](#arguments-12)
-      - [Returns](#returns-12)
-    - [getTokensSold(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#gettokenssoldevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
-      - [Arguments](#arguments-13)
-      - [Returns](#returns-13)
-    - [crowdsaleActive(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#crowdsaleactiveevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
-      - [Arguments](#arguments-14)
-      - [Returns](#returns-14)
-    - [crowdsaleEnded(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)](#crowdsaleendedevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
-      - [Arguments](#arguments-15)
-      - [Returns](#returns-15)
+  - [init](#initevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address-uint256-uint256-uint8-uint256-bool-crowdsaletoken)
+    - [Arguments](#arguments)
+    - [Returns](#returns)
+  - [registerUser](#registeruserevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
+    - [Arguments](#arguments-1)
+    - [Returns](#returns-1)
+  - [registerUsers](#registerusersevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
+    - [Arguments](#arguments-2)
+    - [Returns](#returns-2)
+  - [unregisterUser](#unregisteruserevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
+    - [Arguments](#arguments-3)
+    - [Returns](#returns-3)
+  - [unregisterUsers](#unregisterusersevendistrocrowdsalelibevendistrocrowdsalestorage-storage-address)
+    - [Arguments](#arguments-4)
+    - [Returns](#returns-4)
+  - [calculateAddressTokenCap](#calculateaddresstokencapevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+    - [Arguments](#arguments-5)
+    - [Returns](#returns-5)
+  - [receivePurchase](#receivepurchaseevendistrocrowdsalelibevendistrocrowdsalestorage-storage-uint256)
+    - [Arguments](#arguments-6)
+    - [Returns](#returns-6)
+  - [setTokens](#settokensevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+    - [Arguments](#arguments-7)
+    - [Returns](#returns-7)
+  - [withdrawTokens](#withdrawtokensevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+    - [Arguments](#arguments-8)
+    - [Returns](#returns-8)
+  - [withdrawLeftoverWei](#withdrawleftoverweievendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+    - [Arguments](#arguments-9)
+    - [Returns](#returns-9)
+  - [withdrawOwnerEth](#withdrawownerethevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+    - [Arguments](#arguments-10)
+    - [Returns](#returns-10)
+  - [getSaleData](#getsaledataevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+    - [Arguments](#arguments-11)
+    - [Returns](#returns-11)
+  - [getTokensSold](#gettokenssoldevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+    - [Arguments](#arguments-12)
+    - [Returns](#returns-12)
+  - [crowdsaleActive](#crowdsaleactiveevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+    - [Arguments](#arguments-13)
+    - [Returns](#returns-13)
+  - [crowdsaleEnded](#crowdsaleendedevendistrocrowdsalelibevendistrocrowdsalestorage-storage)
+    - [Arguments](#arguments-14)
+    - [Returns](#returns-14)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address   
 
-### v2.1.0
+### v2.2.1
 
 **ENS**: TBD   
-**Main Ethereum Network**: 0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB   
-**Ropsten Test Network**: 0xa2b6871f358D11Ab7DBa9b69396d743C20A50Db5   
-**Rinkeby Test Network**: 0x862e885BF2AbfE78F8856206B0e5d08d68D1f1CF   
+**Main Ethereum Network**: 0x7A1Bc60B7FfAD01aCEB258e72B4ecec6573EA4f9    
+**Ropsten Test Network**: Not available at this time.    
+**Rinkeby Test Network**: 0x664DE7B68af5fAB00aB92942F722De286823F4aE    
 
 ## License and Warranty   
 
@@ -173,8 +171,8 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourCrowdsaleContract.sol": {
-        "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
-        "EvenDistroCrowdsaleLib": "0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB"
+        "CrowdsaleLib": "0x4A0a5236E4D1aE19fc00C167E1D33f37870f53b1",
+        "EvenDistroCrowdsaleLib": "0x7A1Bc60B7FfAD01aCEB258e72B4ecec6573EA4f9"
       }
     }
   }
@@ -186,8 +184,8 @@ For direction and instructions on how the Solidity command line compiler works [
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include both deployed libraries in your bytecode create a file with one library string per line  as follows:    
 
 ```
-"CrowdsaleLib:0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260"
-"EvenDistroCrowdsaleLib:0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB"
+"CrowdsaleLib:0x4A0a5236E4D1aE19fc00C167E1D33f37870f53b1"
+"EvenDistroCrowdsaleLib:0x7A1Bc60B7FfAD01aCEB258e72B4ecec6573EA4f9"
 ```
 
 then add the following flag to your command:
@@ -204,7 +202,7 @@ Finally, if you have an unlinked binary already stored with the '__LibraryName__
 
 ### solc-js Installation
 
-**version 0.4.15**
+**version 0.4.18**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.   
 
@@ -237,8 +235,8 @@ var input = {
     ...
     "libraries": {
       "YourCrowdsaleContract.sol": {
-        "CrowdsaleLib": "0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260",
-        "EvenDistroCrowdsaleLib": "0x3Afde2b246A4d7466D6Fa938f07625C60EF398eB"
+        "CrowdsaleLib": "0x4A0a5236E4D1aE19fc00C167E1D33f37870f53b1",
+        "EvenDistroCrowdsaleLib": "0x7A1Bc60B7FfAD01aCEB258e72B4ecec6573EA4f9"
       }
     }
     ...
@@ -255,7 +253,7 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
 ```js
-bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0x7494BDd21Ea41BA8271098BEDB9b75454B0B3260' });
+bytecode = solc.linkBytecode(bytecode, { 'CrowdsaleLib': '0x4A0a5236E4D1aE19fc00C167E1D33f37870f53b1' });
 ```
 
 #### Solc-js documentation
@@ -279,6 +277,11 @@ The crowdsale contract should put the `init` function in the constructor with th
 
 ## Change Log
 
+### v2.2.1
+
+* Removes exchange rates for just tokens/eth pricing
+* Removes explicit cap since the sale is capped by the number of tokens being sold
+
 ### v2.1.0
 
 * Updates solidity compiler to v0.4.18
@@ -292,195 +295,181 @@ The crowdsale contract should put the `init` function in the constructor with th
 
 The following is the list of functions available to use in your smart contract.
 
-#### init(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address, uint256[], uint256, uint256, uint256,uint8, uint256, bool, CrowdsaleToken)   
-*(EvenDistroCrowdsaleLib.sol, line 88)*
+### init(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address, uint256[], uint256, uint8, uint256, bool, CrowdsaleToken)   
+*(EvenDistroCrowdsaleLib.sol, line 86)*
 
 Constructor. Initialize the crowdsale with owner, sale data, fall back exchange rate, raise cap (in cents), endTime, burn percentage for leftover tokens, a boolean that determines whether the address cap will increase throughout the sale, and the address of the deployed token contract. Passes some values to the base constructor then sets the crowdsale specific storage variables. The sale data consists of an array of 3-item "sets" such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, 0 if no address cap. If address cap is to be determined after all registration has ended, then staticCap should be false and the address purchase cap item should indicate the percentage the base cap is increased at that timestamp. The base cap will be determined as the total raise cap divided by the number of registrants. i.e. If the raise cap is $10M and 1M people register, then the raise cap is $10/registrant and if the address purchase cap is set to 200, then the cap will increase by 200% at that timestamp. The first address cap should be set to 100.   
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 **address** `_owner` Address of crowdsale owner   
-**uint256[]** `_saleData` Array of 3 item sets such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, 0 if no address cap. If staticCap is true, item 3 should be expressed in terms of tokens, if false, staticCap should be expressed in terms of percentage increase. The first timestamp is the start of the sale, and if percentages, item 3 must be at or above 100 or zero, with zero indicating no address cap.   
-**uint256** `_fallbackExchangeRate` Used as a last resort if this is not set prior to the sale.   
-**uint256** `_capAmountInCents` The total raise goal, expressed in terms of total cents.   
+**uint256[]** `_saleData` Array of 3 item sets such that, in each 3 element set, 1 is timestamp, 2 is price in tokens/ETH at that time, 3 is address purchase cap at that time, 0 if no address cap. If staticCap is true, item 3 should be expressed in terms of tokens, if false, staticCap should be expressed in terms of percentage increase. The first timestamp is the start of the sale, and if percentages, item 3 must be at or above 100 or zero, with zero indicating no address cap.   
 **uint256** `_endTime` Timestamp of the end time.   
 **uint8** `_percentBurn` Percentage of extra tokens to burn after the sale.   
 **uint256** `_initialAddressTokenCap` This will set the address token cap in case the exchange rate setter is not called in time.    
 **bool** `_staticCap` True if the cap is set with tokens, false if set with percentages.   
 **CrowdsaleToken** `_token` Token being sold in the crowdsale.   
 
-##### Returns
+#### Returns
 No return   
 
-#### registerUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)   
-*(EvenDistroCrowdsaleLib.sol, line 116)*
+### registerUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)   
+*(EvenDistroCrowdsaleLib.sol, line 110)*
 
 Registers an individual user for the crowdsale.  Only the owner can call this function.  If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 **address** `_registrant` Address of a buyer who is registering for the sale.
 
-##### Returns
+#### Returns
 **bool**   
 
-#### registerUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])   
-*(EvenDistroCrowdsaleLib.sol, line 148)*
+### registerUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])   
+*(EvenDistroCrowdsaleLib.sol, line 142)*
 
 Registers a group of users for the crowdsale.  Only the owner can call this function. If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 **address[]** `_registrants` Addresses of buyers who are registering for the sale.
 
-##### Returns
+#### Returns
 **bool**   
 
-#### unregisterUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)   
-*(EvenDistroCrowdsaleLib.sol, line 163)*
+### unregisterUser(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address)   
+*(EvenDistroCrowdsaleLib.sol, line 157)*
 
 Registers an individual user for the crowdsale.  Only the owner can call this function. If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 **address** `_registrant` Address of a buyer who is unregistering for the sale.
 
-##### Returns
+#### Returns
 **bool**   
 
-#### unregisterUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])   
-*(EvenDistroCrowdsaleLib.sol, line 193)*
+### unregisterUsers(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, address[])   
+*(EvenDistroCrowdsaleLib.sol, line 187)*
 
 UnRegisters a group of users for the crowdsale.  Only the owner can call this function.  If the sale has a static cap, there is no restriction on when it can be called.  If the cap is calculated, it has to be called more than 3 days before the sale.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 **address[]** `_registrants` Addresses of buyers who are unregistering for the sale.
 
-##### Returns
+#### Returns
 **bool**   
 
-#### calculateAddressTokenCap(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 207)*
+### calculateAddressTokenCap(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 201)*
 
 Internal function used for calculating the token cap per address.  It divides the total tokens by the total number of registrants to find the cap and emits an event.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
 
-##### Returns
+#### Returns
 **bool**   
 
-#### receivePurchase(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)   
-*(EvenDistroCrowdsaleLib.sol, line 247)*
+### receivePurchase(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)   
+*(EvenDistroCrowdsaleLib.sol, line 241)*
 
 Accepts payment for tokens and allocates tokens available to withdraw to the buyers place in the token mapping.  Calls validPurchase to check if the purchase is legal.  If the purchase goes over the raise cap for the sale, the ether is returned and no tokens are transferred.  If the payment exceeds the address cap, the tokens are still credited to the buyer and the leftover wei is indicated in the leftoverWei mapping. It also sets the new address cap and price as each milestone is passed.  
 
 Tokens purchased are calculated by multiplying the wei contributed by the tokensPerEth value, then moving the decimal place to reflect the token's specified granularity.  Mappings for buyer contribution, tokens purchased, and any leftover wei are updated, as well as total wei raised in the sale.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self The data storage in the calling contract.   
 **uint256** `_amount` Amount being paid in terms of wei.
 
-##### Returns
+#### Returns
 **bool** True if transaction confirmed or revoked successfully.   
 
-#### setTokenExchangeRate(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage, uint256)   
-*(EvenDistroCrowdsaleLib.sol, line 340)*
-
-Function that is called by the owner to set the exhange rate (cents/ETH).  In addition to setting the exchange rate, it calculates the corresponding price of the tokens in tokens per ETH.  Calling this will also call the calculateAddressTokenCap function.  Only the owner can call this function and it can only be called within 3 days of the crowdsale officially starting to get an accurate ETH-USD price.  It can also only be called once.  Once the price is set, it cannot be changed.
-
-##### Arguments
-**EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
-**uint256** `_amount`
-
-##### Returns
-**bool**   
-
-#### setTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 348)*
+### setTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 329)*
 
 Used as a last resort function in case the exchange rate is not set prior to the sale start.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
 
-##### Returns
+#### Returns
 **bool**   
 
-#### withdrawTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 353)*
+### withdrawTokens(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 334)*
 
 Allows a user to withdraw their purchased tokens whenever they want, provided they actually have purchased some.  The token's transferFrom function is called so that the token contract transfers tokens from the owners address to the buyer's address.  The owner can also call this function after the sale is over to withdraw the remaining tokens that were not sold and trigger the functionality to burn unwanted tokens.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
 
-##### Returns
+#### Returns
 **bool**   
 
-#### withdrawLeftoverWei(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 357)*
+### withdrawLeftoverWei(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 338)*
 
 If a user had sent wei that didn't add up exactly to a whole number of tokens, the leftover wei will be recorded in the leftoverWei mapping for that user.  This function allows the user to withdraw the excess.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
 
-##### Returns
+#### Returns
 **bool**   
 
-#### withdrawOwnerEth(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 361)*
+### withdrawOwnerEth(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 342)*
 
 Allows the owner of the crowdsale to withdraw all the contributed ether after the sale is over.  ETH must have been contributed in the sale.  It sets the owner's balance to 0 and transfers all the ETH.
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
 
-##### Returns
+#### Returns
 **bool**   
 
-#### getSaleData(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 365)*   
+### getSaleData(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 346)*   
 
 Returns a 3 element array with index-0 being the timestamp, index-1 being the current token price in cents, and index-2 being the address token purchase cap.   
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 
-##### Returns
+#### Returns
 **uint256[3]**    
 
-#### getTokensSold(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 373)*   
+### getTokensSold(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 354)*   
 
 Returns the total amount of tokens sold at the time of calling.   
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self   
 
-##### Returns
+#### Returns
 **uint256**    
 
-#### crowdsaleActive(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 377)*
+### crowdsaleActive(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 358)*
 
 Returns true if the crowdsale is currently active. (If now is between the start and end time)
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
 
-##### Returns
+#### Returns
 **bool**   
 
-#### crowdsaleEnded(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
-*(EvenDistroCrowdsaleLib.sol, line 381)*
+### crowdsaleEnded(EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage storage)   
+*(EvenDistroCrowdsaleLib.sol, line 362)*
 
 Returns true if the crowdsale is over. (now is after the end time)
 
-##### Arguments
+#### Arguments
 **EvenDistroCrowdsaleLib.EvenDistroCrowdsaleStorage** self
 
-##### Returns
+#### Returns
 **bool**   
