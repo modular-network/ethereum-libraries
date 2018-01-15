@@ -280,7 +280,7 @@ The crowdsale contract should put the `init` function in the constructor with th
 
 The following is the list of functions available to use in your smart contract.
 
-### init(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, address, uint256[], uint256, uint256, uint256, uint8, CrowdsaleToken)   
+### init(DirectCrowdsaleLib.DirectCrowdsaleStorage storage, address, uint256[], uint256, uint8, CrowdsaleToken)   
 *(DirectCrowdsaleLib.sol, line 60)*
 
 Constructor. Initialize the crowdsale with owner, sale data, endTime, burn percentage of leftover tokens, and the address of the deployed token contract. Passes some values to the base constructor then sets the direct crowdsale specific storage variables. The sale data consists of an array of 3-item "sets" such that, in each 3 element set, 1 is timestamp, 2 is price in cents at that time, 3 is address purchase cap at that time, this value should be set to 0 for a direct crowdsale.    

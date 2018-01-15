@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
  * @title EvenDistroCrowdsaleLib
  * @author Modular Inc, https://modular.network
  *
- * version 2.1.0
+ * version 2.2.1
  * Copyright (c) 2017 Modular Inc
  * The MIT License (MIT)
  * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
@@ -71,16 +71,14 @@ library EvenDistroCrowdsaleLib {
   event LogAddressTokenCapChange(uint256 amount, string Msg);
 
   // Logs when the address cap is initially calculated
-  event LogAddressTokenCapCalculated(uint256 saleCap, uint256 numRegistered, uint256 cap, string Msg);
+  event LogAddressTokenCapCalculated(uint256 numRegistered, uint256 cap, string Msg);
 
   /// @dev Called by a crowdsale contract upon creation.
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
   /// @param _saleData Array of 3 item sets such that, in each 3 element
-  /// set, 1 is timestamp, 2 is price in cents at that time,
+  /// set, 1 is timestamp, 2 is price in tokens/ETH at that time,
   /// 3 is address purchase cap at that time, 0 if no address cap
-  /// @param _fallbackExchangeRate Exchange rate of cents/ETH
-  /// @param _capAmountInCents Total to be raised in cents
   /// @param _endTime Timestamp of sale end time
   /// @param _percentBurn Percentage of extra tokens to burn
   /// @param _staticCap Whether or not the address cap is going to be static
@@ -88,8 +86,6 @@ library EvenDistroCrowdsaleLib {
   function init(EvenDistroCrowdsaleStorage storage self,
                 address _owner,
                 uint256[] _saleData,
-                uint256 _fallbackExchangeRate,
-                uint256 _capAmountInCents,
                 uint256 _endTime,
                 uint8 _percentBurn,
                 uint256 _initialAddressTokenCap,
@@ -99,8 +95,6 @@ library EvenDistroCrowdsaleLib {
   {
   	self.base.init(_owner,
                    _saleData,
-                   _fallbackExchangeRate,
-                   _capAmountInCents,
                    _endTime,
                    _percentBurn,
                    _token);
@@ -214,7 +208,7 @@ library EvenDistroCrowdsaleLib {
     if (self.staticCap)  {
       return false;
     }
-    require(!self.base.rateSet);  // makes sure this can only be called once
+    require(!self.base.tokensSet);  // makes sure this can only be called once
 
     uint256 _baseCap;
     uint256 _calcCap;
@@ -229,7 +223,7 @@ library EvenDistroCrowdsaleLib {
     }
 
     self.addressTokenCap = self.base.saleData[self.base.milestoneTimes[0]][1];
-    LogAddressTokenCapCalculated(self.base.capAmount, self.numRegistered, self.addressTokenCap, "Address cap was Calculated!");
+    LogAddressTokenCapCalculated(self.numRegistered, self.addressTokenCap, "Address cap was Calculated!");
   }
 
   /// @dev utility function for the receivePurchase function. returns the lower number
@@ -277,11 +271,6 @@ library EvenDistroCrowdsaleLib {
     uint256 _remainder; //temp calc holder
     uint256 _allowedWei;  // tells how much more the buyer can contribute up to their cap
     bool err;
-
-    if((self.base.ownerBalance + _amount) > self.base.capAmount){
-      _leftoverWei = (self.base.ownerBalance + _amount) - self.base.capAmount;
-      _amount = _amount - _leftoverWei;
-    }
 
     if(self.addressTokenCap > 0) {
       //_allowedWei represents tokens first, recycle variable to prevent stack depth issues
@@ -337,16 +326,8 @@ library EvenDistroCrowdsaleLib {
 
   /*Functions "inherited" from CrowdsaleLib library*/
 
-  function setTokenExchangeRate(EvenDistroCrowdsaleStorage storage self, uint256 _exchangeRate)
-                                public
-                                returns (bool)
-  {
-    bool ok = calculateAddressTokenCap(self);
-    return self.base.setTokenExchangeRate(_exchangeRate) && ok;
-  }
-
   function setTokens(EvenDistroCrowdsaleStorage storage self) public returns (bool) {
-    bool ok = calculateAddressTokenCap(self);
+    calculateAddressTokenCap(self);
     return self.base.setTokens();
   }
 

@@ -31,15 +31,13 @@ contract EvenDistroTestTenD {
   function EvenDistroTestTenD(
     address owner,
     uint256[] saleData,
-    uint256 fallbackExchangeRate,
-    uint256 capAmountInCents,
     uint256 endTime,
     uint8 percentBurn,
     uint256 initialAddressTokenCap,
     bool staticCap,
     CrowdsaleToken token)
   {
-  	sale.init(owner, saleData, fallbackExchangeRate, capAmountInCents, endTime, percentBurn, initialAddressTokenCap, staticCap, token);
+  	sale.init(owner, saleData, endTime, percentBurn, initialAddressTokenCap, staticCap, token);
   }
 
   event LogTokensBought(address buyer, uint256 amount);
@@ -49,7 +47,7 @@ contract EvenDistroTestTenD {
   event LogRegError(address user, string Msg);
   event LogAddressTokenCapChange(uint256 amount, string Msg);
   event LogTokenPriceChange(uint256 amount, string Msg);
-  event LogAddressTokenCapCalculated(uint256 saleCap, uint256 numRegistered, uint256 cap, string Msg);
+  event LogAddressTokenCapCalculated(uint256 numRegistered, uint256 cap, string Msg);
   event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);
   event LogWeiWithdrawn(address indexed _bidder, uint256 Amount);
   event LogOwnerEthWithdrawn(address indexed owner, uint256 amount, string Msg);
@@ -104,10 +102,6 @@ contract EvenDistroTestTenD {
   	return sale.crowdsaleEnded();
   }
 
-  function setTokenExchangeRate(uint256 _exchangeRate) returns (bool) {
-    return sale.setTokenExchangeRate(_exchangeRate);
-  }
-
   function setTokens() returns (bool) {
     return sale.setTokens();
   }
@@ -118,14 +112,6 @@ contract EvenDistroTestTenD {
 
   function getTokensPerEth() constant returns (uint256) {
     return sale.base.tokensPerEth;
-  }
-
-  function getExchangeRate() constant returns (uint256) {
-    return sale.base.exchangeRate;
-  }
-
-  function getCapAmount() constant returns (uint256) {
-    return sale.base.capAmount;
   }
 
   function getStartTime() constant returns (uint256) {

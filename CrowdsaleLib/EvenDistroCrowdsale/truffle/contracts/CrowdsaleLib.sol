@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
  * @title CrowdsaleLib
  * @author Modular Inc, https://modular.network
  *
- * version 2.1.1
+ * version 2.2.1
  * Copyright (c) 2017 Majoolr, LLC
  * The MIT License (MIT)
  * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
@@ -39,18 +39,14 @@ library CrowdsaleLib {
   	address owner;     //owner of the crowdsale
 
   	uint256 tokensPerEth;  //number of tokens received per ether
-  	uint256 capAmount; //Maximum amount to be raised in wei
   	uint256 startTime; //ICO start time, timestamp
   	uint256 endTime; //ICO end time, timestamp automatically calculated
-    uint256 exchangeRate; //cents/ETH exchange rate at the time of the sale
     uint256 ownerBalance; //owner wei Balance
     uint256 startingTokenBalance; //initial amount of tokens for sale
     uint256[] milestoneTimes; //Array of timestamps when token price and address cap changes
     uint8 currentMilestone; //Pointer to the current milestone
-    uint8 tokenDecimals; //stored token decimals for calculation later
     uint8 percentBurn; //percentage of extra tokens to burn
     bool tokensSet; //true if tokens have been prepared for crowdsale
-    bool rateSet; //true if exchange rate has been set
 
     //Maps timestamp to token price and address purchase cap starting at that time
     mapping (uint256 => uint256[2]) saleData;
@@ -86,41 +82,31 @@ library CrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
   /// @param _saleData Array of 3 item sets such that, in each 3 element
-  /// set, 1 is timestamp, 2 is price in cents at that time,
+  /// set, 1 is timestamp, 2 is price in tokens/eth at that time,
   /// 3 is address token purchase cap at that time, 0 if no address cap
-  /// @param _fallbackExchangeRate Exchange rate of cents/ETH
-  /// @param _capAmountInCents Total to be raised in cents
   /// @param _endTime Timestamp of sale end time
   /// @param _percentBurn Percentage of extra tokens to burn
   /// @param _token Token being sold
   function init(CrowdsaleStorage storage self,
                 address _owner,
                 uint256[] _saleData,
-                uint256 _fallbackExchangeRate,
-                uint256 _capAmountInCents,
                 uint256 _endTime,
                 uint8 _percentBurn,
                 CrowdsaleToken _token)
                 public
   {
-  	require(self.capAmount == 0);
   	require(self.owner == 0);
     require(_saleData.length > 0);
     require((_saleData.length%3) == 0); // ensure saleData is 3-item sets
     require(_saleData[0] > (now + 2 hours));
     require(_endTime > _saleData[0]);
-    require(_capAmountInCents > 0);
     require(_owner > 0);
-    require(_fallbackExchangeRate > 0);
     require(_percentBurn <= 100);
     self.owner = _owner;
-    self.capAmount = ((_capAmountInCents/_fallbackExchangeRate) + 1)*(10**18);
     self.startTime = _saleData[0];
     self.endTime = _endTime;
     self.token = _token;
-    self.tokenDecimals = _token.decimals();
     self.percentBurn = _percentBurn;
-    self.exchangeRate = _fallbackExchangeRate;
 
     uint256 _tempTime;
     for(uint256 i = 0; i < _saleData.length; i += 3){
@@ -233,64 +219,27 @@ library CrowdsaleLib {
 
   /// @dev Function to change the price of the token
   /// @param self Stored crowdsale from crowdsale contract
-  /// @param _newPrice new token price (amount of tokens per ether)
+  /// @param _tokensPerEth new token price (amount of tokens per ether)
   /// @return true if the token price changed successfully
   function changeTokenPrice(CrowdsaleStorage storage self,
-                            uint256 _newPrice)
+                            uint256 _tokensPerEth)
                             internal
                             returns (bool)
   {
-  	require(_newPrice > 0);
+  	require(_tokensPerEth > 0);
 
-    bool err;
-    uint256 result;
-
-    (err, result) = self.exchangeRate.times(10**uint256(self.tokenDecimals));
-    require(!err);
-
-    self.tokensPerEth = result / _newPrice;
+    self.tokensPerEth = _tokensPerEth;
 
     return true;
   }
 
-  /// @dev function that is called three days before the sale to set the token and price
-  /// @param self Stored Crowdsale from crowdsale contract
-  /// @param _exchangeRate  ETH exchange rate expressed in cents/ETH
-  /// @return true if the exchange rate has been set
-  function setTokenExchangeRate(CrowdsaleStorage storage self, uint256 _exchangeRate)
-                                public
-                                returns (bool)
-  {
-    require(msg.sender == self.owner);
-    require((now > (self.startTime - 3 days)) && (now < (self.startTime)));
-    require(!self.rateSet);   // the exchange rate can only be set once!
-    require(self.token.balanceOf(this) > 0);
-    require(_exchangeRate > 0);
-
-    uint256 _capAmountInCents;
-    bool err;
-
-    (err, _capAmountInCents) = self.exchangeRate.times(self.capAmount);
-    require(!err);
-
-    self.exchangeRate = _exchangeRate;
-    self.capAmount = (_capAmountInCents/_exchangeRate) + 1;
-    changeTokenPrice(self,self.saleData[self.milestoneTimes[0]][0]);
-    self.rateSet = true;
-
-    err = !(setTokens(self));
-    require(!err);
-
-    LogNoticeMsg(msg.sender,self.tokensPerEth,"Owner has set the exchange Rate and tokens bought per ETH!");
-    return true;
-  }
-
-  /// @dev fallback function to set tokens if the exchange rate function was not called
+  /// @dev function to set tokens for the sale
   /// @param self Stored Crowdsale from crowdsale contract
   /// @return true if tokens set successfully
   function setTokens(CrowdsaleStorage storage self) public returns (bool) {
-    require((msg.sender == self.owner) || (msg.sender == address(this)));
+    require(msg.sender == self.owner);
     require(!self.tokensSet);
+    require(now < self.endTime);
 
     uint256 _tokenBalance;
 
