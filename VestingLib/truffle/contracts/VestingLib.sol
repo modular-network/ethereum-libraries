@@ -296,14 +296,10 @@ library VestingLib {
 
     // multiply that by the percentage released every interval
     // calculate the amount released by this time
-    uint256 _amountReleased = (_numIntervals*self.percentPerInterval)*self.holdingAmount[_beneficiary][0]/100;
+    uint256 _amountReleased = ((_numIntervals*self.percentPerInterval)*self.holdingAmount[_beneficiary][0])/100;
 
     // subtract the amount that has already been withdrawn
     (err, _amountReleased) = _amountReleased.minus(self.hasWithdrawn[_beneficiary]);
-    require(_amountReleased > 0);
-
-    // update the amount that the sender has withdrawn
-    self.hasWithdrawn[_beneficiary] += _amountReleased;
 
     return _amountReleased;
   }
@@ -314,15 +310,15 @@ library VestingLib {
     require(now > self.startTime);
     require(!self.isToken);
     bool ok;
+    bool err;
     uint256 _withdrawAmount;
 
     if((now < self.endTime) && (self.holdingAmount[msg.sender][1] > 0)){
       // if there is a bonus and it's before the endTime, cancel the bonus
-      _withdrawAmount = self.holdingAmount[msg.sender][0];
+      _withdrawAmount = calculateWithdrawal(self, msg.sender);
       uint256 _bonusAmount = self.holdingAmount[msg.sender][1];
-      self.holdingAmount[msg.sender][0] = 0;
+      //self.holdingAmount[msg.sender][0] = 0;
       self.holdingAmount[msg.sender][1] = 0;
-      self.hasWithdrawn[msg.sender] += _withdrawAmount;
 
       // add bonus eth back into the contract balance
       self.contractBalance += _bonusAmount;
@@ -331,16 +327,17 @@ library VestingLib {
         // if it's past the endTime then send everything left
         _withdrawAmount = self.holdingAmount[msg.sender][0] + self.holdingAmount[msg.sender][1];
         (ok, _withdrawAmount) = _withdrawAmount.minus(self.hasWithdrawn[msg.sender]);
-        require(ok);
+        require(!err);
 
         self.holdingAmount[msg.sender][0] = 0;
         self.holdingAmount[msg.sender][1] = 0;
-        self.hasWithdrawn[msg.sender] += _withdrawAmount;
       } else {
         // if we're here then it's before the endTime and no bonus, need to calculate
         _withdrawAmount = calculateWithdrawal(self, msg.sender);
       }
     }
+
+    self.hasWithdrawn[msg.sender] += _withdrawAmount;
 
     // transfer ETH to the sender
     msg.sender.transfer(_withdrawAmount);
@@ -356,15 +353,15 @@ library VestingLib {
     require(now > self.startTime);
     require(self.isToken);
     bool ok;
+    bool err;
     uint256 _withdrawAmount;
 
     if((now < self.endTime) && (self.holdingAmount[msg.sender][1] > 0)){
       // if there is a bonus and it's before the endTime, cancel the bonus and send tokens
-      _withdrawAmount = self.holdingAmount[msg.sender][0];
+      _withdrawAmount = calculateWithdrawal(self, msg.sender);
       uint256 _bonusAmount = self.holdingAmount[msg.sender][1];
-      self.holdingAmount[msg.sender][0] = 0;
+
       self.holdingAmount[msg.sender][1] = 0;
-      self.hasWithdrawn[msg.sender] += _withdrawAmount;
       ok = token.burnToken(_bonusAmount);
       require(ok);
     } else {
@@ -372,16 +369,17 @@ library VestingLib {
         // if it's past the endTime then send everything left
         _withdrawAmount = self.holdingAmount[msg.sender][0] + self.holdingAmount[msg.sender][1];
         (ok, _withdrawAmount) = _withdrawAmount.minus(self.hasWithdrawn[msg.sender]);
-        require(ok);
+        require(!err);
 
         self.holdingAmount[msg.sender][0] = 0;
         self.holdingAmount[msg.sender][1] = 0;
-        self.hasWithdrawn[msg.sender] += _withdrawAmount;
       } else {
         // if we're here then it's before the endTime and no bonus, need to calculate
         _withdrawAmount = calculateWithdrawal(self, msg.sender);
       }
     }
+
+    self.hasWithdrawn[msg.sender] += _withdrawAmount;
 
     // transfer tokens to the sender
     ok = token.transfer(msg.sender, _withdrawAmount);
@@ -399,15 +397,15 @@ library VestingLib {
     require(msg.sender == self.owner);
     require(!self.isToken);
     bool ok;
+    bool err;
     uint256 _withdrawAmount;
 
     if((now < self.endTime) && (self.holdingAmount[_beneficiary][1] > 0)){
       // if there is a bonus and it's before the endTime, cancel the bonus
-      _withdrawAmount = self.holdingAmount[_beneficiary][0];
+      _withdrawAmount = calculateWithdrawal(self, _beneficiary);
       uint256 _bonusAmount = self.holdingAmount[_beneficiary][1];
-      self.holdingAmount[_beneficiary][0] = 0;
+
       self.holdingAmount[_beneficiary][1] = 0;
-      self.hasWithdrawn[_beneficiary] += _withdrawAmount;
 
       // add bonus eth back into the contract balance
       self.contractBalance += _bonusAmount;
@@ -416,16 +414,17 @@ library VestingLib {
         // if it's past the endTime then send everything left
         _withdrawAmount = self.holdingAmount[_beneficiary][0] + self.holdingAmount[_beneficiary][1];
         (ok, _withdrawAmount) = _withdrawAmount.minus(self.hasWithdrawn[_beneficiary]);
-        require(ok);
+        require(!err);
 
         self.holdingAmount[_beneficiary][0] = 0;
         self.holdingAmount[_beneficiary][1] = 0;
-        self.hasWithdrawn[_beneficiary] += _withdrawAmount;
       } else {
         // if we're here then it's before the endTime and no bonus, need to calculate
         _withdrawAmount = calculateWithdrawal(self, _beneficiary);
       }
     }
+
+    self.hasWithdrawn[_beneficiary] += _withdrawAmount;
 
     // transfer ETH to the _beneficiary
     _beneficiary.transfer(_withdrawAmount);
@@ -443,33 +442,32 @@ library VestingLib {
     require(msg.sender == self.owner);
     require(self.isToken);
     bool ok;
+    bool err;
     uint256 _withdrawAmount;
 
     if((now < self.endTime) && (self.holdingAmount[_beneficiary][1] > 0)){
       // if there is a bonus and it's before the endTime, cancel the bonus
-      _withdrawAmount = self.holdingAmount[_beneficiary][0];
+      _withdrawAmount = calculateWithdrawal(self, _beneficiary);
       uint256 _bonusAmount = self.holdingAmount[_beneficiary][1];
-      self.holdingAmount[_beneficiary][0] = 0;
-      self.holdingAmount[_beneficiary][1] = 0;
-      self.hasWithdrawn[_beneficiary] += _withdrawAmount;
-
-      // add bonus eth back into the contract balance
-      self.contractBalance += _bonusAmount;
+      
+      self.holdingAmount[msg.sender][1] = 0;
+      ok = token.burnToken(_bonusAmount);
     } else {
       if(now > self.endTime){
         // if it's past the endTime then send everything left
         _withdrawAmount = self.holdingAmount[_beneficiary][0] + self.holdingAmount[_beneficiary][1];
         (ok, _withdrawAmount) = _withdrawAmount.minus(self.hasWithdrawn[_beneficiary]);
-        require(ok);
+        require(!err);
 
         self.holdingAmount[_beneficiary][0] = 0;
         self.holdingAmount[_beneficiary][1] = 0;
-        self.hasWithdrawn[_beneficiary] += _withdrawAmount;
       } else {
         // if we're here then it's before the endTime and no bonus, need to calculate
         _withdrawAmount = calculateWithdrawal(self, _beneficiary);
       }
     }
+
+    self.hasWithdrawn[_beneficiary] += _withdrawAmount;
 
     // transfer tokens to the beneficiary
     ok = token.transfer(_beneficiary, _withdrawAmount);
@@ -484,10 +482,9 @@ library VestingLib {
   function ownerWithdrawExtraETH(VestingStorage storage self) public returns (bool) {
     require(msg.sender == self.owner);
     require(now > self.endTime);
-    require(self.contractBalance > 0);
     require(!self.isToken);
 
-    uint256 _contractBalance = self.contractBalance;
+    uint256 _contractBalance = this.balance;
     self.contractBalance = 0;
 
     self.owner.transfer(_contractBalance);
@@ -501,10 +498,9 @@ library VestingLib {
   function ownerWithdrawExtraTokens(VestingStorage storage self, CrowdsaleToken token) public returns (bool) {
     require(msg.sender == self.owner);
     require(now > self.endTime);
-    require(self.contractBalance > 0);
     require(self.isToken);
 
-    uint256 _contractBalance = self.contractBalance;
+    uint256 _contractBalance = token.balanceOf(this);
     self.contractBalance = 0;
 
     token.transfer(self.owner,_contractBalance);
@@ -514,7 +510,7 @@ library VestingLib {
   }
 
   /// @dev Returns the percentage of the vesting that has been released at the current moment
-  function getPercentReleased(VestingStorage storage self) public view returns(uint256) {
+  function getPercentReleased(VestingStorage storage self) public view returns (uint256) {
     require(now > self.startTime);
     return self.percentPerInterval * ((now-self.startTime)/self.timeInterval);
   }
