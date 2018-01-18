@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
  * @title DirectCrowdsaleLib
  * @author Modular Inc, https://modular.network
  *
- * version 2.1.1
+ * version 2.2.1
  * Copyright (c) 2017 Modular Inc
  * The MIT License (MIT)
  * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
@@ -52,18 +52,14 @@ library DirectCrowdsaleLib {
   /// @param self Stored crowdsale from crowdsale contract
   /// @param _owner Address of crowdsale owner
   /// @param _saleData Array of 3 item sets such that, in each 3 element
-  /// set, 1 is timestamp, 2 is price in cents at that time,
+  /// set, 1 is timestamp, 2 is price in tokens/ETH at that time,
   /// 3 is address purchase cap at that time, 0 if no address cap
-  /// @param _fallbackExchangeRate Exchange rate of cents/ETH
-  /// @param _capAmountInCents Total to be raised in cents
   /// @param _endTime Timestamp of sale end time
   /// @param _percentBurn Percentage of extra tokens to burn
   /// @param _token Token being sold
   function init(DirectCrowdsaleStorage storage self,
                 address _owner,
                 uint256[] _saleData,
-                uint256 _fallbackExchangeRate,
-                uint256 _capAmountInCents,
                 uint256 _endTime,
                 uint8 _percentBurn,
                 CrowdsaleToken _token)
@@ -71,8 +67,6 @@ library DirectCrowdsaleLib {
   {
   	self.base.init(_owner,
                 _saleData,
-                _fallbackExchangeRate,
-                _capAmountInCents,
                 _endTime,
                 _percentBurn,
                 _token);
@@ -110,11 +104,6 @@ library DirectCrowdsaleLib {
     uint256 _remainder; //temp calc holder
     bool err;
 
-    if((self.base.ownerBalance + _amount) > self.base.capAmount){
-      _leftoverWei = (self.base.ownerBalance + _amount) - self.base.capAmount;
-      _amount = _amount - _leftoverWei;
-    }
-
     // Find the number of tokens as a function in wei
     (err,_weiTokens) = _amount.times(self.base.tokensPerEth);
     require(!err);
@@ -122,7 +111,7 @@ library DirectCrowdsaleLib {
     _numTokens = _weiTokens / 1000000000000000000;
     _remainder = _weiTokens % 1000000000000000000;
     _remainder = _remainder / self.base.tokensPerEth;
-    _leftoverWei = _leftoverWei + _remainder;
+    _leftoverWei += _remainder;
     _amount = _amount - _remainder;
     self.base.leftoverWei[msg.sender] += _leftoverWei;
 
@@ -151,13 +140,6 @@ library DirectCrowdsaleLib {
   }
 
   /*Functions "inherited" from CrowdsaleLib library*/
-
-  function setTokenExchangeRate(DirectCrowdsaleStorage storage self, uint256 _exchangeRate)
-                                public
-                                returns (bool)
-  {
-    return self.base.setTokenExchangeRate(_exchangeRate);
-  }
 
   function setTokens(DirectCrowdsaleStorage storage self) public returns (bool) {
     return self.base.setTokens();

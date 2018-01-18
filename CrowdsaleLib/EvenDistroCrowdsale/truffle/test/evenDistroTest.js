@@ -45,19 +45,15 @@ contract('EvenDistroTestEteenD', function(accounts) {
   it("should initialize the even crowdsale contract data", async () => {
       const owner = await saleContract.getOwner.call();
       const tokensPerEth = await saleContract.getTokensPerEth.call();
-      const capAmount = await saleContract.getCapAmount.call();
       const startTime = await saleContract.getStartTime.call();
       const endTime = await saleContract.getEndTime.call();
-      const exchangeRate = await saleContract.getExchangeRate.call();
       const ownerBalance = await saleContract.getEthRaised.call();
       const saleData = await saleContract.getSaleData.call(0);
       const saleDataEnd = await saleContract.getSaleData.call(endTime.valueOf());
 
       assert.equal(owner.valueOf(), accounts[5], "Owner should be set to the account 5");
-      assert.equal(tokensPerEth.valueOf(), 900000000000000000000, "Tokens per ETH should be 900000000000000000000");
-      assert.equal(capAmount.valueOf(), 201000000000000000000, "capAmount should be set to 201000000000000000000 wei");
+      assert.equal(tokensPerEth.valueOf(), 600000000000000000000, "Tokens per ETH should be 900000000000000000000");
       assert.equal(endTime.valueOf() - 2592000,startTime.valueOf(), "end time should be 30 days");
-      assert.equal(exchangeRate.valueOf(),45000, "exchangeRate should be 45000");
       assert.equal(ownerBalance.valueOf(), 0, "Amount of wei raised in the crowdsale should be zero");
   });
 
@@ -144,10 +140,10 @@ contract('EvenDistroTestEteenD', function(accounts) {
 
   });
 
-  it("moves 2 hours and sets the exchange rate", async () => {
+  it("moves 2 hours and sets the tokens", async () => {
     await time.move(web3, 7200);
     await web3.eth.sendTransaction({from: accounts[3]});
-    await saleContract.setTokenExchangeRate(45000,{from:accounts[5]});
+    await saleContract.setTokens({from:accounts[5]});
   });
 
   it("move time 3 days and 2 hours", async () => {
@@ -155,22 +151,20 @@ contract('EvenDistroTestEteenD', function(accounts) {
     await web3.eth.sendTransaction({from: accounts[3]});
   });
 
-  it("denies an exchange rate change after being set", async () => {
+  it("denies setting tokens after being set", async () => {
     try{
-      await saleContract.setTokenExchangeRate(30000,{from:accounts[5]});
+      await saleContract.setTokens({from:accounts[5]});
     } catch(e) {
       errorThrown = true;
     }
-    assert.isTrue(errorThrown, "should give an error message since the rate has been set");
+    assert.isTrue(errorThrown, "should give an error message since the tokens have been set");
     errorThrown = false;
   });
 
   it("should have set all values correctly", async () => {
-    const exchValue = await saleContract.getExchangeRate.call();
-    assert.equal(exchValue.valueOf(), 45000, "exchangeRate should have been set to 45000!");
 
     const tokensPerEth = await saleContract.getTokensPerEth.call();
-    assert.equal(tokensPerEth.valueOf(), 900000000000000000000, "tokensPerEth should have been set to 900000000000000000000!");
+    assert.equal(tokensPerEth.valueOf(), 600000000000000000000, "tokensPerEth should have been set to 600000000000000000000!");
 
     const addrCap = await saleContract.getAddressTokenCap.call();
     assert.equal(addrCap.valueOf(),
@@ -200,7 +194,7 @@ contract('EvenDistroTestEteenD', function(accounts) {
     assert.equal(contrib.valueOf(),39990000000000000000, "accounts[0] amount of wei contributed should be 39990000000000000000 wei");
 
     tokenPurchase = await saleContract.getTokenPurchase.call(accounts[0]);
-    assert.equal(tokenPurchase.valueOf(), 35991000000000000000000, "accounts[0] tokens purchased should be 35991000000000000000000");
+    assert.equal(tokenPurchase.valueOf(), 23994000000000000000000, "accounts[0] tokens purchased should be 23994000000000000000000");
 
     try{
       await saleContract.sendPurchase({from:accounts[0]});
@@ -226,7 +220,7 @@ contract('EvenDistroTestEteenD', function(accounts) {
     const l = await saleContract.getSaleData.call(1);
     console.log(l[2].valueOf());
     leftover = await saleContract.getLeftoverWei.call(accounts[2], {from:accounts[0]});
-    assert.equal(leftover.valueOf(),23555555555555555556, "should show that accounts2 has 23555555555555555556 leftover wei");
+    assert.equal(leftover.valueOf(),1333333333333333334, "should show that accounts2 has 1333333333333333334 leftover wei");
 
     withdraw = await saleContract.withdrawTokens({from:accounts[5]});
     assert.equal(withdraw.logs[0].args.Msg,
@@ -275,7 +269,7 @@ contract('EvenDistroTestEteenD', function(accounts) {
     assert.equal(unregUser.logs[0].args.Msg, 'Can only unregister users earlier than 2 hours before the sale!', "Should give an error that users cannot be unregistered close to the sale");
 
     let tokenPurchase = await saleContract.getTokenPurchase.call(accounts[0],{from:accounts[0]});
-    assert.equal(tokenPurchase.valueOf(),35991000000000000000000, "accounts[0] amount of tokens purchased should be 35991000000000000000000 tokens");
+    assert.equal(tokenPurchase.valueOf(),23994000000000000000000, "accounts[0] amount of tokens purchased should be 23994000000000000000000 tokens");
 
     tokenPurchase = await saleContract.getTokenPurchase.call(accounts[3],{from:accounts[3]});
     assert.equal(tokenPurchase.valueOf(),0,"accounts[3] should have withdrawn all tokens and should now have zero in the contract");
@@ -300,10 +294,10 @@ contract('EvenDistroTestEteenD', function(accounts) {
     assert.equal(balance.valueOf(), 160000000000000000000000,  "crowdsale's token balance should be 160000000000000000000000!");
 
     tokenPurchase = await saleContract.getTokenPurchase.call(accounts[5],{from:accounts[5]});
-    assert.equal(tokenPurchase.valueOf(),83409000000000000000400, "Owners available tokens to withdraw should be 83409000000000000000400");
+    assert.equal(tokenPurchase.valueOf(),95406000000000000000400, "Owners available tokens to withdraw should be 95406000000000000000400");
 
     const tokensSold = await saleContract.getTokensSold.call();
-    assert.equal(tokensSold.valueOf(),76590999999999999999600, "76590999999999999999600 tokens should have been sold.")
+    assert.equal(tokensSold.valueOf(),64593999999999999999600, "64593999999999999999600 tokens should have been sold.")
 
     withdraw = await saleContract.withdrawTokens({from:accounts[5]});
 
@@ -323,7 +317,7 @@ contract('EvenDistroTestEteenD', function(accounts) {
     assert.equal(initSupply.valueOf(), 50000000000000000000000000,  "The token's initial supply was 50M");
 
     const totalSupply = await token.totalSupply();
-    assert.equal(totalSupply.valueOf(), 49916590999999999999999600,  "The token's new supply is 49916590999999999999999600");
+    assert.equal(totalSupply.valueOf(), 49904593999999999999999600,  "The token's new supply is 49904593999999999999999600");
   });
 
   it("move time 7 days for the next sale", async () => {
@@ -365,18 +359,14 @@ contract('EvenDistroTestTenD', function(accounts) {
   it("should initialize the even crowdsale contract data", async () => {
       const owner = await saleContract.getOwner.call();
       const tokensPerEth = await saleContract.getTokensPerEth.call();
-      const capAmount = await saleContract.getCapAmount.call();
       const startTime = await saleContract.getStartTime.call();
       const endTime = await saleContract.getEndTime.call();
-      const exchangeRate = await saleContract.getExchangeRate.call();
       const ownerBalance = await saleContract.getEthRaised.call();
       const saleData = await saleContract.getSaleData.call(0);
       const saleDataEnd = await saleContract.getSaleData.call(endTime.valueOf());
 
       assert.equal(owner.valueOf(), accounts[0], "Owner should be set to the account 0");
       assert.equal(tokensPerEth.valueOf(), 4000000000000, "Tokens per ETH should be 4000000000000");
-      assert.equal(capAmount.valueOf(), 11000000000000000000, "capAmount should be set to 1001000000000000000000 wei");
-      assert.equal(exchangeRate.valueOf(),40000, "exchangeRate should be 40000");
       assert.equal(ownerBalance.valueOf(), 0, "Amount of wei raised in the crowdsale should be zero");
   });
 
@@ -452,23 +442,11 @@ contract('EvenDistroTestTenD', function(accounts) {
     await web3.eth.sendTransaction({from: accounts[3]});
   });
 
-  it("denies an exchange rate change after the sale started", async () => {
-    try{
-      await saleContract.setTokenExchangeRate(30000,{from:accounts[5]});
-    } catch(e) {
-      errorThrown = true;
-    }
-    assert.isTrue(errorThrown, "should give an error message since the sale has started");
-    errorThrown = false;
-  });
-
   it("should allow tokens to be set with the alternate function", async () => {
     await saleContract.setTokens({from:accounts[0]});
   });
 
   it("should have set all values correctly", async () => {
-    const exchValue = await saleContract.getExchangeRate.call();
-    assert.equal(exchValue.valueOf(), 40000, "exchangeRate should have been set to 45000!");
 
     const tokensPerEth = await saleContract.getTokensPerEth.call();
     assert.equal(tokensPerEth.valueOf(), 4000000000000, "tokensPerEth should have been set to 4000000000000!");
@@ -495,7 +473,7 @@ contract('EvenDistroTestTenD', function(accounts) {
 
     let tokenPurchase = await saleContract.sendPurchase({value:16000000000000000000,from:accounts[5]});
     withdraw = await saleContract.getLeftoverWei.call(accounts[5]);
-    assert.equal(withdraw.valueOf(),5000000000000000000, "should show that accounts5 has 5000000000000000000 leftover wei");
+    assert.equal(withdraw.valueOf(),0, "should show that accounts5 has 0 leftover wei");
 
   });
 });
