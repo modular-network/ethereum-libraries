@@ -45,7 +45,7 @@ contract('VestingLibTokenTestContract', function (accounts) {
         assert.equal(isToken.valueOf(), true, "isToken should be set to true!");
         assert.equal(numRegistered.valueOf(),0, "numRegistered should be 0!");
         assert.equal(timeInterval.valueOf(), 604800, "interval between vestings should be 6!");
-        assert.equal(percentPerInterval.valueOf(), 20, "Percentage of Tokens to be released every vesting period should be 20!");
+        assert.equal(percentPerInterval.valueOf(), 20000, "Percentage of Tokens to be released every vesting period should be 20000!");
     });
 
     it("should initialize the token balance", async () => {

@@ -105,7 +105,7 @@ library VestingLib {
     self.endTime = _endTime;
     self.timeInterval = (_endTime - _startTime)/_numReleases;
     require(self.timeInterval > 0);
-    self.percentPerInterval = 100/_numReleases;
+    self.percentPerInterval = 100000/_numReleases;
   }
 
   /// @dev function owner has to call before the vesting starts to initialize the ETH balance of the contract.
@@ -296,7 +296,7 @@ library VestingLib {
 
     // multiply that by the percentage released every interval
     // calculate the amount released by this time
-    uint256 _amountReleased = ((_numIntervals*self.percentPerInterval)*self.holdingAmount[_beneficiary][0])/100;
+    uint256 _amountReleased = ((_numIntervals*self.percentPerInterval)*self.holdingAmount[_beneficiary][0])/100000;
 
     // subtract the amount that has already been withdrawn
     (err, _amountReleased) = _amountReleased.minus(self.hasWithdrawn[_beneficiary]);
@@ -512,6 +512,6 @@ library VestingLib {
   /// @dev Returns the percentage of the vesting that has been released at the current moment
   function getPercentReleased(VestingStorage storage self) public view returns (uint256) {
     require(now > self.startTime);
-    return self.percentPerInterval * ((now-self.startTime)/self.timeInterval);
+    return (self.percentPerInterval * ((now-self.startTime)/self.timeInterval))/1000;
   }
 }
