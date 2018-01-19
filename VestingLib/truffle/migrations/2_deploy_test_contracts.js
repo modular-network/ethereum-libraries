@@ -27,13 +27,5 @@ module.exports = function(deployer, network, accounts) {
     deployer.link(VestingLib,VestingLibETHTestContract);
 
     deployer.deploy(CrowdsaleToken, accounts[5], "Tester Token", "TST", 18, 2000000000000, false, {from:accounts[5]});
-
-    let timeStart = Math.floor((new Date().valueOf())/1000) + 5;
-    let timeEnd = timeStart + 30;
-    deployer.deploy(VestingLibTokenTestContract,accounts[5],true,timeStart,timeEnd,5);
-
-    timeStart = timeEnd + 12;
-    timeEnd = timeStart + 30;
-    deployer.deploy(VestingLibETHTestContract,accounts[5],false,timeStart,timeEnd,5);
   }
 };
