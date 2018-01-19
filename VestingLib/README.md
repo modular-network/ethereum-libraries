@@ -75,7 +75,7 @@ A Vesting library [provided by Modular-Network](https://github.com/Modular-Netwo
 
 ## Library Address   
 
-**ENS**: VestingLib.majoolr.eth   
+**ENS**: VestingLib.modular.eth   
 **Main Ethereum Network**:    
 **Ropsten Test Network**:    
 **Rinkeby Test Network**:    
@@ -372,7 +372,7 @@ allows a participant to replace themselves in the vesting schedule with a new ad
 **bool**   
 
 #### withdrawETH(VestingLib.VestingStorage storage)   
-*(VestingLib.sol, line 313)*
+*(VestingLib.sol, line 309)*
 
 Allows the participants to withdraw their vested ETH, plus the bonus, if applicable
 
@@ -383,7 +383,7 @@ Allows the participants to withdraw their vested ETH, plus the bonus, if applica
 **bool**   
 
 #### withdrawTokens(VestingLib.VestingStorage storage, CrowdsaleToken)   
-*(VestingLib.sol, line 355)*
+*(VestingLib.sol, line 352)*
 
 Allows the participants to withdraw their vested tokens, plus the bonus, if applicable
 
@@ -395,7 +395,7 @@ Allows the participants to withdraw their vested tokens, plus the bonus, if appl
 **bool**   
 
 #### sendETH(VestingLib.VestingStorage storage, address)   
-*(VestingLib.sol, line 397)*
+*(VestingLib.sol, line 395)*
 
 allows the owner to send vested ETH to participants
 
@@ -407,7 +407,7 @@ allows the owner to send vested ETH to participants
 **bool**   
 
 #### sendTokens(VestingLib.VestingStorage storage, CrowdsaleToken, address)   
-*(VestingLib.sol, line 441)*
+*(VestingLib.sol, line 440)*
 
 allows the owner to send vested tokens to participants
 
@@ -420,7 +420,7 @@ allows the owner to send vested tokens to participants
 **bool**   
 
 #### ownerWithdrawExtraETH(VestingLib.VestingStorage storage)   
-*(VestingLib.sol, line 484)*
+*(VestingLib.sol, line 482)*
 
 allows the owner to withdraw any ETH left in the contract
 
@@ -431,7 +431,7 @@ allows the owner to withdraw any ETH left in the contract
 **bool**   
 
 #### ownerWithdrawExtraTokens(VestingLib.VestingStorage storage, CrowdsaleToken)   
-*(VestingLib.sol, line 501)*
+*(VestingLib.sol, line 498)*
 
 allows the owner to withdraw and tokens left in the contract
 
@@ -443,7 +443,7 @@ allows the owner to withdraw and tokens left in the contract
 **uint256**   
 
 #### getPercentReleased(VestingLib.VestingStorage storage)   
-*(VestingLib.sol, line 517)*
+*(VestingLib.sol, line 513)*
 
  Returns the percentage of the vesting that has been released at the current moment
 

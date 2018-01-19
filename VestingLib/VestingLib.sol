@@ -1,23 +1,23 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 /**
  * @title VestingLib
- * @author Majoolr.io
+ * @author Modular.network
  *
- * version 1.0.0
- * Copyright (c) 2017 Majoolr, LLC
+ * version 1.0.1
+ * Copyright (c) 2017 Modular, LLC
  * The MIT License (MIT)
- * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  *
  * Library for vesting tokens to a group of addresses.  The library only handles
  * one token at a time, with a linear vesting schedule for a set period of time
  *
- * Majoolr works on open source projects in the Ethereum community with the
+ * Modular works on open source projects in the Ethereum community with the
  * purpose of testing, documenting, and deploying reusable code onto the
- * blockchain to improve security and usability of smart contracts. Majoolr
+ * blockchain to improve security and usability of smart contracts. Modular
  * also strives to educate non-profits, schools, and other community members
  * about the application of blockchain technology.
- * For further information: majoolr.io, aragon.one
+ * For further information: modular.network
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -285,7 +285,7 @@ library VestingLib {
   /// @dev calculates the number of tokens or ETH available for the beneficiary to withdraw
   /// @param self Stored vesting from vesting contract
   /// @param _beneficiary the sender, who will be withdrawing their balance
-  function calculateWithdrawal(VestingStorage storage self, address _beneficiary) internal returns (uint256) {
+  function calculateWithdrawal(VestingStorage storage self, address _beneficiary) internal view returns (uint256) {
     require(_beneficiary != 0);
     require(self.holdingAmount[_beneficiary][0] > 0);
     require(self.numRegistered > 0);
@@ -296,14 +296,10 @@ library VestingLib {
 
     // multiply that by the percentage released every interval
     // calculate the amount released by this time
-    uint256 _amountReleased = (_numIntervals*self.percentPerInterval)*self.holdingAmount[_beneficiary][0]/100;
+    uint256 _amountReleased = ((_numIntervals*self.percentPerInterval)*self.holdingAmount[_beneficiary][0])/100;
 
     // subtract the amount that has already been withdrawn
     (err, _amountReleased) = _amountReleased.minus(self.hasWithdrawn[_beneficiary]);
-    require(_amountReleased > 0);
-
-    // update the amount that the sender has withdrawn
-    self.hasWithdrawn[_beneficiary] += _amountReleased;
 
     return _amountReleased;
   }
@@ -314,15 +310,15 @@ library VestingLib {
     require(now > self.startTime);
     require(!self.isToken);
     bool ok;
+    bool err;
     uint256 _withdrawAmount;
 
     if((now < self.endTime) && (self.holdingAmount[msg.sender][1] > 0)){
       // if there is a bonus and it's before the endTime, cancel the bonus
-      _withdrawAmount = self.holdingAmount[msg.sender][0];
+      _withdrawAmount = calculateWithdrawal(self, msg.sender);
       uint256 _bonusAmount = self.holdingAmount[msg.sender][1];
-      self.holdingAmount[msg.sender][0] = 0;
+      //self.holdingAmount[msg.sender][0] = 0;
       self.holdingAmount[msg.sender][1] = 0;
-      self.hasWithdrawn[msg.sender] += _withdrawAmount;
 
       // add bonus eth back into the contract balance
       self.contractBalance += _bonusAmount;
@@ -331,16 +327,17 @@ library VestingLib {
         // if it's past the endTime then send everything left
         _withdrawAmount = self.holdingAmount[msg.sender][0] + self.holdingAmount[msg.sender][1];
         (ok, _withdrawAmount) = _withdrawAmount.minus(self.hasWithdrawn[msg.sender]);
-        require(ok);
+        require(!err);
 
         self.holdingAmount[msg.sender][0] = 0;
         self.holdingAmount[msg.sender][1] = 0;
-        self.hasWithdrawn[msg.sender] += _withdrawAmount;
       } else {
         // if we're here then it's before the endTime and no bonus, need to calculate
         _withdrawAmount = calculateWithdrawal(self, msg.sender);
       }
     }
+
+    self.hasWithdrawn[msg.sender] += _withdrawAmount;
 
     // transfer ETH to the sender
     msg.sender.transfer(_withdrawAmount);
@@ -356,15 +353,15 @@ library VestingLib {
     require(now > self.startTime);
     require(self.isToken);
     bool ok;
+    bool err;
     uint256 _withdrawAmount;
 
     if((now < self.endTime) && (self.holdingAmount[msg.sender][1] > 0)){
       // if there is a bonus and it's before the endTime, cancel the bonus and send tokens
-      _withdrawAmount = self.holdingAmount[msg.sender][0];
+      _withdrawAmount = calculateWithdrawal(self, msg.sender);
       uint256 _bonusAmount = self.holdingAmount[msg.sender][1];
-      self.holdingAmount[msg.sender][0] = 0;
+
       self.holdingAmount[msg.sender][1] = 0;
-      self.hasWithdrawn[msg.sender] += _withdrawAmount;
       ok = token.burnToken(_bonusAmount);
       require(ok);
     } else {
@@ -372,16 +369,17 @@ library VestingLib {
         // if it's past the endTime then send everything left
         _withdrawAmount = self.holdingAmount[msg.sender][0] + self.holdingAmount[msg.sender][1];
         (ok, _withdrawAmount) = _withdrawAmount.minus(self.hasWithdrawn[msg.sender]);
-        require(ok);
+        require(!err);
 
         self.holdingAmount[msg.sender][0] = 0;
         self.holdingAmount[msg.sender][1] = 0;
-        self.hasWithdrawn[msg.sender] += _withdrawAmount;
       } else {
         // if we're here then it's before the endTime and no bonus, need to calculate
         _withdrawAmount = calculateWithdrawal(self, msg.sender);
       }
     }
+
+    self.hasWithdrawn[msg.sender] += _withdrawAmount;
 
     // transfer tokens to the sender
     ok = token.transfer(msg.sender, _withdrawAmount);
@@ -399,15 +397,15 @@ library VestingLib {
     require(msg.sender == self.owner);
     require(!self.isToken);
     bool ok;
+    bool err;
     uint256 _withdrawAmount;
 
     if((now < self.endTime) && (self.holdingAmount[_beneficiary][1] > 0)){
       // if there is a bonus and it's before the endTime, cancel the bonus
-      _withdrawAmount = self.holdingAmount[_beneficiary][0];
+      _withdrawAmount = calculateWithdrawal(self, _beneficiary);
       uint256 _bonusAmount = self.holdingAmount[_beneficiary][1];
-      self.holdingAmount[_beneficiary][0] = 0;
+
       self.holdingAmount[_beneficiary][1] = 0;
-      self.hasWithdrawn[_beneficiary] += _withdrawAmount;
 
       // add bonus eth back into the contract balance
       self.contractBalance += _bonusAmount;
@@ -416,16 +414,17 @@ library VestingLib {
         // if it's past the endTime then send everything left
         _withdrawAmount = self.holdingAmount[_beneficiary][0] + self.holdingAmount[_beneficiary][1];
         (ok, _withdrawAmount) = _withdrawAmount.minus(self.hasWithdrawn[_beneficiary]);
-        require(ok);
+        require(!err);
 
         self.holdingAmount[_beneficiary][0] = 0;
         self.holdingAmount[_beneficiary][1] = 0;
-        self.hasWithdrawn[_beneficiary] += _withdrawAmount;
       } else {
         // if we're here then it's before the endTime and no bonus, need to calculate
         _withdrawAmount = calculateWithdrawal(self, _beneficiary);
       }
     }
+
+    self.hasWithdrawn[_beneficiary] += _withdrawAmount;
 
     // transfer ETH to the _beneficiary
     _beneficiary.transfer(_withdrawAmount);
@@ -443,33 +442,32 @@ library VestingLib {
     require(msg.sender == self.owner);
     require(self.isToken);
     bool ok;
+    bool err;
     uint256 _withdrawAmount;
 
     if((now < self.endTime) && (self.holdingAmount[_beneficiary][1] > 0)){
       // if there is a bonus and it's before the endTime, cancel the bonus
-      _withdrawAmount = self.holdingAmount[_beneficiary][0];
+      _withdrawAmount = calculateWithdrawal(self, _beneficiary);
       uint256 _bonusAmount = self.holdingAmount[_beneficiary][1];
-      self.holdingAmount[_beneficiary][0] = 0;
-      self.holdingAmount[_beneficiary][1] = 0;
-      self.hasWithdrawn[_beneficiary] += _withdrawAmount;
-
-      // add bonus eth back into the contract balance
-      self.contractBalance += _bonusAmount;
+      
+      self.holdingAmount[msg.sender][1] = 0;
+      ok = token.burnToken(_bonusAmount);
     } else {
       if(now > self.endTime){
         // if it's past the endTime then send everything left
         _withdrawAmount = self.holdingAmount[_beneficiary][0] + self.holdingAmount[_beneficiary][1];
         (ok, _withdrawAmount) = _withdrawAmount.minus(self.hasWithdrawn[_beneficiary]);
-        require(ok);
+        require(!err);
 
         self.holdingAmount[_beneficiary][0] = 0;
         self.holdingAmount[_beneficiary][1] = 0;
-        self.hasWithdrawn[_beneficiary] += _withdrawAmount;
       } else {
         // if we're here then it's before the endTime and no bonus, need to calculate
         _withdrawAmount = calculateWithdrawal(self, _beneficiary);
       }
     }
+
+    self.hasWithdrawn[_beneficiary] += _withdrawAmount;
 
     // transfer tokens to the beneficiary
     ok = token.transfer(_beneficiary, _withdrawAmount);
@@ -484,14 +482,15 @@ library VestingLib {
   function ownerWithdrawExtraETH(VestingStorage storage self) public returns (bool) {
     require(msg.sender == self.owner);
     require(now > self.endTime);
-    require(self.contractBalance > 0);
     require(!self.isToken);
 
-    uint256 _contractBalance = self.contractBalance;
+    uint256 _contractBalance = this.balance;
     self.contractBalance = 0;
 
     self.owner.transfer(_contractBalance);
     LogETHWithdrawn(self.owner,_contractBalance);
+
+    return true;
   }
 
   /// @dev Allows the owner to withdraw any tokens left in the contractBalance
@@ -499,17 +498,19 @@ library VestingLib {
   function ownerWithdrawExtraTokens(VestingStorage storage self, CrowdsaleToken token) public returns (bool) {
     require(msg.sender == self.owner);
     require(now > self.endTime);
-    require(self.contractBalance > 0);
     require(self.isToken);
 
-    uint256 _contractBalance = self.contractBalance;
+    uint256 _contractBalance = token.balanceOf(this);
     self.contractBalance = 0;
 
     token.transfer(self.owner,_contractBalance);
     LogTokensWithdrawn(self.owner,_contractBalance);
+
+    return true;
   }
 
-  function getPercentReleased(VestingStorage storage self) public view returns(uint256) {
+  /// @dev Returns the percentage of the vesting that has been released at the current moment
+  function getPercentReleased(VestingStorage storage self) public view returns (uint256) {
     require(now > self.startTime);
     return self.percentPerInterval * ((now-self.startTime)/self.timeInterval);
   }

@@ -9,12 +9,12 @@ import "./TokenLib.sol";
  * Based on code by FirstBlood:
  * https://github.com/Firstbloodio/token/blob/master/smart_contract/FirstBloodToken.sol
  *
- * Majoolr provides smart contract services and security reviews for contract
+ * Modular provides smart contract services and security reviews for contract
  * deployments in addition to working on open source projects in the Ethereum
  * community. Our purpose is to test, document, and deploy reusable code onto the
  * blockchain and improve both security and usability. We also educate non-profits,
  * schools, and other community members about the application of blockchain
- * technology. For further information: majoolr.io
+ * technology. For further information: modular.network
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF

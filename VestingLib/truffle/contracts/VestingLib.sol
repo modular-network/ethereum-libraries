@@ -2,22 +2,22 @@ pragma solidity ^0.4.18;
 
 /**
  * @title VestingLib
- * @author Majoolr.io
+ * @author Modular.network
  *
  * version 1.0.1
- * Copyright (c) 2017 Majoolr, LLC
+ * Copyright (c) 2017 Modular, LLC
  * The MIT License (MIT)
- * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  *
  * Library for vesting tokens to a group of addresses.  The library only handles
  * one token at a time, with a linear vesting schedule for a set period of time
  *
- * Majoolr works on open source projects in the Ethereum community with the
+ * Modular works on open source projects in the Ethereum community with the
  * purpose of testing, documenting, and deploying reusable code onto the
- * blockchain to improve security and usability of smart contracts. Majoolr
+ * blockchain to improve security and usability of smart contracts. Modular
  * also strives to educate non-profits, schools, and other community members
  * about the application of blockchain technology.
- * For further information: majoolr.io, aragon.one
+ * For further information: modular.network
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -285,7 +285,7 @@ library VestingLib {
   /// @dev calculates the number of tokens or ETH available for the beneficiary to withdraw
   /// @param self Stored vesting from vesting contract
   /// @param _beneficiary the sender, who will be withdrawing their balance
-  function calculateWithdrawal(VestingStorage storage self, address _beneficiary) internal returns (uint256) {
+  function calculateWithdrawal(VestingStorage storage self, address _beneficiary) internal view returns (uint256) {
     require(_beneficiary != 0);
     require(self.holdingAmount[_beneficiary][0] > 0);
     require(self.numRegistered > 0);
