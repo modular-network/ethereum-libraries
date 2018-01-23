@@ -3,3 +3,4 @@
 **/coverage.json
 **/coverage
 .vscode
+.DS_Store

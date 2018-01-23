@@ -3,7 +3,7 @@ Modular Libraries
 
 [![Build Status](https://travis-ci.org/Modular-Network/ethereum-libraries.svg?branch=master)](https://travis-ci.org/Modular-Network/ethereum-libraries)
 [![codecov](https://codecov.io/gh/Modular-Network/ethereum-libraries/branch/master/graph/badge.svg)](https://codecov.io/gh/Modular-Network/ethereum-libraries)
-[![Join the chat at https://gitter.im/Majoolr/EthereumLibraries](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Modular-Network/EthereumLibraries?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/Modular-Network/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Modular-Network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/crxYSF2)   
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/Modular-Network/ethereum-libraries.svg?columns=all)](https://waffle.io/Modular-Network/ethereum-libraries)
 
@@ -54,10 +54,10 @@ The README in each library contains the Rinkeby, Ropsten, and Mainnet address of
 Feedback, bug reports, library submissions, collaborations, and contributions are all welcome! We will be rewarding contributions so please do not hesitate to reach out to us.
 
 ### Feedback and Bug Reports
-If you have feedback about our libraries or questions about our documentation, or find a bug in our code, please contact us as soon as possible at contact@majoolr.io or reach out to us on on Gitter or Discord channel.  Significant contributions will be rewarded.
+If you have feedback about our libraries or questions about our documentation, or find a bug in our code, please contact us as soon as possible at contact@modular.network or reach out to us on on Gitter or Discord channel.  Significant contributions will be rewarded.
 
 ### Collaborations
-As part of the global Ethereum/Blockchain community, we at Modular want to do our part in supporting fellow projects and enthusiasts in the community.  If you need an audit, advice, help building a secure ICO or Ethereum Dapp, or any other type of collaboration, please get in touch at contact@majoolr.io where we can discuss the collaboration. 
+As part of the global Ethereum/Blockchain community, we at Modular want to do our part in supporting fellow projects and enthusiasts in the community.  If you need an audit, advice, help building a secure ICO or Ethereum Dapp, or any other type of collaboration, please get in touch at contact@modular.network where we can discuss the collaboration.
 
 ### Code Contributions
 If you see an issue in our repo or a piece of code in our Libraries you want to improve, please don't hesitate to dive in.  We welcome help in any form and are more than willing to offer our assistance to developers who want to contribute to documentation, code fixes, or even new libraries or functionality!  We ask that you follow a few guidelines when making changes to the repo:
