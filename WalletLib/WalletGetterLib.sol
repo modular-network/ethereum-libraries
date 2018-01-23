@@ -2,10 +2,10 @@ pragma solidity 0.4.18;
 
 /**
  * @title Wallet Getter Library
- * @author Modular.network
+ * @author Modular Inc, https://modular.network
  *
  * version 1.1.0
- * Copyright (c) 2017 Modular, LLC
+ * Copyright (c) 2017 Modular, Inc
  * The MIT License (MIT)
  * https://github.com/Modular-network/ethereum-libraries/blob/master/LICENSE
  *
