@@ -1,0 +1,4778 @@
+{
+  "contractName": "VestingLibETHTestContract",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getTimeInterval",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_beneficiary",
+          "type": "address"
+        }
+      ],
+      "name": "sendETH",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_registrant",
+          "type": "address"
+        }
+      ],
+      "name": "unregisterUser",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_registrant",
+          "type": "address"
+        },
+        {
+          "name": "_vestAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "_bonus",
+          "type": "uint256"
+        }
+      ],
+      "name": "registerUser",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_participant",
+          "type": "address"
+        }
+      ],
+      "name": "getBonusAmount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getEndTime",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "vesting",
+      "outputs": [
+        {
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "name": "totalSupply",
+          "type": "uint256"
+        },
+        {
+          "name": "contractBalance",
+          "type": "uint256"
+        },
+        {
+          "name": "isToken",
+          "type": "bool"
+        },
+        {
+          "name": "startTime",
+          "type": "uint256"
+        },
+        {
+          "name": "endTime",
+          "type": "uint256"
+        },
+        {
+          "name": "numRegistered",
+          "type": "uint256"
+        },
+        {
+          "name": "timeInterval",
+          "type": "uint256"
+        },
+        {
+          "name": "percentPerInterval",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getIsToken",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "ownerWithdrawExtraETH",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getNumRegistered",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getContractBalance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_replacementRegistrant",
+          "type": "address"
+        }
+      ],
+      "name": "swapRegistration",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getOwner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_participant",
+          "type": "address"
+        }
+      ],
+      "name": "getHasWithdrawn",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getPercentReleased",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_participant",
+          "type": "address"
+        }
+      ],
+      "name": "getVestingAmount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getTotalSupply",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getStartTime",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_registrants",
+          "type": "address[]"
+        },
+        {
+          "name": "_vestAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "_bonus",
+          "type": "uint256"
+        }
+      ],
+      "name": "registerUsers",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdrawETH",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_registrants",
+          "type": "address[]"
+        }
+      ],
+      "name": "unregisterUsers",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "initializeETHBalance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getPercentPerInterval",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "name": "_isToken",
+          "type": "bool"
+        },
+        {
+          "name": "_startTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_endTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_numReleases",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "Msg",
+          "type": "string"
+        }
+      ],
+      "name": "LogErrorMsg",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "registrant",
+          "type": "address"
+        }
+      ],
+      "name": "LogUserRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "registrant",
+          "type": "address"
+        }
+      ],
+      "name": "LogUserUnRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "currentRegistrant",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "newRegistrant",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amountWithdrawn",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogRegistrationReplaced",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "beneficiary",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogETHWithdrawn",
+      "type": "event"
+    }
+  ],
+  "bytecode": "0x6060604052341561000f57600080fd5b60405160a08061122883398101604052808051906020019091908051906020019091908051906020019091908051906020019091908051906020019091905050600073__VestingLib____________________________6367c2049a909187878787876040518763ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200185151515158152602001848152602001838152602001828152602001965050505050505060006040518083038186803b151561011457600080fd5b6102c65a03f4151561012557600080fd5b50505050505050506110ec8061013c6000396000f300606060405260043610610133576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806303a827121461013557806321b1e5f81461015e57806321f2ca3b146101af5780633c127736146102005780633e45a29914610263578063439f5ac2146102b057806344c63eec146102d9578063501421bf1461036a578063569820b814610397578063674b81e6146103c45780636f9fb98a146103ed578063893bb75914610416578063893d20e8146104675780639b5ff407146104bc5780639cfd81f614610509578063a3fe795014610532578063c4e41b221461057f578063c828371e146105a8578063d64acab1146105d1578063e086e5ec14610655578063e42d6efa14610682578063e6a5789a146106f4578063fead24be14610716575b005b341561014057600080fd5b61014861073f565b6040518082815260200191505060405180910390f35b341561016957600080fd5b610195600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061074b565b604051808215151515815260200191505060405180910390f35b34156101ba57600080fd5b6101e6600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610818565b604051808215151515815260200191505060405180910390f35b341561020b57600080fd5b610249600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080359060200190919080359060200190919050506108e5565b604051808215151515815260200191505060405180910390f35b341561026e57600080fd5b61029a600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506109c4565b6040518082815260200191505060405180910390f35b34156102bb57600080fd5b6102c3610a1e565b6040518082815260200191505060405180910390f35b34156102e457600080fd5b6102ec610a2a565b604051808a73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200189815260200188815260200187151515158152602001868152602001858152602001848152602001838152602001828152602001995050505050505050505060405180910390f35b341561037557600080fd5b61037d610a93565b604051808215151515815260200191505060405180910390f35b34156103a257600080fd5b6103aa610aac565b604051808215151515815260200191505060405180910390f35b34156103cf57600080fd5b6103d7610b43565b6040518082815260200191505060405180910390f35b34156103f857600080fd5b610400610b4f565b6040518082815260200191505060405180910390f35b341561042157600080fd5b61044d600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610b5b565b604051808215151515815260200191505060405180910390f35b341561047257600080fd5b61047a610c28565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156104c757600080fd5b6104f3600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610c54565b6040518082815260200191505060405180910390f35b341561051457600080fd5b61051c610c9f565b6040518082815260200191505060405180910390f35b341561053d57600080fd5b610569600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610d36565b6040518082815260200191505060405180910390f35b341561058a57600080fd5b610592610d90565b6040518082815260200191505060405180910390f35b34156105b357600080fd5b6105bb610d9c565b6040518082815260200191505060405180910390f35b34156105dc57600080fd5b61063b600480803590602001908201803590602001908080602002602001604051908101604052809392919081815260200183836020028082843782019150505050505091908035906020019091908035906020019091905050610da8565b604051808215151515815260200191505060405180910390f35b341561066057600080fd5b610668610e9c565b604051808215151515815260200191505060405180910390f35b341561068d57600080fd5b6106da600480803590602001908201803590602001908080602002602001604051908101604052809392919081815260200183836020028082843782019150505050505091905050610f33565b604051808215151515815260200191505060405180910390f35b6106fc611015565b604051808215151515815260200191505060405180910390f35b341561072157600080fd5b6107296110b4565b6040518082815260200191505060405180910390f35b60008060070154905090565b60008073__VestingLib____________________________6304ab80819091846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060206040518083038186803b15156107f657600080fd5b6102c65a03f4151561080757600080fd5b505050604051805190509050919050565b60008073__VestingLib____________________________63a28541499091846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060206040518083038186803b15156108c357600080fd5b6102c65a03f415156108d457600080fd5b505050604051805190509050919050565b60008073__VestingLib____________________________63d9384d2690918686866000604051602001526040518563ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808581526020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200183815260200182815260200194505050505060206040518083038186803b15156109a057600080fd5b6102c65a03f415156109b157600080fd5b5050506040518051905090509392505050565b60008060090160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206001600281101515610a1557fe5b01549050919050565b60008060050154905090565b60008060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060010154908060020154908060030160009054906101000a900460ff16908060040154908060050154908060060154908060070154908060080154905089565b60008060030160009054906101000a900460ff16905090565b60008073__VestingLib____________________________6348e76e7490916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610b2357600080fd5b6102c65a03f41515610b3457600080fd5b50505060405180519050905090565b60008060060154905090565b60008060020154905090565b60008073__VestingLib____________________________63bd28d0619091846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060206040518083038186803b1515610c0657600080fd5b6102c65a03f41515610c1757600080fd5b505050604051805190509050919050565b60008060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b600080600a0160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008073__VestingLib____________________________63eaea41c490916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610d1657600080fd5b6102c65a03f41515610d2757600080fd5b50505060405180519050905090565b60008060090160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000600281101515610d8757fe5b01549050919050565b60008060010154905090565b60008060040154905090565b60008073__VestingLib____________________________6328d36cb490918686866000604051602001526040518563ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018085815260200180602001848152602001838152602001828103825285818151815260200191508051906020019060200280838360005b83811015610e53578082015181840152602081019050610e38565b505050509050019550505050505060206040518083038186803b1515610e7857600080fd5b6102c65a03f41515610e8957600080fd5b5050506040518051905090509392505050565b60008073__VestingLib____________________________6384dbe4d590916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610f1357600080fd5b6102c65a03f41515610f2457600080fd5b50505060405180519050905090565b60008073__VestingLib____________________________638266c55a9091846000604051602001526040518363ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018083815260200180602001828103825283818151815260200191508051906020019060200280838360005b83811015610fd0578082015181840152602081019050610fb5565b50505050905001935050505060206040518083038186803b1515610ff357600080fd5b6102c65a03f4151561100457600080fd5b505050604051805190509050919050565b60008073__VestingLib____________________________63b94aac9e9091346000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018281526020019250505060206040518083038186803b151561109457600080fd5b6102c65a03f415156110a557600080fd5b50505060405180519050905090565b600080600801549050905600a165627a7a72305820c0ad57baef9bf7cfd3abca4ede78ccbbed9a1049890055a7cf9cfe79ff33a4740029",
+  "deployedBytecode": "0x606060405260043610610133576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806303a827121461013557806321b1e5f81461015e57806321f2ca3b146101af5780633c127736146102005780633e45a29914610263578063439f5ac2146102b057806344c63eec146102d9578063501421bf1461036a578063569820b814610397578063674b81e6146103c45780636f9fb98a146103ed578063893bb75914610416578063893d20e8146104675780639b5ff407146104bc5780639cfd81f614610509578063a3fe795014610532578063c4e41b221461057f578063c828371e146105a8578063d64acab1146105d1578063e086e5ec14610655578063e42d6efa14610682578063e6a5789a146106f4578063fead24be14610716575b005b341561014057600080fd5b61014861073f565b6040518082815260200191505060405180910390f35b341561016957600080fd5b610195600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061074b565b604051808215151515815260200191505060405180910390f35b34156101ba57600080fd5b6101e6600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610818565b604051808215151515815260200191505060405180910390f35b341561020b57600080fd5b610249600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080359060200190919080359060200190919050506108e5565b604051808215151515815260200191505060405180910390f35b341561026e57600080fd5b61029a600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506109c4565b6040518082815260200191505060405180910390f35b34156102bb57600080fd5b6102c3610a1e565b6040518082815260200191505060405180910390f35b34156102e457600080fd5b6102ec610a2a565b604051808a73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200189815260200188815260200187151515158152602001868152602001858152602001848152602001838152602001828152602001995050505050505050505060405180910390f35b341561037557600080fd5b61037d610a93565b604051808215151515815260200191505060405180910390f35b34156103a257600080fd5b6103aa610aac565b604051808215151515815260200191505060405180910390f35b34156103cf57600080fd5b6103d7610b43565b6040518082815260200191505060405180910390f35b34156103f857600080fd5b610400610b4f565b6040518082815260200191505060405180910390f35b341561042157600080fd5b61044d600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610b5b565b604051808215151515815260200191505060405180910390f35b341561047257600080fd5b61047a610c28565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156104c757600080fd5b6104f3600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610c54565b6040518082815260200191505060405180910390f35b341561051457600080fd5b61051c610c9f565b6040518082815260200191505060405180910390f35b341561053d57600080fd5b610569600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610d36565b6040518082815260200191505060405180910390f35b341561058a57600080fd5b610592610d90565b6040518082815260200191505060405180910390f35b34156105b357600080fd5b6105bb610d9c565b6040518082815260200191505060405180910390f35b34156105dc57600080fd5b61063b600480803590602001908201803590602001908080602002602001604051908101604052809392919081815260200183836020028082843782019150505050505091908035906020019091908035906020019091905050610da8565b604051808215151515815260200191505060405180910390f35b341561066057600080fd5b610668610e9c565b604051808215151515815260200191505060405180910390f35b341561068d57600080fd5b6106da600480803590602001908201803590602001908080602002602001604051908101604052809392919081815260200183836020028082843782019150505050505091905050610f33565b604051808215151515815260200191505060405180910390f35b6106fc611015565b604051808215151515815260200191505060405180910390f35b341561072157600080fd5b6107296110b4565b6040518082815260200191505060405180910390f35b60008060070154905090565b60008073__VestingLib____________________________6304ab80819091846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060206040518083038186803b15156107f657600080fd5b6102c65a03f4151561080757600080fd5b505050604051805190509050919050565b60008073__VestingLib____________________________63a28541499091846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060206040518083038186803b15156108c357600080fd5b6102c65a03f415156108d457600080fd5b505050604051805190509050919050565b60008073__VestingLib____________________________63d9384d2690918686866000604051602001526040518563ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808581526020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200183815260200182815260200194505050505060206040518083038186803b15156109a057600080fd5b6102c65a03f415156109b157600080fd5b5050506040518051905090509392505050565b60008060090160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206001600281101515610a1557fe5b01549050919050565b60008060050154905090565b60008060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060010154908060020154908060030160009054906101000a900460ff16908060040154908060050154908060060154908060070154908060080154905089565b60008060030160009054906101000a900460ff16905090565b60008073__VestingLib____________________________6348e76e7490916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610b2357600080fd5b6102c65a03f41515610b3457600080fd5b50505060405180519050905090565b60008060060154905090565b60008060020154905090565b60008073__VestingLib____________________________63bd28d0619091846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060206040518083038186803b1515610c0657600080fd5b6102c65a03f41515610c1757600080fd5b505050604051805190509050919050565b60008060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b600080600a0160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008073__VestingLib____________________________63eaea41c490916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610d1657600080fd5b6102c65a03f41515610d2757600080fd5b50505060405180519050905090565b60008060090160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000600281101515610d8757fe5b01549050919050565b60008060010154905090565b60008060040154905090565b60008073__VestingLib____________________________6328d36cb490918686866000604051602001526040518563ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018085815260200180602001848152602001838152602001828103825285818151815260200191508051906020019060200280838360005b83811015610e53578082015181840152602081019050610e38565b505050509050019550505050505060206040518083038186803b1515610e7857600080fd5b6102c65a03f41515610e8957600080fd5b5050506040518051905090509392505050565b60008073__VestingLib____________________________6384dbe4d590916000604051602001526040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b1515610f1357600080fd5b6102c65a03f41515610f2457600080fd5b50505060405180519050905090565b60008073__VestingLib____________________________638266c55a9091846000604051602001526040518363ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018083815260200180602001828103825283818151815260200191508051906020019060200280838360005b83811015610fd0578082015181840152602081019050610fb5565b50505050905001935050505060206040518083038186803b1515610ff357600080fd5b6102c65a03f4151561100457600080fd5b505050604051805190509050919050565b60008073__VestingLib____________________________63b94aac9e9091346000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018281526020019250505060206040518083038186803b151561109457600080fd5b6102c65a03f415156110a557600080fd5b50505060405180519050905090565b600080600801549050905600a165627a7a72305820c0ad57baef9bf7cfd3abca4ede78ccbbed9a1049890055a7cf9cfe79ff33a4740029",
+  "sourceMap": "54:3669:5:-;;;801:293;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1023:7;:12;;;;1036:6;1044:8;1054:10;1066:8;1076:12;1023:66;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;801:293;;;;;54:3669;;;;;;",
+  "deployedSourceMap": "54:3669:5:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2998:95;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2107:108;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1615:120;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1253:174;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3589:132;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2808:85;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;144:40;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2629:82;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2219:104;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2897:97;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2524:101;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1869:146;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2342:81;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3318:129;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3208:106;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3451:134;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2427:93;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2715:89;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1431:180;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2019:84;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1739:126;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1130:119;;;;;;;;;;;;;;;;;;;;;;;;;;;3097:107;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2998:95;3046:7;3068;:20;;;3061:27;;2998:95;:::o;2107:108::-;2162:4;2181:7;:15;;;;2197:12;2181:29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2174:36;;2107:108;;;:::o;1615:120::-;1676:4;1695:7;:22;;;;1718:11;1695:35;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1688:42;;1615:120;;;:::o;1253:174::-;1349:4;1368:7;:20;;;;1389:11;1402;1415:6;1368:54;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1361:61;;1253:174;;;;;:::o;3589:132::-;3656:7;3678;:21;;:35;3700:12;3678:35;;;;;;;;;;;;;;;3714:1;3678:38;;;;;;;;;;;3671:45;;3589:132;;;:::o;2808:85::-;2851:7;2873;:15;;;2866:22;;2808:85;:::o;144:40::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;2629:82::-;2672:4;2691:7;:15;;;;;;;;;;;;2684:22;;2629:82;:::o;2219:104::-;2268:4;2287:7;:29;;;;:31;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2280:38;;2219:104;:::o;2897:97::-;2946:7;2968;:21;;;2961:28;;2897:97;:::o;2524:101::-;2575:7;2597;:23;;;2590:30;;2524:101;:::o;1869:146::-;1943:4;1962:7;:24;;;;1987:22;1962:48;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1955:55;;1869:146;;;:::o;2342:81::-;2383:7;2405;:13;;;;;;;;;;;;2398:20;;2342:81;:::o;3318:129::-;3386:7;3408;:20;;:34;3429:12;3408:34;;;;;;;;;;;;;;;;3401:41;;3318:129;;;:::o;3208:106::-;3259:7;3281;:26;;;;:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3274:35;;3208:106;:::o;3451:134::-;3520:7;3542;:21;;:35;3564:12;3542:35;;;;;;;;;;;;;;;3578:1;3542:38;;;;;;;;;;;3535:45;;3451:134;;;:::o;2427:93::-;2474:7;2496;:19;;;2489:26;;2427:93;:::o;2715:89::-;2760:7;2782;:17;;;2775:24;;2715:89;:::o;1431:180::-;1531:4;1550:7;:21;;;;1572:12;1586:11;1599:6;1550:56;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1543:63:5;;1431:180;;;;;:::o;2019:84::-;2058:4;2077:7;:19;;;;:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2070:28;;2019:84;:::o;1739:126::-;1804:4;1823:7;:23;;;;1847:12;1823:37;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1816:44:5;;1739:126;;;:::o;1130:119::-;1186:4;1205:7;:28;;;;1234:9;1205:39;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1198:46;;1130:119;:::o;3097:107::-;3151:7;3173;:26;;;3166:33;;3097:107;:::o",
+  "source": "pragma solidity ^0.4.18;\n\nimport \"./VestingLib.sol\";\n\ncontract VestingLibETHTestContract {\n  using VestingLib for VestingLib.VestingStorage;\n\n  VestingLib.VestingStorage public vesting;\n\n  // Generic Error message, error code and string\n  event LogErrorMsg(uint256 amount, string Msg);\n\n  // Logs when a user is registered in the system for vesting\n  event LogUserRegistered(address registrant);\n\n  // Logs when a user is unregistered from the system\n  event LogUserUnRegistered(address registrant);\n\n  // Logs when a user replaces themselves with a different beneficiary\n  event LogRegistrationReplaced(address currentRegistrant, address newRegistrant, uint256 amountWithdrawn);\n\n  // Logs when a user withdraws their ETH from vesting\n  event LogETHWithdrawn(address beneficiary, uint256 amount);\n\n  function VestingLibETHTestContract(\n                address _owner,\n                bool _isToken,\n                uint256 _startTime,\n                uint256 _endTime,\n                uint256 _numReleases) public\n  {\n    vesting.init(_owner, _isToken, _startTime, _endTime, _numReleases);\n  }\n\n  function() payable public {}\n\n  function initializeETHBalance() payable public returns (bool) {\n    return vesting.initializeETHBalance(msg.value);\n  }\n\n  function registerUser(address _registrant, uint256 _vestAmount, uint256 _bonus) public returns (bool) {\n    return vesting.registerUser(_registrant, _vestAmount, _bonus);\n  }\n\n  function registerUsers(address[] _registrants, uint256 _vestAmount, uint256 _bonus) public returns (bool) {\n    return vesting.registerUsers(_registrants, _vestAmount, _bonus);\n  }\n\n  function unregisterUser(address _registrant) public returns (bool) {\n    return vesting.unregisterUser(_registrant);\n  }\n\n  function unregisterUsers(address[] _registrants) public returns (bool) {\n    return vesting.unregisterUsers(_registrants);\n  }\n\n  function swapRegistration(address _replacementRegistrant) public returns (bool) {\n    return vesting.swapRegistration(_replacementRegistrant);\n  }\n\n  function withdrawETH() public returns (bool) {\n    return vesting.withdrawETH();\n  }\n\n  function sendETH(address _beneficiary) public returns (bool) {\n    return vesting.sendETH(_beneficiary);\n  }\n\n  function ownerWithdrawExtraETH() public returns (bool) {\n    return vesting.ownerWithdrawExtraETH();\n  }\n\n  /*Getters*/\n\n  function getOwner() public view returns (address) {\n    return vesting.owner;\n  }\n\n  function getTotalSupply() public view returns (uint256) {\n    return vesting.totalSupply;\n  }\n\n  function getContractBalance() public view returns (uint256) {\n    return vesting.contractBalance;\n  }\n\n  function getIsToken() public view returns (bool) {\n    return vesting.isToken;\n  }\n\n  function getStartTime() public view returns (uint256) {\n    return vesting.startTime;\n  }\n\n  function getEndTime() public view returns (uint256) {\n    return vesting.endTime;\n  }\n\n  function getNumRegistered() public view returns (uint256) {\n    return vesting.numRegistered;\n  }\n\n  function getTimeInterval() public view returns (uint256) {\n    return vesting.timeInterval;\n  }\n\n  function getPercentPerInterval() public view returns (uint256) {\n    return vesting.percentPerInterval;\n  }\n\n  function getPercentReleased() public view returns (uint256) {\n    return vesting.getPercentReleased();\n  }\n\n  function getHasWithdrawn(address _participant) public view returns (uint256) {\n    return vesting.hasWithdrawn[_participant];\n  }\n\n  function getVestingAmount(address _participant) public view returns (uint256) {\n    return vesting.holdingAmount[_participant][0];\n  }\n\n  function getBonusAmount(address _participant) public view returns (uint256) {\n    return vesting.holdingAmount[_participant][1];\n  }\n}\n",
+  "sourcePath": "/Users/joshuahannan/repository/majoolr/ethereum-libraries/VestingLib/truffle/contracts/VestingLibETHTestContract.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/Users/joshuahannan/repository/majoolr/ethereum-libraries/VestingLib/truffle/contracts/VestingLibETHTestContract.sol",
+      "exportedSymbols": {
+        "VestingLibETHTestContract": [
+          3170
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 2849,
+        "name": "PragmaDirective",
+        "src": "0:24:5"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 2848,
+          "absolutePath": "/Users/joshuahannan/repository/majoolr/ethereum-libraries/VestingLib/truffle/contracts/VestingLib.sol",
+          "file": "./VestingLib.sol",
+          "scope": 3171,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 2850,
+        "name": "ImportDirective",
+        "src": "26:26:5"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            3170
+          ],
+          "name": "VestingLibETHTestContract",
+          "scope": 3171
+        },
+        "children": [
+          {
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "VestingLib",
+                  "referencedDeclaration": 2847,
+                  "type": "library VestingLib"
+                },
+                "id": 2851,
+                "name": "UserDefinedTypeName",
+                "src": "99:10:5"
+              },
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "VestingLib.VestingStorage",
+                  "referencedDeclaration": 1081,
+                  "type": "struct VestingLib.VestingStorage storage pointer"
+                },
+                "id": 2852,
+                "name": "UserDefinedTypeName",
+                "src": "114:25:5"
+              }
+            ],
+            "id": 2853,
+            "name": "UsingForDirective",
+            "src": "93:47:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "vesting",
+              "scope": 3170,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "struct VestingLib.VestingStorage storage ref",
+              "value": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "VestingLib.VestingStorage",
+                  "referencedDeclaration": 1081,
+                  "type": "struct VestingLib.VestingStorage storage pointer"
+                },
+                "id": 2854,
+                "name": "UserDefinedTypeName",
+                "src": "144:25:5"
+              }
+            ],
+            "id": 2855,
+            "name": "VariableDeclaration",
+            "src": "144:40:5"
+          },
+          {
+            "attributes": {
+              "anonymous": false,
+              "name": "LogErrorMsg"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "amount",
+                      "scope": 2861,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2856,
+                        "name": "ElementaryTypeName",
+                        "src": "257:7:5"
+                      }
+                    ],
+                    "id": 2857,
+                    "name": "VariableDeclaration",
+                    "src": "257:14:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "Msg",
+                      "scope": 2861,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "string memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "string",
+                          "type": "string storage pointer"
+                        },
+                        "id": 2858,
+                        "name": "ElementaryTypeName",
+                        "src": "273:6:5"
+                      }
+                    ],
+                    "id": 2859,
+                    "name": "VariableDeclaration",
+                    "src": "273:10:5"
+                  }
+                ],
+                "id": 2860,
+                "name": "ParameterList",
+                "src": "256:28:5"
+              }
+            ],
+            "id": 2861,
+            "name": "EventDefinition",
+            "src": "239:46:5"
+          },
+          {
+            "attributes": {
+              "anonymous": false,
+              "name": "LogUserRegistered"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "registrant",
+                      "scope": 2865,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2862,
+                        "name": "ElementaryTypeName",
+                        "src": "375:7:5"
+                      }
+                    ],
+                    "id": 2863,
+                    "name": "VariableDeclaration",
+                    "src": "375:18:5"
+                  }
+                ],
+                "id": 2864,
+                "name": "ParameterList",
+                "src": "374:20:5"
+              }
+            ],
+            "id": 2865,
+            "name": "EventDefinition",
+            "src": "351:44:5"
+          },
+          {
+            "attributes": {
+              "anonymous": false,
+              "name": "LogUserUnRegistered"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "registrant",
+                      "scope": 2869,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2866,
+                        "name": "ElementaryTypeName",
+                        "src": "479:7:5"
+                      }
+                    ],
+                    "id": 2867,
+                    "name": "VariableDeclaration",
+                    "src": "479:18:5"
+                  }
+                ],
+                "id": 2868,
+                "name": "ParameterList",
+                "src": "478:20:5"
+              }
+            ],
+            "id": 2869,
+            "name": "EventDefinition",
+            "src": "453:46:5"
+          },
+          {
+            "attributes": {
+              "anonymous": false,
+              "name": "LogRegistrationReplaced"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "currentRegistrant",
+                      "scope": 2877,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2870,
+                        "name": "ElementaryTypeName",
+                        "src": "604:7:5"
+                      }
+                    ],
+                    "id": 2871,
+                    "name": "VariableDeclaration",
+                    "src": "604:25:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "newRegistrant",
+                      "scope": 2877,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2872,
+                        "name": "ElementaryTypeName",
+                        "src": "631:7:5"
+                      }
+                    ],
+                    "id": 2873,
+                    "name": "VariableDeclaration",
+                    "src": "631:21:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "amountWithdrawn",
+                      "scope": 2877,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2874,
+                        "name": "ElementaryTypeName",
+                        "src": "654:7:5"
+                      }
+                    ],
+                    "id": 2875,
+                    "name": "VariableDeclaration",
+                    "src": "654:23:5"
+                  }
+                ],
+                "id": 2876,
+                "name": "ParameterList",
+                "src": "603:75:5"
+              }
+            ],
+            "id": 2877,
+            "name": "EventDefinition",
+            "src": "574:105:5"
+          },
+          {
+            "attributes": {
+              "anonymous": false,
+              "name": "LogETHWithdrawn"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "beneficiary",
+                      "scope": 2883,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2878,
+                        "name": "ElementaryTypeName",
+                        "src": "760:7:5"
+                      }
+                    ],
+                    "id": 2879,
+                    "name": "VariableDeclaration",
+                    "src": "760:19:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "amount",
+                      "scope": 2883,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2880,
+                        "name": "ElementaryTypeName",
+                        "src": "781:7:5"
+                      }
+                    ],
+                    "id": 2881,
+                    "name": "VariableDeclaration",
+                    "src": "781:14:5"
+                  }
+                ],
+                "id": 2882,
+                "name": "ParameterList",
+                "src": "759:37:5"
+              }
+            ],
+            "id": 2883,
+            "name": "EventDefinition",
+            "src": "738:59:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": true,
+              "modifiers": [
+                null
+              ],
+              "name": "VestingLibETHTestContract",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_owner",
+                      "scope": 2907,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2884,
+                        "name": "ElementaryTypeName",
+                        "src": "853:7:5"
+                      }
+                    ],
+                    "id": 2885,
+                    "name": "VariableDeclaration",
+                    "src": "853:14:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_isToken",
+                      "scope": 2907,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2886,
+                        "name": "ElementaryTypeName",
+                        "src": "885:4:5"
+                      }
+                    ],
+                    "id": 2887,
+                    "name": "VariableDeclaration",
+                    "src": "885:13:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_startTime",
+                      "scope": 2907,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2888,
+                        "name": "ElementaryTypeName",
+                        "src": "916:7:5"
+                      }
+                    ],
+                    "id": 2889,
+                    "name": "VariableDeclaration",
+                    "src": "916:18:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_endTime",
+                      "scope": 2907,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2890,
+                        "name": "ElementaryTypeName",
+                        "src": "952:7:5"
+                      }
+                    ],
+                    "id": 2891,
+                    "name": "VariableDeclaration",
+                    "src": "952:16:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_numReleases",
+                      "scope": 2907,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2892,
+                        "name": "ElementaryTypeName",
+                        "src": "986:7:5"
+                      }
+                    ],
+                    "id": 2893,
+                    "name": "VariableDeclaration",
+                    "src": "986:20:5"
+                  }
+                ],
+                "id": 2894,
+                "name": "ParameterList",
+                "src": "835:172:5"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2895,
+                "name": "ParameterList",
+                "src": "1017:0:5"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                },
+                                {
+                                  "typeIdentifier": "t_bool",
+                                  "typeString": "bool"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "init",
+                              "referencedDeclaration": 1229,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer,address,bool,uint256,uint256,uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 2896,
+                                "name": "Identifier",
+                                "src": "1023:7:5"
+                              }
+                            ],
+                            "id": 2898,
+                            "name": "MemberAccess",
+                            "src": "1023:12:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2885,
+                              "type": "address",
+                              "value": "_owner"
+                            },
+                            "id": 2899,
+                            "name": "Identifier",
+                            "src": "1036:6:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2887,
+                              "type": "bool",
+                              "value": "_isToken"
+                            },
+                            "id": 2900,
+                            "name": "Identifier",
+                            "src": "1044:8:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2889,
+                              "type": "uint256",
+                              "value": "_startTime"
+                            },
+                            "id": 2901,
+                            "name": "Identifier",
+                            "src": "1054:10:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2891,
+                              "type": "uint256",
+                              "value": "_endTime"
+                            },
+                            "id": 2902,
+                            "name": "Identifier",
+                            "src": "1066:8:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2893,
+                              "type": "uint256",
+                              "value": "_numReleases"
+                            },
+                            "id": 2903,
+                            "name": "Identifier",
+                            "src": "1076:12:5"
+                          }
+                        ],
+                        "id": 2904,
+                        "name": "FunctionCall",
+                        "src": "1023:66:5"
+                      }
+                    ],
+                    "id": 2905,
+                    "name": "ExpressionStatement",
+                    "src": "1023:66:5"
+                  }
+                ],
+                "id": 2906,
+                "name": "Block",
+                "src": "1017:77:5"
+              }
+            ],
+            "id": 2907,
+            "name": "FunctionDefinition",
+            "src": "801:293:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "",
+              "payable": true,
+              "scope": 3170,
+              "stateMutability": "payable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2908,
+                "name": "ParameterList",
+                "src": "1106:2:5"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2909,
+                "name": "ParameterList",
+                "src": "1124:0:5"
+              },
+              {
+                "attributes": {
+                  "statements": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2910,
+                "name": "Block",
+                "src": "1124:2:5"
+              }
+            ],
+            "id": 2911,
+            "name": "FunctionDefinition",
+            "src": "1098:28:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "initializeETHBalance",
+              "payable": true,
+              "scope": 3170,
+              "stateMutability": "payable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2912,
+                "name": "ParameterList",
+                "src": "1159:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2923,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2913,
+                        "name": "ElementaryTypeName",
+                        "src": "1186:4:5"
+                      }
+                    ],
+                    "id": 2914,
+                    "name": "VariableDeclaration",
+                    "src": "1186:4:5"
+                  }
+                ],
+                "id": 2915,
+                "name": "ParameterList",
+                "src": "1185:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2915
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "initializeETHBalance",
+                              "referencedDeclaration": 1287,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer,uint256) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 2916,
+                                "name": "Identifier",
+                                "src": "1205:7:5"
+                              }
+                            ],
+                            "id": 2917,
+                            "name": "MemberAccess",
+                            "src": "1205:28:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "value",
+                              "referencedDeclaration": null,
+                              "type": "uint256"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 3529,
+                                  "type": "msg",
+                                  "value": "msg"
+                                },
+                                "id": 2918,
+                                "name": "Identifier",
+                                "src": "1234:3:5"
+                              }
+                            ],
+                            "id": 2919,
+                            "name": "MemberAccess",
+                            "src": "1234:9:5"
+                          }
+                        ],
+                        "id": 2920,
+                        "name": "FunctionCall",
+                        "src": "1205:39:5"
+                      }
+                    ],
+                    "id": 2921,
+                    "name": "Return",
+                    "src": "1198:46:5"
+                  }
+                ],
+                "id": 2922,
+                "name": "Block",
+                "src": "1192:57:5"
+              }
+            ],
+            "id": 2923,
+            "name": "FunctionDefinition",
+            "src": "1130:119:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "registerUser",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_registrant",
+                      "scope": 2942,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2924,
+                        "name": "ElementaryTypeName",
+                        "src": "1275:7:5"
+                      }
+                    ],
+                    "id": 2925,
+                    "name": "VariableDeclaration",
+                    "src": "1275:19:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_vestAmount",
+                      "scope": 2942,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2926,
+                        "name": "ElementaryTypeName",
+                        "src": "1296:7:5"
+                      }
+                    ],
+                    "id": 2927,
+                    "name": "VariableDeclaration",
+                    "src": "1296:19:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_bonus",
+                      "scope": 2942,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2928,
+                        "name": "ElementaryTypeName",
+                        "src": "1317:7:5"
+                      }
+                    ],
+                    "id": 2929,
+                    "name": "VariableDeclaration",
+                    "src": "1317:14:5"
+                  }
+                ],
+                "id": 2930,
+                "name": "ParameterList",
+                "src": "1274:58:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2942,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2931,
+                        "name": "ElementaryTypeName",
+                        "src": "1349:4:5"
+                      }
+                    ],
+                    "id": 2932,
+                    "name": "VariableDeclaration",
+                    "src": "1349:4:5"
+                  }
+                ],
+                "id": 2933,
+                "name": "ParameterList",
+                "src": "1348:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2933
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "registerUser",
+                              "referencedDeclaration": 1522,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer,address,uint256,uint256) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 2934,
+                                "name": "Identifier",
+                                "src": "1368:7:5"
+                              }
+                            ],
+                            "id": 2935,
+                            "name": "MemberAccess",
+                            "src": "1368:20:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2925,
+                              "type": "address",
+                              "value": "_registrant"
+                            },
+                            "id": 2936,
+                            "name": "Identifier",
+                            "src": "1389:11:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2927,
+                              "type": "uint256",
+                              "value": "_vestAmount"
+                            },
+                            "id": 2937,
+                            "name": "Identifier",
+                            "src": "1402:11:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2929,
+                              "type": "uint256",
+                              "value": "_bonus"
+                            },
+                            "id": 2938,
+                            "name": "Identifier",
+                            "src": "1415:6:5"
+                          }
+                        ],
+                        "id": 2939,
+                        "name": "FunctionCall",
+                        "src": "1368:54:5"
+                      }
+                    ],
+                    "id": 2940,
+                    "name": "Return",
+                    "src": "1361:61:5"
+                  }
+                ],
+                "id": 2941,
+                "name": "Block",
+                "src": "1355:72:5"
+              }
+            ],
+            "id": 2942,
+            "name": "FunctionDefinition",
+            "src": "1253:174:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "registerUsers",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_registrants",
+                      "scope": 2962,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address[] memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "length": null,
+                          "type": "address[] storage pointer"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "address",
+                              "type": "address"
+                            },
+                            "id": 2943,
+                            "name": "ElementaryTypeName",
+                            "src": "1454:7:5"
+                          }
+                        ],
+                        "id": 2944,
+                        "name": "ArrayTypeName",
+                        "src": "1454:9:5"
+                      }
+                    ],
+                    "id": 2945,
+                    "name": "VariableDeclaration",
+                    "src": "1454:22:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_vestAmount",
+                      "scope": 2962,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2946,
+                        "name": "ElementaryTypeName",
+                        "src": "1478:7:5"
+                      }
+                    ],
+                    "id": 2947,
+                    "name": "VariableDeclaration",
+                    "src": "1478:19:5"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_bonus",
+                      "scope": 2962,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2948,
+                        "name": "ElementaryTypeName",
+                        "src": "1499:7:5"
+                      }
+                    ],
+                    "id": 2949,
+                    "name": "VariableDeclaration",
+                    "src": "1499:14:5"
+                  }
+                ],
+                "id": 2950,
+                "name": "ParameterList",
+                "src": "1453:61:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2962,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2951,
+                        "name": "ElementaryTypeName",
+                        "src": "1531:4:5"
+                      }
+                    ],
+                    "id": 2952,
+                    "name": "VariableDeclaration",
+                    "src": "1531:4:5"
+                  }
+                ],
+                "id": 2953,
+                "name": "ParameterList",
+                "src": "1530:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2953
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                                  "typeString": "address[] memory"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "registerUsers",
+                              "referencedDeclaration": 1574,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer,address[] memory,uint256,uint256) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 2954,
+                                "name": "Identifier",
+                                "src": "1550:7:5"
+                              }
+                            ],
+                            "id": 2955,
+                            "name": "MemberAccess",
+                            "src": "1550:21:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2945,
+                              "type": "address[] memory",
+                              "value": "_registrants"
+                            },
+                            "id": 2956,
+                            "name": "Identifier",
+                            "src": "1572:12:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2947,
+                              "type": "uint256",
+                              "value": "_vestAmount"
+                            },
+                            "id": 2957,
+                            "name": "Identifier",
+                            "src": "1586:11:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2949,
+                              "type": "uint256",
+                              "value": "_bonus"
+                            },
+                            "id": 2958,
+                            "name": "Identifier",
+                            "src": "1599:6:5"
+                          }
+                        ],
+                        "id": 2959,
+                        "name": "FunctionCall",
+                        "src": "1550:56:5"
+                      }
+                    ],
+                    "id": 2960,
+                    "name": "Return",
+                    "src": "1543:63:5"
+                  }
+                ],
+                "id": 2961,
+                "name": "Block",
+                "src": "1537:74:5"
+              }
+            ],
+            "id": 2962,
+            "name": "FunctionDefinition",
+            "src": "1431:180:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "unregisterUser",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_registrant",
+                      "scope": 2975,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2963,
+                        "name": "ElementaryTypeName",
+                        "src": "1639:7:5"
+                      }
+                    ],
+                    "id": 2964,
+                    "name": "VariableDeclaration",
+                    "src": "1639:19:5"
+                  }
+                ],
+                "id": 2965,
+                "name": "ParameterList",
+                "src": "1638:21:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2975,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2966,
+                        "name": "ElementaryTypeName",
+                        "src": "1676:4:5"
+                      }
+                    ],
+                    "id": 2967,
+                    "name": "VariableDeclaration",
+                    "src": "1676:4:5"
+                  }
+                ],
+                "id": 2968,
+                "name": "ParameterList",
+                "src": "1675:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2968
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "unregisterUser",
+                              "referencedDeclaration": 1705,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer,address) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 2969,
+                                "name": "Identifier",
+                                "src": "1695:7:5"
+                              }
+                            ],
+                            "id": 2970,
+                            "name": "MemberAccess",
+                            "src": "1695:22:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2964,
+                              "type": "address",
+                              "value": "_registrant"
+                            },
+                            "id": 2971,
+                            "name": "Identifier",
+                            "src": "1718:11:5"
+                          }
+                        ],
+                        "id": 2972,
+                        "name": "FunctionCall",
+                        "src": "1695:35:5"
+                      }
+                    ],
+                    "id": 2973,
+                    "name": "Return",
+                    "src": "1688:42:5"
+                  }
+                ],
+                "id": 2974,
+                "name": "Block",
+                "src": "1682:53:5"
+              }
+            ],
+            "id": 2975,
+            "name": "FunctionDefinition",
+            "src": "1615:120:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "unregisterUsers",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_registrants",
+                      "scope": 2989,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address[] memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "length": null,
+                          "type": "address[] storage pointer"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "address",
+                              "type": "address"
+                            },
+                            "id": 2976,
+                            "name": "ElementaryTypeName",
+                            "src": "1764:7:5"
+                          }
+                        ],
+                        "id": 2977,
+                        "name": "ArrayTypeName",
+                        "src": "1764:9:5"
+                      }
+                    ],
+                    "id": 2978,
+                    "name": "VariableDeclaration",
+                    "src": "1764:22:5"
+                  }
+                ],
+                "id": 2979,
+                "name": "ParameterList",
+                "src": "1763:24:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2989,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2980,
+                        "name": "ElementaryTypeName",
+                        "src": "1804:4:5"
+                      }
+                    ],
+                    "id": 2981,
+                    "name": "VariableDeclaration",
+                    "src": "1804:4:5"
+                  }
+                ],
+                "id": 2982,
+                "name": "ParameterList",
+                "src": "1803:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2982
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                                  "typeString": "address[] memory"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "unregisterUsers",
+                              "referencedDeclaration": 1751,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer,address[] memory) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 2983,
+                                "name": "Identifier",
+                                "src": "1823:7:5"
+                              }
+                            ],
+                            "id": 2984,
+                            "name": "MemberAccess",
+                            "src": "1823:23:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2978,
+                              "type": "address[] memory",
+                              "value": "_registrants"
+                            },
+                            "id": 2985,
+                            "name": "Identifier",
+                            "src": "1847:12:5"
+                          }
+                        ],
+                        "id": 2986,
+                        "name": "FunctionCall",
+                        "src": "1823:37:5"
+                      }
+                    ],
+                    "id": 2987,
+                    "name": "Return",
+                    "src": "1816:44:5"
+                  }
+                ],
+                "id": 2988,
+                "name": "Block",
+                "src": "1810:55:5"
+              }
+            ],
+            "id": 2989,
+            "name": "FunctionDefinition",
+            "src": "1739:126:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "swapRegistration",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_replacementRegistrant",
+                      "scope": 3002,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2990,
+                        "name": "ElementaryTypeName",
+                        "src": "1895:7:5"
+                      }
+                    ],
+                    "id": 2991,
+                    "name": "VariableDeclaration",
+                    "src": "1895:30:5"
+                  }
+                ],
+                "id": 2992,
+                "name": "ParameterList",
+                "src": "1894:32:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3002,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2993,
+                        "name": "ElementaryTypeName",
+                        "src": "1943:4:5"
+                      }
+                    ],
+                    "id": 2994,
+                    "name": "VariableDeclaration",
+                    "src": "1943:4:5"
+                  }
+                ],
+                "id": 2995,
+                "name": "ParameterList",
+                "src": "1942:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 2995
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "swapRegistration",
+                              "referencedDeclaration": 1883,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer,address) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 2996,
+                                "name": "Identifier",
+                                "src": "1962:7:5"
+                              }
+                            ],
+                            "id": 2997,
+                            "name": "MemberAccess",
+                            "src": "1962:24:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2991,
+                              "type": "address",
+                              "value": "_replacementRegistrant"
+                            },
+                            "id": 2998,
+                            "name": "Identifier",
+                            "src": "1987:22:5"
+                          }
+                        ],
+                        "id": 2999,
+                        "name": "FunctionCall",
+                        "src": "1962:48:5"
+                      }
+                    ],
+                    "id": 3000,
+                    "name": "Return",
+                    "src": "1955:55:5"
+                  }
+                ],
+                "id": 3001,
+                "name": "Block",
+                "src": "1949:66:5"
+              }
+            ],
+            "id": 3002,
+            "name": "FunctionDefinition",
+            "src": "1869:146:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "withdrawETH",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3003,
+                "name": "ParameterList",
+                "src": "2039:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3012,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 3004,
+                        "name": "ElementaryTypeName",
+                        "src": "2058:4:5"
+                      }
+                    ],
+                    "id": 3005,
+                    "name": "VariableDeclaration",
+                    "src": "2058:4:5"
+                  }
+                ],
+                "id": 3006,
+                "name": "ParameterList",
+                "src": "2057:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3006
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "withdrawETH",
+                              "referencedDeclaration": 2145,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 3007,
+                                "name": "Identifier",
+                                "src": "2077:7:5"
+                              }
+                            ],
+                            "id": 3008,
+                            "name": "MemberAccess",
+                            "src": "2077:19:5"
+                          }
+                        ],
+                        "id": 3009,
+                        "name": "FunctionCall",
+                        "src": "2077:21:5"
+                      }
+                    ],
+                    "id": 3010,
+                    "name": "Return",
+                    "src": "2070:28:5"
+                  }
+                ],
+                "id": 3011,
+                "name": "Block",
+                "src": "2064:39:5"
+              }
+            ],
+            "id": 3012,
+            "name": "FunctionDefinition",
+            "src": "2019:84:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "sendETH",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_beneficiary",
+                      "scope": 3025,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 3013,
+                        "name": "ElementaryTypeName",
+                        "src": "2124:7:5"
+                      }
+                    ],
+                    "id": 3014,
+                    "name": "VariableDeclaration",
+                    "src": "2124:20:5"
+                  }
+                ],
+                "id": 3015,
+                "name": "ParameterList",
+                "src": "2123:22:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3025,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 3016,
+                        "name": "ElementaryTypeName",
+                        "src": "2162:4:5"
+                      }
+                    ],
+                    "id": 3017,
+                    "name": "VariableDeclaration",
+                    "src": "2162:4:5"
+                  }
+                ],
+                "id": 3018,
+                "name": "ParameterList",
+                "src": "2161:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3018
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "sendETH",
+                              "referencedDeclaration": 2516,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer,address) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 3019,
+                                "name": "Identifier",
+                                "src": "2181:7:5"
+                              }
+                            ],
+                            "id": 3020,
+                            "name": "MemberAccess",
+                            "src": "2181:15:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 3014,
+                              "type": "address",
+                              "value": "_beneficiary"
+                            },
+                            "id": 3021,
+                            "name": "Identifier",
+                            "src": "2197:12:5"
+                          }
+                        ],
+                        "id": 3022,
+                        "name": "FunctionCall",
+                        "src": "2181:29:5"
+                      }
+                    ],
+                    "id": 3023,
+                    "name": "Return",
+                    "src": "2174:36:5"
+                  }
+                ],
+                "id": 3024,
+                "name": "Block",
+                "src": "2168:47:5"
+              }
+            ],
+            "id": 3025,
+            "name": "FunctionDefinition",
+            "src": "2107:108:5"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "ownerWithdrawExtraETH",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3026,
+                "name": "ParameterList",
+                "src": "2249:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3035,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 3027,
+                        "name": "ElementaryTypeName",
+                        "src": "2268:4:5"
+                      }
+                    ],
+                    "id": 3028,
+                    "name": "VariableDeclaration",
+                    "src": "2268:4:5"
+                  }
+                ],
+                "id": 3029,
+                "name": "ParameterList",
+                "src": "2267:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3029
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "ownerWithdrawExtraETH",
+                              "referencedDeclaration": 2759,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer) returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 3030,
+                                "name": "Identifier",
+                                "src": "2287:7:5"
+                              }
+                            ],
+                            "id": 3031,
+                            "name": "MemberAccess",
+                            "src": "2287:29:5"
+                          }
+                        ],
+                        "id": 3032,
+                        "name": "FunctionCall",
+                        "src": "2287:31:5"
+                      }
+                    ],
+                    "id": 3033,
+                    "name": "Return",
+                    "src": "2280:38:5"
+                  }
+                ],
+                "id": 3034,
+                "name": "Block",
+                "src": "2274:49:5"
+              }
+            ],
+            "id": 3035,
+            "name": "FunctionDefinition",
+            "src": "2219:104:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getOwner",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3036,
+                "name": "ParameterList",
+                "src": "2359:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3044,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 3037,
+                        "name": "ElementaryTypeName",
+                        "src": "2383:7:5"
+                      }
+                    ],
+                    "id": 3038,
+                    "name": "VariableDeclaration",
+                    "src": "2383:7:5"
+                  }
+                ],
+                "id": 3039,
+                "name": "ParameterList",
+                "src": "2382:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3039
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "owner",
+                          "referencedDeclaration": 1054,
+                          "type": "address"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2855,
+                              "type": "struct VestingLib.VestingStorage storage ref",
+                              "value": "vesting"
+                            },
+                            "id": 3040,
+                            "name": "Identifier",
+                            "src": "2405:7:5"
+                          }
+                        ],
+                        "id": 3041,
+                        "name": "MemberAccess",
+                        "src": "2405:13:5"
+                      }
+                    ],
+                    "id": 3042,
+                    "name": "Return",
+                    "src": "2398:20:5"
+                  }
+                ],
+                "id": 3043,
+                "name": "Block",
+                "src": "2392:31:5"
+              }
+            ],
+            "id": 3044,
+            "name": "FunctionDefinition",
+            "src": "2342:81:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getTotalSupply",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3045,
+                "name": "ParameterList",
+                "src": "2450:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3053,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3046,
+                        "name": "ElementaryTypeName",
+                        "src": "2474:7:5"
+                      }
+                    ],
+                    "id": 3047,
+                    "name": "VariableDeclaration",
+                    "src": "2474:7:5"
+                  }
+                ],
+                "id": 3048,
+                "name": "ParameterList",
+                "src": "2473:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3048
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "totalSupply",
+                          "referencedDeclaration": 1056,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2855,
+                              "type": "struct VestingLib.VestingStorage storage ref",
+                              "value": "vesting"
+                            },
+                            "id": 3049,
+                            "name": "Identifier",
+                            "src": "2496:7:5"
+                          }
+                        ],
+                        "id": 3050,
+                        "name": "MemberAccess",
+                        "src": "2496:19:5"
+                      }
+                    ],
+                    "id": 3051,
+                    "name": "Return",
+                    "src": "2489:26:5"
+                  }
+                ],
+                "id": 3052,
+                "name": "Block",
+                "src": "2483:37:5"
+              }
+            ],
+            "id": 3053,
+            "name": "FunctionDefinition",
+            "src": "2427:93:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getContractBalance",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3054,
+                "name": "ParameterList",
+                "src": "2551:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3062,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3055,
+                        "name": "ElementaryTypeName",
+                        "src": "2575:7:5"
+                      }
+                    ],
+                    "id": 3056,
+                    "name": "VariableDeclaration",
+                    "src": "2575:7:5"
+                  }
+                ],
+                "id": 3057,
+                "name": "ParameterList",
+                "src": "2574:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3057
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "contractBalance",
+                          "referencedDeclaration": 1058,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2855,
+                              "type": "struct VestingLib.VestingStorage storage ref",
+                              "value": "vesting"
+                            },
+                            "id": 3058,
+                            "name": "Identifier",
+                            "src": "2597:7:5"
+                          }
+                        ],
+                        "id": 3059,
+                        "name": "MemberAccess",
+                        "src": "2597:23:5"
+                      }
+                    ],
+                    "id": 3060,
+                    "name": "Return",
+                    "src": "2590:30:5"
+                  }
+                ],
+                "id": 3061,
+                "name": "Block",
+                "src": "2584:41:5"
+              }
+            ],
+            "id": 3062,
+            "name": "FunctionDefinition",
+            "src": "2524:101:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getIsToken",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3063,
+                "name": "ParameterList",
+                "src": "2648:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3071,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 3064,
+                        "name": "ElementaryTypeName",
+                        "src": "2672:4:5"
+                      }
+                    ],
+                    "id": 3065,
+                    "name": "VariableDeclaration",
+                    "src": "2672:4:5"
+                  }
+                ],
+                "id": 3066,
+                "name": "ParameterList",
+                "src": "2671:6:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3066
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "isToken",
+                          "referencedDeclaration": 1060,
+                          "type": "bool"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2855,
+                              "type": "struct VestingLib.VestingStorage storage ref",
+                              "value": "vesting"
+                            },
+                            "id": 3067,
+                            "name": "Identifier",
+                            "src": "2691:7:5"
+                          }
+                        ],
+                        "id": 3068,
+                        "name": "MemberAccess",
+                        "src": "2691:15:5"
+                      }
+                    ],
+                    "id": 3069,
+                    "name": "Return",
+                    "src": "2684:22:5"
+                  }
+                ],
+                "id": 3070,
+                "name": "Block",
+                "src": "2678:33:5"
+              }
+            ],
+            "id": 3071,
+            "name": "FunctionDefinition",
+            "src": "2629:82:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getStartTime",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3072,
+                "name": "ParameterList",
+                "src": "2736:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3080,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3073,
+                        "name": "ElementaryTypeName",
+                        "src": "2760:7:5"
+                      }
+                    ],
+                    "id": 3074,
+                    "name": "VariableDeclaration",
+                    "src": "2760:7:5"
+                  }
+                ],
+                "id": 3075,
+                "name": "ParameterList",
+                "src": "2759:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3075
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "startTime",
+                          "referencedDeclaration": 1062,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2855,
+                              "type": "struct VestingLib.VestingStorage storage ref",
+                              "value": "vesting"
+                            },
+                            "id": 3076,
+                            "name": "Identifier",
+                            "src": "2782:7:5"
+                          }
+                        ],
+                        "id": 3077,
+                        "name": "MemberAccess",
+                        "src": "2782:17:5"
+                      }
+                    ],
+                    "id": 3078,
+                    "name": "Return",
+                    "src": "2775:24:5"
+                  }
+                ],
+                "id": 3079,
+                "name": "Block",
+                "src": "2769:35:5"
+              }
+            ],
+            "id": 3080,
+            "name": "FunctionDefinition",
+            "src": "2715:89:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getEndTime",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3081,
+                "name": "ParameterList",
+                "src": "2827:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3089,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3082,
+                        "name": "ElementaryTypeName",
+                        "src": "2851:7:5"
+                      }
+                    ],
+                    "id": 3083,
+                    "name": "VariableDeclaration",
+                    "src": "2851:7:5"
+                  }
+                ],
+                "id": 3084,
+                "name": "ParameterList",
+                "src": "2850:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3084
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "endTime",
+                          "referencedDeclaration": 1064,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2855,
+                              "type": "struct VestingLib.VestingStorage storage ref",
+                              "value": "vesting"
+                            },
+                            "id": 3085,
+                            "name": "Identifier",
+                            "src": "2873:7:5"
+                          }
+                        ],
+                        "id": 3086,
+                        "name": "MemberAccess",
+                        "src": "2873:15:5"
+                      }
+                    ],
+                    "id": 3087,
+                    "name": "Return",
+                    "src": "2866:22:5"
+                  }
+                ],
+                "id": 3088,
+                "name": "Block",
+                "src": "2860:33:5"
+              }
+            ],
+            "id": 3089,
+            "name": "FunctionDefinition",
+            "src": "2808:85:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getNumRegistered",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3090,
+                "name": "ParameterList",
+                "src": "2922:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3098,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3091,
+                        "name": "ElementaryTypeName",
+                        "src": "2946:7:5"
+                      }
+                    ],
+                    "id": 3092,
+                    "name": "VariableDeclaration",
+                    "src": "2946:7:5"
+                  }
+                ],
+                "id": 3093,
+                "name": "ParameterList",
+                "src": "2945:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3093
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "numRegistered",
+                          "referencedDeclaration": 1066,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2855,
+                              "type": "struct VestingLib.VestingStorage storage ref",
+                              "value": "vesting"
+                            },
+                            "id": 3094,
+                            "name": "Identifier",
+                            "src": "2968:7:5"
+                          }
+                        ],
+                        "id": 3095,
+                        "name": "MemberAccess",
+                        "src": "2968:21:5"
+                      }
+                    ],
+                    "id": 3096,
+                    "name": "Return",
+                    "src": "2961:28:5"
+                  }
+                ],
+                "id": 3097,
+                "name": "Block",
+                "src": "2955:39:5"
+              }
+            ],
+            "id": 3098,
+            "name": "FunctionDefinition",
+            "src": "2897:97:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getTimeInterval",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3099,
+                "name": "ParameterList",
+                "src": "3022:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3107,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3100,
+                        "name": "ElementaryTypeName",
+                        "src": "3046:7:5"
+                      }
+                    ],
+                    "id": 3101,
+                    "name": "VariableDeclaration",
+                    "src": "3046:7:5"
+                  }
+                ],
+                "id": 3102,
+                "name": "ParameterList",
+                "src": "3045:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3102
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "timeInterval",
+                          "referencedDeclaration": 1068,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2855,
+                              "type": "struct VestingLib.VestingStorage storage ref",
+                              "value": "vesting"
+                            },
+                            "id": 3103,
+                            "name": "Identifier",
+                            "src": "3068:7:5"
+                          }
+                        ],
+                        "id": 3104,
+                        "name": "MemberAccess",
+                        "src": "3068:20:5"
+                      }
+                    ],
+                    "id": 3105,
+                    "name": "Return",
+                    "src": "3061:27:5"
+                  }
+                ],
+                "id": 3106,
+                "name": "Block",
+                "src": "3055:38:5"
+              }
+            ],
+            "id": 3107,
+            "name": "FunctionDefinition",
+            "src": "2998:95:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getPercentPerInterval",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3108,
+                "name": "ParameterList",
+                "src": "3127:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3116,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3109,
+                        "name": "ElementaryTypeName",
+                        "src": "3151:7:5"
+                      }
+                    ],
+                    "id": 3110,
+                    "name": "VariableDeclaration",
+                    "src": "3151:7:5"
+                  }
+                ],
+                "id": 3111,
+                "name": "ParameterList",
+                "src": "3150:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3111
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "member_name": "percentPerInterval",
+                          "referencedDeclaration": 1070,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2855,
+                              "type": "struct VestingLib.VestingStorage storage ref",
+                              "value": "vesting"
+                            },
+                            "id": 3112,
+                            "name": "Identifier",
+                            "src": "3173:7:5"
+                          }
+                        ],
+                        "id": 3113,
+                        "name": "MemberAccess",
+                        "src": "3173:26:5"
+                      }
+                    ],
+                    "id": 3114,
+                    "name": "Return",
+                    "src": "3166:33:5"
+                  }
+                ],
+                "id": 3115,
+                "name": "Block",
+                "src": "3160:44:5"
+              }
+            ],
+            "id": 3116,
+            "name": "FunctionDefinition",
+            "src": "3097:107:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getPercentReleased",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3117,
+                "name": "ParameterList",
+                "src": "3235:2:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3126,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3118,
+                        "name": "ElementaryTypeName",
+                        "src": "3259:7:5"
+                      }
+                    ],
+                    "id": 3119,
+                    "name": "VariableDeclaration",
+                    "src": "3259:7:5"
+                  }
+                ],
+                "id": 3120,
+                "name": "ParameterList",
+                "src": "3258:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3120
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            null
+                          ],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "uint256",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                null
+                              ],
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "getPercentReleased",
+                              "referencedDeclaration": 2846,
+                              "type": "function (struct VestingLib.VestingStorage storage pointer) view returns (uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 3121,
+                                "name": "Identifier",
+                                "src": "3281:7:5"
+                              }
+                            ],
+                            "id": 3122,
+                            "name": "MemberAccess",
+                            "src": "3281:26:5"
+                          }
+                        ],
+                        "id": 3123,
+                        "name": "FunctionCall",
+                        "src": "3281:28:5"
+                      }
+                    ],
+                    "id": 3124,
+                    "name": "Return",
+                    "src": "3274:35:5"
+                  }
+                ],
+                "id": 3125,
+                "name": "Block",
+                "src": "3268:46:5"
+              }
+            ],
+            "id": 3126,
+            "name": "FunctionDefinition",
+            "src": "3208:106:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getHasWithdrawn",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_participant",
+                      "scope": 3139,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 3127,
+                        "name": "ElementaryTypeName",
+                        "src": "3343:7:5"
+                      }
+                    ],
+                    "id": 3128,
+                    "name": "VariableDeclaration",
+                    "src": "3343:20:5"
+                  }
+                ],
+                "id": 3129,
+                "name": "ParameterList",
+                "src": "3342:22:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3139,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3130,
+                        "name": "ElementaryTypeName",
+                        "src": "3386:7:5"
+                      }
+                    ],
+                    "id": 3131,
+                    "name": "VariableDeclaration",
+                    "src": "3386:7:5"
+                  }
+                ],
+                "id": 3132,
+                "name": "ParameterList",
+                "src": "3385:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3132
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "hasWithdrawn",
+                              "referencedDeclaration": 1080,
+                              "type": "mapping(address => uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 2855,
+                                  "type": "struct VestingLib.VestingStorage storage ref",
+                                  "value": "vesting"
+                                },
+                                "id": 3133,
+                                "name": "Identifier",
+                                "src": "3408:7:5"
+                              }
+                            ],
+                            "id": 3134,
+                            "name": "MemberAccess",
+                            "src": "3408:20:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 3128,
+                              "type": "address",
+                              "value": "_participant"
+                            },
+                            "id": 3135,
+                            "name": "Identifier",
+                            "src": "3429:12:5"
+                          }
+                        ],
+                        "id": 3136,
+                        "name": "IndexAccess",
+                        "src": "3408:34:5"
+                      }
+                    ],
+                    "id": 3137,
+                    "name": "Return",
+                    "src": "3401:41:5"
+                  }
+                ],
+                "id": 3138,
+                "name": "Block",
+                "src": "3395:52:5"
+              }
+            ],
+            "id": 3139,
+            "name": "FunctionDefinition",
+            "src": "3318:129:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getVestingAmount",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_participant",
+                      "scope": 3154,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 3140,
+                        "name": "ElementaryTypeName",
+                        "src": "3477:7:5"
+                      }
+                    ],
+                    "id": 3141,
+                    "name": "VariableDeclaration",
+                    "src": "3477:20:5"
+                  }
+                ],
+                "id": 3142,
+                "name": "ParameterList",
+                "src": "3476:22:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3154,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3143,
+                        "name": "ElementaryTypeName",
+                        "src": "3520:7:5"
+                      }
+                    ],
+                    "id": 3144,
+                    "name": "VariableDeclaration",
+                    "src": "3520:7:5"
+                  }
+                ],
+                "id": 3145,
+                "name": "ParameterList",
+                "src": "3519:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3145
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "type": "uint256[2] storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "holdingAmount",
+                                  "referencedDeclaration": 1076,
+                                  "type": "mapping(address => uint256[2] storage ref)"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 2855,
+                                      "type": "struct VestingLib.VestingStorage storage ref",
+                                      "value": "vesting"
+                                    },
+                                    "id": 3146,
+                                    "name": "Identifier",
+                                    "src": "3542:7:5"
+                                  }
+                                ],
+                                "id": 3147,
+                                "name": "MemberAccess",
+                                "src": "3542:21:5"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 3141,
+                                  "type": "address",
+                                  "value": "_participant"
+                                },
+                                "id": 3148,
+                                "name": "Identifier",
+                                "src": "3564:12:5"
+                              }
+                            ],
+                            "id": 3149,
+                            "name": "IndexAccess",
+                            "src": "3542:35:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "30",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "number",
+                              "type": "int_const 0",
+                              "value": "0"
+                            },
+                            "id": 3150,
+                            "name": "Literal",
+                            "src": "3578:1:5"
+                          }
+                        ],
+                        "id": 3151,
+                        "name": "IndexAccess",
+                        "src": "3542:38:5"
+                      }
+                    ],
+                    "id": 3152,
+                    "name": "Return",
+                    "src": "3535:45:5"
+                  }
+                ],
+                "id": 3153,
+                "name": "Block",
+                "src": "3529:56:5"
+              }
+            ],
+            "id": 3154,
+            "name": "FunctionDefinition",
+            "src": "3451:134:5"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getBonusAmount",
+              "payable": false,
+              "scope": 3170,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_participant",
+                      "scope": 3169,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 3155,
+                        "name": "ElementaryTypeName",
+                        "src": "3613:7:5"
+                      }
+                    ],
+                    "id": 3156,
+                    "name": "VariableDeclaration",
+                    "src": "3613:20:5"
+                  }
+                ],
+                "id": 3157,
+                "name": "ParameterList",
+                "src": "3612:22:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3169,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3158,
+                        "name": "ElementaryTypeName",
+                        "src": "3656:7:5"
+                      }
+                    ],
+                    "id": 3159,
+                    "name": "VariableDeclaration",
+                    "src": "3656:7:5"
+                  }
+                ],
+                "id": 3160,
+                "name": "ParameterList",
+                "src": "3655:9:5"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3160
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "type": "uint256[2] storage ref"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "holdingAmount",
+                                  "referencedDeclaration": 1076,
+                                  "type": "mapping(address => uint256[2] storage ref)"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 2855,
+                                      "type": "struct VestingLib.VestingStorage storage ref",
+                                      "value": "vesting"
+                                    },
+                                    "id": 3161,
+                                    "name": "Identifier",
+                                    "src": "3678:7:5"
+                                  }
+                                ],
+                                "id": 3162,
+                                "name": "MemberAccess",
+                                "src": "3678:21:5"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 3156,
+                                  "type": "address",
+                                  "value": "_participant"
+                                },
+                                "id": 3163,
+                                "name": "Identifier",
+                                "src": "3700:12:5"
+                              }
+                            ],
+                            "id": 3164,
+                            "name": "IndexAccess",
+                            "src": "3678:35:5"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "31",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "number",
+                              "type": "int_const 1",
+                              "value": "1"
+                            },
+                            "id": 3165,
+                            "name": "Literal",
+                            "src": "3714:1:5"
+                          }
+                        ],
+                        "id": 3166,
+                        "name": "IndexAccess",
+                        "src": "3678:38:5"
+                      }
+                    ],
+                    "id": 3167,
+                    "name": "Return",
+                    "src": "3671:45:5"
+                  }
+                ],
+                "id": 3168,
+                "name": "Block",
+                "src": "3665:56:5"
+              }
+            ],
+            "id": 3169,
+            "name": "FunctionDefinition",
+            "src": "3589:132:5"
+          }
+        ],
+        "id": 3170,
+        "name": "ContractDefinition",
+        "src": "54:3669:5"
+      }
+    ],
+    "id": 3171,
+    "name": "SourceUnit",
+    "src": "0:3724:5"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-01-19T20:37:44.797Z"
+}
