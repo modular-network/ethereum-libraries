@@ -2,7 +2,7 @@ pragma solidity ^0.4.18;
 
 /**
  * @title Basic Math Library
- * @author Modular, Inc
+ * @author Modular Inc, https://modular.network
  *
  * version 1.2.1
  * Copyright (c) 2017 Modular, Inc

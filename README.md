@@ -8,7 +8,7 @@ Modular Libraries
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/Modular-Network/ethereum-libraries.svg?columns=all)](https://waffle.io/Modular-Network/ethereum-libraries)
 
 
-Modular Libraries is a group of packages built for use on blockchains utilizing the Ethereum Virtual Machine (EVM). All libraries are deployed and linkable in your smart contracts on both Rinkeby, Ropsten, and Ethereum Mainnet. [We also have an ethereum-contracts repository that currently holds ICO contracts](https://github.com/Majoolr/ethereum-contracts "Github link").  
+Modular Libraries is a group of packages built for use on blockchains utilizing the Ethereum Virtual Machine (EVM). All libraries are deployed and linkable in your smart contracts on both Rinkeby, Ropsten, and Ethereum Mainnet. [We also have an ethereum-contracts repository that currently holds ICO contracts](https://github.com/Modular-Network/ethereum-contracts "Github link").  
 
 Libraries and contracts are currently written in Solidity and Solidity Assembly. If you are not familiar with the workings of Ethereum, smart contracts, or Solidity [please educate yourself by clicking here before proceeding](https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html "Solidity link").
 
@@ -31,7 +31,7 @@ Libraries and contracts are currently written in Solidity and Solidity Assembly.
 
 ## About Us
 
-Modular is hitting the ground running in becoming a valuable partner in the Ethereum community. Our new website is going up shortly because we just went through an identity crisis. [To learn more about Modular on our old website, our mission, as well as contributing please click here](https://majoolr.io "Majoolr website").
+Modular is hitting the ground running in becoming a valuable partner in the Ethereum community. Our new website is going up shortly because we just went through an identity crisis. [To learn more about Modular on our website, our mission, as well as contributing please click here](https://modular.network "Modular website").
 
 ## Why Modular Libraries?
 
@@ -57,7 +57,7 @@ Feedback, bug reports, library submissions, collaborations, and contributions ar
 If you have feedback about our libraries or questions about our documentation, or find a bug in our code, please contact us as soon as possible at contact@majoolr.io or reach out to us on on Gitter or Discord channel.  Significant contributions will be rewarded.
 
 ### Collaborations
-As part of the global Ethereum/Blockchain community, we at Majoolr want to do our part in supporting fellow projects and enthusiasts in the community.  If you need an audit, advice, help building a secure ICO or Ethereum Dapp, or any other type of collaboration, please get in touch at contact@majoolr.io where we can discuss the collaboration. 
+As part of the global Ethereum/Blockchain community, we at Modular want to do our part in supporting fellow projects and enthusiasts in the community.  If you need an audit, advice, help building a secure ICO or Ethereum Dapp, or any other type of collaboration, please get in touch at contact@majoolr.io where we can discuss the collaboration. 
 
 ### Code Contributions
 If you see an issue in our repo or a piece of code in our Libraries you want to improve, please don't hesitate to dive in.  We welcome help in any form and are more than willing to offer our assistance to developers who want to contribute to documentation, code fixes, or even new libraries or functionality!  We ask that you follow a few guidelines when making changes to the repo:
@@ -71,7 +71,7 @@ If you see an issue in our repo or a piece of code in our Libraries you want to 
 
 ### Code Quality
 
-We strive to maintain high standards at Majoolr . To accomplish this, we have included unit tests and a coverage report tool. We are using the [solitidy-coverage](https://github.com/sc-forks/solidity-coverage) tool and [Codecov](https://codecov.io/gh/Majoolr/ethereum-libraries) to host our reports and analysis. Let's keep growing our coverage percentage as much as we can!
+We strive to maintain high standards at Modular. To accomplish this, we have included unit tests and a coverage report tool. We are using the [solitidy-coverage](https://github.com/sc-forks/solidity-coverage) tool and [Codecov](https://codecov.io/gh/Modular-Network/ethereum-libraries) to host our reports and analysis. Let's keep growing our coverage percentage as much as we can!
 
 ## Why Libraries?
 
@@ -105,4 +105,4 @@ Utilizing libraries has some of the following drawbacks:
 
 ## In Conclusion
 
-As always you should stay informed and determine what works best for you and your project. We look forward to working with everyone and we welcome anyone that wants to collaborate. [Please visit Majoolr.io](https://majoolr.io "Majoolr website") to see more information about us and opportunities.
+As always you should stay informed and determine what works best for you and your project. We look forward to working with everyone and we welcome anyone that wants to collaborate. [Please visit modular.network](https://modular.network"Modular website") to see more information about us and opportunities.

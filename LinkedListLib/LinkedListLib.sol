@@ -12,7 +12,7 @@ pragma solidity ^0.4.18;
  * version 1.0.0
  * Copyright (c) 2017 Modular Inc.
  * The MIT License (MIT)
- * https://github.com/Modular-network/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  * 
  * The LinkedListLib provides functionality for implementing data indexing using
  * a circlular linked list
