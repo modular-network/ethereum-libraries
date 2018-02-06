@@ -35,6 +35,12 @@ contract CrowdsaleToken {
 
   TokenLib.TokenStorage public token;
 
+  event Transfer(address indexed from, address indexed to, uint256 value);
+  event Approval(address indexed owner, address indexed spender, uint256 value);
+  event OwnerChange(address from, address to);
+  event Burn(address indexed burner, uint256 value);
+  event MintingClosed(bool mintingClosed);
+
   function CrowdsaleToken(address owner,
                           string name,
                           string symbol,

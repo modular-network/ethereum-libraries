@@ -2,10 +2,15 @@ pragma solidity ^0.4.18;
 
 /**
  * @title LinkedListLib
- * @author Modular, Inc
+ * @author Darryl Morris (o0ragman0o) and Modular.network
+ * 
+ * This utility library was forked from https://github.com/o0ragman0o/LibCLL
+ * into the Modular-Network ethereum-libraries repo at https://github.com/Modular-Network/ethereum-libraries
+ * It has been updated to add additional functionality and be more compatible with solidity 0.4.18
+ * coding patterns.
  *
  * version 1.0.0
- * Copyright (c) 2017 Modular, Inc
+ * Copyright (c) 2017 Modular Inc.
  * The MIT License (MIT)
  * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  * 
@@ -112,7 +117,7 @@ library LinkedListLib {
             return (true,self.list[_node][_direction]);
         }
     }
-
+    
     /// @dev Can be used before `insert` to build an ordered list
     /// @param self stored linked list from contract
     /// @param _node an existing node to search from, e.g. HEAD.

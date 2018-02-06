@@ -28,6 +28,14 @@ contract DirectCrowdsaleTestZeroD {
 
   DirectCrowdsaleLib.DirectCrowdsaleStorage sale;
 
+  event LogTokensWithdrawn(address indexed _bidder, uint256 Amount);
+  event LogWeiWithdrawn(address indexed _bidder, uint256 Amount);
+  event LogOwnerEthWithdrawn(address indexed owner, uint256 amount, string Msg);
+  event LogNoticeMsg(address _buyer, uint256 value, string Msg);
+  event LogErrorMsg(uint256 amount, string Msg);
+  event LogTokensBought(address indexed buyer, uint256 amount);
+  event LogTokenPriceChange(uint256 amount, string Msg);
+
   function DirectCrowdsaleTestZeroD(
                 address owner,
                 uint256[] saleData,
