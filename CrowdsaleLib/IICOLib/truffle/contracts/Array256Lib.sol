@@ -2,7 +2,7 @@ pragma solidity ^0.4.18;
 
 /**
  * @title Array256 Library
- * @author Modular.network
+ * @author Modular Inc, https://modular.network
  *
  * version 1.1.0
  * Copyright (c) 2017 Modular, Inc

@@ -14,7 +14,12 @@ contract InteractiveCrowdsaleTestContract {
 
   InteractiveCrowdsaleLib.InteractiveCrowdsaleStorage sale;
 
+  event LogBidAccepted(address indexed bidder, uint256 amount, uint256 personalValuation);=
+  event LogBidWithdrawn(address indexed bidder, uint256 amount, uint256 personalValuation);
+  event LogBidRemoved(address indexed bidder, uint256 personalValuation);
   event LogErrorMsg(uint256 amount, string Msg);
+  event LogTokenPriceChange(uint256 amount, string Msg);
+  event BucketAndValuationAndCommitted(uint256 bucket, uint256 valuation, uint256 committed);
 
   function InteractiveCrowdsaleTestContract(
     address owner,
