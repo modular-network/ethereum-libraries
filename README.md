@@ -51,6 +51,10 @@ Modular Libraries has been packaged such that each library is available independ
 
 The README in each library contains the Rinkeby, Ropsten, and Mainnet address of the deployed library to link in your contract. You will find documentation for the functions and installation instructions for development and deployment use as well. Additionally, each library has as an ENS domain which is not of much use now but will provide a better experience as development proceeds. All deployed source code has been verified on etherscan.io for your viewing pleasure.   
 
+## How to Monitor Events Emmitted by Modular Libraries
+
+In docs/LibraryLogHashes.csv, you can find a listing of all of the zero-topic hashes for the events that our libraries emit.  You can use these in your web app to monitor events that contracts that use our libraries emit.  
+
 ## How to Contribute
 
 Feedback, bug reports, library submissions, collaborations, and contributions are all welcome! We will be rewarding contributions so please do not hesitate to reach out to us.

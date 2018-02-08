@@ -255,6 +255,9 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     await web3.eth.sendTransaction({from: accounts[3]});
 
     const finalTokenPurchase = await saleContract.sendPurchase({ value: 31000000000000000000, from: accounts[2] });
+    // var receipt1 = await web3.eth.getTransactionReceipt(finalTokenPurchase.receipt.transactionHash);
+
+    // console.log("Change "+receipt1.logs[0].topics[0]);
     const finalContribution = await saleContract.getContribution.call(accounts[2], { from: accounts[0] });
     assert.equal(finalContribution.valueOf(), 31000000000000000000, "accounts[2] amount of wei contributed should be 31000000000000000000 wei");
 
