@@ -12,6 +12,8 @@ Modular Libraries is a group of packages built for use on blockchains utilizing 
 
 Libraries and contracts are currently written in Solidity and Solidity Assembly. If you are not familiar with the workings of Ethereum, smart contracts, or Solidity [please educate yourself by clicking here before proceeding](https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html "Solidity link").
 
+If you want to contribute to the libraries or just join the discussion on smart contract development and security, please join our Discord at https://discordapp.com/invite/crxYSF2
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 

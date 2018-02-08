@@ -74,6 +74,9 @@ contract('VestingLibETHTestContract', function (accounts) {
         // withdraw ETH after first vest
         let ret = await c.withdrawETH({from:accounts[0]});
         assert.equal(ret.logs[0].args.amount, 40000, "accounts[0] should have withdrawn 40000 wei!");
+        // var receipt1 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+        // console.log("ETHwithdraw "+receipt1.logs[0].topics[0]);
 
         ret = await c.sendETH(accounts[2], {from:accounts[5]});
         assert.equal(ret.logs[0].args.amount, 40000, "accounts[2] should have withdrawn 40000 wei!");
