@@ -127,6 +127,9 @@ library Array32Lib {
            public
            view
            returns(bool found, uint256 index) {
+    if (self.length == 0) {
+        return (false, 0);
+    }
     if (isSorted) {
         uint256 high = self.length - 1;
         uint256 mid = 0;
@@ -173,6 +176,9 @@ library Array32Lib {
   /// @dev Sorts given array in place
   /// @param self Storage array containing uint256 type variables
   function heapSort(uint32[] storage self) public {
+    if (self.length == 0) {
+        return;
+    }
     uint256 end = self.length - 1;
     uint256 start = getParentI(end);
     uint256 root = start;

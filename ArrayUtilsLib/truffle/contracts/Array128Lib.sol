@@ -126,6 +126,9 @@ library Array128Lib {
            public
            view
            returns(bool found, uint256 index) {
+    if (self.length == 0) {
+        return (false, 0);
+    }
     uint256 term;
     assembly{
       mstore(0x60,self_slot)
@@ -206,6 +209,9 @@ library Array128Lib {
   /// @dev Sorts given array in place
   /// @param self Storage array containing uint256 type variables
   function heapSort(uint128[] storage self) public {
+    if (self.length == 0) {
+        return;
+    }
     uint256 end = self.length - 1;
     uint256 start = getParentI(end);
     uint256 root = start;
