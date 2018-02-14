@@ -19,7 +19,7 @@ contract TestTokenLib {
   uint8 expectedDecimals = 0x12;
   uint256 expectedSupply = 0x64;
 
-  function beforeAll(){
+  function beforeAll() public {
     address ia = new TokenLibTestContract(this, "Tester Token", "TST", 18, 100, true);
     instance = TokenLibTestContract(ia);
     tokenThrow = new ThrowProxy(ia);
@@ -29,7 +29,7 @@ contract TestTokenLib {
 
   }
 
-  function testInitialParams(){
+  function testInitialParams() public {
     uint decimals = instance.decimals();
     uint256 supply = instance.totalSupply();
 
@@ -37,25 +37,25 @@ contract TestTokenLib {
     Assert.equal(supply,expectedSupply,"Total supply should be the amount of tokens initiated.");
   }
 
-  function testBalanceOfFunction(){
+  function testBalanceOfFunction() public {
     uint256 balance = instance.balanceOf(this);
 
     Assert.equal(balance,expectedSupply,"All tokens should be owned by the creating account");
   }
 
-  function testApproveFunction(){
+  function testApproveFunction() public {
     bool ret = instance.approve(spender, 20);
 
     Assert.isTrue(ret,"The owner should be able to approve any amount.");
   }
 
-  function testAllowanceFunction(){
+  function testAllowanceFunction() public {
     uint256 expectedAllowance = instance.allowance(this,spender);
 
     Assert.equal(expectedAllowance,20,"The spender should be authorized 20 tokens");
   }
 
-  function testApproveChangeFunction(){
+  function testApproveChangeFunction() public {
     bool ret = instance.approveChange(spender, 10, true);
     uint256 expectedAllowance = instance.allowance(this,spender);
 
@@ -74,7 +74,7 @@ contract TestTokenLib {
     ret = instance.approveChange(spender, 20, true);
   }
 
-  function testTransfer(){
+  function testTransfer() public {
     bool sendToProxy = instance.transfer(tokenThrow, 8);
     TokenLibTestContract(address(tokenThrow)).transfer(spender, 20);
     bool firstTry = tokenThrow.execute.gas(200000)();
@@ -85,7 +85,7 @@ contract TestTokenLib {
     Assert.isTrue(secondTry,"The owner should be able to spend owned tokens");
   }
 
-  function testTransferFrom(){
+  function testTransferFrom() public {
     TokenLibTestSpender(address(spenderThrow)).spend(this, 150);
     bool firstTry = spenderThrow.execute.gas(200000)();
     TokenLibTestSpender(address(spenderThrow)).spend(this, 2);
@@ -95,7 +95,7 @@ contract TestTokenLib {
     Assert.isTrue(secondTry,"The spender should be able to spend authorized tokens");
   }
 
-  function testChangeOwnerFunction(){
+  function testChangeOwnerFunction() public {
     bool ret = instance.changeOwner(spender);
     address owner = instance.owner();
 
@@ -107,7 +107,7 @@ contract TestTokenLib {
     Assert.isFalse(co, "The proxy contract cannot change owners.");
   }
 
-  function testMintToken() returns (bool) {
+  function testMintToken()  public returns (bool) {
     TokenLibTestContract(address(tokenThrow)).mintToken(50);
     bool mt = tokenThrow.execute.gas(200000)();
 
@@ -126,7 +126,7 @@ contract TestTokenLib {
     Assert.equal(total, 150, "Total supply should now be 150");
   }
 
-  function testCloseMintFunction(){
+  function testCloseMintFunction() public {
     TokenLibTestContract(address(tokenThrow)).closeMint();
     bool cm = tokenThrow.execute.gas(200000)();
 
@@ -138,7 +138,7 @@ contract TestTokenLib {
     Assert.isFalse(mt, "The proxy should not be allowed to mint tokens.");
   }
 
-  function testBurnTokenFunction() {
+  function testBurnTokenFunction() public {
     TokenLibTestContract(address(tokenThrow)).burnToken(60);
     bool firstTry = tokenThrow.execute.gas(200000)();
     TokenLibTestContract(address(tokenThrow)).burnToken(50);
@@ -156,11 +156,11 @@ contract TestTokenLib {
     Assert.equal(ts, 100, "Total supply should be reduced by 50");
   }
 
-  function testRunBMLFuncsForCoverage() {
-    uint256 a = 2;
-    uint256 b = 2;
+  // function testRunBMLFuncsForCoverage() public pure {
+  //   uint256 a = 2;
+  //   uint256 b = 2;
 
-    a.times(b);
-    a.dividedBy(b);
-  }
+  //   a.times(b);
+  //   a.dividedBy(b);
+  // }
 }

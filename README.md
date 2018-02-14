@@ -12,6 +12,8 @@ Modular Libraries is a group of packages built for use on blockchains utilizing 
 
 Libraries and contracts are currently written in Solidity and Solidity Assembly. If you are not familiar with the workings of Ethereum, smart contracts, or Solidity [please educate yourself by clicking here before proceeding](https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html "Solidity link").
 
+If you want to contribute to the libraries or just join the discussion on smart contract development and security, please join our Discord at https://discordapp.com/invite/crxYSF2
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -48,6 +50,10 @@ While we make every effort to write, review, secure, test, and document professi
 Modular Libraries has been packaged such that each library is available independently from any other library. You can browse each folder and pick the library or libraries that you need for your smart contracts.  
 
 The README in each library contains the Rinkeby, Ropsten, and Mainnet address of the deployed library to link in your contract. You will find documentation for the functions and installation instructions for development and deployment use as well. Additionally, each library has as an ENS domain which is not of much use now but will provide a better experience as development proceeds. All deployed source code has been verified on etherscan.io for your viewing pleasure.   
+
+## How to Monitor Events Emmitted by Modular Libraries
+
+In docs/LibraryLogHashes.csv, you can find a listing of all of the zero-topic hashes for the events that our libraries emit.  You can use these in your web app to monitor events that contracts that use our libraries emit.  
 
 ## How to Contribute
 

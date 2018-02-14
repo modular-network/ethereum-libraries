@@ -2,7 +2,7 @@ var BasicMathLib = artifacts.require("./BasicMathLib.sol");
 var TokenLib = artifacts.require("./TokenLib.sol");
 var TokenLibTestContract = artifacts.require("./TokenLibTestContract");
 
-module.exports = function(deployer, network) {
+module.exports = function(deployer, network, accounts) {
   deployer.deploy(BasicMathLib,{overwrite: false});
   deployer.link(BasicMathLib, TokenLib);
   deployer.deploy(TokenLib, {overwrite: false});

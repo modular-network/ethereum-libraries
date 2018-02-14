@@ -30,9 +30,6 @@ contract VestingLibTokenTestContract {
   // Logs when a user replaces themselves with a different beneficiary
   event LogRegistrationReplaced(address currentRegistrant, address newRegistrant, uint256 amountWithdrawn);
 
-  // Logs when a user withdraws their ETH from vesting
-  event LogETHWithdrawn(address beneficiary, uint256 amount);
-
   // Logs when a user withdraws their tokens from the contract
   event LogTokensWithdrawn(address beneficiary, uint256 amount);
 

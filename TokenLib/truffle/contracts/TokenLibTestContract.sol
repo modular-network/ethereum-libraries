@@ -18,72 +18,72 @@ contract TokenLibTestContract {
                                 string symbol,
                                 uint8 decimals,
                                 uint256 initialSupply,
-                                bool allowMinting)
+                                bool allowMinting) public
   {
     token.init(owner, name, symbol, decimals, initialSupply, allowMinting);
   }
 
-  function owner() constant returns (address) {
+  function owner()  public view returns (address) {
     return token.owner;
   }
 
-  function name() constant returns (string) {
+  function name()  public view returns (string) {
     return token.name;
   }
 
-  function symbol() constant returns (string) {
+  function symbol()  public view returns (string) {
     return token.symbol;
   }
 
-  function decimals() constant returns (uint8) {
+  function decimals()  public view returns (uint8) {
     return token.decimals;
   }
 
-  function totalSupply() constant returns (uint256) {
+  function totalSupply()  public view returns (uint256) {
     return token.totalSupply;
   }
 
-  function initialSupply() constant returns (uint256) {
+  function initialSupply()  public view returns (uint256) {
     return token.initialSupply;
   }
 
-  function balanceOf(address who) constant returns (uint256) {
+  function balanceOf(address who)  public view returns (uint256) {
     return token.balanceOf(who);
   }
 
-  function allowance(address owner, address spender) constant returns (uint256) {
-    return token.allowance(owner, spender);
+  function allowance(address _owner, address _spender)  public view returns (uint256) {
+    return token.allowance(_owner, _spender);
   }
 
-  function transfer(address to, uint value) returns (bool ok) {
+  function transfer(address to, uint value)  public returns (bool ok) {
     return token.transfer(to, value);
   }
 
-  function transferFrom(address from, address to, uint value) returns (bool ok) {
+  function transferFrom(address from, address to, uint value)  public returns (bool ok) {
     return token.transferFrom(from, to, value);
   }
 
-  function approve(address spender, uint value) returns (bool ok) {
+  function approve(address spender, uint value)  public returns (bool ok) {
     return token.approve(spender, value);
   }
 
-  function approveChange(address spender, uint valueChange, bool increase) returns (bool ok) {
+  function approveChange(address spender, uint valueChange, bool increase)  public returns (bool ok) {
     return token.approveChange(spender, valueChange, increase);
   }
 
-  function changeOwner(address newOwner) returns (bool ok) {
+  function changeOwner(address newOwner)  public returns (bool ok) {
     return token.changeOwner(newOwner);
   }
 
-  function mintToken(uint amount) returns (bool ok) {
+  function mintToken(uint amount)  public returns (bool ok) {
     return token.mintToken(amount);
   }
 
-  function closeMint() returns (bool ok) {
+  function closeMint()  public returns (bool ok) {
     return token.closeMint();
   }
 
-  function burnToken(uint amount) returns (bool ok) {
+  function burnToken(uint amount)  public returns (bool ok) {
     return token.burnToken(amount);
   }
 }

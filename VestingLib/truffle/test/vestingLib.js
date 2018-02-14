@@ -62,7 +62,10 @@ contract('VestingLibTokenTestContract', function (accounts) {
 
     it("should accept group user registrations", async () => {
 
-        await c.registerUsers([accounts[0],accounts[1],accounts[2],accounts[3]], 200000, 0, {from:accounts[5]});
+        var regevent = await c.registerUsers([accounts[0],accounts[1],accounts[2],accounts[3]], 200000, 0, {from:accounts[5]});
+        // var receipt2 = await web3.eth.getTransactionReceipt(regevent.receipt.transactionHash);
+
+        // console.log("Register "+receipt2.logs[0].topics[0]);
 
         const numRegistered = await c.getNumRegistered.call();
         const contractBalance = await c.getContractBalance.call();
@@ -77,6 +80,10 @@ contract('VestingLibTokenTestContract', function (accounts) {
 
         const bigBonus = await c.registerUser(accounts[4],2000,200000, {from:accounts[5]});
 
+        // var receipt1 = await web3.eth.getTransactionReceipt(alreadyRegistered.receipt.transactionHash);
+
+        // console.log("Error "+receipt1.logs[0].topics[0]);
+
         assert.equal(alreadyRegistered.logs[0].args.Msg,"Registrant address is already registered for the vesting!", "should fail because accounts[0] is already registered");
         assert.equal(bigBonus.logs[0].args.Msg,"Bonus is larger than vest amount, please reduce bonus!","should fail because bonus is larger than vest amount");
     });
@@ -90,7 +97,10 @@ contract('VestingLibTokenTestContract', function (accounts) {
 
     it("should accept group user un-registrations", async () => {
 
-        await c.unregisterUsers([accounts[0],accounts[1],accounts[2],accounts[3]],{from:accounts[5]});
+        var unreg = await c.unregisterUsers([accounts[0],accounts[1],accounts[2],accounts[3]],{from:accounts[5]});
+        // var receipt3 = await web3.eth.getTransactionReceipt(unreg.receipt.transactionHash);
+
+        // console.log("Unreg "+receipt3.logs[0].topics[0]);
 
         const numRegisteredbefore = await c.getNumRegistered.call();
         const contractBalancebefore = await c.getContractBalance.call();
@@ -125,7 +135,10 @@ contract('VestingLibTokenTestContract', function (accounts) {
         assert.equal(percentReleased.valueOf(),20, "percentReleased should be 20!");
 
         // withdraw tokens after first vest
-        await c.withdrawTokens(t.address, {from:accounts[0]});
+        var withdraw = await c.withdrawTokens(t.address, {from:accounts[0]});
+        // var receipt4 = await web3.eth.getTransactionReceipt(withdraw.receipt.transactionHash);
+
+        // console.log("tokenwithdraw "+receipt4.logs[0].topics[0]);
         var tokenBalance = await t.balanceOf.call(accounts[0]);
         assert.equal(tokenBalance.valueOf(),40000, "accounts[0] token balance should be 40000!");
 
@@ -150,7 +163,10 @@ contract('VestingLibTokenTestContract', function (accounts) {
     it("should allow registrations to be swapped without affecting vested tokens", async () => {
         const t = await CrowdsaleToken.deployed();
 
-        await c.swapRegistration(accounts[4], {from:accounts[2]});
+        var swap = await c.swapRegistration(accounts[4], {from:accounts[2]});
+        // var receipt5 = await web3.eth.getTransactionReceipt(swap.receipt.transactionHash);
+
+        // console.log("SWAP "+receipt5.logs[0].topics[0]);
         const numRegistered = await c.getNumRegistered.call();
         const vestingAmount = await c.getVestingAmount.call(accounts[4]);
         let hasWithdrawn = await c.getHasWithdrawn.call(accounts[4]);
