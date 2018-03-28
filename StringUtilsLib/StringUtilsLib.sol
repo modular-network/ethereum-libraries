@@ -19,16 +19,16 @@ pragma solidity ^0.4.18;
  * limitations under the License.
  *
  * This utility library was forked from https://github.com/Arachnid/solidity-stringutils
- * into the Majoolr ethereum-libraries repo at https://github.com/Majoolr/ethereum-libraries
+ * into the Modular ethereum-libraries repo at https://github.com/Modular-Network/ethereum-libraries
  * with permission. It has been updated to be more compatible with solidity 0.4.18
  * coding patterns.
  *
- * Majoolr provides smart contract services and security reviews for contract
+ * Modular provides smart contract services and security reviews for contract
  * deployments in addition to working on open source projects in the Ethereum
  * community. Our purpose is to test, document, and deploy reusable code onto the
  * blockchain and improve both security and usability. We also educate non-profits,
  * schools, and other community members about the application of blockchain
- * technology. For further information: majoolr.io
+ * technology. For further information: modular.network
  *
  * @dev Functionality in this library is largely implemented using an
  *      abstraction called a 'slice'. A slice represents a part of a string -

@@ -1,4 +1,6 @@
 var TokenLibTestContract = artifacts.require("TokenLibTestContract");
+var Web3 = require('web3');
+var web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 
 contract('TokenLibTestContract', function(accounts) {
   it("should properly initialize token data", function() {
@@ -28,5 +30,39 @@ contract('TokenLibTestContract', function(accounts) {
       assert.equal(returnObj.totalSupply.valueOf(), 100, "Total supply should reflect 10.");
       assert.equal(returnObj.initialSupply.valueOf(), 100, "Initial supply should reflect 10.");
     });
+  });
+
+  it('gets log hashes for all events', async () => {
+    token = await TokenLibTestContract.deployed();
+
+    // transfer event
+    var ret = await token.transfer(accounts[1],20,{from:accounts[0]});
+    var receipt1 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    console.log(receipt1.logs[0].topics[0]);
+
+    // event Approval(address indexed owner, address indexed spender, uint256 value);
+    var ret = await token.approve(accounts[3],20,{from:accounts[0]});
+    var receipt2 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    console.log(receipt2.logs[0].topics[0]);
+
+    // event OwnerChange(address from, address to);
+    var ret = await token.changeOwner(accounts[1],{from:accounts[0]});
+    var receipt3 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    console.log(receipt3.logs[0].topics[0]);
+
+    // event Burn(address indexed burner, uint256 value);
+    var ret = await token.burnToken(20,{from:accounts[1]});
+    var receipt4 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    console.log(receipt4.logs[0].topics[0]);
+
+    // event MintingClosed(bool mintingClosed);
+    var ret = await token.closeMint({from:accounts[1]});
+    var receipt5 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    console.log(receipt5.logs[0].topics[0]);
   });
 });

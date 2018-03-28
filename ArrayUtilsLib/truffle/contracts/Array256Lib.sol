@@ -2,21 +2,21 @@ pragma solidity ^0.4.18;
 
 /**
  * @title Array256 Library
- * @author Majoolr.io
+ * @author Modular Inc, https://modular.network
  *
  * version 1.1.0
- * Copyright (c) 2017 Majoolr, LLC
+ * Copyright (c) 2017 Modular, Inc
  * The MIT License (MIT)
- * https://github.com/Majoolr/ethereum-libraries/blob/master/LICENSE
+ * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  *
  * The Array256 Library provides a few utility functions to work with
- * storage uint256[] types in place. Majoolr provides smart contract services
+ * storage uint256[] types in place. Modular provides smart contract services
  * and security reviews for contract deployments in addition to working on open
  * source projects in the Ethereum community. Our purpose is to test, document,
  * and deploy reusable code onto the blockchain and improve both security and
  * usability. We also educate non-profits, schools, and other community members
  * about the application of blockchain technology.
- * For further information: majoolr.io
+ * For further information: Modular.network
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF

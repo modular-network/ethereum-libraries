@@ -62,6 +62,9 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     assert.equal(crowdsaleEnded.valueOf(), false, "Crowsale should not be ended!");
 
     const withdrawTokens = await saleContract.withdrawTokens({ from:accounts[0] });
+    // var receipt4 = await web3.eth.getTransactionReceipt(withdrawTokens.receipt.transactionHash);
+
+    // console.log("Error "+receipt4.logs[0].topics[0]);
     assert.equal(withdrawTokens.logs[0].args.Msg,
                 'Sender has no tokens to withdraw!',
                 "should give message that token sale has not ended");
@@ -123,6 +126,9 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
                 "Should give error message that the owner cannot withdraw any extra tokens yet");
 
     const withdrawLeftoverWei = await saleContract.withdrawLeftoverWei({ from: accounts[0] });
+    // var receipt5 = await web3.eth.getTransactionReceipt(withdrawLeftoverWei.receipt.transactionHash);
+
+    // console.log("Error "+receipt5.logs[0].topics[0]);
     assert.equal(withdrawLeftoverWei.logs[0].args.Msg,
                 'Sender has no extra wei to withdraw!',
                 "should give message that the sender cannot withdraw any wei");
@@ -156,9 +162,12 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
                 'Sender has no extra wei to withdraw!',
                 "should give message that the sender cannot withdraw any wei");
 
-    await saleContract.sendPurchase({ value: 39990000000000000000, from: accounts[1] });
+    const purch = await saleContract.sendPurchase({ value: 39990000000000000000, from: accounts[1] });
     const acct0Leftover = await saleContract.getLeftoverWei.call(accounts[0]);
     assert.equal(acct0Leftover.valueOf(),0, "should show that accounts0 has 0 leftover wei");
+    // var receipt6 = await web3.eth.getTransactionReceipt(purch.receipt.transactionHash);
+
+    // console.log("Tokens bought "+receipt6.logs[0].topics[0]);
 
     await saleContract.sendPurchase({ value: 10000000000000000, from: accounts[1] });
     const leftoverWei = await saleContract.getLeftoverWei.call(accounts[1]);
@@ -208,6 +217,9 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
 
     const fouthTokenPurchase = await saleContract.getTokenPurchase.call(accounts[3], { from: accounts[3] });
     assert.equal(fouthTokenPurchase.valueOf(), 81000, "accounts[3] amount of tokens purchased should be 81000 tokens");
+    // var receipt7 = await web3.eth.getTransactionReceipt(fouthTokenPurchase.receipt.transactionHash);
+
+    // console.log("Token price change "+receipt7.logs[0].topics[0]);
 
     //const secondTokensPerEth = await saleContract.getTokensPerEth.call();
     //assert.equal(secondTokensPerEth.valueOf(), 182, "New token price should be 182 tokens per ether!");
@@ -230,7 +242,11 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     const secondLeftoverWei = await saleContract.getLeftoverWei.call(accounts[4], { from: accounts[4] });
     assert.equal(secondLeftoverWei.valueOf(),0, "accounts[4] leftover wei should be 0");
 
-    await saleContract.withdrawLeftoverWei({ from: accounts[4] });
+    var ret = await saleContract.withdrawLeftoverWei({ from: accounts[4] });
+    // var receipt2 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    // console.log("Withdraw Leftover Wei "+receipt2.logs[0].topics[0]);
+
     const thirdLeftoverWei = await saleContract.getLeftoverWei.call(accounts[4],{ from: accounts[4] });
     assert.equal(thirdLeftoverWei.valueOf(),0, "accounts[4] should have no leftover wei because it was just withdrawn");
 
@@ -239,6 +255,9 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
     await web3.eth.sendTransaction({from: accounts[3]});
 
     const finalTokenPurchase = await saleContract.sendPurchase({ value: 31000000000000000000, from: accounts[2] });
+    // var receipt1 = await web3.eth.getTransactionReceipt(finalTokenPurchase.receipt.transactionHash);
+
+    // console.log("Change "+receipt1.logs[0].topics[0]);
     const finalContribution = await saleContract.getContribution.call(accounts[2], { from: accounts[0] });
     assert.equal(finalContribution.valueOf(), 31000000000000000000, "accounts[2] amount of wei contributed should be 31000000000000000000 wei");
 
@@ -286,7 +305,14 @@ contract('DirectCrowdsaleTestZeroD', (accounts) => {
 
     const fourthWithdrawToken = await saleContract.withdrawTokens({ from: accounts[2] });
 
+    // var receipt1 = await web3.eth.getTransactionReceipt(fourthWithdrawToken.receipt.transactionHash);
+
+    // console.log("WithdrawTokens "+receipt1.logs[0].topics[0]);
+
     const withdrawOwnerEth = await saleContract.withdrawOwnerEth({ from: accounts[0] });
+    // var receipt3 = await web3.eth.getTransactionReceipt(withdrawOwnerEth.receipt.transactionHash);
+
+    // console.log("Owner withdraw "+receipt3.logs[0].topics[0]);
     assert.equal(withdrawOwnerEth.logs[0].args.Msg,
                 'Crowdsale owner has withdrawn all funds!',
                 "Should give message that the owner has withdrawn all funds");
