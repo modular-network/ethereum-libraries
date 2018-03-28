@@ -36,6 +36,9 @@ contract('WalletLibTestContract', (accounts) => {
 
     const firstTransactionLength = await contract.transactionLength(changeOwnerAccount0Id);
     const checkNotConfirmed = await contract.checkNotConfirmed("0x741c8986816d4c662739c411feb37b739f5f3dbd78850ee68032682a5912ba57", firstTransactionLength.valueOf() - 1, {from:accounts[1]});
+    // var receipt1 = await web3.eth.getTransactionReceipt(checkNotConfirmed.receipt.transactionHash);
+
+    // console.log("transaction fail "+receipt1.logs[1].topics[0]);
 
     const transactionConfirmCount = await contract.transactionConfirmCount(changeOwnerAccount0Id, firstTransactionLength.valueOf() - 1);
 
@@ -71,9 +74,12 @@ contract('WalletLibTestContract', (accounts) => {
                            true, {from: accounts[2]});
 
 
-    await contract.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
+    var ret = await contract.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
                            true, {from: accounts[1]});
+    // var receipt1 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    // console.log("TransactionConfirmed "+receipt1.logs[0].topics[0]);
 
     const changeOwnerSecondAccount = await contract.changeOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                            "0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e",
@@ -83,7 +89,10 @@ contract('WalletLibTestContract', (accounts) => {
     const firstAccountCheckNotConfirmed = await contract.checkNotConfirmed(changeOwnerAccount0Id,  firstAccountTransactionLenght.valueOf() - 1, {from:accounts[1]});
     const firstAccountTransactionConfirmCount = await contract.transactionConfirmCount(changeOwnerAccount0Id,  firstAccountTransactionLenght.valueOf() - 1);
 
-    await contract.confirmTx(changeOwnerAccount0Id, {from:accounts[3]});
+    ret = await contract.confirmTx(changeOwnerAccount0Id, {from:accounts[3]});
+    // var receipt2 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    // console.log("Owner change "+receipt2.logs[0].topics[0]);
     const checkNotConfirmedFail = await contract.checkNotConfirmed(changeOwnerAccount0Id, firstTransactionLength.valueOf() - 1, {from:accounts[1]});
     const revokeConfirmFail = await contract.revokeConfirm(changeOwnerAccount0Id, {from:accounts[1]});
 
@@ -119,6 +128,9 @@ contract('WalletLibTestContract', (accounts) => {
                          true, {from: accounts[0]});
     const addOwnerAlreadyConfirmed = await contract.addOwner("0x36994c7cff11859ba8b9715120a68aa9499329ee",
                          true, {from: accounts[0]});
+    // var receipt3 = await web3.eth.getTransactionReceipt(addOwnerAlreadyConfirmed.receipt.transactionHash);
+
+    // console.log("Error "+receipt3.logs[0].topics[0]);
     const id = ""+addOwner.logs[0].args.txid+"";
     await contract.revokeConfirm(id, {from:accounts[0]});
     const firstTransactionLength = await contract.transactionLength(id);
@@ -137,7 +149,10 @@ contract('WalletLibTestContract', (accounts) => {
     const thirdTransactionConfirmCount = await contract.transactionConfirmCount(id, thirdTransactionLenght.valueOf() - 1);
 
     await contract.confirmTx(id, {from:accounts[0]});
-    await contract.confirmTx(id, {from:accounts[3]});
+    var ret = await contract.confirmTx(id, {from:accounts[3]});
+    // var receipt4 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    // console.log("Owner added "+receipt4.logs[0].topics[0]);
     const newOwnerIndex = await contract.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
 
     assert.equal(addOwnerAlreadyConfirmed.logs[0].args.msg,'Owner already confirmed', "Should fail because accounts[0] has already confirmed the tx");
@@ -170,7 +185,10 @@ contract('WalletLibTestContract', (accounts) => {
     const secondTransactionConfirmCount = await contract.transactionConfirmCount(removeSecondOwnerFirstAccountId, secondTransactionLenght.valueOf() - 1);
 
     await contract.confirmTx(removeSecondOwnerFirstAccountId, {from:accounts[2]});
-    await contract.confirmTx(removeSecondOwnerFirstAccountId, {from:accounts[3]});
+    var ret = await contract.confirmTx(removeSecondOwnerFirstAccountId, {from:accounts[3]});
+    // var receipt1 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    // console.log("Remove owner "+receipt1.logs[0].topics[0]);
 
     const lastOwnerIndex = await contract.ownerIndex("0x36994c7cff11859ba8b9715120a68aa9499329ee");
     const removedOwnerIndex = await contract.ownerIndex("0x0deef860f84a5298ccbc8a56f32f6ce49a236c8e");
@@ -245,7 +263,10 @@ contract('WalletLibTestContract', (accounts) => {
     await contract.changeRequiredAdmin(0, true, {from: accounts[1]});
     await contract.changeRequiredAdmin(3, true, {from: accounts[1]});
     await contract.changeRequiredAdmin(3, true, {from: accounts[1]});
-    await contract.changeRequiredAdmin(3, true, {from: accounts[0]});
+    var ret = await contract.changeRequiredAdmin(3, true, {from: accounts[0]});
+    // var receipt1 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    // console.log("change admin "+receipt1.logs[0].topics[0]);
     const secondRequiredAdmin = await contract.requiredAdmin.call();
 
     assert.equal(failChangeAdmin.logs[0].args.msg, "Tx not initiated","Should give error that the tx id has not been initiated");
@@ -274,7 +295,7 @@ contract('WalletLibTestContract', (accounts) => {
     const transactionConfirmCount = await contract.transactionConfirmCount(changeThirdRequiredMajorId, secondTransactionLenght.valueOf() - 1);
 
     const badMajor = await contract.changeRequiredMajor(51, true, {from: accounts[1]});
-    await contract.confirmTx(changeThirdRequiredMajorId, {from:accounts[3]});
+    var ret = await contract.confirmTx(changeThirdRequiredMajorId, {from:accounts[3]});
     const requiredMajor = await contract.requiredMajor.call();
 
     assert.equal(changeThirdRequiredMajorFail.logs[0].args.msg,"Owner already confirmed", "Should fail because accounts[1] already confirmed!");
@@ -345,7 +366,10 @@ contract('WalletLibTestContract', (accounts) => {
     const ret2 = await c.changeMajorThreshold(0, 50000000000000000000, true, {from: accounts[0]});
     id = ""+ret2.logs[0].args.txid+"";
     await c.confirmTx(id, {from:accounts[1]});
-    await c.confirmTx(id, {from:accounts[2]});
+    var ret3 = await c.confirmTx(id, {from:accounts[2]});
+    // var receipt1 = await web3.eth.getTransactionReceipt(ret3.receipt.transactionHash);
+
+    // console.log("threshold "+receipt1.logs[0].topics[0]);
     const mt2 = await c.majorThreshold.call(0);
 
     assert.equal(countAfterRevoke.valueOf(),1,"Confirmation count should be 0 because accounts[1] revoked!");
@@ -377,7 +401,10 @@ contract('WalletLibTestContract', (accounts) => {
     const testTokenTransferRequestData = testTokenTransferRequest.params[0].data;
     const testTokenServeTx = await contract.serveTx(testTokenAddress, 0, ""+testTokenTransferRequestData+"", true, {from: accounts[0]});
     const testTokenServeTxId = ""+testTokenServeTx.logs[0].args.txid+"";
-    await contract.revokeConfirm(testTokenServeTxId, {from:accounts[2]});
+    var ret = await contract.revokeConfirm(testTokenServeTxId, {from:accounts[2]});
+    // var receipt1 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    // console.log("revoke not "+receipt1.logs[0].topics[0]);
     const testTokenServeTxTransactionLenght = await contract.transactionLength(testTokenServeTxId);
     const testTokenTransactionConfirmCount = await contract.transactionConfirmCount(testTokenServeTxId, testTokenServeTxTransactionLenght.valueOf() - 1);
 
@@ -389,7 +416,10 @@ contract('WalletLibTestContract', (accounts) => {
 
     var transactionSuccessBefore = await contract.transactionSuccess(testTokenServeTxId, secondTestTokenServeTxTransactionLenght-1);
 
-    await contract.serveTx(testTokenAddress, 0, ""+testTokenTransferRequestData+"", true, {from: accounts[2]});
+    var ret = await contract.serveTx(testTokenAddress, 0, ""+testTokenTransferRequestData+"", true, {from: accounts[2]});
+    // var receipt1 = await web3.eth.getTransactionReceipt(ret.receipt.transactionHash);
+
+    // console.log("transaction complete "+receipt1.logs[0].topics[0]);
     const testTokenBalance = await testToken.balanceOf(""+contract.address+"");
 
     const receiverBalance = await testToken.balanceOf(accounts[5]);
@@ -482,6 +512,9 @@ contract('WalletLibTestContract', (accounts) => {
     await contract.confirmTx(id, {from:accounts[2]});
     await contract.confirmTx(id, {from:accounts[1]});
     const confirmTx = await contract.confirmTx(id, {from:accounts[3]});
+    // var receipt1 = await web3.eth.getTransactionReceipt(confirmTx.receipt.transactionHash);
+
+    // console.log("contract create "+receipt1.logs[0].topics[0]);
 
     assert.isDefined(confirmTx.logs[0].args.newContract, "New contract should be created if no target and proper data");
   });

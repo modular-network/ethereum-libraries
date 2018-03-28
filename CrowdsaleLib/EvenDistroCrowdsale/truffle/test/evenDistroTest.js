@@ -92,9 +92,15 @@ contract('EvenDistroTestEteenD', function(accounts) {
     assert.isTrue(errorThrown, "should give an error message since sale has not started");
     errorThrown = false;
 
-    await saleContract.registerUser(accounts[0],{from:accounts[5]});
+    var reglog = await saleContract.registerUser(accounts[0],{from:accounts[5]});
+    // var receipt1 = await web3.eth.getTransactionReceipt(reglog.receipt.transactionHash);
+
+    // console.log("Reglog "+receipt1.logs[0].topics[0]);
     const registerTwice = await saleContract.registerUser(accounts[0],{from:accounts[5]});
     assert.equal(registerTwice.logs[0].args.Msg, 'Registrant address is already registered for the sale!', "Should give error message that the user is already registered");
+    // var receipt2 = await web3.eth.getTransactionReceipt(registerTwice.receipt.transactionHash);
+
+    // console.log("Regerr "+receipt2.logs[0].topics[0]);
 
     const accountZeroReg = await saleContract.isRegistered(accounts[0]);
     assert.equal(accountZeroReg.valueOf(),true, "accounts[0] should be registered");
@@ -111,9 +117,12 @@ contract('EvenDistroTestEteenD', function(accounts) {
     const accountOneRegTwo = await saleContract.isRegistered(accounts[1]);
     assert.equal(accountOneRegTwo.valueOf(),true, "accounts[1] should now be registered");
 
-    await saleContract.unregisterUser(accounts[1],{from:accounts[5]});
+    var unreg = await saleContract.unregisterUser(accounts[1],{from:accounts[5]});
     const accountOneUnregTwo = await saleContract.isRegistered(accounts[1]);
     assert.equal(accountOneUnregTwo.valueOf(),false, "accounts[1] should now be unregistered");
+    // var receipt3 = await web3.eth.getTransactionReceipt(unreg.receipt.transactionHash);
+
+    // console.log("unreg "+receipt3.logs[0].topics[0]);
 
     await saleContract.registerUser(accounts[1],{from:accounts[5]});
     await saleContract.registerUser(accounts[2],{from:accounts[5]});
@@ -143,7 +152,10 @@ contract('EvenDistroTestEteenD', function(accounts) {
   it("moves 2 hours and sets the tokens", async () => {
     await time.move(web3, 7200);
     await web3.eth.sendTransaction({from: accounts[3]});
-    await saleContract.setTokens({from:accounts[5]});
+    var capcalc = await saleContract.setTokens({from:accounts[5]});
+    // var receipt4 = await web3.eth.getTransactionReceipt(capcalc.receipt.transactionHash);
+
+    // console.log("capcalc "+receipt4.logs[0].topics[0]);
   });
 
   it("move time 3 days and 2 hours", async () => {
@@ -189,6 +201,9 @@ contract('EvenDistroTestEteenD', function(accounts) {
     let tokenPurchase = await saleContract.sendPurchase({value:39990000000000000000,from:accounts[0]});
     withdraw = await saleContract.getLeftoverWei.call(accounts[0]);
     assert.equal(withdraw.valueOf(),0, "should show that accounts0 has 0 leftover wei");
+    // var receipt5 = await web3.eth.getTransactionReceipt(tokenPurchase.receipt.transactionHash);
+
+    // console.log("tokenPurchase "+receipt5.logs[0].topics[0]);
 
     let contrib = await saleContract.getContribution.call(accounts[0], {from:accounts[0]});
     assert.equal(contrib.valueOf(),39990000000000000000, "accounts[0] amount of wei contributed should be 39990000000000000000 wei");
@@ -239,7 +254,11 @@ contract('EvenDistroTestEteenD', function(accounts) {
   });
 
   it("should update the token price", async () => {
-    await saleContract.sendPurchase({value:1000000000000000000,from:accounts[1]});
+    var change = await saleContract.sendPurchase({value:1000000000000000000,from:accounts[1]});
+    // var receipt7 = await web3.eth.getTransactionReceipt(change.receipt.transactionHash);
+
+    // console.log("capchange "+receipt7.logs[0].topics[0]);
+    // console.log("pricechange "+receipt7.logs[1].topics[0]);
     const tokensPerEth = await saleContract.getTokensPerEth.call();
     assert.equal(tokensPerEth.valueOf(),600000000000000000000, "token price should be 600000000000000000000");
   });

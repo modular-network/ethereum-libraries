@@ -6,15 +6,15 @@ contract TokenLibTestSpender{
 
   TokenLibTestContract t;
 
-  function TokenLibTestSpender(address testContract) {
+  function TokenLibTestSpender(address testContract) public {
     t = TokenLibTestContract(testContract);
   }
 
-  function spend(address owner, uint256 amount) returns (bool){
+  function spend(address owner, uint256 amount) public returns (bool){
     return t.transferFrom(owner, this, amount);
   }
 
-  function changeOwnerBack(address newOwner) {
+  function changeOwnerBack(address newOwner) public {
     t.changeOwner(newOwner);
   }
 

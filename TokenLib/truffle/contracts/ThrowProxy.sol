@@ -4,16 +4,16 @@ contract ThrowProxy {
   address public target;
   bytes data;
 
-  function ThrowProxy(address _target) {
+  function ThrowProxy(address _target) public  {
     target = _target;
   }
 
   //prime the data using the fallback function.
-  function() {
+  function() public  {
     data = msg.data;
   }
 
-  function execute() returns (bool) {
+  function execute()  public returns (bool) {
     return target.call(data);
   }
 }
