@@ -12,10 +12,10 @@ A utility library [provided by Modular](https://modular.network "Modular's Websi
 
 - [Library Address](#library-address)
 - [License and Warranty](#license-and-warranty)
-- [How to install](#how-to-install)
-  - [Truffle Installation](#truffle-installation)
-    - [Manual install:](#manual-install)
-    - [Testing the library in truffle](#testing-the-library-in-truffle)
+- [Installation and Usage](#installation-and-usage)
+  - [How to install](#how-to-install)
+  - [How to link](#how-to-link)
+  - [Testing](#testing)
   - [solc Installation](#solc-installation)
     - [With standard JSON input](#with-standard-json-input)
     - [solc without standard JSON input](#solc-without-standard-json-input)
@@ -27,27 +27,25 @@ A utility library [provided by Modular](https://modular.network "Modular's Websi
   - [Usage Example](#usage-example)
   - [Usage Note](#usage-note)
 - [Functions](#functions)
-    - [times](#timesnumberone-numbertwo-public-pure-returns-bool-uint256)
-      - [Arguments](#arguments)
-      - [Returns](#returns)
-    - [dividedBy](#dividedbyuint256-uint256-public-pure-returns-bool-uint256)
-      - [Arguments](#arguments-1)
-      - [Returns](#returns-1)
-    - [plus](#plusuint256-uint256-public-pure-returns-bool-uint256)
-      - [Arguments](#arguments-2)
-      - [Returns](#returns-2)
-    - [minus](#minusuint256-uint256-public-pure-returns-bool-uint256)
-      - [Arguments](#arguments-3)
-      - [Returns](#returns-3)
+  - [times(numberOne, numberTwo) public pure returns (bool, uint256)](#timesnumberone-numbertwo-public-pure-returns-bool-uint256)
+    - [Arguments](#arguments)
+    - [Returns](#returns)
+  - [dividedBy(uint256, uint256) public pure returns (bool, uint256)](#dividedbyuint256-uint256-public-pure-returns-bool-uint256)
+    - [Arguments](#arguments-1)
+    - [Returns](#returns-1)
+  - [plus(uint256, uint256) public pure returns (bool, uint256)](#plusuint256-uint256-public-pure-returns-bool-uint256)
+    - [Arguments](#arguments-2)
+    - [Returns](#returns-2)
+  - [minus(uint256, uint256) public pure returns (bool, uint256)](#minusuint256-uint256-public-pure-returns-bool-uint256)
+    - [Arguments](#arguments-3)
+    - [Returns](#returns-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Library Address
 
-**ENS**: Coming Soon   
-**Main Ethereum Network**: 0x19259EdDc53136c1045b557d8E8a8cFf64121550   
-**Ropsten Test Network**: Not available at this time.   
-**Rinkeby Test Network**: 0x39090B6e52E8f555AB6FC79e8E7ADB2145476950   
+**Main Ethereum Network**: 0xc8Bc467B9A70A5824b7E71BE9D65906C72f13dDC     
+**Rinkeby Test Network**: 0xa83b336F5501e6b6A3273c7c39dfCC5B18002733   
 
 ## License and Warranty
 
@@ -63,26 +61,20 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  
 
-## How to install
+## Installation and Usage
 
-### Truffle Installation
+### How to install
 
-**version 4.0.1**
+`npm install ethereum-libraries-basic-math`
 
-First install truffle via npm using `npm install -g truffle` .
-
-Please [visit Truffle's installation guide](http://truffleframework.com/docs/getting_started/installation "Truffle installation guide") for further information and requirements.
-
-#### Manual install:
+### How to link
 
 This process will allow you to both link your contract to the current on-chain library as well as deploy it in your local environment for development.
 
-1. Place the BasicMathLib.sol file in your truffle `contracts/` directory.
-2. Place the BasicMathLib.json file in your truffle `build/contracts/` directory.
-3. Amend the deployment .js file in your truffle `migrations/` directory as follows:
+Amend the deployment .js file in your truffle `migrations/` directory as follows:
 
 ```js
-var BasicMathLib = artifacts.require("./BasicMathLib.sol");
+var BasicMathLib = require("ethereum-libraries-basic-math/build/contracts/BasicMathLib.json";
 var OtherLibs = artifacts.require("./OtherLibs.sol");
 var YourOtherContract = artifacts.require("./YourOtherContract.sol");
 ...
@@ -96,22 +88,15 @@ module.exports = function(deployer) {
 
 **Note**: The `.link()` function should be called *before* you `.deploy(YourOtherContract)`. Also, be sure to include the `{overwrite: false}` when writing the deployer i.e. `.deploy(BasicMathLib, {overwrite: false})`. This prevents deploying the library onto the main network or Rinkeby test network at your cost and uses the library already on the blockchain. The function should still be called however because it allows you to use it in your development environment. *See below*
 
-#### Testing the library in truffle
+### Testing
 
-The following process will allow you to `truffle test` this library in your project.
+Test: `npm run test`  
 
-1. Clone or download the ethereum-libraries repository into its own directory on your computer. You can also use subversion to download just this truffle directory by running `svn checkout https://github.com/Modular-Network/ethereum-libraries/trunk/BasicMathLib/truffle`.    
-   Each folder in the truffle directory correlates to the folders in your truffle project.   
-2. Go into the BasicMathLib truffle directory on your computer and place each file in their respective directory in **your** truffle project.
-   **Note**: The `2_deploy_test_contracts.js` file should either be renamed to the next highest number among your migrations files i.e. `3_deploy_test_contracts.js` or you can place the code in your existing deployment migration file. *See Quick Install above.*
-3. [Download and start Ganache](http://truffleframework.com/ganache/ "Ganache Download")
-4. In your terminal go to your truffle project directory.
-5. Ensure the `development` object in your truffle.js file points to the same port Ganache uses, default is 7545.
-5. Run `truffle test`.   
+Test Coverage: `npm run test:coverage`
 
 ### solc Installation
 
-**version 0.4.18**
+**version 0.4.21**
 
 For direction and instructions on how the Solidity command line compiler works [see the documentation](https://solidity.readthedocs.io/en/develop/using-the-compiler.html#using-the-commandline-compiler "Solc CLI Doc").
 
@@ -137,7 +122,7 @@ For direction and instructions on how the Solidity command line compiler works [
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x19259EdDc53136c1045b557d8E8a8cFf64121550"
+        "BasicMathLib": "0xc8Bc467B9A70A5824b7E71BE9D65906C72f13dDC"
       }
     }
   }
@@ -149,11 +134,11 @@ For direction and instructions on how the Solidity command line compiler works [
 
 When creating unlinked binary, the compiler currently leaves special substrings in the compiled bytecode in the form of '__LibraryName______' which leaves a 20 byte space for the library's address. In order to include the deployed library in your bytecode add the following flag to your command:
 
-`--libraries "BasicMathLib:0x19259EdDc53136c1045b557d8E8a8cFf64121550"`
+`--libraries "BasicMathLib:0xc8Bc467B9A70A5824b7E71BE9D65906C72f13dDC"`
 
 Additionally, if you have multiple libraries, you can create a file with one library string per line and include this library as follows:
 
-`"BasicMathLib:0x19259EdDc53136c1045b557d8E8a8cFf64121550"`
+`"BasicMathLib:0xc8Bc467B9A70A5824b7E71BE9D65906C72f13dDC"`
 
 then add the following flag to your command:
 
@@ -161,7 +146,7 @@ then add the following flag to your command:
 
 Finally, if you have an unlinked binary already stored with the '__LibraryName______' placeholder, you can run the compiler with the --link flag and also include the following flag:
 
-`--libraries "BasicMathLib:0x19259EdDc53136c1045b557d8E8a8cFf64121550"`
+`--libraries "BasicMathLib:0xc8Bc467B9A70A5824b7E71BE9D65906C72f13dDC"`
 
 #### solc documentation
 
@@ -169,7 +154,7 @@ Finally, if you have an unlinked binary already stored with the '__LibraryName__
 
 ### solc-js Installation
 
-**version 0.4.18**
+**version 0.4.21**
 
 Solc-js provides javascript bindings for the Solidity compiler and [can be found here](https://github.com/ethereum/solc-js "Solc-js compiler"). Please refer to their documentation for detailed use.
 
@@ -198,7 +183,7 @@ var input = {
     ...
     "libraries": {
       "YourContract.sol": {
-        "BasicMathLib": "0x19259EdDc53136c1045b557d8E8a8cFf64121550"
+        "BasicMathLib": "0xc8Bc467B9A70A5824b7E71BE9D65906C72f13dDC"
       }
     }
     ...
@@ -215,7 +200,9 @@ var output = JSON.parse(solc.compileStandardWrapper(JSON.stringify(input)));
 Solc-js also provides a linking method if you have compiled binary code already with the placeholder. To link this library the call would be:
 
  ```js
- bytecode = solc.linkBytecode(bytecode, { 'BasicMathLib': '0x19259EdDc53136c1045b557d8E8a8cFf64121550' });
+ var linker = require('solc/linker')
+
+ bytecode = linker.linkBytecode(bytecode, { 'BasicMathLib': '0xc8Bc467B9A70A5824b7E71BE9D65906C72f13dDC' })
  ```
 
 #### Solc-js documentation
@@ -252,9 +239,9 @@ In order to use the BasicMathLib library, import it into your contract and then 
 ### Usage Example
 
 ```
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.19;
 
-import "./BasicMathLib.sol";
+import "example-libraries-basic-math/contracts/BasicMathLib.sol";
 
 contract YourContract {
   using BasicMathLib for uint256;
@@ -287,9 +274,9 @@ but wish to preserve the value, you need to use a temporary variable to hold
 that value until checks pass. Consider the following code:
 
 ```
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.19;
 
-import "./BasicMathLib.sol";
+import "example-libraries-basic-math/contracts/BasicMathLib.sol";
 
 contract YourContract {
   using BasicMathLib for uint256;
