@@ -3,3 +3,6 @@
 **/coverage.json
 **/coverage
 .vscode
+.DS_Store
+Migrations.json
+*TestContract.json
