@@ -241,7 +241,10 @@ library StringUtilsLib {
             }
             if (a != b) {
                 // Mask out irrelevant bytes and check again
-                uint mask = ~(2 ** (8 * (32 - shortest + idx)) - 1);
+                uint256 mask = uint256(-1);
+                if(shortest < 32) {
+                  mask = ~(2 ** (8 * (32 - shortest + idx)) - 1);
+                }
                 var diff = (a & mask) - (b & mask);
                 if (diff != 0)
                     return int(diff);

@@ -169,6 +169,14 @@ contract TestStringUtilsLibOne {
 		res = tSliceOne.compare(tSliceTwo);
 
 		Assert.equal(res, 0, "Slim Shady");
+
+		tSliceOne = "Helloooooooooooooooooooooooooooooo".toSlice();
+		tSliceTwo = "Welloooooooooooooooooooooooooooooo".toSlice();
+		res = tSliceOne.compare(tSliceTwo);
+		oneIsBeforeTwo = res < 0;
+
+		Assert.isTrue(oneIsBeforeTwo, "Long strings that are simmilar are not the same. Hello... string is before Wello... string");
+
 	}
 
 	function testEquals() {
