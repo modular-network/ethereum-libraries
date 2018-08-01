@@ -15,14 +15,14 @@ pragma solidity ^0.4.18;
  * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE
  * 
  * The LinkedListLib provides functionality for implementing data indexing using
- * a circlular linked list
+ * a circlular linked list.
  *
  * Modular provides smart contract services and security reviews for contract
  * deployments in addition to working on open source projects in the Ethereum
  * community. Our purpose is to test, document, and deploy reusable code onto the
  * blockchain and improve both security and usability. We also educate non-profits,
  * schools, and other community members about the application of blockchain
- * technology. For further information: modular.network
+ * technology. For further information: modular.network.
  *
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
@@ -172,7 +172,7 @@ library LinkedListLib {
         return _node;
     }
 
-    /// @dev pushes an enrty to the head of the linked list
+    /// @dev pushes an entry to the head of the linked list
     /// @param self stored linked list from contract
     /// @param _node new entry to push to the head
     /// @param _direction push to the head (NEXT) or tail (PREV)
