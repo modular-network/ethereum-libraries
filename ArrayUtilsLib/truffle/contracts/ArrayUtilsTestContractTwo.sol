@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
 import "./Array256Lib.sol";
 import "./Array128Lib.sol";
@@ -24,7 +24,7 @@ contract ArrayUtilsTestContractTwo {
 
   event Print(string message, bytes32 test);
 
-  function getSortedIndexOf256(uint256 value) returns (bool,uint256){
+  function getSortedIndexOf256(uint256 value) public returns (bool,uint256){
     delete array256;
     array256.push(1);
     array256.push(3);
@@ -36,7 +36,7 @@ contract ArrayUtilsTestContractTwo {
     return array256.indexOf(value,true);
   }
 
-  function getSortedIndexOf128(uint128 value) returns (bool,uint256) {
+  function getSortedIndexOf128(uint128 value) public returns (bool,uint256) {
     delete array128;
     array128.push(0);
     array128.push(1);
@@ -52,7 +52,7 @@ contract ArrayUtilsTestContractTwo {
     return array128.indexOf(value,true);
   }
 
-  function getSortedIndexOf64(uint64 value) returns (bool,uint256) {
+  function getSortedIndexOf64(uint64 value) public returns (bool,uint256) {
     delete array64;
     array64.push(0);
     array64.push(1);
@@ -68,7 +68,7 @@ contract ArrayUtilsTestContractTwo {
     return array64.indexOf(value,true);
   }
 
-  function getSortedIndexOf32(uint32 value) returns (bool,uint256) {
+  function getSortedIndexOf32(uint32 value) public returns (bool,uint256) {
     delete array32;
     array32.push(0);
     array32.push(1);
@@ -84,7 +84,7 @@ contract ArrayUtilsTestContractTwo {
     return array32.indexOf(value,true);
   }
 
-  function getSortedIndexOf16(uint16 value) returns (bool,uint256) {
+  function getSortedIndexOf16(uint16 value) public returns (bool,uint256) {
     delete array16;
     array16.push(0);
     array16.push(1);
@@ -100,7 +100,7 @@ contract ArrayUtilsTestContractTwo {
     return array16.indexOf(value,true);
   }
 
-  function getSortedIndexOf8(uint8 value) returns (bool,uint256) {
+  function getSortedIndexOf8(uint8 value) public returns (bool,uint256) {
     delete array8;
     array8.push(0);
     array8.push(1);
@@ -116,7 +116,7 @@ contract ArrayUtilsTestContractTwo {
     return array8.indexOf(value,true);
   }
 
-  function getUnsortedIndexOf256(uint256 value) returns (bool,uint256) {
+  function getUnsortedIndexOf256(uint256 value) public returns (bool,uint256) {
     delete array256;
     array256.push(7);
     array256.push(0xffff);
@@ -127,7 +127,7 @@ contract ArrayUtilsTestContractTwo {
     return array256.indexOf(value,false);
   }
 
-  function getUnsortedIndexOf64(uint64 value) returns (bool,uint256) {
+  function getUnsortedIndexOf64(uint64 value) public returns (bool,uint256) {
     delete array64;
     array64.push(7);
     array64.push(0xffff);
@@ -138,7 +138,7 @@ contract ArrayUtilsTestContractTwo {
     return array64.indexOf(value,false);
   }
 
-  function getNoIndexOf256(uint256 value, bool isSorted) returns (bool,uint256) {
+  function getNoIndexOf256(uint256 value, bool isSorted) public returns (bool,uint256) {
     delete array256;
     array256.push(1);
     array256.push(3);
@@ -149,7 +149,7 @@ contract ArrayUtilsTestContractTwo {
     return array256.indexOf(value,isSorted);
   }
 
-  function getNoIndexOf64(uint64 value, bool isSorted) returns (bool,uint256) {
+  function getNoIndexOf64(uint64 value, bool isSorted) public returns (bool,uint256) {
     delete array64;
     array64.push(1);
     array64.push(3);

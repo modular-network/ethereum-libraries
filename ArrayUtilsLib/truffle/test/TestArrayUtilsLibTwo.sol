@@ -19,7 +19,7 @@ contract TestArrayUtilsLibTwo{
     instanceThree = ArrayUtilsTestContractThree(DeployedAddresses.ArrayUtilsTestContractThree());
   }
 
-  function testUnsortedIndexOfFunction() {
+  function testUnsortedIndexOfFunction() public {
     expected = 0;
     (bResult, result) = instanceTwo.getUnsortedIndexOf256(7);
 
@@ -44,7 +44,7 @@ contract TestArrayUtilsLibTwo{
     Assert.equal(result,expected,"The indexOf64 function should return the index of the given value");
   }
 
-  function testNoIndexOfFunction() {
+  function testNoIndexOfFunction() public {
     expected = 0;
     (bResult, result) = instanceTwo.getNoIndexOf256(10,true);
 
@@ -63,7 +63,7 @@ contract TestArrayUtilsLibTwo{
     Assert.equal(result,expected,"The indexOf64 function should return 0 if array does not contain value");
   }
 
-  function testHeapSortFunction(){
+  function testHeapSortFunction() public {
     expectedArray.push(0);
     expectedArray.push(1);
     expectedArray.push(1);
@@ -119,7 +119,7 @@ contract TestArrayUtilsLibTwo{
     Assert.equal(resultArray, expectedArray, "heapSort");
   }
 
-  function testUniqFunction(){
+  function testUniqFunction() public {
     delete expectedArray;
 
     expectedArray.push(1);

@@ -14,12 +14,12 @@ contract TestArrayUtilsLib{
   uint expected;
   uint result;
 
-  function beforeAll(){
+  function beforeAll() public {
     instance = ArrayUtilsTestContract(DeployedAddresses.ArrayUtilsTestContract());
     instanceTwo = ArrayUtilsTestContractTwo(DeployedAddresses.ArrayUtilsTestContractTwo());
   }
 
-  function testSumElementsFunction(){
+  function testSumElementsFunction() public {
       expected = 10354;
       result = instance.getSumElements256();
 
@@ -47,7 +47,7 @@ contract TestArrayUtilsLib{
       Assert.equal(result,expected,"The sumElements8 function should add all array elements together and return the sum.");
   }
 
-  function testGetMaxFunction() {
+  function testGetMaxFunction() public {
     expected = 1058939;
     result = instance.getGetMaxMiddle256();
 
@@ -77,7 +77,7 @@ contract TestArrayUtilsLib{
     Assert.equal(result,expected,"The getMax8 function should return the max value in an array where the max is in the middle of the array");
   }
 
-  function testGetMinFunction() {
+  function testGetMinFunction() public {
     expected = 17;
     result = instance.getGetMinMiddle256();
 
@@ -105,7 +105,7 @@ contract TestArrayUtilsLib{
     Assert.equal(result,expected,"The getMin8 function should return the min value in an array where the min is in the middle of the array");
   }
 
-  function testSortedIndexOfFunction(){
+  function testSortedIndexOfFunction() public {
     expected = 1;
     (bResult, result) = instanceTwo.getSortedIndexOf256(3);
 

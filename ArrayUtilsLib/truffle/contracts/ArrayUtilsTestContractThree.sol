@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
 import "./Array256Lib.sol";
 import "./Array128Lib.sol";
@@ -24,7 +24,7 @@ contract ArrayUtilsTestContractThree {
 
   event Print(string message, bytes32 test);
 
-  function getHeapSort256() returns (uint256[10] memory r){
+  function getHeapSort256() public returns (uint256[10] memory r){
     delete array256;
     array256.push(3);
     array256.push(1);
@@ -42,7 +42,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getHeapSort128() returns (uint128[10] memory r){
+  function getHeapSort128() public returns (uint128[10] memory r){
     delete array128;
     array128.push(3);
     array128.push(1);
@@ -60,7 +60,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getHeapSort64() returns (uint64[10] memory r){
+  function getHeapSort64() public returns (uint64[10] memory r){
     delete array64;
     array64.push(3);
     array64.push(1);
@@ -78,7 +78,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getHeapSort32() returns (uint32[10] memory r){
+  function getHeapSort32() public returns (uint32[10] memory r){
     delete array32;
     array32.push(3);
     array32.push(1);
@@ -96,7 +96,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getHeapSort16() returns (uint16[10] memory r){
+  function getHeapSort16() public returns (uint16[10] memory r){
     delete array16;
     array16.push(3);
     array16.push(1);
@@ -114,7 +114,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getHeapSort8() returns (uint8[10] memory r){
+  function getHeapSort8() public returns (uint8[10] memory r){
     delete array8;
     array8.push(3);
     array8.push(1);
@@ -132,7 +132,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getUniq8() returns (uint8[5] memory r) {
+  function getUniq8() public returns (uint8[5] memory r) {
     uint arrayNewLength;
 
     delete array8;
@@ -153,7 +153,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getUniq16() returns (uint16[7] memory r) {
+  function getUniq16() public returns (uint16[7] memory r) {
     uint arrayNewLength;
 
     delete array16;
@@ -176,7 +176,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getUniq32() returns (uint32[7] memory r) {
+  function getUniq32() public returns (uint32[7] memory r) {
     uint arrayNewLength;
 
     delete array32;
@@ -199,7 +199,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getUniq64() returns (uint64[7] memory r) {
+  function getUniq64() public returns (uint64[7] memory r) {
     uint arrayNewLength;
 
     delete array64;
@@ -222,7 +222,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getUniq128() returns (uint128[7] memory r) {
+  function getUniq128() public returns (uint128[7] memory r) {
     uint arrayNewLength;
 
     delete array128;
@@ -245,7 +245,7 @@ contract ArrayUtilsTestContractThree {
     }
   }
 
-  function getUniq256() returns (uint256[7] memory r) {
+  function getUniq256() public returns (uint256[7] memory r) {
     uint arrayNewLength;
 
     delete array256;

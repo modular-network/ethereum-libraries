@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
 import "./Array256Lib.sol";
 import "./Array128Lib.sol";
@@ -24,7 +24,7 @@ contract ArrayUtilsTestContract {
 
   event Print(string message, bytes32 test);
 
-  function getSumElements256() returns (uint256){
+  function getSumElements256() public returns (uint256){
     delete array256;
     array256.push(2);
     array256.push(10);
@@ -33,7 +33,7 @@ contract ArrayUtilsTestContract {
     return array256.sumElements();
   }
 
-  function getGetMaxMiddle256() returns (uint256){
+  function getGetMaxMiddle256() public returns (uint256){
     delete array256;
     array256.push(2);
     array256.push(0);
@@ -42,7 +42,7 @@ contract ArrayUtilsTestContract {
     return array256.getMax();
   }
 
-  function getGetMinMiddle256() returns (uint256){
+  function getGetMinMiddle256() public returns (uint256){
     delete array256;
     array256.push(1058939);
     array256.push(17);
@@ -51,7 +51,7 @@ contract ArrayUtilsTestContract {
     return array256.getMin();
   }
 
-  function getSumElements128() returns (uint256 test){
+  function getSumElements128() public returns (uint256 test){
     delete array128;
     array128.push(2);
     array128.push(4);
@@ -61,7 +61,7 @@ contract ArrayUtilsTestContract {
     return array128.sumElements();
   }
 
-  function getSumElements64() returns (uint256 test){
+  function getSumElements64() public returns (uint256 test){
     delete array64;
     array64.push(2);
     array64.push(4);
@@ -71,7 +71,7 @@ contract ArrayUtilsTestContract {
     return array64.sumElements();
   }
 
-  function getSumElements32() returns (uint256 test){
+  function getSumElements32() public returns (uint256 test){
     delete array32;
     array32.push(2);
     array32.push(4);
@@ -81,7 +81,7 @@ contract ArrayUtilsTestContract {
     return array32.sumElements();
   }
 
-  function getSumElements16() returns (uint256 test){
+  function getSumElements16() public returns (uint256 test){
     delete array16;
     array16.push(2);
     array16.push(4);
@@ -91,7 +91,7 @@ contract ArrayUtilsTestContract {
     return array16.sumElements();
   }
 
-  function getSumElements8() returns (uint256 test){
+  function getSumElements8() public returns (uint256 test){
     delete array8;
     array8.push(2);
     array8.push(4);
@@ -101,7 +101,7 @@ contract ArrayUtilsTestContract {
     return array8.sumElements();
   }
 
-  function getGetMaxMiddle128() returns (uint128){
+  function getGetMaxMiddle128() public returns (uint128){
     delete array128;
     array128.push(2);
     array128.push(29588383);
@@ -112,7 +112,7 @@ contract ArrayUtilsTestContract {
     return array128.getMax();
   }
 
-  function getGetMaxMiddle64() returns (uint64){
+  function getGetMaxMiddle64() public returns (uint64){
     delete array64;
     array64.push(2);
     array64.push(29588);
@@ -123,7 +123,7 @@ contract ArrayUtilsTestContract {
     return array64.getMax();
   }
 
-  function getGetMaxMiddle32() returns (uint32){
+  function getGetMaxMiddle32() public returns (uint32){
     delete array32;
     array32.push(2);
     array32.push(29588);
@@ -134,7 +134,7 @@ contract ArrayUtilsTestContract {
     return array32.getMax();
   }
 
-  function getGetMaxMiddle16() returns (uint16){
+  function getGetMaxMiddle16() public returns (uint16){
     delete array16;
     array16.push(2);
     array16.push(29588);
@@ -145,7 +145,7 @@ contract ArrayUtilsTestContract {
     return array16.getMax();
   }
 
-  function getGetMaxMiddle8() returns (uint8){
+  function getGetMaxMiddle8() public returns (uint8){
     delete array8;
     array8.push(2);
     array8.push(29);
@@ -156,7 +156,7 @@ contract ArrayUtilsTestContract {
     return array8.getMax();
   }
 
-  function getGetMinMiddle128() returns (uint128){
+  function getGetMinMiddle128() public returns (uint128){
     delete array128;
     array128.push(1058939);
     array128.push(73);
@@ -165,7 +165,7 @@ contract ArrayUtilsTestContract {
     return array128.getMin();
   }
 
-  function getGetMinMiddle64() returns (uint64){
+  function getGetMinMiddle64() public returns (uint64){
     delete array64;
     array64.push(1058939);
     array64.push(73);
@@ -174,7 +174,7 @@ contract ArrayUtilsTestContract {
     return array64.getMin();
   }
 
-  function getGetMinMiddle32() returns (uint32){
+  function getGetMinMiddle32() public returns (uint32){
     delete array32;
     array32.push(1058939);
     array32.push(73);
@@ -183,7 +183,7 @@ contract ArrayUtilsTestContract {
     return array32.getMin();
   }
 
-  function getGetMinMiddle16() returns (uint16){
+  function getGetMinMiddle16() public returns (uint16){
     delete array16;
     array16.push(10589);
     array16.push(73);
@@ -192,7 +192,7 @@ contract ArrayUtilsTestContract {
     return array16.getMin();
   }
 
-  function getGetMinMiddle8() returns (uint8){
+  function getGetMinMiddle8() public returns (uint8){
     delete array8;
     array8.push(105);
     array8.push(73);
