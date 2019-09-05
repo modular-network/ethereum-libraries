@@ -17,8 +17,6 @@ If you want to contribute to the libraries or just join the discussion on smart 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-- [About Us](#about-us)
 - [Why Modular Libraries?](#why-modular-libraries)
 - [How to use](#how-to-use)
 - [How to Contribute](#how-to-contribute)
@@ -30,10 +28,6 @@ If you want to contribute to the libraries or just join the discussion on smart 
 - [In Conclusion](#in-conclusion)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-## About Us
-
-Modular is hitting the ground running in becoming a valuable partner in the Ethereum community. Our new website is going up shortly because we just went through an identity crisis. [To learn more about Modular on our website, our mission, as well as contributing please click here](https://modular.network "Modular website").
 
 ## Why Modular Libraries?
 
