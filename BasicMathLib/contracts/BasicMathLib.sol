@@ -1,10 +1,10 @@
-pragma solidity ^0.4.18;
+pragma solidity 0.4.19;
 
 /**
  * @title Basic Math Library
  * @author Modular, Inc
  *
- * version 1.2.1
+ * version 1.2.2
  * Copyright (c) 2017 Modular, Inc
  * The MIT License (MIT)
  * https://github.com/Modular-Network/ethereum-libraries/blob/master/LICENSE

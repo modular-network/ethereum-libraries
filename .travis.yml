@@ -4,7 +4,6 @@ node_js:
   - '8'
 
 env:
-  - TEST_DIR=BasicMathLib/truffle
   - TEST_DIR=ArrayUtilsLib/truffle
   - TEST_DIR=TokenLib/truffle
   - TEST_DIR=StringUtilsLib/truffle
@@ -20,7 +19,7 @@ script:
   - 'truffle test'
 
 after_script:
-  - 'npm install -g codecov' 
+  - 'npm install -g codecov'
   - 'npm run test:coverage'
   - 'cd $TRAVIS_BUILD_DIR'
   - 'codecov'
