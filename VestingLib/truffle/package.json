@@ -25,7 +25,7 @@
     "json-loader": "^0.5.7",
     "webpack": "^2.7.0",
     "ethereumjs-testrpc": "6.0.1",
-    "solidity-coverage": "0.4.2",
+    "solidity-coverage": "0.8.2",
     "truffle": "4.0.1"
   },
   "dependencies": {
