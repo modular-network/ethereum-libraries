@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "ethereumjs-testrpc": "4.0.0",
-    "solidity-coverage": "^0.4.2",
-    "truffle": "4.0.1"
+    "solidity-coverage": "^0.8.2",
+    "truffle": "4.1.17"
   }
 }
