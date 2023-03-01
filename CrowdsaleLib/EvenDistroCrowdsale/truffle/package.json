@@ -6,9 +6,9 @@
     "test:coverage": "./node_modules/.bin/solidity-coverage"
   },
   "devDependencies": {
-    "truffle": "4.0.1",
+    "truffle": "5.7.8",
     "ethereumjs-testrpc": "4.1.1",
-    "solidity-coverage": "0.3.5",
+    "solidity-coverage": "0.8.2",
     "bluebird": "3.5.1"
   }
 }
